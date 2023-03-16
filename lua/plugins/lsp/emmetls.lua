@@ -1,0 +1,21 @@
+return {
+	filetypes = {
+		"html",
+		"css",
+		"scss",
+		"javascript",
+		"javascriptreact",
+		"typescript",
+		"typescriptreact",
+		"haml",
+		"xsl",
+		"pug",
+		"slim",
+		"sass",
+		"stylus",
+		"less",
+		"sss",
+		"hbs",
+		"handlebars",
+	},
+}
