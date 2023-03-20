@@ -60,7 +60,17 @@ return {
         update_in_insert = false,
         virtual_text = { spacing = 4, prefix = "●" },
         severity_sort = true,
+        float = {
+          focusable = true,
+          style = "minimal",
+          border = "rounded",
+          source = "always",
+          header = "",
+          prefix = "",
+        },
       },
+      -- Automatically format on save
+      autoformat = true,
       -- options for vim.lsp.buf.format
       -- `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overriden when specified
@@ -95,6 +105,8 @@ return {
     },
     ---@param opts PluginLspOpts
     config = function(_, opts)
+      -- setup autoformat
+      format.autoformat = opts.autoformat
       -- setup formatting and keymaps
       helper.on_lsp_attach(function(client, buffer)
         -- format.on_attach(client, buffer)
@@ -108,6 +120,14 @@ return {
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
       vim.diagnostic.config(opts.diagnostics)
+
+      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+        border = "rounded",
+      })
+
+      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+        border = "rounded",
+      })
       -- lspconfig
       local servers = opts.servers
 
@@ -165,12 +185,13 @@ return {
       })
     end,
   },
+
   -- formatters
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "BufReadPre",
     dependencies = { "mason.nvim" },
-    config = function()
+    opts = function()
       local util = require("helper")
       local nls = require("null-ls")
       local fmt = nls.builtins.formatting
@@ -188,9 +209,10 @@ return {
         })
       end
 
-      nls.setup({
+      return {
         debounce = 150,
         save_after_format = true,
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", ".git"),
         sources = {
           --  ╭────────────╮
           --  │ Formatting │
@@ -213,15 +235,15 @@ return {
             extra_args = { "--dialect", "postgres" },
           }),
           fmt.buf, --PROTO
-          fmt.goimports_reviser.with({
-            condition = function()
-              return util.executable("goimports-reviser", true)
-                  and not vim.tbl_isempty(vim.fs.find("go.mod", {
-                    path = vim.fn.expand("%:p"),
-                    upward = true,
-                  }))
-            end,
-          }),
+          -- fmt.goimports_reviser.with({
+          --   condition = function()
+          --     return util.executable("goimports-reviser", true)
+          --         and not vim.tbl_isempty(vim.fs.find("go.mod", {
+          --           path = vim.fn.expand("%:p"),
+          --           upward = true,
+          --         }))
+          --   end,
+          -- }),
           fmt.pg_format.with({
             condition = function()
               return util.executable("pg_format", true)
@@ -301,8 +323,7 @@ return {
           -- typescript nvim
           require("typescript.extensions.null-ls.code-actions"),
         },
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", ".git"),
-      })
+      }
     end,
   },
   {

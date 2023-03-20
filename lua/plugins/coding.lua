@@ -14,6 +14,7 @@ return {
       delete_check_events = "TextChanged",
       updateevents = "TextChanged,TextChangedI"
     },
+    -- stylua: ignore
     keys = {
       {
         "<tab>",
@@ -24,20 +25,8 @@ return {
         silent = true,
         mode = "i",
       },
-      {
-        "<tab>",
-        function()
-          require("luasnip").jump(1)
-        end,
-        mode = "s",
-      },
-      {
-        "<s-tab>",
-        function()
-          require("luasnip").jump(-1)
-        end,
-        mode = { "i", "s" },
-      },
+      { "<tab>",   function() require("luasnip").jump(1) end,  mode = "s", },
+      { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" }, },
     },
   },
 
@@ -169,8 +158,12 @@ return {
         },
         experimental = {
           ghost_text = true,
-          native_menu = false
         },
+        enabled = function()
+          -- disable completion if the cursor is `Comment` syntax group.
+          local context = require 'cmp.config.context'
+          return not context.in_treesitter_capture("comment")
+        end
       }
     end,
     config = function(_, opts)
