@@ -120,11 +120,11 @@ return {
         },
         sources = {
           { name = "nvim_lsp",                group_index = 1 },
+          { name = "nvim_lsp_signature_help", group_index = 1 },
+          { name = "nvim_lua",                group_index = 1 },
           { name = "luasnip",                 group_index = 1 },
           { name = "path",                    group_index = 1 },
           { name = "buffer",                  group_index = 2, keyword_length = 5 },
-          { name = "nvim_lsp_signature_help", group_index = 1 },
-          { name = "nvim_lua",                group_index = 1 },
           { name = "cmp_tabnine",             group_index = 2 }
         },
         window = {
@@ -161,6 +161,17 @@ return {
         experimental = {
           ghost_text = true,
         },
+        enabled = function()
+          -- disable completion in comments
+          local context = require 'cmp.config.context'
+          -- keep command mode completion enabled when cursor is in a comment
+          if vim.api.nvim_get_mode().mode == 'c' then
+            return true
+          else
+            return not context.in_treesitter_capture("comment")
+                and not context.in_syntax_group("Comment")
+          end
+        end
       }
     end,
     config = function(_, opts)
