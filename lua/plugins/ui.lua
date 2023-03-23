@@ -445,7 +445,7 @@ return {
       dashboard.section.buttons.val = {
         dashboard.button("f", " " .. " Find file", "<cmd>Telescope find_files<cr>"),
         dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),
-        dashboard.button("r", " " .. " Recent files", "<cmd>Telescope oldfiles <cr>"),
+        dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),
         dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC<cr>"),
         dashboard.button("s", "勒" .. " Restore Session", "<cmd>SessionLoad<cr>"),

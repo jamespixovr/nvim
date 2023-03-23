@@ -21,6 +21,15 @@ return {
           require("telescope").load_extension("file_browser")
         end
       },
+      {
+        "nvim-telescope/telescope-frecency.nvim",
+        dependencies = {
+          "kkharji/sqlite.lua"
+        },
+        config = function()
+          require("telescope").load_extension("frecency")
+        end
+      }
     },
     keys = {
       { "<leader>T",  "<cmd>Telescope<cr>",                                 desc = "Open Telescope" },
