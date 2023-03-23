@@ -47,7 +47,7 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
 
-      local maxline = 50
+      --[[ local maxline = 50
       local ellipsis = "..."
       local menu = {
         luasnip = "[Snip]",
@@ -55,8 +55,7 @@ return {
         buffer = "[Buf]",
         path = "[Path]",
         cmdline = "[Cmd]",
-      }
-
+      } ]]
       local check_backspace = function()
         local col = vim.fn.col(".") - 1
         return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
@@ -125,7 +124,7 @@ return {
           { name = "luasnip",                 group_index = 1 },
           { name = "path",                    group_index = 1 },
           { name = "buffer",                  group_index = 2, keyword_length = 5 },
-          { name = "cmp_tabnine",             group_index = 2 }
+          -- { name = "cmp_tabnine",             group_index = 2 }
         },
         window = {
           completion = cmp.config.window.bordered(),
@@ -138,14 +137,6 @@ return {
             -- local local_menu = menu[entry.source.name]
             local icons = settings.icons.kinds[kind]
             item.kind = (icons or '?')
-            -- if icons then
-            --   item.kind = icons .. item.kind
-            -- end
-            -- local label = item.abbr
-            -- local truncated_label = vim.fn.strcharpart(label, 0, maxline)
-            -- if truncated_label ~= label then
-            --   item.abbr = truncated_label .. ellipsis
-            -- end
             if entry.source.name == "cmp_tabnine" then
               if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
                 -- kind = entry.completion_item.data.detail .. " " .. menu
@@ -202,21 +193,16 @@ return {
       vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", italic = true })
     end,
   },
-  -- tabnine
+  -- codeium
   {
-    "tzachar/cmp-tabnine",
-    build = "./install.sh",
-    dependencies = { "hrsh7th/nvim-cmp" },
-    opts = {
-      max_lines = 1000,
-      max_num_results = 20,
-      sort = true,
-      run_on_every_keystroke = true,
-      snippet_placeholder = "..",
-      ignored_file_types = {
-        html = true,
-      },
-    },
+    "Exafunction/codeium.vim",
+    config = function()
+      -- vim.g.codeium_disable_keymaps = true
+      vim.keymap.set('i', '<C-cr>', function() return vim.fn['codeium#Accept']() end, { expr = true })
+      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
+      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
+      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
+    end
   },
 
   -- auto pairs

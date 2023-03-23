@@ -39,6 +39,9 @@ return {
           enabled = true,
           open = false,
         },
+        summary = {
+          open = "botright vsplit | vertical resize 60"
+        },
         adapters = {
           require("neotest-go")({
             experimental = {
@@ -47,8 +50,8 @@ return {
             -- args = { "-count=1", "-timeout=60s" }
           }),
           require("neotest-jest")({
-            jestCommand = "pnpm test --",
-            jestConfigFile = "custom.jest.config.ts",
+            jestCommand = "pnpm test -- --",
+            -- jestConfigFile = "custom.jest.config.ts",
             env = { CI = true },
             ---@diagnostic disable-next-line: unused-local
             cwd = function(path)
@@ -66,7 +69,7 @@ return {
       require("neotest").setup(opt)
     end,
   },
-
+  -- check this out https://github.com/mawkler/nvim/blob/master/lua/configs/dap.lua
   {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",

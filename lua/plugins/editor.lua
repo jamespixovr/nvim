@@ -21,14 +21,30 @@ return {
         icons = { hint = "", info = "", warning = "", error = "" },
       },
       actions = { open_file = { quit_on_open = true } },
-      view = { signcolumn = "no" },
+      view = {
+        adaptive_size = true,
+        width = 40,
+        signcolumn = "no",
+        mappings = {
+          list = {
+            { key = 'l', action = 'edit',       mode = 'n' },
+            { key = 'h', action = 'close_node', mode = 'n' },
+            { key = 'v', action = 'vsplit',     mode = 'n' },
+            { key = "d", action = "trash",      mode = 'n' },
+          },
+        },
+      },
       renderer = {
+        indent_markers = {
+          enable = true,
+        },
         group_empty = true,
         highlight_git = true,
         root_folder_modifier = ":~",
         icons = {
           glyphs = { folder = { arrow_closed = "▸", arrow_open = "▾" } },
         },
+        special_files = { "Cargo.toml", "Makefile", "README.md", "go.mod" },
       },
     },
   },

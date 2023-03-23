@@ -57,7 +57,26 @@ return {
         return vim.ui.input(...)
       end
     end,
-    opts = { input = { insert_only = true } },
+    opts = {
+      input = {
+        insert_only = true,
+        win_options = {
+          winblend = 0,
+        },
+      },
+      select = {
+        telescope = require('telescope.themes').get_cursor({
+          layout_config = {
+            width = function(_, max_columns, _)
+              return math.min(max_columns, 80)
+            end,
+            height = function(_, _, max_lines)
+              return math.min(max_lines, 15)
+            end,
+          },
+        }),
+      },
+    },
     config = function(_, opts)
       require("dressing").setup(opts)
     end,

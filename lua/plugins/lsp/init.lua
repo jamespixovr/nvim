@@ -23,7 +23,7 @@ return {
     opts = {
       ensure_installed = {
         "rust_analyzer",
-        "lua_ls",
+        "lua-language-server",
         "tsserver",
         "gopls",
         "yamlls",
