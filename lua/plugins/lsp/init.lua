@@ -49,9 +49,6 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
     },
-    init = function()
-
-    end,
     ---@class PluginLspOpts
     opts = {
       -- options for vim.diagnostic.config()
@@ -131,9 +128,9 @@ return {
       -- lspconfig
       local servers = opts.servers
 
-      local capabilities = format.common_capabilities()
-      -- require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      capabilities = vim.tbl_deep_extend("force", opts.capabilities, capabilities)
+      -- local capabilities = format.common_capabilities()
+      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities)
 
 
       local common_options = {

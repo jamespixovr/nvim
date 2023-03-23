@@ -22,6 +22,8 @@ require("lazy").setup({
     },
     rtp = {
       disabled_plugins = {
+        "2html_plugin",
+        "getscriptPlugin",
         "gzip",
         "matchit",
         "matchparen",
@@ -29,8 +31,10 @@ require("lazy").setup({
         "tarPlugin",
         "tohtml",
         "tutor",
+        "vimballPlugin",
         "zipPlugin",
       },
     },
   },
 })
+vim.keymap.set("n", "<leader>l", "<cmd>:Lazy<cr>")

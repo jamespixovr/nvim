@@ -122,21 +122,22 @@ return {
           { name = "nvim_lsp",                group_index = 1 },
           { name = "luasnip",                 group_index = 1 },
           { name = "path",                    group_index = 1 },
-          { name = "buffer",                  group_index = 2 },
+          { name = "buffer",                  group_index = 2, keyword_length = 5 },
           { name = "nvim_lsp_signature_help", group_index = 1 },
           { name = "nvim_lua",                group_index = 1 },
           { name = "cmp_tabnine",             group_index = 2 }
         },
         window = {
-          -- completion = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
         formatting = {
-          fields = { "abbr", "kind" },
+          fields = { "abbr", "kind", "menu" },
           format = function(entry, item)
-            local local_menu = menu[entry.source.name]
-            local icons = settings.icons.kinds[item.kind]
-            item.kind = (icons or '') .. item.kind
+            local kind = item.kind --> Class, Method, Variables...
+            -- local local_menu = menu[entry.source.name]
+            local icons = settings.icons.kinds[kind]
+            item.kind = (icons or '?')
             -- if icons then
             --   item.kind = icons .. item.kind
             -- end
@@ -147,23 +148,19 @@ return {
             -- end
             if entry.source.name == "cmp_tabnine" then
               if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                local_menu = entry.completion_item.data.detail .. " " .. menu
+                -- kind = entry.completion_item.data.detail .. " " .. menu
+                kind = "Tabnine"
               end
               item.kind = " "
             end
 
-            item.menu = local_menu
+            item.menu = " (" .. kind .. ") "
             return item
           end,
         },
         experimental = {
           ghost_text = true,
         },
-        enabled = function()
-          -- disable completion if the cursor is `Comment` syntax group.
-          local context = require 'cmp.config.context'
-          return not context.in_treesitter_capture("comment")
-        end
       }
     end,
     config = function(_, opts)
@@ -189,6 +186,7 @@ return {
         -- https://github.com/windwp/nvim-autopairs
         cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       end
+      vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", italic = true })
     end,
   },
   -- tabnine
@@ -395,7 +393,7 @@ return {
     keys = {
 
       {
-        "<C-k>",
+        "<C-K>",
         function()
           require('lsp_signature').toggle_float_win()
         end,
