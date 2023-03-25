@@ -1,3 +1,18 @@
+-- https://github.com/typescript-language-server/typescript-language-server#workspacedidchangeconfiguration
+local jsAndTsSettings = {
+  format = {}, -- not used, since taken care of by prettier
+  inlayHints = {
+    includeInlayEnumMemberValueHints = true,
+    includeInlayFunctionLikeReturnTypeHints = true,
+    includeInlayFunctionParameterTypeHints = true,
+    includeInlayParameterNameHints = "all", -- none | literals | all
+    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+    includeInlayPropertyDeclarationTypeHints = true,
+    includeInlayVariableTypeHints = true,
+    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+  },
+}
+
 return {
   -- typescript
   {
@@ -12,28 +27,8 @@ return {
             completions = {
               completeFunctionCalls = true,
             },
-            typescript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
-            javascript = {
-              inlayHints = {
-                includeInlayParameterNameHints = "all",
-                includeInlayParameterNameHintsWhenArgumentMatchesName = false,
-                includeInlayFunctionParameterTypeHints = true,
-                includeInlayVariableTypeHints = true,
-                includeInlayPropertyDeclarationTypeHints = true,
-                includeInlayFunctionLikeReturnTypeHints = true,
-                includeInlayEnumMemberValueHints = true,
-              },
-            },
+            typescript = jsAndTsSettings,
+            javascript = jsAndTsSettings,
           },
         },
       },
@@ -102,8 +97,8 @@ return {
     dependencies = {
       "ray-x/guihua.lua",
     },
-    config = function()
-      require("go").setup()
-    end,
+    ft = "go",
+    opts = { dap_debug = true, dap_debug_gui = true },
+    config = function(_, opts) require("go").setup(opts) end
   },
 }

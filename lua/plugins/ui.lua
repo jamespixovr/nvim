@@ -277,7 +277,8 @@ return {
     opts = {
       lsp = {
         progress = {
-          throttle = 1000 / 3,
+          enabled = false,
+          -- throttle = 1000 / 3,
         },
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
@@ -296,6 +297,11 @@ return {
         cmdline_output_to_split = false,
       },
       routes = {
+        {
+          view = "notify",
+          filter = { find = "overly long" },
+          opts = { skip = true },
+        },
         {
           filter = {
             event = "msg_show",
@@ -448,8 +454,9 @@ return {
         dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),
         dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC<cr>"),
-        dashboard.button("s", "勒" .. " Restore Session", "<cmd>SessionLoad<cr>"),
+        dashboard.button("s", "勒" .. " Restore Session", ":lua require('persistence').load()<cr>"),
         dashboard.button("l", "鈴" .. " Lazy", "<cmd>Lazy<cr>"),
+        dashboard.button("u", " " .. " Update plugins", ":Lazy sync<CR>"),
         dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
       }
       for _, button in ipairs(dashboard.section.buttons.val) do
@@ -500,5 +507,11 @@ return {
 
       run_alpha()
     end,
+  },
+  {
+    -- rainbow brackets
+    "HiPhish/nvim-ts-rainbow2",
+    event = "BufEnter",
+    dependencies = "nvim-treesitter/nvim-treesitter",
   },
 }

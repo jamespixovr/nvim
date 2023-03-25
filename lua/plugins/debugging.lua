@@ -70,6 +70,7 @@ return {
     end,
   },
   -- check this out https://github.com/mawkler/nvim/blob/master/lua/configs/dap.lua
+  -- https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/debugger.lua
   {
     "mfussenegger/nvim-dap",
     event = "VeryLazy",

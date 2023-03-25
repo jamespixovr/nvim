@@ -249,4 +249,10 @@ return {
       require("nvim-highlight-colors").setup(opts)
     end,
   },
+  {
+    -- display line numbers while going to a line with `:`
+    "nacro90/numb.nvim",
+    keys = ":",
+    config = function() require("numb").setup() end,
+  },
 }

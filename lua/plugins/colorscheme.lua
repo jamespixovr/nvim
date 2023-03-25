@@ -55,6 +55,8 @@ local M = {
         bufferline = true,
         markdown = true,
         notify = true,
+        ts_rainbow2 = true,
+        illuminate = true,
         telekasten = true,
         symbols_outline = true,
       },

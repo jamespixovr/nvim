@@ -42,10 +42,12 @@ return {
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
       "hrsh7th/cmp-nvim-lsp-signature-help",
+      "onsails/lspkind-nvim",
     },
     opts = function()
       local cmp = require("cmp")
       local luasnip = require("luasnip")
+      local lspkind = require("lspkind")
 
       --[[ local maxline = 50
       local ellipsis = "..."
@@ -70,7 +72,8 @@ return {
       return {
         preselect = cmp.PreselectMode.None,
         completion = {
-          completeopt = "menu,menuone,noinsert",
+          completeopt = "menu,menuone,noselect,noinsert",
+          -- completeopt = "menu,menuone,noinsert",
         },
         snippet = {
           expand = function(args)
@@ -132,22 +135,25 @@ return {
         },
         formatting = {
           fields = { "abbr", "kind", "menu" },
-          format = function(entry, item)
-            local kind = item.kind --> Class, Method, Variables...
-            -- local local_menu = menu[entry.source.name]
-            local icons = settings.icons.kinds[kind]
-            item.kind = (icons or '?')
-            if entry.source.name == "cmp_tabnine" then
-              if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
-                -- kind = entry.completion_item.data.detail .. " " .. menu
-                kind = "Tabnine"
+          format = lspkind.cmp_format({
+            maxwidth = 60,
+            preset = "default",
+            before = function(entry, item)
+              local kind = item.kind --> Class, Method, Variables...
+              local icons = settings.icons.kinds[kind]
+              item.kind = (icons or '?')
+              if entry.source.name == "cmp_tabnine" then
+                if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then
+                  -- kind = entry.completion_item.data.detail .. " " .. menu
+                  kind = "Tabnine"
+                end
+                item.kind = " "
               end
-              item.kind = " "
-            end
 
-            item.menu = " (" .. kind .. ") "
-            return item
-          end,
+              item.menu = " (" .. kind .. ") "
+              return item
+            end,
+          })
         },
         experimental = {
           ghost_text = true,
@@ -275,7 +281,8 @@ return {
   -- surround
   {
     "kylechui/nvim-surround",
-    event = "BufReadPre",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
     config = function(_, opts)
       require("nvim-surround").setup(opts)
     end,

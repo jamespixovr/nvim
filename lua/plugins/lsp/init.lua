@@ -78,7 +78,7 @@ return {
       capabilities = {},
       servers = {
         rust_analyzer = require("plugins.lsp.rusttools"),
-        bashls = {},
+        bashls = { filetypes = { "sh", "zsh" } },
         clangd = {},
         cssls = {},
         html = {},
@@ -130,6 +130,7 @@ return {
 
       -- local capabilities = format.common_capabilities()
       local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+      capabilities.textDocument.completion.completionItem.snippetSupport = true
       capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities)
 
 
@@ -169,26 +170,24 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
   },
-  --closes some gaps that exist between mason.nvim and null-ls
-  {
-    "jayp0521/mason-null-ls.nvim",
-    dependencies = {
-      "williamboman/mason.nvim",
-      "jose-elias-alvarez/null-ls.nvim",
-    },
-    config = function()
-      require("mason-null-ls").setup({
-        automatic_installation = true,
-      })
-    end,
-  },
 
   -- formatters
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "BufReadPre",
-    dependencies = { "mason.nvim" },
+    dependencies = { "jayp0521/mason-null-ls.nvim" },
+    build = {
+      "go install github.com/daixiang0/gci@latest",
+      "go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest",
+      "go install golang.org/x/tools/cmd/goimports@latest"
+    },
     opts = function()
+      require("mason-null-ls").setup({
+        -- list of formatters & linters for mason to install
+        ensure_installed = { "stylua", "prettierd", "gofmt", "goimports", "golangci_lint" },
+        -- auto-install configured servers (with lspconfig)
+        automatic_installation = true
+      })
       local util = require("helper")
       local nls = require("null-ls")
       local fmt = nls.builtins.formatting
@@ -205,6 +204,7 @@ return {
           "eslintrc.json",
         })
       end
+
 
       return {
         debounce = 150,

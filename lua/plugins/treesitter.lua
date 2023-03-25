@@ -34,18 +34,21 @@ return {
           "dockerfile",
           "fennel",
           "help",
-          "html",
           "graphql",
           "go",
           "gosum",
           "gomod",
+          "html",
           "java",
-          "ledger",
           "javascript",
+          "jsdoc",
           "json",
           "jsonc",
           "json5",
+          "ledger",
           "lua",
+          "luap",   -- lua patterns
+          "luadoc", -- lua annotations
           "make",
           "markdown",
           "markdown_inline",
@@ -65,13 +68,13 @@ return {
           "yaml",
           "svelte",
         },
+        auto_install = false, -- install missing parsers when entering a buffer
         highlight = { enable = true, additional_vim_regex_highlighting = false, disable = is_disable },
         indent = { enable = true, disable = is_disable },
         context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
         autopairs = { enable = true, disable = is_disable },
         autotag = { enable = true, disable = is_disable },
         playground = { enable = true, disable = is_disable },
-        rainbow = { enable = true, disable = is_disable },
         matchup = { enable = true, disable = is_disable },
         incremental_selection = {
           enable = true,
@@ -83,6 +86,8 @@ return {
             node_decremental = "<bs>",
           },
         },
+        -- TREESITTER PLUGINS
+        rainbow = { enable = true, disable = is_disable },
         tree_docs = {
           enable = true,
           spec_config = {
@@ -95,6 +100,20 @@ return {
                   return " * @author James Amo"
                 end,
               },
+            },
+          },
+        },
+        refactor = {
+          highlight_definitions = {
+            enable = true,
+            clear_on_cursor_move = false, -- set to true with a very low updatetime
+          },
+          highlight_current_scope = { enable = false },
+          smart_rename = {
+            enable = true,
+            keymaps = {
+              -- not using the same hotkey as LSP rename to prevent overwriting it
+              smart_rename = "<leader>v",
             },
           },
         },

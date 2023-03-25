@@ -63,6 +63,10 @@ return {
       return {
         defaults = {
           prompt_prefix = "~> ",
+          preview = {
+            filesize_limit = 2, -- in MB, do not preview big files for performance
+            msg_bg_fillchar = " ",
+          },
           selection_caret = " ",
           layout_strategy = "horizontal",
           layout_config = {
@@ -72,6 +76,32 @@ return {
           sorting_strategy = "ascending",
           scroll_strategy = "cycle",
           color_devicons = true,
+          file_ignore_patterns = {
+            "%.git/",
+            "%.git$",        -- git dir in submodules
+            "node_modules/", -- node
+            "venv/",         -- python
+            "%.app/",        -- internals of mac apps
+            "%.pxd",         -- Pixelmator
+            "%.plist",       -- Alfred
+            "%.harpoon",     -- harpoon/projects
+            "/INFO ",        -- custom info files
+            "%.png",
+            "%.gif",
+            "%.jpe?g",
+            "%.icns",
+            "%.zip",
+          },
+          vimgrep_arguments = {
+            "rg",
+            "--color=never",
+            "--no-heading",
+            "--with-filename",
+            "--line-number",
+            "--column",
+            "--smart-case",
+            "--trim", -- this added to trim results
+          },
           -- sorting_strategy = 'ascending',
           mappings = {
             i = {
@@ -95,10 +125,17 @@ return {
         },
         pickers = {
           buffers = {
+            prompt_prefix = "﬘ ",
             ignore_current_buffer = true,
             sort_lastused = true,
-            theme = "ivy",
+            -- theme = "ivy",
             previewer = false,
+            initial_mode = "normal",
+            sort_mru = true,
+            prompt_title = false,
+            results_title = false,
+            theme = "cursor",
+            layout_config = { cursor = { width = 0.5 } },
           },
           git_files = {
             theme = "ivy",
@@ -108,7 +145,10 @@ return {
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
           },
           live_grep = {
+            cwd = "%:p:h",
+            prompt_title = "Search in Folder",
             theme = "ivy",
+            prompt_prefix = " ",
             -- @usage don't include the filename in the search results
             only_sort_text = true,
           },
@@ -120,6 +160,23 @@ return {
             path = "%:p:h",
             cwd_to_path = true,
             path_display = { truncate = 3 },
+            prompt_prefix = " ",
+            depth = false,
+            hidden = true,
+            display_stat = false,
+            git_status = false,
+            group = true,
+            hide_parent_dir = false,
+            select_buffer = true,
+            mappings = {
+              i = {
+                -- mappings should be consistent with nvim-ghengis mappings
+                ["<D-n>"] = require("telescope._extensions.file_browser.actions").create,
+                ["<C-r>"] = require("telescope._extensions.file_browser.actions").rename,
+                ["<D-BS>"] = require("telescope._extensions.file_browser.actions").remove,
+                ["<D-b>"] = require("telescope._extensions.file_browser.actions").toggle_browser,
+              },
+            },
           },
           fzf = {
             fuzzy = true,
