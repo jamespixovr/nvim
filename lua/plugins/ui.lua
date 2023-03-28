@@ -278,12 +278,11 @@ return {
       lsp = {
         progress = {
           enabled = false,
-          -- throttle = 1000 / 3,
         },
         override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true,
+          ["vim.lsp.util.convert_input_to_markdown_lines"] = false,
+          ["vim.lsp.util.stylize_markdown"] = false,
+          ["cmp.entry.get_documentation"] = false,
         },
         signature = {
           enabled = false,
@@ -295,6 +294,7 @@ return {
         long_message_to_split = true,
         inc_rename = true,
         cmdline_output_to_split = false,
+        lsp_doc_border = true,
       },
       routes = {
         {

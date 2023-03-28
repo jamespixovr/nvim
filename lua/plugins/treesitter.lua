@@ -11,7 +11,7 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      "nvim-treesitter/nvim-treesitter-textobjects",
+      -- "nvim-treesitter/nvim-treesitter-textobjects",
       "nvim-treesitter/nvim-tree-docs",
       "windwp/nvim-ts-autotag",
       "mfussenegger/nvim-ts-hint-textobject",
