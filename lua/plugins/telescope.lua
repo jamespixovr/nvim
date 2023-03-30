@@ -130,7 +130,7 @@ return {
             sort_lastused = true,
             -- theme = "ivy",
             previewer = false,
-            initial_mode = "normal",
+            -- initial_mode = "normal",
             sort_mru = true,
             prompt_title = false,
             results_title = false,
