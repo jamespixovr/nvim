@@ -9,7 +9,7 @@ return {
       experimentalPostfixCompletions = true,
       gofumpt = true,
       codelenses = {
-        generate = false,
+        generate = true,
         gc_details = true,
         test = true,
         tidy = true,

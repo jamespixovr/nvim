@@ -134,7 +134,7 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         formatting = {
-          fields = { "abbr", "kind", "menu" },
+          fields = { "kind", "abbr", "menu" },
           format = lspkind.cmp_format({
             maxwidth = 60,
             preset = "default",

@@ -54,7 +54,7 @@ return {
       { "<leader>sm", "<cmd>Telescope marks<cr>",                           desc = "Jump to Mark" },
       { "<leader>so", "<cmd>Telescope vim_options<cr>",                     desc = "Options" },
       { "<leader>st", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
-      { "<leader>ts", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
+      { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
       { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",   remap = true },
       { "<leader>:",  "<leader>sc",                                         desc = "Commands",               remap = true },
     },

@@ -246,11 +246,11 @@ return {
               return util.executable("pg_format", true)
             end,
           }),
-          fmt.eslint_d.with({
-            condition = function()
-              return util.executable("eslint_d", true)
-            end,
-          }),
+          -- fmt.eslint_d.with({
+          --   condition = function()
+          --     return util.executable("eslint_d", true)
+          --   end,
+          -- }),
           fmt.gofumpt,   -- GO
           fmt.goimports, --GO
 
@@ -285,7 +285,7 @@ return {
           }),
           dgn.hadolint,      -- dockerfile
           dgn.dotenv_linter, --ENV
-          dgn.staticcheck,   --GO
+          -- dgn.staticcheck,   --GO
           dgn.markdownlint.with({
             condition = function()
               return util.executable("markdownlint", true)
