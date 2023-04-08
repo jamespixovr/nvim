@@ -145,7 +145,7 @@ return {
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
           },
           live_grep = {
-            cwd = "%:p:h",
+            -- cwd = "%:p:h",
             prompt_title = "Search in Folder",
             theme = "ivy",
             prompt_prefix = " ",
