@@ -3,7 +3,7 @@ local id
 for _, key in ipairs({ "h", "j", "k", "l" }) do
   local count = 0
   vim.keymap.set("n", key, function()
-    if count >= 10 then
+    if count >= 15 then
       id = vim.notify("Do not tempt me!", vim.log.levels.WARN, {
         icon = "🧙",
         replace = id,
