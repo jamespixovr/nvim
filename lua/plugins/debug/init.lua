@@ -26,13 +26,13 @@ return {
     { "<leader>dw", '<cmd>lua require("dap").run_to_cursor()<CR>',     desc = "Run to cursor" },
     { "<leader>dx", '<cmd>lua require("dap.breakpoints").clear()<cr>', desc = "Remove All Breakpoints" },
     { "<leader>dl", "<cmd>Telescope dap list_breakpoints<cr>",         desc = "Show All Breakpoints" },
-    { "<leader>dS", '<cmd>lua require("dap").disconnect()<cr>',        desc = "Disconnect" },
+    { "<leader>ds", '<cmd>lua require("dap").disconnect()<cr>',        desc = "Disconnect" },
     { "<leader>dn", '<cmd>lua require("dap").step_over()<CR>',         desc = "Step Over" },
     { "<leader>dN", '<cmd>lua require("dap").step_into()<CR>',         desc = "step Into" },
     { "<leader>do", '<cmd>lua require("dap").step_out()<CR>',          desc = "Step Out" },
     { "<leader>dp", '<cmd>lua require("dap").pause()<cr>',             desc = "Pause" },
     { "<leader>dT", "<cmd>Telescope dap configurations<cr>",           desc = "Run" },
-    { "<leader>ds", '<cmd>lua require("dap").terminate()<cr>',         desc = "Terminate" },
+    { "<leader>dS", '<cmd>lua require("dap").terminate()<cr>',         desc = "Terminate" },
     { "<leader>dR", '<cmd>lua require("dap").repl.open()<cr>',         desc = "Repl" },
     { "<leader>di", '<cmd>lua require("dapui").toggle()<cr>',          desc = "Dap UI" },
   },
@@ -47,8 +47,8 @@ return {
     dap.listeners.before.event_exited["dapui_config"] = function()
       dapui.close({})
     end
-    require("plugins.debug.dap-config").setup()
-    require("plugins.debug.dap-config").vscodeExtensions()
+    require("plugins.debug.js-config").setup()
+    require("plugins.debug.js-config").vscodeExtensions()
   end,
 }
 

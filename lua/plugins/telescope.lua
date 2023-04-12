@@ -39,8 +39,6 @@ return {
       { "<leader>fe", "<cmd>Telescope file_browser<cr>",                    desc = "Browse Files" },
       { "<leader>fg", "<cmd>Telescope git_files<cr>",                       desc = "Find Git Files" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                        desc = "Recent" },
-      { "<leader>gc", "<cmd>Telescope git_commits<CR>",                     desc = "Git commits" },
-      { "<leader>gs", "<cmd>Telescope git_status<CR>",                      desc = "Git status" },
       { "<leader>sc", "<cmd>Telescope commands<cr>",                        desc = "Commands" },
       { "<leader>sC", "<cmd>Telescope command_history<cr>",                 desc = "Command History" },
       { "<leader>sM", "<cmd>Telescope man_pages<cr>",                       desc = "Man Pages" },
