@@ -1,25 +1,6 @@
 return {
   "mfussenegger/nvim-dap",
   event = "VeryLazy",
-  dependencies = {
-    { "theHamsta/nvim-dap-virtual-text", config = true },
-    { "rcarriga/nvim-dap-ui",            config = true },
-    "nvim-telescope/telescope-dap.nvim",
-    {
-      "leoluz/nvim-dap-go",
-      module = "dap-go",
-      config = true,
-    },
-    { "jbyuki/one-small-step-for-vimkind", module = "osv" },
-    { "mxsdev/nvim-dap-vscode-js" },
-    {
-      "microsoft/vscode-js-debug",
-      build = {
-        "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
-      }
-    },
-    { 'nvim-treesitter/nvim-treesitter' }
-  },
   keys = {
     { "<leader>db", '<cmd>lua require("dap").toggle_breakpoint()<cr>', desc = "Toggle Breakpoint" },
     { "<leader>dc", '<cmd>lua require("dap").continue()<CR>',          desc = "Continue" },
@@ -39,17 +20,36 @@ return {
   config = function()
     local dap, dapui = require("dap"), require("dapui")
     dap.listeners.after.event_initialized["dapui_config"] = function()
-      dapui.open({})
+      dapui.open()
     end
     dap.listeners.before.event_terminated["dapui_config"] = function()
-      dapui.close({})
+      dapui.close()
     end
     dap.listeners.before.event_exited["dapui_config"] = function()
-      dapui.close({})
+      dapui.close()
     end
     require("plugins.debug.js-config").setup()
     require("plugins.debug.js-config").vscodeExtensions()
   end,
+  dependencies = {
+    { "theHamsta/nvim-dap-virtual-text", config = true },
+    { "rcarriga/nvim-dap-ui",            config = true },
+    "nvim-telescope/telescope-dap.nvim",
+    {
+      "leoluz/nvim-dap-go",
+      module = "dap-go",
+      config = true,
+    },
+    { "jbyuki/one-small-step-for-vimkind", module = "osv" },
+    { "mxsdev/nvim-dap-vscode-js" },
+    {
+      "microsoft/vscode-js-debug",
+      build = {
+        "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+      }
+    },
+    { 'nvim-treesitter/nvim-treesitter' }
+  }
 }
 
 

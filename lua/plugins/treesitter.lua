@@ -33,7 +33,6 @@ return {
           "diff",
           "dockerfile",
           "fennel",
-          "help",
           "graphql",
           "go",
           "gosum",
@@ -65,6 +64,7 @@ return {
           "typescript",
           "vue",
           "vim",
+          "vimdoc",
           "yaml",
           "svelte",
         },
@@ -125,8 +125,6 @@ return {
       }
     end,
     config = function(_, opts)
-      local parsers = require("nvim-treesitter.parsers")
-      parsers.filetype_to_parsername.xml = "html"
       require("nvim-treesitter.configs").setup(opts)
     end,
     cmd = {

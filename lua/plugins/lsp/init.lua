@@ -13,6 +13,9 @@ return {
       experimental = {
         pathStrict = true,
       },
+      library = {
+        library = { plugins = { "nvim-dap-ui" }, types = true },
+      }
     },
   },
   -- tools
