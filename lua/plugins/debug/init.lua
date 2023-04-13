@@ -18,6 +18,7 @@ return {
     { "<leader>di", '<cmd>lua require("dapui").toggle()<cr>',          desc = "Dap UI" },
   },
   config = function()
+    vim.fn.sign_define('DapBreakpoint', { text = '🔴', texthl = '', linehl = '', numhl = '' })
     local dap, dapui = require("dap"), require("dapui")
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open()
@@ -32,8 +33,8 @@ return {
     require("plugins.debug.js-config").vscodeExtensions()
   end,
   dependencies = {
-    { "theHamsta/nvim-dap-virtual-text", config = true },
-    { "rcarriga/nvim-dap-ui",            config = true },
+    { "theHamsta/nvim-dap-virtual-text", config = true, event = "VeryLazy" },
+    { "rcarriga/nvim-dap-ui",            config = true, event = "VeryLazy" },
     "nvim-telescope/telescope-dap.nvim",
     {
       "leoluz/nvim-dap-go",

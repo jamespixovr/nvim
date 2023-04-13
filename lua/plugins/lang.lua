@@ -89,9 +89,16 @@ return {
       "mfussenegger/nvim-dap",
     },
   },
-
   -- GO
-  "olexsmir/gopher.nvim",
+  {
+    "olexsmir/gopher.nvim",
+    ft = "go",
+    event = "VeryLazy",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+  },
   {
     "ray-x/go.nvim",
     dependencies = {

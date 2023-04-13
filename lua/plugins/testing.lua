@@ -1,7 +1,7 @@
 return {
   {
     "nvim-neotest/neotest",
-    event = "BufEnter",
+    event = 'VeryLazy',
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -9,6 +9,7 @@ return {
       "nvim-neotest/neotest-go",
       "haydenmeade/neotest-jest",
       "rouge8/neotest-rust",
+      { "andythigpen/nvim-coverage", config = true }
     },
     keys = {
       { "<leader>rn", "<cmd>lua require('neotest').run.run()<cr>",                   desc = "Run nearest test" },
@@ -20,6 +21,14 @@ return {
       { "<leader>rx", "<cmd>lua require('neotest').stop()<cr>",                      desc = "Stop test" },
       { "<leader>ro", "<cmd>lua require('neotest').output.open({enter = true})<cr>", desc = "Open output test" },
       { "<leader>rp", "<cmd>lua require('neotest').output_panel.toggle()<cr>",       desc = "Output test panel" },
+      {
+        '<leader>gt',
+        function()
+          require('neotest').summary.open()
+          require('neotest').run.run(vim.fn.expand('%'))
+        end,
+        desc = 'Neotest toggle',
+      },
     },
     init = function()
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
@@ -50,7 +59,6 @@ return {
             experimental = {
               test_table = true,
             },
-            -- args = { "-count=1", "-timeout=60s" }
           }),
           require("neotest-jest")({
             -- jestCommand = "pnpm test -- --",
