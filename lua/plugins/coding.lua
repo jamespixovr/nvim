@@ -355,13 +355,6 @@ return {
       require("mini.ai").setup(opts)
     end,
   },
-  {
-    "simrat39/symbols-outline.nvim",
-    keys = {
-      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-    },
-    config = true,
-  },
 
   -- Generate Docs
   {

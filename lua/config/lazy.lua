@@ -16,10 +16,10 @@ require("lazy").setup({
   spec = "plugins",
   install = { colorscheme = { "catppuccin", "habamax" } },
   checker = { enabled = true }, -- automatically check for plugin updates
+  ui = {
+    border = "rounded",
+  },
   performance = {
-    cache = {
-      enabled = true,
-    },
     rtp = {
       disabled_plugins = {
         "2html_plugin",

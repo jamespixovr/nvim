@@ -61,13 +61,17 @@ return {
             },
           }),
           require("neotest-jest")({
-            -- jestCommand = "pnpm test -- --",
-            jestConfigFile = "jest.config.js",
+            jestCommand = "pnpm test -- --",
+            -- jestConfigFile = "jest.config.js",
             env = { CI = true },
+            cwd = function(_path)
+              return vim.fn.getcwd()
+            end,
           }),
           require("neotest-rust"),
         },
         icons = {
+          failed = "✖",
           running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
         },
       }

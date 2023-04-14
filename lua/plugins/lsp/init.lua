@@ -24,6 +24,14 @@ return {
     cmd = "Mason",
     keys = { { "<leader>mc", "<cmd>Mason<cr>", desc = "Mason" } },
     opts = {
+      ui = {
+        border = "rounded",
+        icons = {
+          package_installed = "✓",
+          package_pending = "➜",
+          package_uninstalled = "✗"
+        }
+      },
       ensure_installed = {
         "rust_analyzer",
         "lua-language-server",
@@ -51,6 +59,26 @@ return {
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      "b0o/SchemaStore.nvim",
+      {
+        "simrat39/symbols-outline.nvim",
+        keys = {
+          { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+        },
+        config = true,
+      },
+      {
+        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
+        config = function()
+          local lsp_lines = require("lsp_lines")
+          lsp_lines.setup()
+          lsp_lines.toggle()
+          vim.keymap.set("n", "<leader><leader>od", function()
+            local virt_lines = lsp_lines.toggle()
+            vim.diagnostic.config({ virtual_text = not virt_lines })
+          end)
+        end,
+      },
     },
     ---@class PluginLspOpts
     opts = {
@@ -89,6 +117,21 @@ return {
         pyright = require("plugins.lsp.pyright"),
         yamlls = require("plugins.lsp.yamlls"),
         lua_ls = require("plugins.lsp.luals"),
+        jsonls = {
+          -- lazy-load schemastore when needed
+          on_new_config = function(new_config)
+            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
+            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
+          end,
+          settings = {
+            json = {
+              format = {
+                enable = true,
+              },
+              validate = { enable = true },
+            },
+          },
+        }
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
