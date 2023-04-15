@@ -5,7 +5,7 @@ return {
   keys = {
     { "<leader>db", '<cmd>lua require("dap").toggle_breakpoint()<cr>', desc = "Toggle Breakpoint" },
     { "<leader>dc", '<cmd>lua require("dap").continue()<CR>',          desc = "Start" },
-    { "<leader>ds", '<cmd>lua require("dap").continue()<CR>',          desc = "Start" },
+    { "<leader>ds", '<cmd>lua require("dap").continue()<CR>',          desc = "Continue" },
     {
       "<leader>dC",
       "<cmd>lua require'dap'.set_breakpoint(vim.fn.input '[Condition] > ')<cr>",
