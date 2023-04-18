@@ -22,7 +22,7 @@ return {
         return bufnr and vim.api.nvim_buf_line_count(bufnr) > 5000
       end
       return {
-        sync_install = false,
+        ignore_install = { "help" },
         ensure_installed = {
           "awk",
           "bash",
@@ -68,7 +68,7 @@ return {
           "yaml",
           "svelte",
         },
-        auto_install = false, -- install missing parsers when entering a buffer
+        auto_install = true, -- install missing parsers when entering a buffer
         highlight = { enable = true, additional_vim_regex_highlighting = false, disable = is_disable },
         indent = { enable = true, disable = is_disable },
         context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },

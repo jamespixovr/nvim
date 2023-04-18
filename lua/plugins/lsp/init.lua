@@ -59,7 +59,6 @@ return {
       "mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      "b0o/SchemaStore.nvim",
       {
         "simrat39/symbols-outline.nvim",
         keys = {
@@ -108,30 +107,13 @@ return {
       },
       capabilities = {},
       servers = {
-        rust_analyzer = require("plugins.lsp.rusttools"),
         bashls = { filetypes = { "sh", "zsh" } },
         clangd = {},
         cssls = {},
         html = {},
-        gopls = require("plugins.lsp.gopls"),
         pyright = require("plugins.lsp.pyright"),
         yamlls = require("plugins.lsp.yamlls"),
         lua_ls = require("plugins.lsp.luals"),
-        jsonls = {
-          -- lazy-load schemastore when needed
-          on_new_config = function(new_config)
-            new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
-          end,
-          settings = {
-            json = {
-              format = {
-                enable = true,
-              },
-              validate = { enable = true },
-            },
-          },
-        }
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -190,20 +172,14 @@ return {
       require("mason-lspconfig").setup_handlers({
         function(server)
           local server_opts = servers[server] or {}
-          if server == "rust_analyzer" then
-            -- rust-tools is special, and expects lsp server related configuration in the "server" key (everything else just uses the top level table)
-            server_opts.server = vim.tbl_deep_extend("force", {}, common_options, server_opts.server or {})
-            require("rust-tools").setup(server_opts)
-          else
-            server_opts = vim.tbl_deep_extend("force", {}, common_options, server_opts or {})
-            if opts.setup[server] then
-              if opts.setup[server](server, server_opts) then
-                return
-              end
+          server_opts = vim.tbl_deep_extend("force", {}, common_options, server_opts or {})
+          if opts.setup[server] then
+            if opts.setup[server](server, server_opts) then
+              return
             end
-
-            require("lspconfig")[server].setup(server_opts)
           end
+
+          require("lspconfig")[server].setup(server_opts)
         end,
       })
     end,
@@ -364,7 +340,7 @@ return {
             end,
           }),
           -- typescript nvim
-          require("typescript.extensions.null-ls.code-actions"),
+          -- require("typescript.extensions.null-ls.code-actions"),
         },
       }
     end,
@@ -378,4 +354,10 @@ return {
       { "gY", "<cmd>Glance type_definitions<cr>", desc = "Goto Type Definition (Glance)" },
     },
   },
+  -- language specific extension modules
+  { import = "plugins.lsp.extras.lang.go" },
+  { import = "plugins.lsp.extras.lang.json" },
+  { import = "plugins.lsp.extras.lang.typescript" },
+  { import = "plugins.lsp.extras.lang.nodejs" },
+  { import = "plugins.lsp.extras.lang.rust" },
 }
