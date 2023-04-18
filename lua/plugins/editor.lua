@@ -25,15 +25,8 @@ return {
         adaptive_size = true,
         width = 40,
         signcolumn = "no",
-        mappings = {
-          list = {
-            { key = 'l', action = 'edit',       mode = 'n' },
-            { key = 'h', action = 'close_node', mode = 'n' },
-            { key = 'v', action = 'vsplit',     mode = 'n' },
-            { key = "d", action = "trash",      mode = 'n' },
-          },
-        },
       },
+      on_attach = require("util.nvim_tree_mapping").on_attach,
       renderer = {
         indent_markers = {
           enable = true,
