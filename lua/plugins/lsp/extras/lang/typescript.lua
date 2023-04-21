@@ -53,37 +53,10 @@ return {
       },
     },
   },
-  -- {
-  --   "jose-elias-alvarez/null-ls.nvim",
-  --   opts = function(_, opts)
-  --     table.insert(opts.sources, require("typescript.extensions.null-ls.code-actions"))
-  --   end,
-  -- },
-
-  -- RUST
   {
-    "simrat39/rust-tools.nvim",
-    dependencies = {
-      "mfussenegger/nvim-dap",
-    },
-  },
-  -- GO
-  {
-    "olexsmir/gopher.nvim",
-    ft = "go",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
-  {
-    "ray-x/go.nvim",
-    dependencies = {
-      "ray-x/guihua.lua",
-    },
-    ft = "go",
-    opts = { dap_debug = true, dap_debug_gui = true },
-    config = function(_, opts) require("go").setup(opts) end
+    "jose-elias-alvarez/null-ls.nvim",
+    opts = function(_, opts)
+      table.insert(opts.sources, require("typescript.extensions.null-ls.code-actions"))
+    end,
   },
 }

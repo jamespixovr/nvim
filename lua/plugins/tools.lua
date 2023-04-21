@@ -12,7 +12,15 @@ return {
   },
   { "nvim-lua/plenary.nvim", lazy = true },
   -- Git
-  "tpope/vim-fugitive",
+  -- "tpope/vim-fugitive",
+  -- git blame
+  {
+    "f-person/git-blame.nvim",
+    event = "BufReadPre",
+    init = function()
+      vim.g.gitblame_enabled = 0
+    end
+  },
   {
     "lewis6991/gitsigns.nvim",
     dependencies = {
@@ -58,4 +66,86 @@ return {
       },
     }
   },
+  -- browse and preview json files
+  {
+    "gennaro-tedesco/nvim-jqx",
+    ft = { "json", "yaml" },
+  },
+
+  -- http client, treesitter: http, json
+  {
+    "rest-nvim/rest.nvim",
+    ft = "http",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    -- stylua: ignore
+    keys = {
+      {
+        "<leader>th",
+        "<Plug>RestNvim",
+        desc =
+        "run http request"
+      },
+      {
+        "<leader>tl",
+        "<Plug>RestNvimLast",
+        desc =
+        "run last http request"
+      },
+      {
+        "<leader>tc",
+        "<Plug>RestNvimPreview",
+        desc =
+        "preview cURL command"
+      },
+      {
+        "<leader>ce",
+        function()
+          local env = vim.fn.input("environment: ", ".env");
+          require("rest-nvim").select_env(env);
+        end,
+        desc =
+        "Switch Environment"
+      },
+      {
+        "<leader>cp",
+        function() require("rest-nvim").run(true) end,
+        desc =
+        "Preview Request"
+      },
+      {
+        "<leader>ct",
+        function() require("rest-nvim").run() end,
+        desc =
+        "Test Request"
+      },
+    },
+    opts = {
+      -- Open request results in a horizontal split
+      result_split_horizontal = false,
+      -- Keep the http file buffer above|left when split horizontal|vertical
+      result_split_in_place = false,
+      -- Skip SSL verification, useful for unknown certificates
+      skip_ssl_verification = false,
+      -- Highlight request on run
+      highlight = {
+        enabled = true,
+        timeout = 0,
+      },
+      result = {
+        -- toggle showing URL, HTTP info, headers at top the of result window
+        show_url = true,
+        show_http_info = true,
+        show_headers = true,
+        formatters = {
+          json = "jq",
+        },
+      },
+      -- Jump to request line on run
+      jump_to_request = false,
+      env_file = ".env",
+      custom_dynamic_variables = {},
+      yank_dry_run = true,
+    },
+  },
+
 }

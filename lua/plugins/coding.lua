@@ -373,6 +373,7 @@ return {
   },
   {
     "ThePrimeagen/refactoring.nvim",
+    event = { "VeryLazy" },
     keys = {
       {
         "<leader>r",

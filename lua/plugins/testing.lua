@@ -9,7 +9,13 @@ return {
       "nvim-neotest/neotest-go",
       "haydenmeade/neotest-jest",
       "rouge8/neotest-rust",
-      { "andythigpen/nvim-coverage", config = true }
+      { "andythigpen/nvim-coverage", config = true },
+      {
+        "stevearc/overseer.nvim",
+        config = function()
+          require("overseer").setup()
+        end,
+      },
     },
     keys = {
       { "<leader>rn", "<cmd>lua require('neotest').run.run()<cr>",                   desc = "Run nearest test" },
@@ -56,6 +62,7 @@ return {
         },
         adapters = {
           require("neotest-go")({
+            args = { "-count=1", "-timeout=60s", "-race", "-cover" },
             experimental = {
               test_table = true,
             },
@@ -73,6 +80,13 @@ return {
         icons = {
           failed = "✖",
           running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+        },
+        consumers = {
+          overseer = require("neotest.consumers.overseer"),
+        },
+        overseer = {
+          enabled = true,
+          force_default = true,
         },
       }
     end,
