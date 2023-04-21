@@ -12,7 +12,4 @@ return {
     config = true,
     keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff View" } },
   },
-
-  -- Git
-  "tpope/vim-fugitive",
 }

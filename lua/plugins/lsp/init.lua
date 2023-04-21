@@ -184,15 +184,6 @@ return {
       })
     end,
   },
-
-  -- Rust Crates 🚀
-  {
-    "Saecki/crates.nvim",
-    event = { "BufRead Cargo.toml" },
-    dependencies = { "nvim-lua/plenary.nvim" },
-    config = true,
-  },
-
   -- formatters
   {
     "jose-elias-alvarez/null-ls.nvim",
@@ -231,7 +222,8 @@ return {
       return {
         debounce = 150,
         save_after_format = true,
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", ".git"),
+        border = "rounded",
+        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
         sources = {
           --  ╭────────────╮
           --  │ Formatting │
@@ -239,6 +231,7 @@ return {
           fmt.prettier.with({
             dynamic_command = command_resolver.from_node_modules(),
           }),
+          fmt.shfmt,
           fmt.tidy,
           fmt.stylua.with({
             condition = function()
@@ -296,15 +289,15 @@ return {
               return util.executable("buf", true)
             end,
           }),
-          dgn.golangci_lint.with({
-            condition = function()
-              return util.executable("golangci-lint", true)
-                  and not vim.tbl_isempty(vim.fs.find("go.mod", {
-                    path = vim.fn.expand("%:p"),
-                    upward = true,
-                  }))
-            end,
-          }),
+          -- dgn.golangci_lint.with({
+          --   condition = function()
+          --     return util.executable("golangci-lint", true)
+          --         and not vim.tbl_isempty(vim.fs.find("go.mod", {
+          --           path = vim.fn.expand("%:p"),
+          --           upward = true,
+          --         }))
+          --   end,
+          -- }),
           dgn.hadolint,      -- dockerfile
           dgn.dotenv_linter, --ENV
           -- dgn.staticcheck,   --GO
@@ -315,7 +308,7 @@ return {
           }),
           dgn.shellcheck.with({
             condition = function()
-              return util.executable("shellcheck", true)
+              return util.executable("shellcheck", false)
             end,
           }),
 

@@ -1,3 +1,4 @@
+local util = require("lspconfig/util")
 return {
   -- correctly setup mason lsp / dap extensions
   {
@@ -15,55 +16,57 @@ return {
 
   {
     "neovim/nvim-lspconfig",
-    dependencies = {
-      "ray-x/go.nvim",
-    },
     opts = {
       servers = {
         golangci_lint_ls = {}, -- linter
         gopls = {
-          gopls = function()
-            local util = require("lspconfig/util")
-            return {
-              cmd = { "gopls", "serve" },
-              filetypes = { "go", "gomod" },
-              root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-              settings = {
-                gopls = {
-                  experimentalPostfixCompletions = true,
-                  gofumpt = true,
-                  codelenses = {
-                    generate = true,
-                    gc_details = true,
-                    test = true,
-                    tidy = true,
-                  },
-                  analyses = {
-                    unusedparams = true,
-                  },
-                  staticcheck = true,
-                },
+          cmd = { "gopls", "serve" },
+          filetypes = { "go", "gomod" },
+          root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+          settings = {
+            gopls = {
+              experimentalPostfixCompletions = true,
+              gofumpt = true,
+              codelenses = {
+                generate = true,
+                gc_details = true,
+                test = true,
+                tidy = true,
               },
-              init_options = {
-                usePlaceholders = true,
-                completeUnimported = true,
-                gofumpt = true
-              }
-            }
-          end
+              analyses = {
+                unusedparams = true,
+              },
+              staticcheck = true,
+            },
+          },
+          init_options = {
+            usePlaceholders = true,
+            completeUnimported = true,
+            gofumpt = true
+          }
         }
       },
       -- configure gopls and attach to golang ft
-      setup = {
-        gopls = function()
-          require("go").setup({
-            dap_debug = true,
-            dap_debug_gui = true
-          })
-          return false
-        end
-      }
+      setup = {}
     }
+  },
+
+  {
+    "ray-x/go.nvim",
+    dependencies = { -- optional packages
+      "ray-x/guihua.lua",
+      "neovim/nvim-lspconfig",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("go").setup({
+        dap_debug = true,
+        dap_debug_gui = true
+      })
+    end,
+    event = { "CmdlineEnter" },
+    ft = { "go", 'gomod' },
+    build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
   -- setup DAP
   {
