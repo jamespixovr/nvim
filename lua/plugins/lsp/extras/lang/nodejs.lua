@@ -35,15 +35,25 @@ return {
 
   {
     "mxsdev/nvim-dap-vscode-js",
+    dependencies = {
+      {
+        "microsoft/vscode-js-debug",
+        build = {
+          "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && rm -rf out && mv dist out"
+        }
+      },
+
+    },
     event = "VeryLazy",
     config = function()
       local dap = require("dap")
       local dap_js = require("dap-vscode-js")
-      local mason_registry = require("mason-registry")
-      local js_debug_pkg = mason_registry.get_package("js-debug-adapter")
-      local js_debug_path = js_debug_pkg:get_install_path()
+      -- local mason_registry = require("mason-registry")
+      -- local js_debug_pkg = mason_registry.get_package("js-debug-adapter")
+      -- local js_debug_path = js_debug_pkg:get_install_path()
+      local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
       dap_js.setup({
-        debugger_path = js_debug_path,
+        debugger_path = DEBUGGER_PATH,
         adapters = { "pwa-node", "node-terminal" }, -- which adapters to register in nvim-dap
       })
       local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }

@@ -55,8 +55,8 @@ return {
         { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
       )
     end
-    require("plugins.debug.js-config").setup()
-    require("plugins.debug.js-config").vscodeExtensions()
+    -- require("plugins.debug.js-config").setup()
+    -- require("plugins.debug.js-config").vscodeExtensions()
   end,
   dependencies = {
     { "theHamsta/nvim-dap-virtual-text", opts = {} },
@@ -65,13 +65,6 @@ return {
       "leoluz/nvim-dap-go",
       module = "dap-go",
       opts = {}
-    },
-    { "mxsdev/nvim-dap-vscode-js" },
-    {
-      "microsoft/vscode-js-debug",
-      build = {
-        "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && rm -rf out && mv dist out"
-      }
     },
     { 'nvim-treesitter/nvim-treesitter' },
     -- fancy UI for the debugger
