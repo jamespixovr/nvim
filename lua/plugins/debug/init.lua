@@ -90,16 +90,16 @@ return {
         end
       end,
     },
-    -- which key integration
-    {
-      "folke/which-key.nvim",
-      opts = {
-        defaults = {
-          ["<leader>d"] = { name = "+debug" },
-          ["<leader>da"] = { name = "+adapters" },
-        },
-      },
-    },
+    -- -- which key integration
+    -- {
+    --   "folke/which-key.nvim",
+    --   opts = {
+    --     defaults = {
+    --       ["<leader>d"] = { name = "+debug" },
+    --       ["<leader>da"] = { name = "+adapters" },
+    --     },
+    --   },
+    -- },
     -- mason.nvim integration
     {
       "jay-babu/mason-nvim-dap.nvim",
