@@ -73,7 +73,7 @@ return {
     {
       "microsoft/vscode-js-debug",
       build = {
-        "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && mv dist out"
+        "npm install --legacy-peer-deps && npx gulp vsDebugServerBundle && rm -rf out && mv dist out"
       }
     },
     { 'nvim-treesitter/nvim-treesitter' }
