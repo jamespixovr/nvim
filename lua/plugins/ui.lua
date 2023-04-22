@@ -230,6 +230,11 @@ return {
             },
           },
           lualine_y = {
+            {
+              function()
+                return vim.fn["codeium#GetStatusString"]()
+              end
+            },
             { "location", padding = { left = 0, right = 1 } },
             { "progress" },
           },
