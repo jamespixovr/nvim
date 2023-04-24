@@ -28,7 +28,7 @@ return {
       { "<leader>ro", "<cmd>lua require('neotest').output.open({enter = true})<cr>", desc = "Open output test" },
       { "<leader>rp", "<cmd>lua require('neotest').output_panel.toggle()<cr>",       desc = "Output test panel" },
       {
-        '<leader>gt',
+        '<leader>rt',
         function()
           require('neotest').summary.open()
           require('neotest').run.run(vim.fn.expand('%'))
@@ -68,7 +68,7 @@ return {
             },
           }),
           require("neotest-jest")({
-            jestCommand = "pnpm test --",
+            jestCommand = "pnpm test -- ",
             -- jestConfigFile = "jest.config.js",
             env = { CI = true },
             cwd = function(_path)
