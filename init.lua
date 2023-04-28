@@ -1,4 +1,4 @@
 -- most of the configurations was adapted from https://github.com/binhtran432k/nvim
 require("startup")
 --
---require('util.hjkl_notifier')
+require('util.hjkl_notifier')

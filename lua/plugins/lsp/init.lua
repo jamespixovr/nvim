@@ -46,6 +46,7 @@ return {
         "shellcheck",
         "luacheck",
         "shfmt",
+        "yaml-language-server"
       },
     },
   },
@@ -57,6 +58,7 @@ return {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       { "folke/neodev.nvim",  config = true },
       "mason.nvim",
+      "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       {
@@ -112,7 +114,6 @@ return {
         cssls = {},
         html = {},
         pyright = require("plugins.lsp.pyright"),
-        yamlls = require("plugins.lsp.yamlls"),
         lua_ls = require("plugins.lsp.luals"),
       },
       -- you can do any additional lsp server setup here
@@ -130,6 +131,7 @@ return {
     },
     ---@param opts PluginLspOpts
     config = function(_, opts)
+      require('lspconfig.ui.windows').default_options.border = 'single'
       -- setup autoformat
       format.autoformat = opts.autoformat
       -- setup formatting and keymaps
@@ -350,6 +352,7 @@ return {
   -- language specific extension modules
   { import = "plugins.lsp.extras.lang.go" },
   { import = "plugins.lsp.extras.lang.json" },
+  { import = "plugins.lsp.extras.lang.yaml" },
   { import = "plugins.lsp.extras.lang.typescript" },
   { import = "plugins.lsp.extras.lang.nodejs" },
   { import = "plugins.lsp.extras.lang.rust" },
