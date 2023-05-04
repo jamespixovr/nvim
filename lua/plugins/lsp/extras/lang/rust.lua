@@ -43,6 +43,7 @@ return {
     dependencies = {
       "simrat39/rust-tools.nvim",
       "mfussenegger/nvim-dap",
+      "rust-lang/rust.vim"
     },
     opts = {
       -- make sure mason installs the server
