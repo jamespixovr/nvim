@@ -1,5 +1,6 @@
 {
     "diagnostics.disable": [
-        "no-unknown"
+        "no-unknown",
+        "undefined-doc-name"
     ]
 }

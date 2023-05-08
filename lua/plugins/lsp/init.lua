@@ -210,17 +210,6 @@ return {
       local cda = nls.builtins.code_actions
       local command_resolver = require("null-ls.helpers.command_resolver")
 
-      local function preferedEslint(utils)
-        return utils.root_has_file({
-          ".eslintrc",
-          ".eslintrc.yml",
-          ".eslintrc.yaml",
-          ".eslintrc.js",
-          "eslintrc.json",
-        })
-      end
-
-
       return {
         debounce = 150,
         save_after_format = true,
@@ -275,13 +264,7 @@ return {
           --  │ Diagnostics │
           --  ╰─────────────╯
           dgn.yamllint.with({ extra_filetypes = { "yml" } }), -- add support for yml extensions
-          dgn.eslint.with({
-            prefer_local = "node_modules/.bin",
-            condition = function(utils)
-              return preferedEslint(utils)
-            end,
-          }),
-          dgn.tidy, -- xml
+          dgn.tidy,                                           -- xml
           dgn.sqlfluff.with({
             extra_args = { "--dialect", "postgres" },
           }),
@@ -323,12 +306,6 @@ return {
             end,
           }),
           cda.refactoring,
-          cda.eslint.with({
-            prefer_local = "node_modules/.bin",
-            condition = function(utils)
-              return preferedEslint(utils)
-            end,
-          }),
           cda.shellcheck.with({
             condition = function()
               return util.executable("shellcheck", true)
@@ -355,5 +332,6 @@ return {
   { import = "plugins.lsp.extras.lang.yaml" },
   { import = "plugins.lsp.extras.lang.typescript" },
   { import = "plugins.lsp.extras.lang.nodejs" },
+  { import = "plugins.lsp.extras.lang.eslint" },
   { import = "plugins.lsp.extras.lang.rust" },
 }
