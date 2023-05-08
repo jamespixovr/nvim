@@ -20,11 +20,13 @@ return {
       servers = {
         golangci_lint_ls = {}, -- linter
         gopls = {
-          cmd = { "gopls", "serve" },
-          filetypes = { "go", "gomod" },
+          cmd = { "gopls" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl" },
           root_dir = util.root_pattern("go.work", "go.mod", ".git"),
           settings = {
             gopls = {
+              usePlaceholders = true,
+              completeUnimported = true,
               experimentalPostfixCompletions = true,
               gofumpt = true,
               codelenses = {
@@ -39,11 +41,6 @@ return {
               staticcheck = true,
             },
           },
-          init_options = {
-            usePlaceholders = true,
-            completeUnimported = true,
-            gofumpt = true
-          }
         }
       },
       -- configure gopls and attach to golang ft
