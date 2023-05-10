@@ -156,7 +156,7 @@ return {
           })
         },
         experimental = {
-          ghost_text = true,
+          ghost_text = false,
         },
         enabled = function()
           -- disable completion in comments
