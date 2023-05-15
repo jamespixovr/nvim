@@ -46,7 +46,9 @@ return {
         "shellcheck",
         "luacheck",
         "shfmt",
-        "yaml-language-server"
+        "yaml-language-server",
+        "taplo",
+        "codelldb",
       },
     },
   },
@@ -57,7 +59,7 @@ return {
     dependencies = {
       { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
       { "folke/neodev.nvim",  config = true },
-      "mason.nvim",
+      "williamboman/mason.nvim",
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
@@ -67,18 +69,6 @@ return {
           { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
         },
         config = true,
-      },
-      {
-        "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-        config = function()
-          local lsp_lines = require("lsp_lines")
-          lsp_lines.setup()
-          lsp_lines.toggle()
-          vim.keymap.set("n", "<leader><leader>od", function()
-            local virt_lines = lsp_lines.toggle()
-            vim.diagnostic.config({ virtual_text = not virt_lines })
-          end)
-        end,
       },
     },
     ---@class PluginLspOpts
