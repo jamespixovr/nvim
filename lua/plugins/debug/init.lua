@@ -45,6 +45,7 @@ return {
     { "<leader>dq", "<cmd>lua require('dap').close()<cr>",                                desc = "Quit" },
     { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>",                        desc = "Run to Cursor" },
     { "<leader>dL", "<cmd>lua require('dap').run_last()<cr>",                             desc = "Run Last" },
+    { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>",                      desc = "Float Element" },
   },
   config = function()
     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -59,7 +60,16 @@ return {
     -- require("plugins.debug.js-config").vscodeExtensions()
   end,
   dependencies = {
-    { "theHamsta/nvim-dap-virtual-text", opts = {} },
+    {
+      "theHamsta/nvim-dap-virtual-text",
+      config = function()
+        require("nvim-dap-virtual-text").setup({
+          -- display_callback = function(variable, buf, stackframe, node, options)
+          -- end,
+          virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
+        })
+      end
+    },
     "nvim-telescope/telescope-dap.nvim",
     {
       "leoluz/nvim-dap-go",
