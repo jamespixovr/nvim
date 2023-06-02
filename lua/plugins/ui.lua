@@ -21,7 +21,7 @@ return {
     "rcarriga/nvim-notify",
     keys = {
       {
-        "<leader>snd",
+        "<leader>un",
         function()
           require("notify").dismiss({ silent = true, pending = true })
         end,
@@ -310,7 +310,11 @@ return {
         {
           filter = {
             event = "msg_show",
-            find = "%d+L, %d+B",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
           },
           view = "mini",
         },
@@ -349,6 +353,24 @@ return {
       { "<leader>snl", function() require("noice").cmd("last") end,    desc = "Noice Last Message" },
       { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
       { "<leader>sna", function() require("noice").cmd("all") end,     desc = "Noice All" },
+      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
+      {
+        "<c-f>",
+        function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end,
+        silent = true,
+        expr = true,
+        desc = "Scroll forward",
+        mode = { "i", "n", "s" }
+      },
+      {
+        "<c-b>",
+        function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end,
+        silent = true,
+        expr = true,
+        desc = "Scroll backward",
+        mode = { "i", "n", "s" }
+      },
+
     },
   },
   -- folding
@@ -431,9 +453,9 @@ return {
     end,
   },
   -- icons
-  { "nvim-tree/nvim-web-devicons" },
+  { "nvim-tree/nvim-web-devicons", lazy = true },
   -- ui components
-  "MunifTanjim/nui.nvim",
+  { "MunifTanjim/nui.nvim",        lazy = true },
   -- figet
   {
     "j-hui/fidget.nvim",

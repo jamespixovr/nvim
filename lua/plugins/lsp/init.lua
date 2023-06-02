@@ -77,7 +77,7 @@ return {
       diagnostics = {
         underline = true,
         update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●" },
+        virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
         severity_sort = true,
         float = {
           focusable = true,
@@ -103,6 +103,8 @@ return {
         clangd = {},
         cssls = {},
         html = {},
+        docker_compose_language_service = {},
+        dockerls = {},
         pyright = require("plugins.lsp.pyright"),
         lua_ls = require("plugins.lsp.luals"),
       },
@@ -121,13 +123,12 @@ return {
     },
     ---@param opts PluginLspOpts
     config = function(_, opts)
-      require('lspconfig.ui.windows').default_options.border = 'single'
       -- setup autoformat
       format.autoformat = opts.autoformat
       -- setup formatting and keymaps
+      keymaps.always_attach()
       helper.on_lsp_attach(function(client, buffer)
-        -- format.on_attach(client, buffer)
-        keymaps.on_attach(client, buffer)
+        format.on_attach(client, buffer)
       end)
 
 
@@ -136,63 +137,82 @@ return {
         name = "DiagnosticSign" .. name
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
       end
-      vim.diagnostic.config(opts.diagnostics)
 
-      vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
-        border = "rounded",
-      })
+      if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
+        opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
+            or function(diagnostic)
+              local icons = settings.icons.diagnostics
+              for d, icon in pairs(icons) do
+                if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+                  return icon
+                end
+              end
+            end
+      end
 
-      vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
-        border = "rounded",
-      })
+      vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+
       -- lspconfig
+      require('lspconfig.ui.windows').default_options.border = 'rounded'
       local servers = opts.servers
 
       -- local capabilities = format.common_capabilities()
-      local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-      capabilities = vim.tbl_deep_extend("force", capabilities, opts.capabilities)
+      local capabilities = vim.tbl_deep_extend(
+        "force",
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require("cmp_nvim_lsp").default_capabilities(),
+        opts.capabilities or {}
+      )
 
+      local function setup(server)
+        local server_opts = vim.tbl_deep_extend("force", {
+          capabilities = vim.deepcopy(capabilities),
+        }, servers[server] or {})
 
-      local common_options = {
-        on_attach = format.on_attach,
-        capabilities = capabilities,
-      }
-      require("mason-lspconfig").setup({
-        ensure_installed = vim.tbl_keys(servers),
-      })
-      require("mason-lspconfig").setup_handlers({
-        function(server)
-          local server_opts = servers[server] or {}
-          server_opts = vim.tbl_deep_extend("force", {}, common_options, server_opts or {})
-          if opts.setup[server] then
-            if opts.setup[server](server, server_opts) then
-              return
-            end
+        if opts.setup[server] then
+          if opts.setup[server](server, server_opts) then
+            return
           end
+        elseif opts.setup["*"] then
+          if opts.setup["*"](server, server_opts) then
+            return
+          end
+        end
+        require("lspconfig")[server].setup(server_opts)
+      end
 
-          require("lspconfig")[server].setup(server_opts)
-        end,
-      })
+      -- get all the servers that are available thourgh mason-lspconfig
+      local have_mason, mlsp = pcall(require, "mason-lspconfig")
+      local all_mslp_servers = {}
+      if have_mason then
+        all_mslp_servers = vim.tbl_keys(require("mason-lspconfig.mappings.server").lspconfig_to_package)
+      end
+
+      local ensure_installed = {} ---@type string[]
+      for server, server_opts in pairs(servers) do
+        if server_opts then
+          server_opts = server_opts == true and {} or server_opts
+          -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
+          if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
+            setup(server)
+          else
+            ensure_installed[#ensure_installed + 1] = server
+          end
+        end
+      end
+
+      if have_mason then
+        mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+      end
     end,
   },
   -- formatters
   {
     "jose-elias-alvarez/null-ls.nvim",
     event = "BufReadPre",
-    dependencies = { "jayp0521/mason-null-ls.nvim" },
-    build = {
-      "go install github.com/daixiang0/gci@latest",
-      "go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest",
-      "go install golang.org/x/tools/cmd/goimports@latest"
-    },
+    dependencies = { "mason.nvim" },
     opts = function()
-      require("mason-null-ls").setup({
-        -- list of formatters & linters for mason to install
-        ensure_installed = { "stylua", "prettierd", "gofmt", "goimports", "golangci_lint" },
-        -- auto-install configured servers (with lspconfig)
-        automatic_installation = true
-      })
       local util = require("helper")
       local nls = require("null-ls")
       local fmt = nls.builtins.formatting
@@ -308,13 +328,26 @@ return {
     end,
   },
   {
+    "kosayoda/nvim-lightbulb",
+    event = "CursorHold",
+    dependencies = { 'antoinemadec/FixCursorHold.nvim' },
+    config = function()
+      require("nvim-lightbulb").setup({ autocmd = { enabled = true }, sign = { priority = 99 } })
+      vim.fn.sign_define("LightBulbSign", { text = "", texthl = "", linehl = "", numhl = "" })
+    end,
+  },
+  {
     "DNLHC/glance.nvim",
     event = "BufReadPre",
-    config = true,
     keys = {
       { "gM", "<cmd>Glance implementations<cr>",  desc = "Goto Implementations (Glance)" },
       { "gY", "<cmd>Glance type_definitions<cr>", desc = "Goto Type Definition (Glance)" },
     },
+    opts = {
+      border = {
+        enable = true,
+      }
+    }
   },
   -- language specific extension modules
   { import = "plugins.lsp.extras.lang.go" },
@@ -324,4 +357,5 @@ return {
   { import = "plugins.lsp.extras.lang.nodejs" },
   { import = "plugins.lsp.extras.lang.eslint" },
   { import = "plugins.lsp.extras.lang.rust" },
+  -- { import = "plugins.lsp.extras.lang.cucumber" },
 }

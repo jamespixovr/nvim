@@ -14,6 +14,7 @@ function M.format()
 
   vim.lsp.buf.format({
     bufnr = buf,
+    timeout_ms = 3000,
     filter = function(client)
       if have_nls then
         return client.name == "null-ls"
@@ -36,31 +37,9 @@ function M.on_attach(client, buf)
     })
   end
 
-  vim.api.nvim_buf_set_option(buf, "formatexpr", "v:lua.vim.lsp.formatexpr()")
-  vim.api.nvim_buf_set_option(buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  vim.api.nvim_buf_set_option(buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
-end
-
-function M.common_capabilities()
-  local status_ok, cmp_nvim_lsp = pcall(require, "cmp_nvim_lsp")
-  if status_ok then
-    return cmp_nvim_lsp.default_capabilities()
-  end
-
-  local capabilities = vim.lsp.protocol.make_client_capabilities()
-  capabilities.textDocument.completion.completionItem.snippetSupport = true
-  capabilities.textDocument.completion.completionItem.resolveSupport = {
-    properties = {
-      "documentation",
-      "detail",
-      "additionalTextEdits",
-    },
-  }
-  capabilities.window = {
-    workDoneProgress = true,
-  }
-
-  return capabilities
+  -- vim.api.nvim_buf_set_option(buf, "formatexpr", "v:lua.vim.lsp.formatexpr()")
+  -- vim.api.nvim_buf_set_option(buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
+  -- vim.api.nvim_buf_set_option(buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
 end
 
 return M

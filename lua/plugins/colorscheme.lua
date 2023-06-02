@@ -75,17 +75,6 @@ local M = {
     end,
   },
 
-  {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({
-        "css",
-        "scss",
-        "javascript",
-        html = { mode = "background" },
-      }, { mode = "foreground" })
-    end,
-  },
 }
 
 return M

@@ -374,6 +374,10 @@ return {
   {
     "ThePrimeagen/refactoring.nvim",
     event = { "VeryLazy" },
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter"
+    },
     keys = {
       {
         "<leader>r",
@@ -384,14 +388,37 @@ return {
         noremap = true,
         silent = true,
         expr = false,
-      },
+      }, {
+      "<leader>re",
+      function()
+        require('refactoring').refactor('Extract Function')
+      end,
+      mode = "v",
+      noremap = true,
+      silent = true,
+      expr = false
     },
-    opts = {},
+    },
+    config = function()
+      require("refactoring").setup({
+        prompt_func_return_type = {
+          go = true,
+          cpp = true,
+          c = true,
+          java = true,
+        },
+        prompt_func_param_type = {
+          go = true,
+          cpp = true,
+          c = true,
+          java = true,
+        },
+      })
+    end
   },
   {
     "ray-x/lsp_signature.nvim",
     keys = {
-
       {
         "<C-K>",
         function()
@@ -399,7 +426,7 @@ return {
         end,
         silent = true,
         noremap = true,
-        desc = "toggle signature"
+        desc = "Toggle Signature"
       },
       {
         "<leader>k",
@@ -408,7 +435,7 @@ return {
         end,
         silent = true,
         noremap = true,
-        desc = "toggle signature"
+        desc = "Toggle Signature"
       }
     },
     opts = {
