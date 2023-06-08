@@ -420,7 +420,7 @@ return {
     "ray-x/lsp_signature.nvim",
     keys = {
       {
-        "<C-K>",
+        "<C-I>",
         function()
           require('lsp_signature').toggle_float_win()
         end,

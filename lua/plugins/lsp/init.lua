@@ -328,15 +328,6 @@ return {
     end,
   },
   {
-    "kosayoda/nvim-lightbulb",
-    event = "CursorHold",
-    dependencies = { 'antoinemadec/FixCursorHold.nvim' },
-    config = function()
-      require("nvim-lightbulb").setup({ autocmd = { enabled = true }, sign = { priority = 99 } })
-      vim.fn.sign_define("LightBulbSign", { text = "", texthl = "", linehl = "", numhl = "" })
-    end,
-  },
-  {
     "DNLHC/glance.nvim",
     event = "BufReadPre",
     keys = {

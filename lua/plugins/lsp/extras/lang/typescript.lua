@@ -35,6 +35,11 @@ return {
       servers = {
         ---@type lspconfig.options.tsserver
         tsserver = {
+          init_options = {
+            preferences = {
+              importModuleSpecifierPreference = "project-relative",
+            }
+          },
           settings = {
             completions = {
               completeFunctionCalls = true,
