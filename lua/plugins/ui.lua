@@ -280,6 +280,36 @@ return {
       "rcarriga/nvim-notify",
     },
     opts = {
+      views = {
+        cmdline_popup = {
+          position = {
+            row = 10,
+            col = "50%",
+          },
+          size = {
+            width = 70,
+            height = "auto",
+          },
+        },
+        popupmenu = {
+          relative = "editor",
+          position = {
+            row = 8,
+            col = "50%",
+          },
+          size = {
+            width = 60,
+            height = 10,
+          },
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+          },
+        },
+      },
       lsp = {
         progress = {
           enabled = false,
@@ -310,13 +340,10 @@ return {
         {
           filter = {
             event = "msg_show",
-            any = {
-              { find = "%d+L, %d+B" },
-              { find = "; after #%d+" },
-              { find = "; before #%d+" },
-            },
+            kind = "",
+            find = "written",
           },
-          view = "mini",
+          opts = { skip = true },
         },
         {
           filter = {

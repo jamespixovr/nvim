@@ -50,9 +50,13 @@ return {
     end,
     opts = function()
       return {
+        status = { virtual_text = true },
+        output = { open_on_run = true },
         quickfix = {
           enabled = true,
-          open = false,
+          open = function()
+            vim.cmd("Trouble quickfix")
+          end,
         },
         output_panel = {
           open = 'rightbelow vsplit | resize 30',
