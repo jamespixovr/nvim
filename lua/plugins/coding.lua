@@ -156,7 +156,10 @@ return {
           })
         },
         experimental = {
-          ghost_text = false,
+          -- ghost_text = false,
+          ghost_text = {
+            hl_group = "LspCodeLens",
+          },
         },
         enabled = function()
           -- disable completion in comments

@@ -310,11 +310,11 @@ return {
           --  ╭──────────────╮
           --  │ Code Actions │
           --  ╰──────────────╯
-          cda.eslint_d.with({
-            condition = function()
-              return util.executable("eslint_d", true)
-            end,
-          }),
+          -- cda.eslint_d.with({
+          --   condition = function()
+          --     return util.executable("eslint_d", true)
+          --   end,
+          -- }),
           cda.refactoring,
           cda.shellcheck.with({
             condition = function()

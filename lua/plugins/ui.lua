@@ -148,24 +148,20 @@ return {
         sections = {
           lualine_a = {
             {
-              "headers",
-              fmt = function(content, context)
-                return "  "
+              function()
+                return " " .. settings.icons.ui.Target .. " "
               end,
+              padding = { left = 0, right = 0 },
+              color = {},
             },
           },
           lualine_b = {
-            { "branch", icon = "" },
-            {
-              "mode",
-              fmt = function(content, context)
-                return ("-- %s --"):format(content)
-              end,
-            },
+            { "branch", icon = "", color = { gui = "bold" }, },
           },
           lualine_c = {
             {
               "diagnostics",
+              sources = { "nvim_diagnostic" },
               symbols = {
                 error = symbols.diagnostics.Error,
                 warn = symbols.diagnostics.Warn,
@@ -177,38 +173,11 @@ return {
               "filetype",
               icon_only = true,
               separator = "",
-              padding = {
-                left = 1, right = 0 }
+              padding = { left = 1, right = 0 }
             },
             { "filename", path = 1, symbols = { modified = " ", readonly = " ", unnamed = " " } },
           },
           lualine_x = {
-            {
-              "space_style",
-              fmt = function(content, context)
-                local expand = vim.opt_local.expandtab:get()
-                local widht = vim.opt_local.shiftwidth:get()
-                local style = expand and "Spaces" or "Tab Size"
-                return ("%s: %s"):format(style, widht)
-              end,
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.command.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.command.has() end,
-              color = helper.get_fg("Statement"),
-            },
-            -- stylua: ignore
-            {
-              function() return require("noice").api.status.mode.get() end,
-              cond = function() return package.loaded["noice"] and require("noice").api.status.mode.has() end,
-              color = helper.get_fg("Constant"),
-            },
-            {
-              require("lazy.status").updates,
-              cond = require("lazy.status").has_updates,
-              color = helper.get_fg("Special"),
-            },
             {
               "diff",
               source = function()
@@ -235,20 +204,46 @@ return {
             --     return vim.fn["codeium#GetStatusString"]()
             --   end
             -- },
-            { "location", padding = { left = 0, right = 1 } },
-            { "progress" },
+            -- { "location", padding = { left = 0, right = 1 } },
+            {
+              "progress",
+              fmt = function()
+                return "%P/%L"
+              end,
+              color = {},
+            },
           },
           lualine_z = {
             {
               "filetype",
-              icons_enabled = false,
+              cond = nil,
+              padding = { left = 1, right = 1 }
             },
             {
-              "decorate",
-              fmt = function(content, context)
-                return "   "
+              function()
+                local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
+                if #buf_clients == 0 then
+                  return "LSP Inactive"
+                end
+
+                local buf_ft = vim.bo.filetype
+                local buf_client_names = {}
+
+                -- add client
+                for _, client in pairs(buf_clients) do
+                  if client.name ~= "null-ls" and client.name ~= "copilot" then
+                    table.insert(buf_client_names, client.name)
+                  end
+                end
+
+
+                local unique_client_names = table.concat(buf_client_names, ", ")
+                local language_servers = string.format("[%s]", unique_client_names)
+
+                return language_servers
               end,
-            },
+              color = { gui = "bold" },
+            }
           },
         },
         extensions = { "nvim-tree" },
@@ -280,6 +275,36 @@ return {
       "rcarriga/nvim-notify",
     },
     opts = {
+      views = {
+        cmdline_popup = {
+          position = {
+            row = 10,
+            col = "50%",
+          },
+          size = {
+            width = 70,
+            height = "auto",
+          },
+        },
+        popupmenu = {
+          relative = "editor",
+          position = {
+            row = 8,
+            col = "50%",
+          },
+          size = {
+            width = 60,
+            height = 10,
+          },
+          border = {
+            style = "rounded",
+            padding = { 0, 1 },
+          },
+          win_options = {
+            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+          },
+        },
+      },
       lsp = {
         progress = {
           enabled = false,
@@ -303,20 +328,12 @@ return {
       },
       routes = {
         {
-          view = "notify",
-          filter = { find = "overly long" },
-          opts = { skip = true },
-        },
-        {
           filter = {
             event = "msg_show",
-            any = {
-              { find = "%d+L, %d+B" },
-              { find = "; after #%d+" },
-              { find = "; before #%d+" },
-            },
+            kind = "",
+            find = "written",
           },
-          view = "mini",
+          opts = { skip = true },
         },
         {
           filter = {
