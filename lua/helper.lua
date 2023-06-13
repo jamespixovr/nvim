@@ -256,4 +256,21 @@ M.list_extend = function(dst, src, start, finish)
   return dst
 end
 
+--- Merge extended options with a default table of options
+---@param default? table The default table that you want to merge into
+---@param opts? table The new options that should be merged with the default table
+---@return table # The merged table
+function M.extend_tbl(default, opts)
+  opts = opts or {}
+  return default and vim.tbl_deep_extend("force", default, opts) or opts
+end
+
+--- A condition function if the current file is in a git repo
+---@param bufnr table|integer a buffer number to check the condition for, a table with bufnr property, or nil to get the current buffer
+---@return boolean # whether or not the current file is in a git repo
+function M.is_git_repo(bufnr)
+  if type(bufnr) == "table" then bufnr = bufnr.bufnr end
+  return vim.b[bufnr or 0].gitsigns_head or vim.b[bufnr or 0].gitsigns_status_dict
+end
+
 return M

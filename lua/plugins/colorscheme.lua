@@ -16,6 +16,13 @@ local M = {
         variables = { "italic" },
         operators = { "italic" },
       },
+      color_overrides = {
+        mocha = {
+          base = "#000000",
+          mantle = "#000000",
+          crust = "#000000",
+        },
+      },
       integrations = {
         treesitter = true,
         native_lsp = {
