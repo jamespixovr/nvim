@@ -7,7 +7,7 @@ local M = {}
 function M.mode(opts)
   return helper.extend_tbl({
     function()
-      return " " .. settings.icons.ui.Target .. " "
+      return settings.icons.ui.Target
     end,
     padding = { left = 0, right = 0 },
     color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
@@ -18,7 +18,7 @@ function M.branch(opts)
   return helper.extend_tbl({
     "branch",
     icon = "",
-    color = { gui = "bold" },
+    color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
     -- cond = helper.is_git_repo
   }, opts)
 end
@@ -68,7 +68,8 @@ function M.filename(opts)
     "filename",
     path = 1,
     shorting_target = 40,
-    symbols = { modified = " ", readonly = " ", unnamed = " " }
+    symbols = { modified = " ", readonly = " ", unnamed = " " },
+    color = { fg = "#bcbcbc", gui = "bold" },
   }, opts)
 end
 
