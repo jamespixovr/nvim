@@ -383,7 +383,7 @@ return {
     },
     keys = {
       {
-        "<leader>r",
+        "<leader>rc",
         function()
           require("refactoring").select_refactor()
         end,
@@ -391,16 +391,19 @@ return {
         noremap = true,
         silent = true,
         expr = false,
-      }, {
-      "<leader>re",
-      function()
-        require('refactoring').refactor('Extract Function')
-      end,
-      mode = "v",
-      noremap = true,
-      silent = true,
-      expr = false
-    },
+        desc = "[R]efa[c]tor Selector"
+      },
+      {
+        "<leader>rx",
+        function()
+          require('refactoring').refactor('Extract Function')
+        end,
+        mode = "v",
+        noremap = true,
+        silent = true,
+        expr = false,
+        desc = "[R]efactor - E[x]tract Function"
+      },
     },
     config = function()
       require("refactoring").setup({
