@@ -48,7 +48,8 @@ function M.diagnostics(opts)
       info = symbols.diagnostics.Info,
       hint = symbols.diagnostics.Hint,
     },
-    padding = { left = 1, right = 1 }
+    padding = { left = 1, right = 1 },
+    color = { bg = "None" }
   }, opts)
 end
 
@@ -103,6 +104,7 @@ function M.git_diff(opts)
       modified = symbols.git.modified,
       removed = symbols.git.removed,
     }, -- changes diff symbols
+    color = { bg = "None" }
     -- cond = helper.is_git_repo
   }, opts)
 end

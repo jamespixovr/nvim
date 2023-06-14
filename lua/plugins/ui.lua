@@ -155,6 +155,7 @@ return {
             status.diagnostics(),
           },
           lualine_c = {
+            '%=',
             status.filename(),
           },
           lualine_x = {
