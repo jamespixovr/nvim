@@ -10,7 +10,7 @@ function M.mode(opts)
       return " " .. settings.icons.ui.Target .. " "
     end,
     padding = { left = 0, right = 0 },
-    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
   }, opts)
 end
 
@@ -66,6 +66,7 @@ function M.filename(opts)
   return helper.extend_tbl({
     "filename",
     path = 1,
+    shorting_target = 40,
     symbols = { modified = " ", readonly = " ", unnamed = " " }
   }, opts)
 end
@@ -78,7 +79,7 @@ function M.treesitter(opts)
     color = function()
       local buf = vim.api.nvim_get_current_buf()
       local ts = vim.treesitter.highlighter.active[buf]
-      return { fg = ts and not vim.tbl_isempty(ts) and settings.colors.green or settings.colors.red }
+      return { fg = ts and not vim.tbl_isempty(ts) and settings.colors.green or settings.colors.red, bg = "#282c34" }
     end,
   }, opts)
 end
@@ -146,7 +147,7 @@ function M.scrollbar(opts)
       return chars[index]
     end,
     padding = { left = 0, right = 0 },
-    color = "SLProgress",
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
     cond = nil,
   }, opts)
 end
