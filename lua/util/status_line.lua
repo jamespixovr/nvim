@@ -10,7 +10,7 @@ function M.mode(opts)
       return " " .. settings.icons.ui.Target .. " "
     end,
     padding = { left = 0, right = 0 },
-    color = {},
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
 
@@ -26,10 +26,7 @@ end
 function M.progress(opts)
   return helper.extend_tbl({
     "progress",
-    fmt = function()
-      return "%P/%L"
-    end,
-    color = {},
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
 
@@ -60,7 +57,8 @@ function M.filetype(opts)
     "filetype",
     icon_only = true,
     separator = "",
-    padding = { left = 1, right = 0 }
+    padding = { left = 1, right = 0 },
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
 
@@ -69,6 +67,19 @@ function M.filename(opts)
     "filename",
     path = 1,
     symbols = { modified = " ", readonly = " ", unnamed = " " }
+  }, opts)
+end
+
+function M.treesitter(opts)
+  return helper.extend_tbl({
+    function()
+      return settings.icons.ui.Tree
+    end,
+    color = function()
+      local buf = vim.api.nvim_get_current_buf()
+      local ts = vim.treesitter.highlighter.active[buf]
+      return { fg = ts and not vim.tbl_isempty(ts) and settings.colors.green or settings.colors.red }
+    end,
   }, opts)
 end
 
@@ -119,8 +130,24 @@ function M.lsp(opts)
 
       return language_servers
     end,
-    color = { gui = "bold" },
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
     icon = settings.icons.lsp.ActiveLSP,
+  }, opts)
+end
+
+function M.scrollbar(opts)
+  return helper.extend_tbl({
+    function()
+      local current_line = vim.fn.line "."
+      local total_lines = vim.fn.line "$"
+      local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
+      local line_ratio = current_line / total_lines
+      local index = math.ceil(line_ratio * #chars)
+      return chars[index]
+    end,
+    padding = { left = 0, right = 0 },
+    color = "SLProgress",
+    cond = nil,
   }, opts)
 end
 

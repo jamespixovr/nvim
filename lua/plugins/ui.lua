@@ -153,18 +153,19 @@ return {
             status.branch(),
           },
           lualine_c = {
-            status.diagnostics(),
+            status.git_diff(),
             status.filename(),
           },
           lualine_x = {
-            status.git_diff(),
+            status.diagnostics(),
           },
           lualine_y = {
-            status.progress(),
+            status.treesitter(),
+            status.filetype(),
           },
           lualine_z = {
-            status.filetype(),
             status.lsp(),
+            status.progress(),
           },
         },
         extensions = { "nvim-tree" },
