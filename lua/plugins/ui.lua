@@ -128,10 +128,11 @@ return {
     "nvim-lualine/lualine.nvim",
     event = "VeryLazy",
     opts = function()
+      local status = require("util.status_line")
       local symbols = settings.icons
       return {
         options = {
-          theme = "auto",
+          theme = "catppuccin",
           icons_enabled = true,
           component_separators = { left = "", right = "" },
           section_separators = { left = "", right = "" },
@@ -144,106 +145,26 @@ return {
             statusline = 100,
           },
         },
-        ---@diagnostic disable: unused-local
         sections = {
           lualine_a = {
-            {
-              function()
-                return " " .. settings.icons.ui.Target .. " "
-              end,
-              padding = { left = 0, right = 0 },
-              color = {},
-            },
+            status.mode(),
           },
           lualine_b = {
-            { "branch", icon = "", color = { gui = "bold" }, },
+            status.branch(),
           },
           lualine_c = {
-            {
-              "diagnostics",
-              sources = { "nvim_diagnostic" },
-              symbols = {
-                error = symbols.diagnostics.Error,
-                warn = symbols.diagnostics.Warn,
-                info = symbols.diagnostics.Info,
-                hint = symbols.diagnostics.Hint,
-              },
-            },
-            {
-              "filetype",
-              icon_only = true,
-              separator = "",
-              padding = { left = 1, right = 0 }
-            },
-            { "filename", path = 1, symbols = { modified = " ", readonly = " ", unnamed = " " } },
+            status.diagnostics(),
+            status.filename(),
           },
           lualine_x = {
-            {
-              "diff",
-              source = function()
-                ---@diagnostic disable-next-line: undefined-field
-                local gitsigns = vim.b.gitsigns_status_dict
-                if gitsigns then
-                  return {
-                    added = gitsigns.added,
-                    modified = gitsigns.changed,
-                    removed = gitsigns.removed,
-                  }
-                end
-              end,
-              symbols = {
-                added = symbols.git.added,
-                modified = symbols.git.modified,
-                removed = symbols.git.removed,
-              }, -- changes diff symbols
-            },
+            status.git_diff(),
           },
           lualine_y = {
-            -- {
-            --   function()
-            --     return vim.fn["codeium#GetStatusString"]()
-            --   end
-            -- },
-            -- { "location", padding = { left = 0, right = 1 } },
-            {
-              "progress",
-              fmt = function()
-                return "%P/%L"
-              end,
-              color = {},
-            },
+            status.progress(),
           },
           lualine_z = {
-            {
-              "filetype",
-              cond = nil,
-              padding = { left = 1, right = 1 }
-            },
-            {
-              function()
-                local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
-                if #buf_clients == 0 then
-                  return "LSP Inactive"
-                end
-
-                local buf_ft = vim.bo.filetype
-                local buf_client_names = {}
-
-                -- add client
-                for _, client in pairs(buf_clients) do
-                  if client.name ~= "null-ls" and client.name ~= "copilot" then
-                    table.insert(buf_client_names, client.name)
-                  end
-                end
-
-
-                local unique_client_names = table.concat(buf_client_names, ", ")
-                local language_servers = string.format("[%s]", unique_client_names)
-
-                return language_servers
-              end,
-              color = { gui = "bold" },
-            }
+            status.filetype(),
+            status.lsp(),
           },
         },
         extensions = { "nvim-tree" },
