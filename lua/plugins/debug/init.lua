@@ -12,18 +12,44 @@ return {
   event = "VeryLazy",
   -- stylua: ignore
   keys = {
-    { "<leader>db", '<cmd>lua require("dap").toggle_breakpoint()<cr>', desc = "Toggle Breakpoint" },
-    { "<leader>dc", '<cmd>lua require("dap").continue()<CR>',          desc = "Start" },
-    { "<leader>ds", '<cmd>lua require("dap").continue()<CR>',          desc = "Continue" },
     {
-      "<leader>dC",
-      "<cmd>lua require'dap'.set_breakpoint(vim.fn.input '[Condition] > ')<cr>",
-      desc = "Conditional Breakpoint"
+      "<leader>db",
+      function() require("dap").toggle_breakpoint() end,
+      desc =
+      "Toggle Breakpoint"
     },
     {
+      "<leader>dc",
+      function() require("dap").continue() end,
+      desc =
+      "Continue"
+    },
+    {
+      "<leader>dC",
+      function() require("dap").run_to_cursor() end,
+      desc =
+      "Run to Cursor"
+    },
+    { "<leader>ds", function() require("dap").continue() end, desc = "Start" },
+    {
+      "<leader>dg",
+      function() require("dap").goto_() end,
+      desc =
+      "Go to line (no execute)"
+    },
+    {
+      "<leader>dB",
+      function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
+
+      desc =
+      "Breakpoint Condition"
+    },
+    { "<leader>dj", function() require("dap").down() end,     desc = "Down" },
+    {
       "<leader>dw",
-      "<cmd>lua require('dap').run_to_cursor()<CR>",
-      desc = "Run to cursor"
+      function() require("dap.ui.widgets").hover() end,
+      desc =
+      "Widgets"
     },
     {
       "<leader>dl",
@@ -32,8 +58,8 @@ return {
     },
     { "<leader>dx", "<cmd>lua require('dap').disconnect()<cr>",                           desc = "Disconnect" },
     { "<leader>do", "<cmd>lua require('dap').step_over()<CR>",                            desc = "Step Over" },
-    { "<leader>di", "<cmd>lua require('dap').step_into()<CR>",                            desc = "step Into" },
-    { "<leader>du", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
+    { "<leader>di", "<cmd>lua require('dap').step_into()<CR>",                            desc = "Step Into" },
+    { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
     { "<leader>dp", "<cmd>lua require('dap').pause()<cr>",                                desc = "Pause" },
     { "<leader>dT", "<cmd>Telescope dap configurations<cr>",                              desc = "Configurations" },
     { "<leader>dS", "<cmd>lua require('dap').terminate()<cr>",                            desc = "Terminate" },
@@ -44,8 +70,9 @@ return {
     { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>",                   desc = "Preview" },
     { "<leader>dq", "<cmd>lua require('dap').close()<cr>",                                desc = "Quit" },
     { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>",                        desc = "Run to Cursor" },
-    { "<leader>dL", "<cmd>lua require('dap').run_last()<cr>",                             desc = "Run Last" },
+    { "<leader>dl", function() require("dap").run_last() end,                             desc = "Run Last" },
     { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>",                      desc = "Float Element" },
+    { "<leader>dt", function() require("dap").terminate() end,                            desc = "Terminate" },
   },
   config = function()
     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -60,16 +87,7 @@ return {
     -- require("plugins.debug.js-config").vscodeExtensions()
   end,
   dependencies = {
-    {
-      "theHamsta/nvim-dap-virtual-text",
-      config = function()
-        require("nvim-dap-virtual-text").setup({
-          -- display_callback = function(variable, buf, stackframe, node, options)
-          -- end,
-          virt_text_pos = vim.fn.has 'nvim-0.10' == 1 and 'inline' or 'eol',
-        })
-      end
-    },
+    { "theHamsta/nvim-dap-virtual-text", opts = {}, },
     "nvim-telescope/telescope-dap.nvim",
     {
       "leoluz/nvim-dap-go",
@@ -82,7 +100,8 @@ return {
       "rcarriga/nvim-dap-ui",
       -- stylua: ignore
       keys = {
-        { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" }
+        { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" },
+        { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
       },
       opts = {},
       config = function(_, opts)
