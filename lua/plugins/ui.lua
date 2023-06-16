@@ -88,10 +88,10 @@ return {
     keys = {
       { "[b",         "<cmd>BufferLineCyclePrev<cr>",                              desc = "Previous" },
       { "]b",         "<cmd>BufferLineCycleNext<cr>",                              desc = "Next" },
-      { "[B",         "<cmd>BufferLineMovePrev<cr>",                               desc = "Previous" },
-      { "]B",         "<cmd>BufferLineMoveNext<cr>",                               desc = "Next" },
-      { "<leader>tp", "<cmd>BufferLinePick<cr>",                                   desc = "Pick" },
-      { "<leader>ta", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Only" },
+      { "<leader>jh", "<cmd>BufferLineMovePrev<cr>",                               desc = "Previous" },
+      { "<leader>jk", "<cmd>BufferLineMoveNext<cr>",                               desc = "Next" },
+      { "<leader>tb", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
+      { "<leader>cq", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Close All Tabs" },
       -- { "<s-h>",      "[b",                                                        desc = "Prev Buffer", remap = true },
       -- { "<s-l>",      "]b",                                                        desc = "Next Buffer", remap = true },
     },
@@ -99,6 +99,8 @@ return {
       options = {
         numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         show_close_icon = false,
+        show_buffer_close_icons = false,
+        show_buffer_icons = false,
         diagnostics = "nvim_lsp",
         always_show_bufferline = true,
         separator_style = "thin",

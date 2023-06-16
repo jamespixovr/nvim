@@ -1,3 +1,4 @@
+local settings = require("settings")
 return {
   {
     "nvim-neotest/neotest",
@@ -18,15 +19,15 @@ return {
       },
     },
     keys = {
-      { "<leader>rn", "<cmd>lua require('neotest').run.run()<cr>",                     desc = "Run nearest test" },
-      { "<leader>rl", "<cmd>lua require('neotest').run.run_last()<cr>",                desc = "Run last test" },
-      { "<leader>rf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<cr>',   desc = "Run test file" },
-      { "<leader>rd", function() require('neotest').run.run({ strategy = 'dap' }) end, desc = "Debug test" },
-      { "<leader>ra", "<cmd>lua require('neotest').run.attach()<cr>",                  desc = "Attach test" },
-      { "<leader>rs", "<cmd>lua require('neotest').summary.toggle()<cr>",              desc = "Test Summary Toggle" },
-      { "<leader>rx", "<cmd>lua require('neotest').stop()<cr>",                        desc = "Stop test" },
-      { "<leader>ro", "<cmd>lua require('neotest').output.open({enter = true})<cr>",   desc = "Open output test" },
-      { "<leader>rp", "<cmd>lua require('neotest').output_panel.toggle()<cr>",         desc = "Output test panel" },
+      { "<leader>tn", "<cmd>lua require('neotest').run.run()<cr>",                     desc = "Run nearest test" },
+      { "<leader>tl", "<cmd>lua require('neotest').run.run_last()<cr>",                desc = "Run last test" },
+      { "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<cr>',   desc = "Run test file" },
+      { "<leader>td", function() require('neotest').run.run({ strategy = 'dap' }) end, desc = "Debug test" },
+      { "<leader>ta", "<cmd>lua require('neotest').run.attach()<cr>",                  desc = "Attach test" },
+      { "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<cr>",              desc = "Test Summary Toggle" },
+      { "<leader>tx", "<cmd>lua require('neotest').stop()<cr>",                        desc = "Stop test" },
+      { "<leader>to", "<cmd>lua require('neotest').output.open({enter = true})<cr>",   desc = "Open output test" },
+      { "<leader>tp", "<cmd>lua require('neotest').output_panel.toggle()<cr>",         desc = "Output test panel" },
       {
         '<leader>rt',
         function()
@@ -88,7 +89,9 @@ return {
           require("neotest-rust"),
         },
         icons = {
-          failed = "✖",
+          failed = settings.icons.testing.Failed,
+          passed = settings.icons.testing.Success,
+          running = settings.icons.testing.Running,
           running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
         },
         consumers = {

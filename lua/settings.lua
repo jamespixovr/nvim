@@ -132,6 +132,14 @@ local settings = {
       DapLogPoint = ".>",
       DapStopped = "󰁕",
       Debugger = "",
+    },
+    testing = {
+      Failed = "  ",
+      Canceled = "  ",
+      Success = "  ",
+      -- Running = " 省",
+      Skipped = "",
+      Running = "",
     }
   },
 }
