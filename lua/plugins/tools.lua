@@ -22,7 +22,11 @@ return {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
     config = true,
-    keys = { { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff View" } },
+    keys = {
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Diff View" },
+      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Diff View" },
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff File View" },
+    },
   },
   -- Git
   -- "tpope/vim-fugitive",

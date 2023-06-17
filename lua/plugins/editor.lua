@@ -191,7 +191,7 @@ return {
         ["<leader>sn"] = { name = "+noice" },
         -- ["<leader>u"] = { name = "+ui" },
         -- ["<leader>w"] = { name = "+windows" },
-        ["<leader>r"] = { name = "+test runner" },
+        ["<leader>t"] = { name = "+test runner" },
         ["<leader>d"] = { name = "+debugger" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },
       })
