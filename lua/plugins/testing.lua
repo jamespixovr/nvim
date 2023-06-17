@@ -89,9 +89,10 @@ return {
           require("neotest-rust"),
         },
         icons = {
-          failed = settings.icons.testing.Failed,
           passed = settings.icons.testing.Success,
-          running = settings.icons.testing.Running,
+          running = "",
+          failed = settings.icons.testing.Failed,
+          unknown = "",
           running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
         },
         consumers = {

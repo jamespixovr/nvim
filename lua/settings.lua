@@ -134,10 +134,10 @@ local settings = {
       Debugger = "",
     },
     testing = {
-      Failed = "  ",
-      Canceled = "  ",
-      Success = "  ",
-      -- Running = " 省",
+      Failed = "",
+      Canceled = "",
+      Success = "",
+      -- Running = "省",
       Skipped = "",
       Running = "",
     }
