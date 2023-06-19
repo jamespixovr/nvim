@@ -17,6 +17,7 @@ return {
       },
     },
   },
+
   {
     "rcarriga/nvim-notify",
     keys = {
@@ -85,11 +86,22 @@ return {
   {
     "akinsho/nvim-bufferline.lua",
     event = "VeryLazy",
+    -- stylua: ignore
     keys = {
-      { "[b",         "<cmd>BufferLineCyclePrev<cr>",                              desc = "Previous" },
-      { "]b",         "<cmd>BufferLineCycleNext<cr>",                              desc = "Next" },
-      { "<leader>jh", "<cmd>BufferLineMovePrev<cr>",                               desc = "Previous" },
-      { "<leader>jk", "<cmd>BufferLineMoveNext<cr>",                               desc = "Next" },
+      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous" },
+      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next" },
+      {
+        "<c-,>",
+        "<esc><cmd>BufferLineCyclePrev<cr>",
+        desc = "Previous Buffer",
+        mode = { "n", "i" }
+      },
+      {
+        "<c-.>",
+        "<esc><cmd>BufferLineCycleNext<cr>",
+        desc = "Next Buffer",
+        mode = { "n", "i" }
+      },
       { "<leader>tb", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
       { "<leader>cq", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Close All Tabs" },
       -- { "<s-h>",      "[b",                                                        desc = "Prev Buffer", remap = true },
@@ -104,13 +116,11 @@ return {
         diagnostics = "nvim_lsp",
         always_show_bufferline = true,
         separator_style = "thin",
-        diagnostics_indicator = function(_, _, diagnostics_dict)
-          local s = " "
-          for e, n in pairs(diagnostics_dict) do
-            local sym = e == "error" and " " or (e == "warning" and " " or "")
-            s = s .. sym .. n
-          end
-          return s
+        diagnostics_indicator = function(_, _, diag)
+          local icons = settings.icons.diagnostics
+          local ret = (diag.error and icons.Error .. diag.error .. " " or "")
+              .. (diag.warning and icons.Warn .. diag.warning or "")
+          return vim.trim(ret)
         end,
         offsets = {
           {
@@ -172,7 +182,7 @@ return {
             status.scrollbar(),
           },
         },
-        extensions = { "nvim-tree" },
+        extensions = { "nvim-tree", "trouble", "quickfix", "man", "toggleterm" },
       }
     end,
     config = function(_, opts)
@@ -395,6 +405,7 @@ return {
       }
     end,
   },
+
   -- icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
   -- ui components

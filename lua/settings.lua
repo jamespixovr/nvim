@@ -8,12 +8,12 @@ local settings = {
   },
   icons = {
     diagnostics = {
-      -- Error = " ",
+      Error = " ",
       Warn = " ",
       -- Hint = " ",
       Info = " ",
       BoldError = " ",
-      Error = " ",
+      -- Error = " ",
       BoldWarning = " ",
       Warning = " ",
       BoldInformation = "",
