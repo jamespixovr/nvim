@@ -16,8 +16,9 @@ end
 
 function M.branch(opts)
   return helper.extend_tbl({
-    "branch",
-    icon = "",
+    "b:gitsigns_head",
+    icon = "",
+    -- icon = "",
     color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
     -- cond = helper.is_git_repo
   }, opts)
@@ -118,7 +119,7 @@ function M.lsp(opts)
         return "LSP Inactive"
       end
 
-      local buf_ft = vim.bo.filetype
+      -- local buf_ft = vim.bo.filetype
       local buf_client_names = {}
 
       -- add client
