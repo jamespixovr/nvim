@@ -46,7 +46,8 @@ return {
       { "<leader>sk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>st", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
-      { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",          remap = true },
+      { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",    remap = true },
+      { "<leader>sW", helper.telescope("grep_string", { cwd = false }),     desc = "Word (cwd)" },
     },
     opts = function()
       local actions = require("telescope.actions")
