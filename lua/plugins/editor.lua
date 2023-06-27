@@ -47,7 +47,7 @@ return {
     "cshuaimin/ssr.nvim",
     -- stylua: ignore
     keys = {
-      { "<leader>sR", function() require("ssr").open() end, desc = "Structural Replace", mode = { "n", "x" } },
+      { "<leader>sr", function() require("ssr").open() end, desc = "Structural Replace", mode = { "n", "x" } },
     },
   },
   -- better diagnostics list and others
