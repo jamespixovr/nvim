@@ -1,3 +1,4 @@
+local helper = require("helper")
 return {
   -- Telescope
   {
@@ -38,11 +39,13 @@ return {
       { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",       desc = "Buffer" },
       { "<leader>sl", "<cmd>Telescope symbols<cr>",                         desc = "Symbols" },
       { "<leader>sg", "<cmd>Telescope live_grep<cr>",                       desc = "Find in Files (Grep)" },
+      { "<leader>sG", helper.telescope("live_grep", { cwd = false }),       desc = "Find in Files (Grep)" },
       { "<leader>sh", "<cmd>Telescope grep_string<cr>",                     desc = "Search word under cursor" },
+      { "<leader>sH", helper.telescope("grep_string", { cwd = false }),     desc = "Search word under cursor (cwd)" },
       { "<leader>sk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>st", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
-      { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",    remap = true },
+      { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",          remap = true },
     },
     opts = function()
       local actions = require("telescope.actions")

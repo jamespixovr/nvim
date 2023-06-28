@@ -60,7 +60,8 @@ return {
           options = {}
         },
         quickfix = {
-          enabled = false,
+          enabled = true,
+          open = false,
           -- open = function()
           --   vim.cmd("Trouble quickfix")
           -- end,
