@@ -24,8 +24,8 @@ return {
     config = true,
     keys = {
       { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Diff View" },
-      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Diff View" },
-      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff File View" },
+      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Close Diff View" },
+      { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff View File History" },
     },
   },
   -- Git
