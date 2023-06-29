@@ -215,36 +215,4 @@ return {
     keys = ":",
     config = function() require("numb").setup() end,
   },
-  {
-    "folke/flash.nvim",
-    event = "VeryLazy",
-    ---@type Flash.Config
-    opts = {},
-    keys = {
-      {
-        "s",
-        mode = { "n", "x", "o" },
-        function()
-          -- default options: exact mode, multi window, all directions, with a backdrop
-          require("flash").jump({
-            search = {
-              mode = function(str)
-                return "\\<" .. str
-              end,
-            },
-          })
-        end,
-        desc = "Flash",
-      },
-      {
-        "S",
-        mode = { "n", "o", "x" },
-        function()
-          -- show labeled treesitter nodes around the cursor
-          require("flash").treesitter()
-        end,
-        desc = "Flash Treesitter",
-      },
-    },
-  }
 }

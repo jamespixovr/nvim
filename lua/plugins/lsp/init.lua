@@ -103,7 +103,7 @@ return {
         clangd = {},
         cssls = {},
         html = {},
-        docker_compose_language_service = {},
+        -- docker_compose_language_service = {},
         dockerls = {},
         pyright = require("plugins.lsp.pyright"),
         lua_ls = require("plugins.lsp.luals"),
