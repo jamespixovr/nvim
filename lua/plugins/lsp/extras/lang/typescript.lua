@@ -35,6 +35,16 @@ return {
       servers = {
         ---@type lspconfig.options.tsserver
         tsserver = {
+          on_attach = function(_, bufnr)
+            -- stylua: ignore
+            vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<cr>",
+              { desc = "Organize Imports", buffer = bufnr })
+            -- stylua: ignore
+            vim.keymap.set("n", "<leader>cu", "<cmd>TypescriptRemoveUnused<cr>",
+              { desc = "Remove Unused", buffer = bufnr })
+            -- stylua: ignore
+            vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<cr>", { desc = "Rename File", buffer = bufnr })
+          end,
           init_options = {
             preferences = {
               importModuleSpecifierPreference = "project-relative",
@@ -44,24 +54,17 @@ return {
             completions = {
               completeFunctionCalls = true,
             },
+            diagnostics = {
+              ignoredCodes = { 80001 },
+            },
             typescript = jsAndTsSettings,
             javascript = jsAndTsSettings,
           },
         },
       },
       setup = {
-        tsserver = function(_, opts)
-          require("helper").on_lsp_attach(function(client, buffer)
-            if client.name == "tsserver" then
-              -- stylua: ignore
-              vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<CR>",
-                { buffer = buffer, desc = "Organize Imports" })
-              -- stylua: ignore
-              vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<CR>",
-                { desc = "Rename File", buffer = buffer })
-            end
-          end)
-          require("typescript").setup({ server = opts })
+        tsserver = function(_, config)
+          require("typescript").setup({ server = config })
           return true
         end,
       },
