@@ -28,6 +28,34 @@ return {
     config = true,
   },
 
+  --TODO: check this out
+  -- rust
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   dependencies = { "simrat39/rust-tools.nvim" },
+  --   opts = {
+  --     -- make sure mason installs the server
+  --     servers = {
+  --       rust_analyzer = {
+  --         on_attach = function(_, bufnr)
+  --           -- stylua: ignore
+  --           vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<cr>", { desc = "Organize Imports", buffer = bufnr })
+  --           -- stylua: ignore
+  --           vim.keymap.set("n", "<leader>cu", "<cmd>TypescriptRemoveUnused<cr>", { desc = "Remove Unused", buffer = bufnr })
+  --           -- stylua: ignore
+  --           vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<cr>", { desc = "Rename File", buffer = bufnr })
+  --         end,
+  --       },
+  --     },
+  --     setup = {
+  --       rust_analyzer = function(_, config)
+  --         require("rust-tools").setup({ server = config })
+  --         return true
+  --       end,
+  --     },
+  --   },
+  -- },
+
 
   -- correctly setup lspconfig
   {
