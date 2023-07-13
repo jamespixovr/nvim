@@ -23,6 +23,7 @@ return {
   -- Rust Crates 🚀
   {
     "Saecki/crates.nvim",
+    ft = { "toml" },
     event = { "BufRead Cargo.toml" },
     dependencies = { "nvim-lua/plenary.nvim" },
     config = true,
@@ -63,7 +64,13 @@ return {
     dependencies = {
       "simrat39/rust-tools.nvim",
       "mfussenegger/nvim-dap",
-      "rust-lang/rust.vim"
+      {
+        "rust-lang/rust.vim",
+        ft = "rust",
+        init = function()
+          vim.g.rustfmt_autosave = 1
+        end
+      },
     },
     opts = {
       -- make sure mason installs the server
