@@ -116,6 +116,8 @@ local settings = {
       Ellipsis = "…",
       FileNew = "",
       FileModified = "",
+      SearchResults = "󰅓",
+      SearchIcon = "󱈆 ",
     },
     lsp = {
       ActiveLSP = "",

@@ -1,4 +1,5 @@
 local helper = require("helper")
+local settings = require("settings")
 return {
   -- Telescope
   {
@@ -51,6 +52,7 @@ return {
       local actions = require("telescope.actions")
       return {
         defaults = {
+          theme = "ivy",
           prompt_prefix = "~> ",
           preview = {
             filesize_limit = 1, -- in MB, do not preview big files for performance
@@ -133,11 +135,14 @@ return {
             theme = "ivy",
             find_command = { "fd", "--type", "f", "--strip-cwd-prefix" },
           },
+          grep_string = {
+            theme = "ivy",
+          },
           live_grep = {
             -- cwd = "%:p:h",
             prompt_title = "Search in Folder",
             theme = "ivy",
-            prompt_prefix = " ",
+            prompt_prefix = settings.icons.ui.SearchIcon,
             -- @usage don't include the filename in the search results
             only_sort_text = true,
           },
