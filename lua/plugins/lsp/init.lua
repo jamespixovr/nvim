@@ -249,7 +249,7 @@ return {
                   }))
             end,
           }),
-          fmt.rustfmt, -- rust
+          -- fmt.rustfmt, -- rust
           fmt.sqlfluff.with({
             extra_args = { "--dialect", "postgres" },
           }),
