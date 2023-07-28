@@ -18,10 +18,10 @@ return {
         build = "make",
       },
       {
-        "nvim-telescope/telescope-frecency.nvim",
-        dependencies = {
-          "kkharji/sqlite.lua"
-        },
+        "debugloop/telescope-undo.nvim",
+        config = function()
+          require("telescope").load_extension("undo")
+        end,
       },
     },
     keys = {
@@ -194,7 +194,16 @@ return {
       telescope.load_extension("fzf")
       telescope.load_extension("project")
       telescope.load_extension("file_browser")
-      telescope.load_extension("frecency")
     end
+  },
+  {
+    "nvim-telescope/telescope-frecency.nvim",
+    dependencies = {
+      "kkharji/sqlite.lua"
+    },
+    event = "VeryLazy",
+    config = function()
+      require("telescope").load_extension("frecency")
+    end,
   },
 }

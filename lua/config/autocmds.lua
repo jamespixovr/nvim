@@ -110,3 +110,23 @@ vim.api.nvim_create_autocmd({ "VimResized" }, {
     vim.cmd("tabdo wincmd =")
   end,
 })
+
+local present, lualine = pcall(require, "lualine")
+if present then
+  local macro_refresh_places = { "statusline" }
+  vim.api.nvim_create_autocmd("RecordingEnter", {
+    callback = function()
+      lualine.refresh({
+        place = macro_refresh_places,
+      })
+    end,
+  })
+
+  vim.api.nvim_create_autocmd("RecordingLeave", {
+    callback = function()
+      lualine.refresh({
+        place = macro_refresh_places,
+      })
+    end,
+  })
+end

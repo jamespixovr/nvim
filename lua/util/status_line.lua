@@ -2,6 +2,15 @@ local settings = require("settings")
 local helper = require('helper')
 local symbols = settings.icons
 
+local function show_macro_recording()
+  local recording_register = vim.fn.reg_recording()
+  if recording_register == "" then
+    return ""
+  else
+    return "recording @" .. recording_register
+  end
+end
+
 local M = {}
 
 function M.mode(opts)
@@ -10,6 +19,14 @@ function M.mode(opts)
       return settings.icons.ui.Target
     end,
     padding = { left = 0, right = 0 },
+    color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
+  }, opts)
+end
+
+function M.showMacroRecording(opts)
+  return helper.extend_tbl({
+    "macro-recording",
+    fmt = show_macro_recording,
     color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
   }, opts)
 end

@@ -30,16 +30,25 @@ return {
       },
     },
     opts = {
-      timeout = 3000,
+      timeout = 5000,
       background_color = "#000000",
-      stages = "static",
-      level = 0,
+      stages = "slide",
+      -- level = 0,
       max_height = function()
         return math.floor(vim.o.lines * 0.75)
       end,
       max_width = function()
         return math.floor(vim.o.columns * 0.75)
       end,
+      -- Icons for the different levels
+      icons = {
+        ERROR = "",
+        WARN = "",
+        INFO = "",
+        DEBUG = "",
+        TRACE = "✎",
+      },
+
     },
   },
 
@@ -153,10 +162,14 @@ return {
             winbar = { "lazy", "alpha", "toggleterm", "NvimTree", "Trouble", "neo-tree" },
           },
           globalstatus = true,
+          always_divide_middle = true,
           refresh = {
-            statusline = 100,
+            statusline = 200,
+            tabline = 1000,
+            winbar = 1000,
           },
         },
+        tabline = {},
         sections = {
           lualine_a = {
             status.mode(),
@@ -171,6 +184,7 @@ return {
             status.filename(),
           },
           lualine_x = {
+            status.showMacroRecording(),
             status.filetype(),
             status.treesitter(),
           },
