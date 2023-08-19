@@ -438,7 +438,7 @@ return {
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VimEnter",
     cond = helper.is_directory_or_nil,
-    opts = function()
+    config = function()
       local dashboard = require("alpha.themes.dashboard")
       local logo = {
         "                                                                   ",
@@ -478,7 +478,7 @@ return {
       dashboard.section.footer.opts.hl = "Type"
       dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.buttons.opts.hl = "AlphaButtons"
-      dashboard.config.layout[1].val = 8
+      dashboard.config.layout[1].val = 5
 
       -- close Lazy and re-open when the dashboard is ready
       if vim.o.filetype == "lazy" then
@@ -491,6 +491,8 @@ return {
         })
       end
 
+      require("alpha").setup(dashboard.opts)
+
       vim.api.nvim_create_autocmd("User", {
         pattern = "LazyVimStarted",
         callback = function()
@@ -500,24 +502,6 @@ return {
           pcall(vim.cmd.AlphaRedraw)
         end,
       })
-
-      dashboard.config.opts.autostart = false
-
-      return dashboard.config
-    end,
-    config = function(_, opts)
-      require("alpha").setup(opts)
-
-      local function run_alpha()
-        local buf = vim.api.nvim_get_current_buf()
-        if helper.is_directory() then
-          vim.api.nvim_set_current_dir(vim.api.nvim_buf_get_name(buf))
-        end
-        require("alpha").start(false, opts)
-        vim.api.nvim_buf_delete(buf, {})
-      end
-
-      run_alpha()
     end,
   },
   {
