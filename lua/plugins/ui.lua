@@ -458,6 +458,7 @@ return {
 
       dashboard.section.header.type = "group"
       dashboard.section.header.val = header_logo
+      -- dashboard.section.header.val = require("util.logo")["random"]
       dashboard.section.buttons.val = {
         dashboard.button("f", " " .. " Find file", "<cmd>Telescope find_files<cr>"),
         dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),

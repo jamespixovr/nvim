@@ -12,6 +12,9 @@ return {
       "nvim-telescope/telescope-symbols.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      "kkharji/sqlite.lua",
+      "benfowler/telescope-luasnip.nvim",
+      "nvim-telescope/telescope-frecency.nvim",
       {
         -- fuzzy finder
         "nvim-telescope/telescope-fzf-native.nvim",
@@ -194,16 +197,7 @@ return {
       telescope.load_extension("fzf")
       telescope.load_extension("project")
       telescope.load_extension("file_browser")
+      telescope.load_extension("frecency")
     end
-  },
-  {
-    "nvim-telescope/telescope-frecency.nvim",
-    dependencies = {
-      "kkharji/sqlite.lua"
-    },
-    event = "VeryLazy",
-    config = function()
-      require("telescope").load_extension("frecency")
-    end,
   },
 }
