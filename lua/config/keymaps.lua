@@ -1,3 +1,33 @@
+local keymap = vim.keymap.set
+
+-- Remap for dealing with word wrap
+keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+keymap("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
+
+-- Better viewing
+keymap("n", "n", "nzzzv")
+keymap("n", "N", "Nzzzv")
+keymap("n", "g,", "g,zvzz")
+keymap("n", "g;", "g;zvzz")
+
+-- Better indent
+keymap("v", "<", "<gv")
+keymap("v", ">", ">gv")
+
+-- Paste over currently selected text without yanking it
+keymap("v", "p", '"_dp')
+
+-- 'jk' for quitting insert mode
+keymap("i", "jk", "<ESC>")
+keymap("i", "kj", "<ESC>")
+
+
+-- Move current line / block with Alt-j/k ala vscode.
+keymap("n", "<A-j>", ":m .+1<CR>==")
+keymap("n", "<A-k>", ":m .-2<CR>==")
+keymap("v", "<A-j>", ":m '>+1<CR>gv=gv")
+keymap("v", "<A-k>", ":m '<-2<CR>gv=gv")
+
 -- adapted from https://github.com/LunarVim/LunarVim/blob/rolling/lua/lvim/keymappings.lua
 local M = {}
 local generic_opts_any = { noremap = true, silent = true }
@@ -55,12 +85,6 @@ local function configKeymaps()
   local mykeys = {
     ---@usage change or add keymappings for insert mode
     insert_mode = {
-      -- 'jk' for quitting insert mode
-      ["jk"] = "<ESC>",
-      -- 'kj' for quitting insert mode
-      ["kj"] = "<ESC>",
-      -- 'jj' for quitting insert mode
-      ["jj"] = "<ESC>",
       -- Move current line / block with Alt-j/k ala vscode.
       ["<A-j>"] = "<Esc>:m .+1<CR>==gi",
       -- Move current line / block with Alt-j/k ala vscode.
