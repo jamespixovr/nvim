@@ -249,30 +249,8 @@ return {
                   }))
             end,
           }),
-          -- fmt.rustfmt, -- rust
-          fmt.sqlfluff.with({
-            extra_args = { "--dialect", "postgres" },
-          }),
-          fmt.buf, --PROTO
-          -- fmt.goimports_reviser.with({
-          --   condition = function()
-          --     return util.executable("goimports-reviser", true)
-          --         and not vim.tbl_isempty(vim.fs.find("go.mod", {
-          --           path = vim.fn.expand("%:p"),
-          --           upward = true,
-          --         }))
-          --   end,
-          -- }),
-          fmt.pg_format.with({
-            condition = function()
-              return util.executable("pg_format", true)
-            end,
-          }),
-          -- fmt.eslint_d.with({
-          --   condition = function()
-          --     return util.executable("eslint_d", true)
-          --   end,
-          -- }),
+          fmt.buf,       --PROTO
+          fmt.pg_format,
           fmt.gofumpt,   -- GO
           fmt.goimports, --GO
 
@@ -281,27 +259,14 @@ return {
           --  ╰─────────────╯
           dgn.yamllint.with({ extra_filetypes = { "yml" } }), -- add support for yml extensions
           dgn.tidy,                                           -- xml
-          dgn.sqlfluff.with({
-            extra_args = { "--dialect", "postgres" },
-          }),
           dgn.buf.with({
             -- PROTO
             condition = function()
               return util.executable("buf", true)
             end,
           }),
-          -- dgn.golangci_lint.with({
-          --   condition = function()
-          --     return util.executable("golangci-lint", true)
-          --         and not vim.tbl_isempty(vim.fs.find("go.mod", {
-          --           path = vim.fn.expand("%:p"),
-          --           upward = true,
-          --         }))
-          --   end,
-          -- }),
           dgn.hadolint,      -- dockerfile
           dgn.dotenv_linter, --ENV
-          -- dgn.staticcheck,   --GO
           dgn.markdownlint.with({
             condition = function()
               return util.executable("markdownlint", true)
@@ -316,11 +281,6 @@ return {
           --  ╭──────────────╮
           --  │ Code Actions │
           --  ╰──────────────╯
-          -- cda.eslint_d.with({
-          --   condition = function()
-          --     return util.executable("eslint_d", true)
-          --   end,
-          -- }),
           cda.refactoring,
           cda.shellcheck.with({
             condition = function()
