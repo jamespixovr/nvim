@@ -24,11 +24,11 @@ function M.format()
   })
 end
 
-function M.on_attach(client, buf)
+function M.on_attach(client, bufnr)
   if client.supports_method("textDocument/formatting") then
     vim.api.nvim_create_autocmd("BufWritePre", {
-      group = vim.api.nvim_create_augroup("LspFormat." .. buf, {}),
-      buffer = buf,
+      group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
+      buffer = bufnr,
       callback = function()
         if M.autoformat then
           M.format()
@@ -37,9 +37,11 @@ function M.on_attach(client, buf)
     })
   end
 
-  -- vim.api.nvim_buf_set_option(buf, "formatexpr", "v:lua.vim.lsp.formatexpr()")
-  -- vim.api.nvim_buf_set_option(buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
-  -- vim.api.nvim_buf_set_option(buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
+  local function buf_set_keymap(...)
+    vim.api.nvim_buf_set_keymap(bufnr, ...)
+  end
+  local opts = { noremap = true, silent = true }
+  buf_set_keymap("n", "<Leader>F", "<Cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
 return M
