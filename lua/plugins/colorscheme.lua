@@ -63,7 +63,6 @@ local M = {
         neotest = true,
         notify = true,
         noice = true,
-        ts_rainbow2 = true,
         illuminate = true,
         telekasten = true,
         symbols_outline = true,

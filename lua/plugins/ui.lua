@@ -504,10 +504,4 @@ return {
       })
     end,
   },
-  {
-    -- rainbow brackets
-    "HiPhish/nvim-ts-rainbow2",
-    event = "BufEnter",
-    dependencies = "nvim-treesitter/nvim-treesitter",
-  },
 }

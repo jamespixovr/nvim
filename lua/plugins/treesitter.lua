@@ -89,7 +89,6 @@ return {
           },
         },
         -- TREESITTER PLUGINS
-        rainbow = { enable = true, disable = is_disable },
         tree_docs = {
           enable = true,
           spec_config = {
