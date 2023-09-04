@@ -92,7 +92,7 @@ return {
             },
           }),
           require("neotest-jest")({
-            jestCommand = "pnpm test -- ",
+            jestCommand = "pnpm exec jest",
             -- jestConfigFile = "jest.config.js",
             env = { CI = true },
             cwd = function(_path)
