@@ -216,25 +216,38 @@ return {
     config = function() require("numb").setup() end,
   },
   -- Mark
+  -- mx              Set mark x
+  -- m,              Set the next available alphabetical (lowercase) mark
+  -- m;              Toggle the next available mark at the current line
+  -- dmx             Delete mark x
+  -- dm-             Delete all marks on the current line
+  -- dm<space>       Delete all marks in the current buffer
+  -- m]              Move to next mark
+  -- m[              Move to previous mark
+  -- m:              Preview mark. This will prompt you for a specific mark to
+  --                 preview; press <cr> to preview the next mark.
+  --
+  -- m[0-9]          Add a bookmark from bookmark group[0-9].
+  -- dm[0-9]         Delete all bookmarks from bookmark group[0-9].
+  -- m}              Move to the next bookmark having the same type as the bookmark under
+  --                 the cursor. Works across buffers.
+  -- m{              Move to the previous bookmark having the same type as the bookmark under
+  --                 the cursor. Works across buffers.
+  -- dm=             Delete the bookmark under the cursor.
   {
     "chentoast/marks.nvim",
     event = "VeryLazy",
     opts = {
-      default_mappings = false,  -- whether to map keybinds or not. default true
-      builtin_marks = {},        -- which builtin marks to show. default {}
-      cyclic = true,             -- whether movements cycle back to the beginning/end of buffer. default true
-      force_write_shada = false, -- whether the shada file is updated after modifying uppercase marks. default false
-      bookmark_0 = {             -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own sign/virttext
+      default_mappings = true,                -- whether to map keybinds or not. default true
+      builtin_marks = { ".", "<", ">", "^" }, -- which builtin marks to show. default {}
+      cyclic = true,                          -- whether movements cycle back to the beginning/end of buffer. default true
+      refresh_interval = 250,                 -- how often (in ms) to redraw signs/recompute mark positions. default 150
+      force_write_shada = true,               -- whether the shada file is updated after modifying uppercase marks. default false
+      bookmark_0 = {                          -- marks.nvim allows you to configure up to 10 bookmark groups, each with its own sign/virttext
         sign = "⚑",
         virt_text = "hello world",
       },
-      mappings = {
-        set_next = "m,",
-        next = "m]",
-        preview = "m;",
-        set_bookmark0 = "m0",
-        prev = false, -- pass false to disable only this default mapping
-      },
+      mappings = {},
     }
   },
 }
