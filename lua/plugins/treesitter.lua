@@ -71,7 +71,7 @@ return {
           "svelte",
         },
         auto_install = true, -- install missing parsers when entering a buffer
-        highlight = { enable = true, additional_vim_regex_highlighting = false, disable = is_disable },
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
         indent = { enable = true, disable = is_disable },
         context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
         autopairs = { enable = true, disable = is_disable },
