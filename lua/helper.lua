@@ -122,7 +122,7 @@ function M.get_root()
 end
 
 -- this will return a function that calls telescope.
--- cwd will defautlt to lazyvim.util.get_root
+-- cwd will defautlt to util.get_root
 -- for `files`, git_files or find_files will be chosen depending on .git
 function M.telescope(builtin, opts)
   local params = { builtin = builtin, opts = opts }

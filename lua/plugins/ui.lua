@@ -184,6 +184,7 @@ return {
             status.filename(),
           },
           lualine_x = {
+            status.LazyUpdates(),
             status.showMacroRecording(),
             status.filetype(),
             status.treesitter(),
@@ -494,7 +495,7 @@ return {
       require("alpha").setup(dashboard.opts)
 
       vim.api.nvim_create_autocmd("User", {
-        pattern = "LazyVimStarted",
+        pattern = "LazyStarted",
         callback = function()
           local stats = require("lazy").stats()
           local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)

@@ -74,8 +74,8 @@ return {
               local jdtls = require("jdtls")
               local jdtls_config = vim.tbl_deep_extend("force", opts, {
                 on_attach = function(client, buffer)
-                  require("lazyvim.plugins.lsp.format").on_attach(client, buffer)
-                  require("lazyvim.plugins.lsp.keymaps").on_attach(client, buffer)
+                  require("plugins.lsp.format").on_attach(client, buffer)
+                  require("plugins.lsp.keymaps").on_attach(client, buffer)
                   -- custom keymaps
                   vim.keymap.set("n", "<leader>co", function() require("jdtls").organize_imports() end,
                     { buffer = buffer, desc = "Organize Imports" })

@@ -4,7 +4,6 @@ local format = require("plugins.lsp.format")
 local keymaps = require("plugins.lsp.keymaps")
 
 return {
-
   -- neodev
   {
     "folke/neodev.nvim",
@@ -23,6 +22,7 @@ return {
     "williamboman/mason.nvim",
     cmd = "Mason",
     keys = { { "<leader>mc", "<cmd>Mason<cr>", desc = "Mason" } },
+    build = ":MasonUpdate",
     opts = {
       ui = {
         border = "rounded",
@@ -88,25 +88,66 @@ return {
           prefix = "",
         },
       },
+      inlay_hints = {
+        enabled = false,
+      },
       -- Automatically format on save
       autoformat = true,
       -- options for vim.lsp.buf.format
-      -- `bufnr` and `filter` is handled by the LazyVim formatter,
       -- but can be also overriden when specified
       format = {
         formatting_options = nil,
         timeout_ms = nil,
       },
       capabilities = {},
+      ---@type lspconfig.options
       servers = {
-        bashls = { filetypes = { "sh", "zsh" } },
-        clangd = {},
-        cssls = {},
-        html = {},
-        -- docker_compose_language_service = {},
-        dockerls = {},
-        pyright = require("plugins.lsp.pyright"),
-        lua_ls = require("plugins.lsp.luals"),
+        lua_ls = {
+          single_file_support = true,
+          settings = {
+            Lua = {
+              completion = {
+                workspaceWord = true,
+                callSnippet = "Both",
+                enable = true,
+                showWord = "Disable",
+              },
+              diagnostics = {
+                groupSeverity = {
+                  strong = "Warning",
+                  strict = "Warning",
+                },
+                groupFileStatus = {
+                  ["ambiguity"] = "Opened",
+                  ["await"] = "Opened",
+                  ["codestyle"] = "None",
+                  ["duplicate"] = "Opened",
+                  ["global"] = "Opened",
+                  ["luadoc"] = "Opened",
+                  ["redefined"] = "Opened",
+                  ["strict"] = "Opened",
+                  ["strong"] = "Opened",
+                  ["type-check"] = "Opened",
+                  ["unbalanced"] = "Opened",
+                  ["unused"] = "Opened",
+                },
+                unusedLocalExclude = { "_*" },
+                globals = { "vim" },
+              },
+              misc = {
+                parameters = {
+                  "--log-level=trace",
+                },
+              },
+              workspace = {
+                library = {
+                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                  [vim.fn.stdpath("config") .. "/lua"] = true,
+                },
+              },
+            },
+          },
+        }
       },
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
@@ -127,15 +168,22 @@ return {
       format.autoformat = opts.autoformat
       -- setup formatting and keymaps
       keymaps.always_attach()
-      helper.on_lsp_attach(function(client, buffer)
-        format.on_attach(client, buffer)
-      end)
-
+      helper.on_lsp_attach(format.on_attach)
 
       -- diagnostics
       for name, icon in pairs(settings.icons.diagnostics) do
         name = "DiagnosticSign" .. name
         vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+      end
+
+      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
+
+      if opts.inlay_hints.enabled and inlay_hint then
+        helper.on_lsp_attach(function(client, buffer)
+          if client.supports_method('textDocument/inlayHint') then
+            inlay_hint(buffer, true)
+          end
+        end)
       end
 
       if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
@@ -314,5 +362,6 @@ return {
   { import = "plugins.lsp.extras.lang.nodejs" },
   { import = "plugins.lsp.extras.lang.eslint" },
   { import = "plugins.lsp.extras.lang.rust" },
+  { import = "plugins.lsp.extras.lang.python" },
   -- { import = "plugins.lsp.extras.lang.cucumber" },
 }

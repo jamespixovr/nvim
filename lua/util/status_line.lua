@@ -1,6 +1,7 @@
 local settings = require("settings")
 local helper = require('helper')
 local symbols = settings.icons
+local lazy_status = require("lazy.status")
 
 local function show_macro_recording()
   local recording_register = vim.fn.reg_recording()
@@ -12,6 +13,15 @@ local function show_macro_recording()
 end
 
 local M = {}
+
+function M.LazyUpdates(opts)
+  return helper.extend_tbl({
+    lazy_status.updates,
+    padding = { left = 1, right = 1 },
+    cond = lazy_status.has_updates,
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
 
 function M.mode(opts)
   return helper.extend_tbl({

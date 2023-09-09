@@ -169,7 +169,7 @@ return {
             display_stat = false,
             git_status = false,
             group = true,
-            hide_parent_dir = false,
+            hide_parent_dir = true,
             select_buffer = true,
             mappings = {
               i = {

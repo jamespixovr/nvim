@@ -13,30 +13,15 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  spec = {
-    import = "plugins"
-  },
+  { import = "plugins" },
+  -- { import = "plugins.lsp" },
+}, {
   install = { colorscheme = { "catppuccin", "habamax" } },
-  checker = { enabled = false }, -- automatically check for plugin updates
+  checker = { enabled = true, notify = false }, -- automatically check for plugin updates
+  change_detection = {
+    notify = false
+  },
   ui = {
     border = "rounded",
   },
-  performance = {
-    rtp = {
-      disabled_plugins = {
-        "2html_plugin",
-        "getscriptPlugin",
-        "gzip",
-        "matchit",
-        "matchparen",
-        "netrwPlugin",
-        "tarPlugin",
-        "tohtml",
-        "tutor",
-        "vimballPlugin",
-        "zipPlugin",
-      },
-    },
-  },
 })
-vim.keymap.set("n", "<leader>l", "<cmd>:Lazy<cr>")
