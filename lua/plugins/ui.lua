@@ -3,6 +3,7 @@ local helper = require("helper")
 local indent_exclude_fts = { "help", "alpha", "dashboard", "neo-tree", "Trouble", "lazy", "mason", "NvimTree" }
 
 return {
+  --------------------------------------------------------------------------
   -- add folding range to capabilities
   {
     "neovim/nvim-lspconfig",
@@ -18,6 +19,7 @@ return {
     },
   },
 
+  --------------------------------------------------------------------------
   {
     "rcarriga/nvim-notify",
     keys = {
@@ -30,9 +32,9 @@ return {
       },
     },
     opts = {
-      timeout = 5000,
-      background_color = "#000000",
-      stages = "slide",
+      timeout = 3000,
+      background_colour = "#000000",
+      -- stages = "slide",
       -- level = 0,
       max_height = function()
         return math.floor(vim.o.lines * 0.75)
@@ -51,6 +53,7 @@ return {
 
     },
   },
+  --------------------------------------------------------------------------
 
   -- better vim.ui
   {
@@ -91,6 +94,7 @@ return {
       require("dressing").setup(opts)
     end,
   },
+  --------------------------------------------------------------------------
   -- Tabs
   {
     "akinsho/nvim-bufferline.lua",
@@ -143,6 +147,7 @@ return {
       },
     },
   },
+  --------------------------------------------------------------------------
 
   -- Statusline
   {
@@ -204,6 +209,7 @@ return {
       require("lualine").setup(opts)
     end,
   },
+  --------------------------------------------------------------------------
 
   -- indent guides for Neovim
   {
@@ -216,6 +222,7 @@ return {
       show_current_context = false,
     },
   },
+  --------------------------------------------------------------------------
   -- noicer lua
   {
     "folke/noice.nvim",
@@ -279,33 +286,46 @@ return {
       },
       routes = {
         {
-          filter = {
-            event = "msg_show",
-            kind = "",
-            find = "written",
-          },
+          filter = { event = "msg_show", kind = "", find = "written", },
           opts = { skip = true },
         },
         {
-          filter = {
-            event = "msg_show",
-            kind = "",
-          },
+          filter = { event = "msg_show", kind = "", },
           opts = { skip = true },
         },
         {
-          filter = {
-            event = "msg_show",
-            find = "search hit",
-          },
+          filter = { event = 'notify', find = '^No information available$' },
           opts = { skip = true },
         },
         {
-          filter = {
-            event = "msg_show",
-            kind = "search_count",
-          },
+          filter = { event = 'msg_show', find = '^%d+ change;' },
           opts = { skip = true },
+        },
+        {
+          filter = { event = 'msg_show', find = '^%d+ %a+ lines' },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = "msg_show", find = "search hit", },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = 'msg_show', find = '^%d+ lines yanked$' },
+          opts = { skip = true },
+        },
+        {
+          filter = { event = "msg_show", kind = "search_count", },
+          opts = { skip = true },
+        },
+      },
+      messages = {
+        view_search = false,
+      },
+      commands = {
+        all = {
+          view = 'split',
+          opts = { enter = true, format = 'details' },
+          filter = {},
         },
       },
     },
@@ -341,6 +361,7 @@ return {
 
     },
   },
+  --------------------------------------------------------------------------
   -- folding
   -- fold area
   {
@@ -420,11 +441,13 @@ return {
       }
     end,
   },
+  --------------------------------------------------------------------------
 
   -- icons
   { "nvim-tree/nvim-web-devicons", lazy = true },
   -- ui components
   { "MunifTanjim/nui.nvim",        lazy = true },
+  --------------------------------------------------------------------------
   -- figet
   {
     "j-hui/fidget.nvim",
@@ -433,6 +456,7 @@ return {
       require("fidget").setup({})
     end,
   },
+  --------------------------------------------------------------------------
 
   {
     "goolord/alpha-nvim",

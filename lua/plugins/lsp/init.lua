@@ -52,6 +52,20 @@ return {
       },
     },
   },
+  {
+    "simrat39/symbols-outline.nvim",
+    keys = {
+      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+    },
+    opts = {
+      width = 30,
+      autofold_depth = 0,
+      keymaps = {
+        hover_symbol = 'K',
+        toggle_preview = 'p',
+      },
+    },
+  },
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
@@ -63,13 +77,6 @@ return {
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      {
-        "simrat39/symbols-outline.nvim",
-        keys = {
-          { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-        },
-        config = true,
-      },
     },
     ---@class PluginLspOpts
     opts = {
@@ -80,11 +87,11 @@ return {
         virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
         severity_sort = true,
         float = {
+          show_header = true,
           focusable = true,
           style = "minimal",
           border = "rounded",
           source = "always",
-          header = "",
           prefix = "",
         },
       },

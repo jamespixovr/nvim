@@ -3,6 +3,7 @@ local settings = require("settings")
 return {
   {
     "L3MON4D3/LuaSnip",
+    event = 'InsertEnter',
     dependencies = {
       "rafamadriz/friendly-snippets",
       config = function()
@@ -10,9 +11,15 @@ return {
       end,
     },
     opts = {
-      history = true,
-      delete_check_events = "TextChanged",
-      updateevents = "TextChanged,TextChangedI"
+      history = false,
+      -- delete_check_events = "TextChanged",
+      updateevents = "TextChanged,TextChangedI",
+      -- Event on which to check for exiting a snippet's region
+      region_check_events = 'InsertEnter',
+      delete_check_events = 'InsertLeave',
+      ft_func = function()
+        return vim.split(vim.bo.filetype, '.', { plain = true })
+      end,
     },
     -- stylua: ignore
     keys = {
@@ -377,7 +384,7 @@ return {
 
   {
     "ThePrimeagen/refactoring.nvim",
-    event = { "VeryLazy" },
+    lazy = true,
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter"

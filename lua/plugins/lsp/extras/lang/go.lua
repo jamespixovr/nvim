@@ -51,7 +51,7 @@ return {
                 rangeVariableTypes = true,
               },
               analyses = {
-                fieldalignment = true,
+                -- fieldalignment = true,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -94,6 +94,7 @@ return {
 
   {
     "ray-x/go.nvim",
+    lazy = true,
     dependencies = { -- optional packages
       "ray-x/guihua.lua",
       "neovim/nvim-lspconfig",
@@ -102,7 +103,8 @@ return {
     config = function()
       require("go").setup({
         dap_debug = true,
-        dap_debug_gui = true
+        dap_debug_gui = true,
+        run_in_floaterm = true
       })
     end,
     event = { "CmdlineEnter" },

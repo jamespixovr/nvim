@@ -237,6 +237,9 @@ return {
   {
     "chentoast/marks.nvim",
     event = "VeryLazy",
+    keys = {
+      { 'm/', '<cmd>MarksListAll<CR>', desc = 'Marks from all opened buffers' },
+    },
     opts = {
       default_mappings = true,                -- whether to map keybinds or not. default true
       builtin_marks = { ".", "<", ">", "^" }, -- which builtin marks to show. default {}
