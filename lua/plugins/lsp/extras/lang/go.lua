@@ -108,6 +108,11 @@ return {
       })
     end,
     event = { "CmdlineEnter" },
+    keys = {
+      { "<leader>tn", "<cmd>GoTestFunc<CR>", desc = "Run nearest test" },
+      { "<leader>gr", "<cmd>GoRun<CR>",      desc = "Run Go main" },
+      { "<leader>tf", "<cmd>GoTestFile<CR>", desc = "Run test file" },
+    },
     ft = { "go", 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
@@ -117,9 +122,9 @@ return {
     init = function()
       require("helper").on_ft("go", function(event)
         -- stylua: ignore start
-        vim.keymap.set("n", "<leader>dt", function() require("dap-go").debug_test() end,
+        vim.keymap.set("n", "<leader>tg", function() require("dap-go").debug_test() end,
           { desc = "debug test", buffer = event.buf })
-        vim.keymap.set("n", "<leader>dT", function() require("dap-go").debug_last_test() end,
+        vim.keymap.set("n", "<leader>tD", function() require("dap-go").debug_last_test() end,
           { desc = "debug last test", buffer = event.buf })
         -- stylua: ignore end
       end)

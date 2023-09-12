@@ -155,7 +155,6 @@ return {
     event = "VeryLazy",
     opts = function()
       local status = require("util.status_line")
-      local symbols = settings.icons
       return {
         options = {
           theme = "catppuccin",

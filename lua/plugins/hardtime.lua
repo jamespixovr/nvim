@@ -1,8 +1,13 @@
 return {
   "m4xshen/hardtime.nvim",
   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
+  keys = {
+    { "<leader>hd", "<cmd>Hardtime disable<cr>", desc = "Hard Time Toggle" },
+    { "<leader>he", "<cmd>Hardtime enable<cr>",  desc = "Hard Time Toggle" },
+  },
   opts = {
     allow_different_key = true,
+    disabled_filetypes = { "qf", "netrw", "NvimTree", "lazy", "mason", "ToggleTerm", "alpha" },
     hints = {
       ["[dcyvV][ia]%("] = {
         message = function(keys)
