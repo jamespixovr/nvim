@@ -257,9 +257,9 @@ return {
             style = "rounded",
             padding = { 0, 1 },
           },
-          win_options = {
-            winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
-          },
+          -- win_options = {
+          --   winhighlight = { Normal = "Normal", FloatBorder = "DiagnosticInfo" },
+          -- },
         },
       },
       lsp = {
@@ -285,46 +285,19 @@ return {
       },
       routes = {
         {
-          filter = { event = "msg_show", kind = "", find = "written", },
-          opts = { skip = true },
-        },
-        {
-          filter = { event = "msg_show", kind = "", },
-          opts = { skip = true },
-        },
-        {
-          filter = { event = 'notify', find = '^No information available$' },
-          opts = { skip = true },
-        },
-        {
-          filter = { event = 'msg_show', find = '^%d+ change;' },
-          opts = { skip = true },
-        },
-        {
-          filter = { event = 'msg_show', find = '^%d+ %a+ lines' },
-          opts = { skip = true },
-        },
-        {
-          filter = { event = "msg_show", find = "search hit", },
-          opts = { skip = true },
+          filter = {
+            event = "msg_show",
+            any = {
+              { find = "%d+L, %d+B" },
+              { find = "; after #%d+" },
+              { find = "; before #%d+" },
+            },
+          },
+          view = "mini",
         },
         {
           filter = { event = 'msg_show', find = '^%d+ lines yanked$' },
           opts = { skip = true },
-        },
-        {
-          filter = { event = "msg_show", kind = "search_count", },
-          opts = { skip = true },
-        },
-      },
-      messages = {
-        view_search = false,
-      },
-      commands = {
-        all = {
-          view = 'split',
-          opts = { enter = true, format = 'details' },
-          filter = {},
         },
       },
     },
