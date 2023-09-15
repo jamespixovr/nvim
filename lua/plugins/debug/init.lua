@@ -15,64 +15,65 @@ return {
     {
       "<leader>db",
       function() require("dap").toggle_breakpoint() end,
-      desc =
-      "Toggle Breakpoint"
+      desc = "Toggle Breakpoint"
     },
     {
       "<leader>dc",
       function() require("dap").continue() end,
-      desc =
-      "Continue"
+      desc = "Continue"
     },
     {
       "<leader>dC",
       function() require("dap").run_to_cursor() end,
-      desc =
-      "Run to Cursor"
+      desc = "Run to Cursor"
     },
     { "<leader>ds", function() require("dap").continue() end, desc = "Start" },
     {
       "<leader>dg",
       function() require("dap").goto_() end,
-      desc =
-      "Go to line (no execute)"
+      desc = "Go to line (no execute)"
     },
     {
       "<leader>dB",
       function() require("dap").set_breakpoint(vim.fn.input('Breakpoint condition: ')) end,
-
-      desc =
-      "Breakpoint Condition"
+      desc = "Breakpoint Condition"
     },
     { "<leader>dj", function() require("dap").down() end,     desc = "Down" },
     {
       "<leader>dw",
       function() require("dap.ui.widgets").hover() end,
-      desc =
-      "Widgets"
+      desc = "Widgets"
     },
     {
       "<leader>dl",
       "<cmd>Telescope dap list_breakpoints<cr>",
       desc = "Show All Breakpoints"
     },
-    { "<leader>dx", "<cmd>lua require('dap').disconnect()<cr>",                           desc = "Disconnect" },
-    { "<leader>do", "<cmd>lua require('dap').step_over()<CR>",                            desc = "Step Over" },
-    { "<leader>di", "<cmd>lua require('dap').step_into()<CR>",                            desc = "Step Into" },
-    { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
-    { "<leader>dp", "<cmd>lua require('dap').pause()<cr>",                                desc = "Pause" },
-    { "<leader>dT", "<cmd>Telescope dap configurations<cr>",                              desc = "Configurations" },
-    { "<leader>dS", "<cmd>lua require('dap').terminate()<cr>",                            desc = "Terminate" },
-    { "<leader>dR", "<cmd>lua require('dap').repl.open()<cr>",                            desc = "Repl" },
+    {
+      "<leader>de",
+      function() require("dapui").eval() end,
+      mode = { "n", "v" },
+      desc = "Evaluate"
+    },
     { "<leader>dE", "<cmd>lua require('dapui').eval(vim.fn.input '[Expression] > ')<cr>", desc = "Evaluate Input" },
-    { "<leader>de", "<cmd>lua require('dapui').eval()<cr>",                               desc = "Evaluate" },
-    { "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<cr>",                     desc = "Hover Variables" },
-    { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>",                   desc = "Preview" },
-    { "<leader>dq", "<cmd>lua require('dap').close()<cr>",                                desc = "Quit" },
-    { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>",                        desc = "Run to Cursor" },
-    { "<leader>dl", function() require("dap").run_last() end,                             desc = "Run Last" },
+    { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
     { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>",                      desc = "Float Element" },
-    { "<leader>dt", function() require("dap").terminate() end,                            desc = "Terminate" },
+    { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>",                        desc = "Run to Cursor" },
+    { "<leader>dS", function() require("dap.ui.widgets").scopes() end,                    desc = "Scopes", },
+    { "<leader>dT", "<cmd>Telescope dap configurations<cr>",                              desc = "Configurations" },
+    { "<leader>dd", "<cmd>lua require('dap').disconnect()<cr>",                           desc = "Disconnect" },
+    { "<leader>dg", function() require("dap").session() end,                              desc = "Get Session", },
+    { "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<cr>",                     desc = "Hover Variables" },
+    { "<leader>dh", function() require("dap.ui.widgets").hover() end,                     desc = "Hover Variables", },
+    { "<leader>di", "<cmd>lua require('dap').step_into()<CR>",                            desc = "Step Into" },
+    { "<leader>dl", function() require("dap").run_last() end,                             desc = "Run Last" },
+    { "<leader>do", "<cmd>lua require('dap').step_over()<CR>",                            desc = "Step Over" },
+    { "<leader>dp", "<cmd>lua require('dap').pause()<cr>",                                desc = "Pause" },
+    { "<leader>dq", function() require("dap").close() end,                                desc = "Quit", },
+    { "<leader>dr", "<cmd>lua require('dap').repl.open()<cr>",                            desc = "Toggle REPL" },
+    { "<leader>dt", function() require("dap").toggle_breakpoint() end,                    desc = "Terminate" },
+    { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>",                   desc = "Preview" },
+    { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>",                            desc = "Terminate" },
   },
   config = function()
     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
@@ -83,6 +84,9 @@ return {
         { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
       )
     end
+    require("nvim-dap-virtual-text").setup {
+      commented = true,
+    }
     -- require("plugins.debug.js-config").setup()
     -- require("plugins.debug.js-config").vscodeExtensions()
   end,
@@ -117,6 +121,11 @@ return {
         dap.listeners.before.event_exited["dapui_config"] = function()
           dapui.close({})
         end
+        vim.schedule(function()
+          require("dap.ext.vscode").json_decode = require("overseer.json").decode
+          require("dap.ext.vscode").load_launchjs(nil, { node = { "typescript", "javascript" } })
+          require("overseer").patch_dap(true)
+        end)
       end,
     },
     -- mason.nvim integration

@@ -2,44 +2,183 @@ local settings = require("settings")
 return {
   {
     "stevearc/overseer.nvim",
-    keys = {
-      { "<leader>toR", "<cmd>OverseerRunCmd<cr>",       desc = "Run Command" },
-      { "<leader>toa", "<cmd>OverseerTaskAction<cr>",   desc = "Task Action" },
-      { "<leader>tob", "<cmd>OverseerBuild<cr>",        desc = "Build" },
-      { "<leader>toc", "<cmd>OverseerClose<cr>",        desc = "Close" },
-      { "<leader>tod", "<cmd>OverseerDeleteBundle<cr>", desc = "Delete Bundle" },
-      { "<leader>tol", "<cmd>OverseerLoadBundle<cr>",   desc = "Load Bundle" },
-      { "<leader>too", "<cmd>OverseerOpen<cr>",         desc = "Open" },
-      { "<leader>toq", "<cmd>OverseerQuickAction<cr>",  desc = "Quick Action" },
-      { "<leader>tor", "<cmd>OverseerRun<cr>",          desc = "Run" },
-      { "<leader>tos", "<cmd>OverseerSaveBundle<cr>",   desc = "Save Bundle" },
-      { "<leader>tot", "<cmd>OverseerToggle<cr>",       desc = "Toggle" },
+    cmd = {
+      "Grep",
+      "Make",
+      "OverseerDebugParser",
+      "OverseerInfo",
+      "OverseerOpen",
+      "OverseerRun",
+      "OverseerRunCmd",
+      "OverseerToggle",
     },
-    config = true,
+    keys = {
+      { "<leader>oR", "<cmd>OverseerRunCmd<cr>",       desc = "Run Command" },
+      { "<leader>oa", "<cmd>OverseerTaskAction<cr>",   desc = "Task Action" },
+      { "<leader>ob", "<cmd>OverseerBuild<cr>",        desc = "Build" },
+      { "<leader>oc", "<cmd>OverseerClose<cr>",        desc = "Close" },
+      { "<leader>od", "<cmd>OverseerDeleteBundle<cr>", desc = "Delete Bundle" },
+      { "<leader>ol", "<cmd>OverseerLoadBundle<cr>",   desc = "Load Bundle" },
+      { "<leader>oo", "<cmd>OverseerOpen<cr>",         desc = "Open" },
+      { "<leader>oq", "<cmd>OverseerQuickAction<cr>",  desc = "Quick Action" },
+      { "<leader>or", "<cmd>OverseerRun<cr>",          desc = "Run" },
+      { "<leader>os", "<cmd>OverseerSaveBundle<cr>",   desc = "Save Bundle" },
+      { "<leader>ot", "<cmd>OverseerToggle<cr>",       desc = "Toggle" },
+    },
+    opts = {
+      strategy = { "jobstart" },
+      task_launcher = {
+        bindings = {
+          n = {
+            ["<leader>c"] = "Cancel",
+          },
+        },
+      },
+      component_aliases = {
+        default = {
+          { "display_duration",   detail_level = 2 },
+          "on_output_summarize",
+          "on_exit_set_status",
+          { "on_complete_notify", system = "unfocused" },
+          "on_complete_dispose",
+        },
+        default_neotest = {
+          "unique",
+          { "on_complete_notify", system = "unfocused", on_change = true },
+          "default",
+        },
+      },
+      post_setup = {},
+    },
+    config = function(_, opts)
+      local overseer = require("overseer")
+      overseer.setup(opts)
+
+      vim.api.nvim_create_user_command("OverseerDebugParser", 'lua require("overseer").debug_parser()', {})
+
+      vim.api.nvim_create_user_command("Grep", function(params)
+        local args = vim.fn.expandcmd(params.args)
+        -- Insert args at the '$*' in the grepprg
+        local cmd, num_subs = vim.o.grepprg:gsub("%$%*", args)
+        if num_subs == 0 then
+          cmd = cmd .. " " .. args
+        end
+        local cwd
+        local has_oil, oil = pcall(require, "oil")
+        if has_oil then
+          cwd = oil.get_current_dir()
+        end
+        local task = overseer.new_task({
+          cmd = cmd,
+          cwd = cwd,
+          name = "grep " .. args,
+          components = {
+            {
+              "on_output_quickfix",
+              errorformat = vim.o.grepformat,
+              open = not params.bang,
+              open_height = 8,
+              items_only = true,
+            },
+            -- We don't care to keep this around as long as most tasks
+            { "on_complete_dispose", timeout = 30 },
+            "default",
+          },
+        })
+        task:start()
+      end, { nargs = "*", bang = true, bar = true, complete = "file" })
+
+      vim.api.nvim_create_user_command("Make", function(params)
+        -- Insert args at the '$*' in the makeprg
+        local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
+        if num_subs == 0 then
+          cmd = cmd .. " " .. params.args
+        end
+        local task = require("overseer").new_task({
+          cmd = vim.fn.expandcmd(cmd),
+          components = {
+            { "on_output_quickfix", open = not params.bang, open_height = 8 },
+            "unique",
+            "default",
+          },
+        })
+        task:start()
+      end, {
+        desc = "Run your makeprg as an Overseer task",
+        nargs = "*",
+        bang = true,
+      })
+    end
   },
 
   {
     "nvim-neotest/neotest",
     event = 'VeryLazy',
     dependencies = {
+      "nvim-neotest/neotest-plenary",
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-go",
       "haydenmeade/neotest-jest",
       "rouge8/neotest-rust",
+      "nvim-neotest/neotest-python",
       { "andythigpen/nvim-coverage", config = true },
     },
     keys = {
-      { "<leader>tn", "<cmd>lua require('neotest').run.run()<cr>",                     desc = "Run nearest test" },
-      { "<leader>tl", "<cmd>lua require('neotest').run.run_last()<cr>",                desc = "Run last test" },
-      { "<leader>tf", '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<cr>',   desc = "Run test file" },
-      { "<leader>td", function() require('neotest').run.run({ strategy = 'dap' }) end, desc = "Debug test" },
-      { "<leader>ta", "<cmd>lua require('neotest').run.attach()<cr>",                  desc = "Attach test" },
-      { "<leader>ts", "<cmd>lua require('neotest').summary.toggle()<cr>",              desc = "Test Summary Toggle" },
-      { "<leader>tx", "<cmd>lua require('neotest').stop()<cr>",                        desc = "Stop test" },
-      { "<leader>to", "<cmd>lua require('neotest').output.open({enter = true})<cr>",   desc = "Open output test" },
-      { "<leader>tp", "<cmd>lua require('neotest').output_panel.toggle()<cr>",         desc = "Output test panel" },
+      {
+        "<leader>tn",
+        "<cmd>lua require('neotest').run.run()<cr>",
+        desc =
+        "Run nearest test"
+      },
+      {
+        "<leader>tt",
+        function()
+          require("neotest").run.run({ vim.api.nvim_buf_get_name(0) })
+        end,
+        mode = "n",
+        desc = "Run test file"
+      },
+      {
+        "<leader>tl",
+        "<cmd>lua require('neotest').run.run_last()<cr>",
+        desc =
+        "Run last test"
+      },
+      {
+        "<leader>tf",
+        '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<cr>',
+        desc =
+        "Run test file"
+      },
+      { "<leader>td", function() require('neotest').run.run({ strategy = 'dap' }) end,                desc = "Debug test" },
+      { "<leader>tD", "w|lua require('neotest').run.run({vim.fn.expand('%'), strategy = 'dap'})<cr>", desc = "Debug File" },
+      {
+        "<leader>ta",
+        "<cmd>lua require('neotest').run.attach()<cr>",
+        desc =
+        "Attach test"
+      },
+      {
+        "<leader>ts",
+        "<cmd>lua require('neotest').summary.toggle()<cr>",
+        desc =
+        "Test Summary Toggle"
+      },
+      { "<leader>tx", "<cmd>lua require('neotest').stop()<cr>", desc = "Stop test" },
+      {
+        "<leader>to",
+        "<cmd>lua require('neotest').output.open({enter = true})<cr>",
+        desc =
+        "Open output test"
+      },
+      {
+        "<leader>tp",
+        "<cmd>lua require('neotest').output_panel.toggle()<cr>",
+        desc =
+        "Output test panel"
+      },
       {
         '<leader>tt',
         function()
@@ -82,7 +221,17 @@ return {
           open = 'rightbelow vsplit | resize 30',
         },
         summary = {
-          open = "botright vsplit | vertical resize 60"
+          open = "botright vsplit | vertical resize 60",
+          mappings = {
+            attach = "a",
+            expand = "l",
+            expand_all = "L",
+            jumpto = "gf",
+            output = "o",
+            run = "<C-r>",
+            short = "p",
+            stop = "u",
+          },
         },
         adapters = {
           require("neotest-go")({
@@ -100,13 +249,18 @@ return {
             end,
           }),
           require("neotest-rust"),
+          require("neotest-python")({
+            dap = { justMyCode = false },
+          }),
         },
         icons = {
           passed = settings.icons.testing.Success,
           running = "",
           failed = settings.icons.testing.Failed,
           unknown = "",
-          running_animated = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" },
+          running_animated = vim.tbl_map(function(s)
+            return s .. " "
+          end, { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }),
         },
         consumers = {
           overseer = require("neotest.consumers.overseer"),

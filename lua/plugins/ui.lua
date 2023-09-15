@@ -189,6 +189,7 @@ return {
           },
           lualine_x = {
             status.LazyUpdates(),
+            status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
             status.treesitter(),

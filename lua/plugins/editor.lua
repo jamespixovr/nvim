@@ -137,10 +137,9 @@ return {
       },
     },
     opts = {
-      size = 20,
       open_mapping = [[<c-\>]],
       shading_factor = 2,
-      direction = "float",
+      direction = "horizontal",
       float_opts = {
         border = "curved",
         winblend = 0,
@@ -191,6 +190,7 @@ return {
         ["<leader>sn"] = { name = "+noice" },
         -- ["<leader>u"] = { name = "+ui" },
         -- ["<leader>w"] = { name = "+windows" },
+        ["<leader>o"] = { name = "+task runner" },
         ["<leader>t"] = { name = "+test runner" },
         ["<leader>d"] = { name = "+debugger" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },

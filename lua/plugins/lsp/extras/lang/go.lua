@@ -109,9 +109,9 @@ return {
     end,
     event = { "CmdlineEnter" },
     keys = {
-      { "<leader>tn", "<cmd>GoTestFunc<CR>", desc = "Run nearest test" },
-      { "<leader>gr", "<cmd>GoRun<CR>",      desc = "Run Go main" },
-      { "<leader>tf", "<cmd>GoTestFile<CR>", desc = "Run test file" },
+      { "<leader>tgn", "<cmd>GoTestFunc<CR>", desc = "Run nearest test" },
+      { "<leader>tgr", "<cmd>GoRun<CR>",      desc = "Run Go main" },
+      { "<leader>tgf", "<cmd>GoTestFile<CR>", desc = "Run test file" },
     },
     ft = { "go", 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries

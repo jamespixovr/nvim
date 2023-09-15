@@ -3,6 +3,8 @@ local helper = require('helper')
 local symbols = settings.icons
 local lazy_status = require("lazy.status")
 
+local M = {}
+
 local function show_macro_recording()
   local recording_register = vim.fn.reg_recording()
   if recording_register == "" then
@@ -12,7 +14,6 @@ local function show_macro_recording()
   end
 end
 
-local M = {}
 
 function M.LazyUpdates(opts)
   return helper.extend_tbl({
@@ -180,6 +181,20 @@ function M.scrollbar(opts)
     padding = { left = 0, right = 0 },
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
     cond = nil,
+  }, opts)
+end
+
+function M.Overseer(opts)
+  return helper.extend_tbl({
+    "overseer",
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    label = '',         -- Prefix for task counts
+    colored = true,     -- Color the task icons and counts
+    unique = false,     -- Unique-ify non-running task count by name
+    name = nil,         -- List of task names to search for
+    name_not = false,   -- When true, invert the name search
+    status = nil,       -- List of task statuses to display
+    status_not = false, -- When true, invert the status search
   }, opts)
 end
 

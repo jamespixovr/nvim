@@ -171,5 +171,9 @@ function M.setup()
   configKeymaps()
 end
 
+-- BASH-style movement in insert mode
+vim.keymap.set("i", "<C-a>", "<C-o>^")
+vim.keymap.set("i", "<C-e>", "<C-o>$")
+
 -- return M
 M.setup()
