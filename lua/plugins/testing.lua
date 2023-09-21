@@ -123,7 +123,14 @@ return {
       "haydenmeade/neotest-jest",
       "rouge8/neotest-rust",
       "nvim-neotest/neotest-python",
-      { "andythigpen/nvim-coverage", config = true },
+      {
+        "andythigpen/nvim-coverage",
+        config = function()
+          require("coverage").setup({
+            auto_reload = true,
+          })
+        end
+      },
     },
     keys = {
       {
