@@ -86,6 +86,11 @@ return {
             "%.jpe?g",
             "%.icns",
             "%.zip",
+            "%.sqlite3",
+            "%.svg",
+            "%.otf",
+            "%.ttf",
+            "%.lock",
           },
           vimgrep_arguments = {
             "rg",
@@ -152,6 +157,16 @@ return {
           },
         },
         extensions = {
+          frecency = {
+            show_scores = false,
+            show_unindexed = false,
+            ignore_patterns = {
+              "*.git/*",
+              "*/tmp/*",
+              "*/node_modules/*",
+              "*/vendor/*",
+            },
+          },
           project = {
             base_dirs = {
               '~/Projects'

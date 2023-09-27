@@ -77,6 +77,15 @@ return {
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      {
+        "dgagn/diagflow.nvim",
+        event = "LspAttach",
+        opts = {
+          enable = function() return vim.bo.filetype ~= "lazy" end,
+          format = function(diag) return " " .. diag.message end,
+          scope = "line",
+        },
+      },
     },
     ---@class PluginLspOpts
     opts = {
