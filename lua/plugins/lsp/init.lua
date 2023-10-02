@@ -280,7 +280,7 @@ return {
   },
   -- formatters
   {
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     event = "BufReadPre",
     dependencies = { "mason.nvim" },
     opts = function()
@@ -352,6 +352,7 @@ return {
               return util.executable("shellcheck", true)
             end,
           }),
+          cda.impl,
           -- typescript nvim
           -- require("typescript.extensions.null-ls.code-actions"),
         },
