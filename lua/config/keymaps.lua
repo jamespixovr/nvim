@@ -175,5 +175,12 @@ end
 vim.keymap.set("i", "<C-a>", "<C-o>^")
 vim.keymap.set("i", "<C-e>", "<C-o>$")
 
+-- toggle inlay hints
+if vim.lsp.inlay_hint then
+  vim.keymap.set("n", "<leader>uh",
+    function() vim.lsp.inlay_hint(0, nil) end, { desc = "Toggle inlay hints" }
+  )
+end
+
 -- return M
 M.setup()

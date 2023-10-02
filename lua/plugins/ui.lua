@@ -224,12 +224,12 @@ return {
     "lukas-reineke/indent-blankline.nvim",
     event = { "BufReadPost", "BufNewFile" },
     opts = {
-      -- indent = { char = "│" },
-      indent = { highlight = highlight, char = "" },
-      whitespace = {
-        highlight = highlight,
-        remove_blankline_trail = false,
-      },
+      indent = { char = "│" },
+      -- indent = { highlight = highlight, char = "" },
+      -- whitespace = {
+      --   highlight = highlight,
+      --   remove_blankline_trail = false,
+      -- },
       scope = { enabled = false },
       exclude = {
         filetypes = indent_exclude_fts,

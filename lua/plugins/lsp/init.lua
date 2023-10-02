@@ -105,7 +105,7 @@ return {
         },
       },
       inlay_hints = {
-        enabled = false,
+        enabled = true,
       },
       -- Automatically format on save
       autoformat = true,
@@ -122,6 +122,7 @@ return {
           single_file_support = true,
           settings = {
             Lua = {
+              hint = { enable = true },
               completion = {
                 workspaceWord = true,
                 callSnippet = "Both",
