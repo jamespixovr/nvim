@@ -9,7 +9,7 @@ local default_options = {
   cmdheight = 0,             -- more space in the neovim command line for displaying messages
   colorcolumn = "99999",     -- fixes indentline for now
   completeopt = { "menuone", "noselect" },
-  conceallevel = 0,          -- so that `` is visible in markdown files
+  conceallevel = 3,          -- Hide * markup for bold and italic
   fileencoding = "utf-8",    -- the encoding written to a file
   foldenable = true,         -- Enable folding
   foldlevel = 99,            -- Fold by default, -- Using ufo provider need a large value, feel free to decrease the value
@@ -43,6 +43,7 @@ local default_options = {
   signcolumn = "yes",                              -- always show the sign column, otherwise it would shift the text each time
   wrap = false,                                    -- display lines as one long line
   spell = false,
+  confirm = true,                                  -- Confirm to save changes before exiting modified buffer
   spelllang = "en",
   scrolloff = 4,
   sidescrolloff = 4,
@@ -58,12 +59,14 @@ local default_options = {
     eob = " ",
   },
   undofile = true,
+  undolevels = 10000,
   -- Indenting
   expandtab = true,   -- convert tabs to spaces
   smartindent = true, -- make indenting smarter again
   tabstop = 2,        -- insert 2 spaces for a tab
   softtabstop = 2,
   shiftwidth = 2,     -- the number of spaces inserted for each indentation
+  sessionoptions = { "buffers", "curdir", "tabpages", "winsize", "help", "globals", "skiprtp" },
 }
 
 vim.cmd([[set iskeyword+=-]])
@@ -115,3 +118,15 @@ elseif vim.fn.finddir(".git", ".;") ~= "" then
 else
   vim.o.grepprg = "grep -nIR $* /dev/null"
 end
+
+
+-- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
+if vim.fn.has("nvim-0.10") == 1 then
+  vim.opt.foldmethod = "expr"
+  vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+else
+  vim.opt.foldmethod = "indent"
+end
+
+-- Fix markdown indentation settings
+vim.g.markdown_recommended_style = 0

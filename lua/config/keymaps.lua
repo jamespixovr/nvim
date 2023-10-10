@@ -28,6 +28,15 @@ keymap("n", "<A-k>", ":m .-2<CR>==")
 keymap("v", "<A-j>", ":m '>+1<CR>gv=gv")
 keymap("v", "<A-k>", ":m '<-2<CR>gv=gv")
 
+-- Terminal Mappings
+keymap("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
+keymap("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
+keymap("t", "<C-j>", "<cmd>wincmd j<cr>", { desc = "Go to lower window" })
+keymap("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
+keymap("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
+keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
+keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
+
 -- adapted from https://github.com/LunarVim/LunarVim/blob/rolling/lua/lvim/keymappings.lua
 local M = {}
 local generic_opts_any = { noremap = true, silent = true }

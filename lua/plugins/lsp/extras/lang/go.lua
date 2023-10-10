@@ -104,7 +104,7 @@ return {
       require("go").setup({
         dap_debug = true,
         dap_debug_gui = true,
-        run_in_floaterm = true
+        run_in_floaterm = true,
       })
     end,
     event = { "CmdlineEnter" },
