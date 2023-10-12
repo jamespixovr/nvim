@@ -212,6 +212,7 @@ return {
   -- codeium
   {
     "Exafunction/codeium.vim",
+    event = 'BufEnter',
     config = function()
       -- vim.g.codeium_disable_keymaps = true
       vim.keymap.set('i', '<C-cr>', function() return vim.fn['codeium#Accept']() end, { expr = true })

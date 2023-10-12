@@ -87,7 +87,7 @@ keymap("n", "<leader><space>", ":nohlsearch<CR>")
 keymap("i", "<C-a>", "<C-o>^")
 keymap("i", "<C-e>", "<C-o>$")
 
-keymap("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+keymap("n", "<leader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
 -- Clear search, diff update and redraw
 -- taken from runtime/lua/_editor.lua
@@ -102,7 +102,7 @@ keymap(
 keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 -- lazy
-keymap("n", "<leader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+keymap("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- windows
 keymap("n", "<leader>ww", "<C-W>p", { desc = "Other window", remap = true })

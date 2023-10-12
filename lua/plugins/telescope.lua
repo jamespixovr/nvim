@@ -31,7 +31,7 @@ return {
       { "<leader>fp", "<CMD>Telescope project display_type=full<CR>",       desc = "Find project" },
       { "<leader>T",  "<cmd>Telescope<cr>",                                 desc = "Open Telescope" },
       { "<leader>rr", "<cmd>Telescope resume<cr>",                          desc = "Telescope Resume" },
-      { "<leader>b",  "<cmd>Telescope buffers show_all_buffers=true<cr>",   desc = "Switch Buffer" },
+      { "<leader>bb", "<cmd>Telescope buffers show_all_buffers=true<cr>",   desc = "Switch Buffer" },
       { "<leader>ff", "<cmd>Telescope find_files<cr>",                      desc = "Find Files" },
       { "<leader>fe", "<cmd>Telescope file_browser<cr>",                    desc = "Browse Files" },
       { "<leader>fg", "<cmd>Telescope git_files<cr>",                       desc = "Find Git Files" },
