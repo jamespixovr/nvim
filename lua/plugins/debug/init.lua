@@ -87,8 +87,6 @@ return {
     require("nvim-dap-virtual-text").setup {
       commented = true,
     }
-    -- require("plugins.debug.js-config").setup()
-    -- require("plugins.debug.js-config").vscodeExtensions()
   end,
   dependencies = {
     { "theHamsta/nvim-dap-virtual-text", opts = {}, },

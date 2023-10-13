@@ -186,30 +186,6 @@ function M.toggle_diagnostics()
   vim.notify(msg, vim.log.levels.INFO, { title = "Diagnostics" })
 end
 
-function M.vscodeExtensions()
-  -- ## DAP `launch.json`
-  require('dap.ext.vscode').load_launchjs(nil, {
-    ['python'] = {
-      'python',
-    },
-    ['pwa-node'] = {
-      'javascript',
-      'typescript',
-    },
-    ['node'] = {
-      'javascript',
-      'typescript',
-    },
-    ['cppdbg'] = {
-      'c',
-      'cpp',
-    },
-    ['dlv'] = {
-      'go',
-    },
-  })
-end
-
 M.str_isempty = function(s)
   return s == nil or s == ""
 end
