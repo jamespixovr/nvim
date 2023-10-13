@@ -521,10 +521,10 @@ return {
         button.opts.hl = "AlphaButtons"
         button.opts.hl_shortcut = "AlphaShortcut"
       end
-      dashboard.section.footer.opts.hl = "Type"
+      dashboard.section.footer.opts.hl = "AlphaFooter"
       dashboard.section.header.opts.hl = "AlphaHeader"
       dashboard.section.buttons.opts.hl = "AlphaButtons"
-      dashboard.config.layout[1].val = 5
+      dashboard.config.layout[1].val = 8
 
       -- close Lazy and re-open when the dashboard is ready
       if vim.o.filetype == "lazy" then

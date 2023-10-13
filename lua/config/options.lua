@@ -1,7 +1,9 @@
+vim.g.mapleader = " "
+vim.g.maplocalleader = " "
+
 --  ╭─────────────────╮
 --  │ Default plugins │
 --  ╰─────────────────╯
----  SETTINGS  ---
 local default_options = {
   backspace = { "indent", "eol", "start" },
   backup = false,            -- creates a backup file
@@ -12,7 +14,6 @@ local default_options = {
   conceallevel = 3,          -- Hide * markup for bold and italic
   fileencoding = "utf-8",    -- the encoding written to a file
   foldenable = true,         -- Enable folding
-  foldlevel = 99,            -- Fold by default, -- Using ufo provider need a large value, feel free to decrease the value
   foldmethod = "expr",       -- folding, set to "expr" for treesitter based folding
   foldexpr = "",             -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
   foldlevelstart = 99,
@@ -77,27 +78,20 @@ end
 -- vim.cmd([[ filetype indent plugin on syntax enable ]])
 
 -- Stop loading built in plugins
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-vim.wo.colorcolumn = "99999"
+-- vim.g.loaded_netrw = 1
+-- vim.g.loaded_netrwPlugin = 1
+-- vim.wo.colorcolumn = "99999"
 
-vim.o.foldlevel = 99
+-- Fold by default, -- Using ufo provider need a large value, feel free to decrease the value
+vim.opt.foldlevel = 99
 vim.o.foldlevelstart = 99
 
 -- disable some extension providers
-vim.g.loaded_python3_provider = 0
-vim.g.loaded_ruby_provider = 0
+-- vim.g.loaded_python3_provider = 0
+-- vim.g.loaded_ruby_provider = 0
 --vim.g.loaded_node_provider = 0
-vim.g.loaded_perl_provider = 0
+-- vim.g.loaded_perl_provider = 0
 
--- highlight on yank
-vim.api.nvim_create_autocmd("TextYankPost", {
-  callback = function()
-    vim.highlight.on_yank({ higroup = "IncSearch", timeout = 500 })
-  end,
-})
 -- call the function
 
 vim.opt.wildignore:append(
@@ -120,7 +114,6 @@ else
 end
 
 
--- HACK: causes freezes on <= 0.9, so only enable on >= 0.10 for now
 if vim.fn.has("nvim-0.10") == 1 then
   vim.opt.foldmethod = "expr"
   vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
