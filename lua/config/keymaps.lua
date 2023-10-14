@@ -18,7 +18,7 @@ keymap("v", "<", "<gv")
 keymap("v", ">", ">gv")
 
 -- Paste over currently selected text without yanking it
-keymap("v", "p", '"_dp')
+keymap("v", "p", '"_dP')
 
 -- 'jk' for quitting insert mode
 keymap("i", "jk", "<ESC>")

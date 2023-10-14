@@ -506,7 +506,7 @@ return {
       dashboard.section.header.val = header_logo
       -- dashboard.section.header.val = require("util.logo")["random"]
       dashboard.section.buttons.val = {
-        dashboard.button("f", " " .. " Find file", "<cmd>Telescope find_files<cr>"),
+        dashboard.button("f", " " .. " Find file", "<cmd>Telescope find_files<cr>"),
         dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),
         dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),
@@ -544,7 +544,8 @@ return {
         callback = function()
           local stats = require("lazy").stats()
           local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          dashboard.section.footer.val = "⚡ Neovim loaded " .. stats.count .. " plugins in " .. ms .. "ms"
+          dashboard.section.footer.val = "⚡ Neovim loaded " ..
+              stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms"
           pcall(vim.cmd.AlphaRedraw)
         end,
       })
