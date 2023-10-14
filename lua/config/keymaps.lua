@@ -40,9 +40,9 @@ keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
 -- Move current line / block with Alt-j/k ala vscode.
-keymap("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
+-- keymap("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
 -- Move current line / block with Alt-j/k ala vscode.
-keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
+-- keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 -- navigation
 keymap("i", "C-Up", "<C-\\><C-N><C-w>k")
