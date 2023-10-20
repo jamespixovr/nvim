@@ -381,5 +381,5 @@ return {
   { import = "plugins.lsp.extras.lang.eslint" },
   { import = "plugins.lsp.extras.lang.rust" },
   { import = "plugins.lsp.extras.lang.python" },
-  -- { import = "plugins.lsp.extras.lang.cucumber" },
+  { import = "plugins.lsp.extras.lang.cucumber" },
 }
