@@ -1,3 +1,4 @@
+local nodeDapConfig = require("plugins.debug.js-config").nodeDapConfig
 local icons = {
   dap = {
     Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" }, -- 
@@ -180,18 +181,38 @@ return {
         },
       },
     },
+
     -- JS/TS debugging.
     {
-      'mxsdev/nvim-dap-vscode-js',
-      opts = {
-        debugger_path = vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug',
-        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+      "mxsdev/nvim-dap-vscode-js",
+      dependencies = {
+        {
+          'microsoft/vscode-js-debug',
+          version = '1.x',
+          build = 'git checkout . && npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
+        },
       },
-    },
-    {
-      'microsoft/vscode-js-debug',
-      version = '1.x',
-      build = 'npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
+
+      event = "VeryLazy",
+      config = function()
+        local dap = require("dap")
+        local dap_js = require("dap-vscode-js")
+        local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
+        dap_js.setup({
+          debugger_path = DEBUGGER_PATH,
+          adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
+        })
+        local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
+        for _, language in ipairs(exts) do
+          dap.configurations[language] = nodeDapConfig(language)
+        end
+        require("dap.ext.vscode").load_launchjs(nil, {
+          ['node'] = {
+            'javascript',
+            'typescript',
+          },
+        })
+      end
     },
     -- Lua adapter.
     {

@@ -27,13 +27,6 @@ keymap("i", "<C-Down>", "<C-\\><C-N><C-w>j")
 keymap("i", "<C-Left>", "<C-\\><C-N><C-w>h")
 keymap("i", "<C-Right>", "<C-\\><C-N><C-w>l")
 
--- Move current line / block with Alt-j/k ala vscode.
--- keymap("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
--- keymap("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
--- keymap("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
--- keymap("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
--- keymap("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
--- keymap("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
 
 -- Terminal Mappings
 keymap("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
@@ -44,10 +37,6 @@ keymap("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
--- Move current line / block with Alt-j/k ala vscode.
--- keymap("i", "<A-j>", "<Esc>:m .+1<CR>==gi")
--- Move current line / block with Alt-j/k ala vscode.
--- keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
 
 
