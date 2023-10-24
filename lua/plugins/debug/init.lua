@@ -49,12 +49,6 @@ return {
       "<cmd>Telescope dap list_breakpoints<cr>",
       desc = "Show All Breakpoints"
     },
-    {
-      "<leader>de",
-      function() require("dapui").eval() end,
-      mode = { "n", "v" },
-      desc = "Evaluate"
-    },
     { "<leader>dE", "<cmd>lua require('dapui').eval(vim.fn.input '[Expression] > ')<cr>", desc = "Evaluate Input" },
     { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
     { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>",                      desc = "Float Element" },
@@ -75,7 +69,7 @@ return {
     { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>",                   desc = "Preview" },
     { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>",                            desc = "Terminate" },
   },
-  config = function()
+  config = function(_, opts)
     vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
     for name, sign in pairs(icons.dap) do
       sign = type(sign) == "table" and sign or { sign }
@@ -84,47 +78,88 @@ return {
         { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
       )
     end
-    require("nvim-dap-virtual-text").setup {
-      commented = true,
+
+    local dap = require("dap")
+    local dapui = require("dapui")
+    dapui.setup(opts)
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+      dapui.open({})
+    end
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+      dapui.close({})
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+      dapui.close({})
+    end
+
+    -- Use overseer for running preLaunchTask and postDebugTask.
+    require("overseer").patch_dap(true)
+    require("dap.ext.vscode").json_decode = require("overseer.json").decode
+
+    -- Add configurations from launch.json
+    require('dap.ext.vscode').load_launchjs(nil, {
+      ['codelldb'] = { 'c' },
+      ['pwa-node'] = { 'typescript', 'javascript' },
+    })
+
+    -- Lua configurations.
+    dap.adapters.nlua = function(callback, config)
+      callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+    end
+    dap.configurations['lua'] = {
+      {
+        type = 'nlua',
+        request = 'attach',
+        name = 'Attach to running Neovim instance',
+      },
     }
   end,
+
   dependencies = {
-    { "theHamsta/nvim-dap-virtual-text", opts = {}, },
+    { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = 'eol' }, },
+
     "nvim-telescope/telescope-dap.nvim",
+
     {
       "leoluz/nvim-dap-go",
       module = "dap-go",
       opts = {}
     },
+
     { 'nvim-treesitter/nvim-treesitter' },
+
     -- fancy UI for the debugger
     {
       "rcarriga/nvim-dap-ui",
       -- stylua: ignore
       keys = {
         { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" },
-        { "<leader>de", function() require("dapui").eval() end,     desc = "Eval",  mode = { "n", "v" } },
+
+        {
+          "<leader>de",
+          function()
+            -- Calling this twice to open and jump into the window.
+            require('dapui').eval()
+            require('dapui').eval()
+          end,
+          mode = { "n", "v" },
+          desc = "Evaluate expression"
+        },
       },
-      opts = {},
-      config = function(_, opts)
-        local dap = require("dap")
-        local dapui = require("dapui")
-        dapui.setup(opts)
-        dap.listeners.after.event_initialized["dapui_config"] = function()
-          dapui.open({})
-        end
-        dap.listeners.before.event_terminated["dapui_config"] = function()
-          dapui.close({})
-        end
-        dap.listeners.before.event_exited["dapui_config"] = function()
-          dapui.close({})
-        end
-        vim.schedule(function()
-          require("dap.ext.vscode").json_decode = require("overseer.json").decode
-          require("dap.ext.vscode").load_launchjs(nil, { node = { "typescript", "javascript" } })
-          require("overseer").patch_dap(true)
-        end)
-      end,
+      opts = {
+        floating = { border = 'rounded' },
+        layouts = {
+          {
+            elements = {
+              { id = 'stacks',      size = 0.30 },
+              { id = 'breakpoints', size = 0.20 },
+              { id = 'scopes',      size = 0.50 },
+            },
+            position = 'left',
+            size = 40,
+          },
+        },
+      },
     },
     -- mason.nvim integration
     {
@@ -145,6 +180,20 @@ return {
         },
       },
     },
+    -- JS/TS debugging.
+    {
+      'mxsdev/nvim-dap-vscode-js',
+      opts = {
+        debugger_path = vim.fn.stdpath 'data' .. '/lazy/vscode-js-debug',
+        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' },
+      },
+    },
+    {
+      'microsoft/vscode-js-debug',
+      version = '1.x',
+      build = 'npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
+    },
+    -- Lua adapter.
     {
       "jbyuki/one-small-step-for-vimkind",
       -- stylua: ignore

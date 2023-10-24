@@ -21,6 +21,11 @@ keymap("v", "p", '"_dP')
 keymap("i", "jk", "<ESC>")
 keymap("i", "kj", "<ESC>")
 
+-- navigation
+keymap("i", "<C-Up>", "<C-\\><C-N><C-w>k")
+keymap("i", "<C-Down>", "<C-\\><C-N><C-w>j")
+keymap("i", "<C-Left>", "<C-\\><C-N><C-w>h")
+keymap("i", "<C-Right>", "<C-\\><C-N><C-w>l")
 
 -- Move current line / block with Alt-j/k ala vscode.
 -- keymap("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
@@ -44,11 +49,6 @@ keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 -- Move current line / block with Alt-j/k ala vscode.
 -- keymap("i", "<A-k>", "<Esc>:m .-2<CR>==gi")
 
--- navigation
-keymap("i", "C-Up", "<C-\\><C-N><C-w>k")
-keymap("i", "C-Down", "<C-\\><C-N><C-w>j")
-keymap("i", "C-Left", "<C-\\><C-N><C-w>h")
-keymap("i", "C-Right", "<C-\\><C-N><C-w>l")
 
 
 -- Better window movement
@@ -79,10 +79,6 @@ keymap("n", "<Right>", "<Nop>")
 -- Clear search with <esc>
 keymap({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 keymap("n", "<leader><space>", ":nohlsearch<CR>")
-
--- BASH-style movement in insert mode
-keymap("i", "<C-a>", "<C-o>^")
-keymap("i", "<C-e>", "<C-o>$")
 
 keymap("n", "<leader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
