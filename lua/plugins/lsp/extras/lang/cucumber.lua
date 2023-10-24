@@ -40,6 +40,8 @@ return {
                 "src/test/**/*.java",
                 -- Cucumber-Js
                 "features/**/*.ts",
+                "features/**/*.js",
+                "features/**/*.jsx",
                 "features/**/*.tsx",
                 -- Behave
                 "features/**/*.php",
