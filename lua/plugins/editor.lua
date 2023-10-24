@@ -89,8 +89,8 @@ return {
     "echasnovski/mini.bufremove",
     -- stylua: ignore
     keys = {
-      { "<leader>cb", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-      { "<leader>cB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
+      { "<leader>bc", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+      { "<leader>bB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
     },
   },
 
@@ -107,7 +107,6 @@ return {
     },
     config = function(_, opts)
       require("illuminate").configure(opts)
-      -- vim.g.Illuminate_highlightUnderCursor = 0
     end,
     -- stylua: ignore
     keys = {

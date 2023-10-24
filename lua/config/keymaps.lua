@@ -92,7 +92,7 @@ keymap(
 )
 
 -- save file
-keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+-- keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 -- lazy
 keymap("n", "<leader>ll", "<cmd>Lazy<cr>", { desc = "Lazy" })

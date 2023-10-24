@@ -42,16 +42,34 @@ return {
       servers = {
         ---@type lspconfig.options.tsserver
         tsserver = {
-          on_attach = function(_, bufnr)
-            -- stylua: ignore
-            vim.keymap.set("n", "<leader>co", "<cmd>TypescriptOrganizeImports<cr>",
-              { desc = "Organize Imports", buffer = bufnr })
-            -- stylua: ignore
-            vim.keymap.set("n", "<leader>cu", "<cmd>TypescriptRemoveUnused<cr>",
-              { desc = "Remove Unused", buffer = bufnr })
-            -- stylua: ignore
-            vim.keymap.set("n", "<leader>cR", "<cmd>TypescriptRenameFile<cr>", { desc = "Rename File", buffer = bufnr })
-          end,
+          keys = {
+            {
+              "<leader>co",
+              function()
+                vim.lsp.buf.code_action({
+                  apply = true,
+                  context = {
+                    only = { "source.organizeImports.ts" },
+                    diagnostics = {},
+                  },
+                })
+              end,
+              desc = "Organize Imports",
+            },
+            {
+              "<leader>cR",
+              function()
+                vim.lsp.buf.code_action({
+                  apply = true,
+                  context = {
+                    only = { "source.removeUnused.ts" },
+                    diagnostics = {},
+                  },
+                })
+              end,
+              desc = "Remove Unused Imports",
+            },
+          },
           init_options = {
             preferences = {
               importModuleSpecifierPreference = "project-relative",
@@ -106,18 +124,12 @@ return {
           },
         },
       },
-      setup = {
-        tsserver = function(_, config)
-          require("typescript").setup({ server = config })
-          return true
-        end,
-      },
     },
   },
-  {
-    "nvimtools/none-ls.nvim",
-    opts = function(_, opts)
-      table.insert(opts.sources, require("typescript.extensions.null-ls.code-actions"))
-    end,
-  },
+  -- {
+  --   "nvimtools/none-ls.nvim",
+  --   opts = function(_, opts)
+  --     table.insert(opts.sources, require("typescript.extensions.null-ls.code-actions"))
+  --   end,
+  -- },
 }
