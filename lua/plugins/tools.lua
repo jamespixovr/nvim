@@ -10,8 +10,10 @@ return {
       { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" }
     }
   },
+
   -- Required dependency for many plugins. Super useful Lua functions
-  { "nvim-lua/plenary.nvim", lazy = true },
+  { "nvim-lua/plenary.nvim" },
+
   {
     "kevinhwang91/nvim-bqf", -- Better quickfix window,
     ft = "qf",

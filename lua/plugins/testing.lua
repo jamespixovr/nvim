@@ -2,6 +2,7 @@ local settings = require("settings")
 return {
   {
     "stevearc/overseer.nvim",
+    event = 'VeryLazy',
     cmd = {
       "Grep",
       "Make",
