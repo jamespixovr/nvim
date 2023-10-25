@@ -114,9 +114,17 @@ keymap("n", "gq", vim.cmd.cnext, { desc = " Next Quickfix" })
 keymap("n", "gQ", vim.cmd.cprevious, { desc = " Prev Quickfix" })
 keymap("n", "dQ", function() vim.cmd.cexpr("[]") end, { desc = " Delete Quickfix List" })
 
+-- OPTION TOGGLING
 -- toggle inlay hints
 if vim.lsp.inlay_hint then
   vim.keymap.set("n", "<leader>uh",
     function() vim.lsp.inlay_hint(0, nil) end, { desc = "Toggle inlay hints" }
   )
 end
+
+keymap(
+  "n",
+  "<leader>cu",
+  function() vim.cmd("silent later " .. tostring(vim.opt.undolevels:get())) end,
+  { desc = "󰛒 Redo All" }
+)

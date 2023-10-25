@@ -1,22 +1,18 @@
-vim.g.mapleader = " "
-vim.g.maplocalleader = " "
-
 --  ╭─────────────────╮
 --  │ Default plugins │
 --  ╰─────────────────╯
 local default_options = {
-  backspace = { "indent", "eol", "start" },
-  backup = false,            -- creates a backup file
-  clipboard = "unnamedplus", -- allows neovim to access the system clipboard
-  cmdheight = 0,             -- more space in the neovim command line for displaying messages
-  colorcolumn = "99999",     -- fixes indentline for now
+  -- backspace = { "indent", "eol", "start" },
+  backup = false,                                  -- creates a backup file
+  clipboard = "unnamedplus",                       -- allows neovim to access the system clipboard
+  cmdheight = 0,                                   -- more space in the neovim command line for displaying messages
+  colorcolumn = "99999",                           -- fixes indentline for now
   completeopt = { "menuone", "noselect" },
-  conceallevel = 3,          -- Hide * markup for bold and italic
-  fileencoding = "utf-8",    -- the encoding written to a file
-  foldenable = true,         -- Enable folding
-  foldmethod = "expr",       -- folding, set to "expr" for treesitter based folding
-  foldexpr = "",             -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
-  foldlevelstart = 99,
+  conceallevel = 3,                                -- Hide * markup for bold and italic
+  fileencoding = "utf-8",                          -- the encoding written to a file
+  foldenable = true,                               -- Enable folding
+  foldmethod = "expr",                             -- folding, set to "expr" for treesitter based folding
+  foldexpr = "",                                   -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
   foldcolumn = "1",
   hidden = true,                                   -- required to keep multiple buffers and open multiple buffers
   hlsearch = true,                                 -- highlight all matches on previous search pattern
@@ -89,7 +85,7 @@ vim.o.foldlevelstart = 99
 -- disable some extension providers
 vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
-vim.g.loaded_node_provider = 0
+vim.g.loaded_node_provider = 1
 vim.g.loaded_perl_provider = 0
 
 -- call the function
