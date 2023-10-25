@@ -1,4 +1,15 @@
-local keymap = vim.keymap.set
+---ensures unique keymaps https://www.reddit.com/r/neovim/comments/16h2lla/can_you_make_neovim_warn_you_if_your_config_maps/
+---@param modes "n"|"v"|"x"|"i"|"o"|"c"|"t"|"ia"|"ca"|"!a"|string[]
+---@param lhs string
+---@param rhs string|function
+---@param opts? { unique: boolean, desc: string, buffer: boolean, nowait: boolean, remap: boolean }
+local function keymap(modes, lhs, rhs, opts)
+  if not opts then opts = {} end
+  if opts.unique == nil then opts.unique = true end
+  vim.keymap.set(modes, lhs, rhs, opts)
+end
+
+-- local keymap = vim.keymap.set
 
 -- Remap for dealing with word wrap
 keymap("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
@@ -21,6 +32,10 @@ keymap("v", "p", '"_dP')
 keymap("i", "jk", "<ESC>")
 keymap("i", "kj", "<ESC>")
 
+-- COMMAND & INSERT MODE
+keymap({ "i", "c" }, "<C-a>", "<Home>")
+keymap({ "i", "c" }, "<C-e>", "<End>")
+
 -- navigation
 keymap("i", "<C-Up>", "<C-\\><C-N><C-w>k")
 keymap("i", "<C-Down>", "<C-\\><C-N><C-w>j")
@@ -37,15 +52,12 @@ keymap("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
 
-
-
-
 -- Better window movement
 -- Move to window using the <ctrl> hjkl keys
-keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-keymap("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-keymap("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Resize window using <ctrl> arrow keys
 keymap("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
@@ -96,6 +108,11 @@ keymap("n", "<leader>|", "<C-W>v", { desc = "Split window right", remap = true }
 
 keymap("x", "K", ":m '<-2<CR>gv-gv")
 keymap("x", "J", ":m '>+1<CR>gv-gv")
+
+-- QUICKFIX
+keymap("n", "gq", vim.cmd.cnext, { desc = " Next Quickfix" })
+keymap("n", "gQ", vim.cmd.cprevious, { desc = " Prev Quickfix" })
+keymap("n", "dQ", function() vim.cmd.cexpr("[]") end, { desc = " Delete Quickfix List" })
 
 -- toggle inlay hints
 if vim.lsp.inlay_hint then
