@@ -123,55 +123,7 @@ return {
       },
       capabilities = {},
       ---@type lspconfig.options
-      servers = {
-        lua_ls = {
-          single_file_support = true,
-          settings = {
-            Lua = {
-              hint = { enable = true },
-              completion = {
-                workspaceWord = true,
-                callSnippet = "Both",
-                enable = true,
-                showWord = "Disable",
-              },
-              diagnostics = {
-                groupSeverity = {
-                  strong = "Warning",
-                  strict = "Warning",
-                },
-                groupFileStatus = {
-                  ["ambiguity"] = "Opened",
-                  ["await"] = "Opened",
-                  ["codestyle"] = "None",
-                  ["duplicate"] = "Opened",
-                  ["global"] = "Opened",
-                  ["luadoc"] = "Opened",
-                  ["redefined"] = "Opened",
-                  ["strict"] = "Opened",
-                  ["strong"] = "Opened",
-                  ["type-check"] = "Opened",
-                  ["unbalanced"] = "Opened",
-                  ["unused"] = "Opened",
-                },
-                unusedLocalExclude = { "_*" },
-                globals = { "vim" },
-              },
-              misc = {
-                parameters = {
-                  "--log-level=trace",
-                },
-              },
-              workspace = {
-                library = {
-                  [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-                  [vim.fn.stdpath("config") .. "/lua"] = true,
-                },
-              },
-            },
-          },
-        }
-      },
+      servers = {},
       -- you can do any additional lsp server setup here
       -- return true if you don't want this server to be setup with lspconfig
       ---@type table<string, fun(server:string, opts: table):boolean?>
@@ -365,26 +317,5 @@ return {
       }
     end,
   },
-  {
-    "DNLHC/glance.nvim",
-    event = "BufReadPre",
-    keys = {
-      { "gM", "<cmd>Glance implementations<cr>",  desc = "Goto Implementations (Glance)" },
-      { "gY", "<cmd>Glance type_definitions<cr>", desc = "Goto Type Definition (Glance)" },
-    },
-    opts = {
-      border = {
-        enable = true,
-      }
-    }
-  },
-  -- language specific extension modules
-  { import = "plugins.lsp.extras.lang.go" },
-  { import = "plugins.lsp.extras.lang.json" },
-  { import = "plugins.lsp.extras.lang.yaml" },
-  { import = "plugins.lsp.extras.lang.typescript" },
-  { import = "plugins.lsp.extras.lang.eslint" },
-  { import = "plugins.lsp.extras.lang.rust" },
-  { import = "plugins.lsp.extras.lang.python" },
-  { import = "plugins.lsp.extras.lang.cucumber" },
+  -- { import = "plugins.lsp.extras.lang.luals" },
 }

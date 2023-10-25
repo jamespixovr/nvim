@@ -110,6 +110,14 @@ return {
             end,
           },
           settings = {
+            -- enable checking javascript without a `jsconfig.json`
+            implicitProjectConfiguration = {
+              checkJs = true,
+              -- JXA is compliant with most of ECMAScript: https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/ES6-Features-in-JXA
+              -- ES2022: .at(), ES2021: `.replaceAll()`, `new Set`
+              target = "ES2022",
+              strictNullChecks = true,
+            },
             completions = {
               completeFunctionCalls = true,
             },
