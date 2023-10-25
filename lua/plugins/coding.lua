@@ -467,7 +467,7 @@ return {
     "ray-x/lsp_signature.nvim",
     keys = {
       {
-        "<C-J>",
+        "<leader>ls",
         function()
           require('lsp_signature').toggle_float_win()
         end,

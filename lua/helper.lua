@@ -259,4 +259,13 @@ function M.opts(name)
   return Plugin.values(plugin, "opts", false)
 end
 
+---send notification
+---@param msg string
+---@param title string
+---@param level? "info"|"trace"|"debug"|"warn"|"error"
+function M.notify(title, msg, level)
+  if not level then level = "info" end
+  vim.notify(msg, vim.log.levels[level:upper()], { title = title })
+end
+
 return M
