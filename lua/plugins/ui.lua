@@ -469,22 +469,29 @@ return {
   --------------------------------------------------------------------------
 
   -- icons
-  { "nvim-tree/nvim-web-devicons", lazy = true },
+  { "nvim-tree/nvim-web-devicons" },
   -- ui components
-  { "MunifTanjim/nui.nvim",        lazy = true },
+  { "MunifTanjim/nui.nvim" },
   --------------------------------------------------------------------------
   -- figet
   {
     "j-hui/fidget.nvim",
+    lazy = false,
+    priority = 1000,
     tag = "legacy",
-    config = function()
-      require("fidget").setup({})
-    end,
+    event = "LspAttach",
+    opts = {
+      text = {
+        spinner = "dots_scrolling", -- animation shown when tasks are ongoing
+        completed = "Done",         -- message shown when task completes
+      },
+    }
   },
   --------------------------------------------------------------------------
 
   {
     "goolord/alpha-nvim",
+    lazy = false,
     dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VimEnter",
     cond = helper.is_directory_or_nil,
