@@ -5,10 +5,10 @@ local indent_exclude_fts = {
   "notify", "toggleterm", "lazyterm", "Trouble", "lazy",
   "mason", "NvimTree"
 }
-local highlight = {
-  "CursorColumn",
-  "Whitespace",
-}
+-- local highlight = {
+--   "CursorColumn",
+--   "Whitespace",
+-- }
 
 return {
   --------------------------------------------------------------------------
@@ -199,6 +199,7 @@ return {
             status.filename(),
           },
           lualine_x = {
+            -- status.codeium(),
             status.LazyUpdates(),
             status.Overseer(),
             status.showMacroRecording(),

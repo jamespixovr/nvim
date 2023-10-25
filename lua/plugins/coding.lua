@@ -209,18 +209,6 @@ return {
       vim.api.nvim_set_hl(0, "CmpItemMenu", { fg = "#C792EA", italic = true })
     end,
   },
-  -- codeium
-  {
-    "Exafunction/codeium.vim",
-    event = 'BufEnter',
-    config = function()
-      -- vim.g.codeium_disable_keymaps = true
-      vim.keymap.set('i', '<C-cr>', function() return vim.fn['codeium#Accept']() end, { expr = true })
-      vim.keymap.set('i', '<c-;>', function() return vim.fn['codeium#CycleCompletions'](1) end, { expr = true })
-      vim.keymap.set('i', '<c-,>', function() return vim.fn['codeium#CycleCompletions'](-1) end, { expr = true })
-      vim.keymap.set('i', '<c-x>', function() return vim.fn['codeium#Clear']() end, { expr = true })
-    end
-  },
 
   -- auto pairs
   {

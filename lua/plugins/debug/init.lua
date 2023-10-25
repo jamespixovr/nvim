@@ -70,51 +70,6 @@ return {
     { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>",                   desc = "Preview" },
     { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>",                            desc = "Terminate" },
   },
-  config = function(_, opts)
-    vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-    for name, sign in pairs(icons.dap) do
-      sign = type(sign) == "table" and sign or { sign }
-      vim.fn.sign_define(
-        "Dap" .. name,
-        { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
-      )
-    end
-
-    local dap = require("dap")
-    local dapui = require("dapui")
-    dapui.setup(opts)
-    dap.listeners.after.event_initialized["dapui_config"] = function()
-      dapui.open({})
-    end
-    dap.listeners.before.event_terminated["dapui_config"] = function()
-      dapui.close({})
-    end
-    dap.listeners.before.event_exited["dapui_config"] = function()
-      dapui.close({})
-    end
-
-    -- Use overseer for running preLaunchTask and postDebugTask.
-    require("overseer").patch_dap(true)
-    require("dap.ext.vscode").json_decode = require("overseer.json").decode
-
-    -- Add configurations from launch.json
-    require('dap.ext.vscode').load_launchjs(nil, {
-      ['codelldb'] = { 'c' },
-      ['pwa-node'] = { 'typescript', 'javascript' },
-    })
-
-    -- Lua configurations.
-    dap.adapters.nlua = function(callback, config)
-      callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
-    end
-    dap.configurations['lua'] = {
-      {
-        type = 'nlua',
-        request = 'attach',
-        name = 'Attach to running Neovim instance',
-      },
-    }
-  end,
 
   dependencies = {
     { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = 'eol' }, },
@@ -188,31 +143,10 @@ return {
       dependencies = {
         {
           'microsoft/vscode-js-debug',
-          version = '1.x',
-          build = 'git checkout . && npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
+          build = 'npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
         },
       },
 
-      event = "VeryLazy",
-      config = function()
-        local dap = require("dap")
-        local dap_js = require("dap-vscode-js")
-        local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
-        dap_js.setup({
-          debugger_path = DEBUGGER_PATH,
-          adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
-        })
-        local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
-        for _, language in ipairs(exts) do
-          dap.configurations[language] = nodeDapConfig(language)
-        end
-        require("dap.ext.vscode").load_launchjs(nil, {
-          ['node'] = {
-            'javascript',
-            'typescript',
-          },
-        })
-      end
     },
     -- Lua adapter.
     {
@@ -236,7 +170,67 @@ return {
         }
       end,
     },
-  }
+  },
+
+  config = function(_, opts)
+    vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
+    for name, sign in pairs(icons.dap) do
+      sign = type(sign) == "table" and sign or { sign }
+      vim.fn.sign_define(
+        "Dap" .. name,
+        { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
+      )
+    end
+
+    local dap = require("dap")
+    local dapui = require("dapui")
+    dapui.setup(opts)
+    dap.listeners.after.event_initialized["dapui_config"] = function()
+      dapui.open({})
+    end
+    dap.listeners.before.event_terminated["dapui_config"] = function()
+      dapui.close({})
+    end
+    dap.listeners.before.event_exited["dapui_config"] = function()
+      dapui.close({})
+    end
+
+    -- Use overseer for running preLaunchTask and postDebugTask.
+    require("overseer").patch_dap(true)
+    require("dap.ext.vscode").json_decode = require("overseer.json").decode
+
+
+    -- JS/TS configurations.
+    local dap_js = require("dap-vscode-js")
+    local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
+    dap_js.setup({
+      debugger_path = DEBUGGER_PATH,
+      adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
+    })
+    local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
+    for _, language in ipairs(exts) do
+      dap.configurations[language] = nodeDapConfig(language)
+    end
+
+    -- Lua configurations.
+    dap.adapters.nlua = function(callback, config)
+      callback { type = 'server', host = config.host or '127.0.0.1', port = config.port or 8086 }
+    end
+
+    dap.configurations['lua'] = {
+      {
+        type = 'nlua',
+        request = 'attach',
+        name = 'Attach to running Neovim instance',
+      },
+    }
+
+    -- Add configurations from launch.json
+    require('dap.ext.vscode').load_launchjs(nil, {
+      ['codelldb'] = { 'c' },
+      ['pwa-node'] = { 'typescript', 'javascript' },
+    })
+  end,
 }
 
 
