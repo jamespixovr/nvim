@@ -282,5 +282,11 @@ return {
     config = function(_, opt)
       require("neotest").setup(opt)
     end,
-  }
+  },
+  { -- This plugin
+    "Zeioth/compiler.nvim",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    dependencies = { "stevearc/overseer.nvim" },
+    opts = {},
+  },
 }

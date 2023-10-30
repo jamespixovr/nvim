@@ -55,7 +55,7 @@ return {
       local cmp = require("cmp")
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
-
+      local compare = require "cmp.config.compare"
       --[[ local maxline = 50
       local ellipsis = "..."
       local menu = {
@@ -81,6 +81,19 @@ return {
         completion = {
           completeopt = "menu,menuone,noselect,noinsert",
           -- completeopt = "menu,menuone,noinsert",
+        },
+        sorting = {
+          priority_weight = 2,
+          comparators = {
+            compare.score,
+            compare.recently_used,
+            compare.offset,
+            compare.exact,
+            compare.kind,
+            compare.sort_text,
+            compare.length,
+            compare.order,
+          },
         },
         snippet = {
           expand = function(args)
