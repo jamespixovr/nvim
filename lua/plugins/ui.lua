@@ -387,8 +387,7 @@ return {
     },
   },
   --------------------------------------------------------------------------
-  -- folding
-  -- fold area
+  -- folding fold area
   {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
@@ -400,7 +399,7 @@ return {
       { "zr", function(...) require("ufo").openFoldsExceptKinds(...) end, },
       { "zm", function(...) require("ufo").closeFoldsWith(...) end, },
       {
-        'K',
+        'zK',
         function()
           local winid = require('ufo').peekFoldedLinesUnderCursor()
           if not winid then
@@ -517,7 +516,7 @@ return {
       dashboard.section.header.val = header_logo
       -- dashboard.section.header.val = require("util.logo")["random"]
       dashboard.section.buttons.val = {
-        dashboard.button("f", " " .. " Find file", "<cmd>Telescope find_files<cr>"),
+        dashboard.button("f", settings.icons.ui.Search2 .. " Find file", "<cmd>Telescope find_files<cr>"),
         dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),
         dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),

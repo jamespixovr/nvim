@@ -3,11 +3,14 @@ return {
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "BufReadPre",
+    lazy = false,
     config = true,
   },
   {
     --- Treesitter
     "nvim-treesitter/nvim-treesitter",
+    lazy = false,
+    version = false,
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {

@@ -114,11 +114,11 @@ return {
 
   {
     "nvim-neotest/neotest",
-    event = 'VeryLazy',
+    event = 'LspAttach',
     dependencies = {
+      "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-plenary",
       "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
       "antoinemadec/FixCursorHold.nvim",
       "nvim-neotest/neotest-go",
       "haydenmeade/neotest-jest",
