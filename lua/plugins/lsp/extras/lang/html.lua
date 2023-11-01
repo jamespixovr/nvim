@@ -6,8 +6,7 @@ return {
       servers = {
         -- html
         html = {
-          filetypes = { "html", "javascript", "javascriptreact", "javascript.jsx", "typescript", "typescriptreact",
-            "typescript.tsx" },
+          filetypes = { "html", "javascriptreact", "javascript.jsx", "typescriptreact", "typescript.tsx" },
         },
         -- Emmet
         emmet_ls = {
