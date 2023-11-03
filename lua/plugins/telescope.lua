@@ -37,11 +37,11 @@ return {
       { "<leader>fg", "<cmd>Telescope git_files<cr>",                                        desc = "Find Git Files" },
       { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                                         desc = "Recent" },
       { "<leader>:",  "<cmd>Telescope commands<cr>",                                         desc = "Commands" },
-      { "<leader>sC", "<cmd>Telescope command_history<cr>",                                  desc = "Command History" },
-      { "<leader>sM", "<cmd>Telescope man_pages<cr>",                                        desc = "Man Pages" },
-      { "<leader>sa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
-      { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
-      { "<leader>sl", "<cmd>Telescope symbols<cr>",                                          desc = "Symbols" },
+      { "<leader>fC", "<cmd>Telescope command_history<cr>",                                  desc = "Command History" },
+      { "<leader>fM", "<cmd>Telescope man_pages<cr>",                                        desc = "Man Pages" },
+      { "<leader>fa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
+      { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
+      { "<leader>fl", "<cmd>Telescope symbols<cr>",                                          desc = "Symbols" },
       {
         "<leader>sg",
         "<cmd>Telescope live_grep<cr>",
@@ -66,8 +66,8 @@ return {
         desc =
         "Search word under cursor (cwd)"
       },
-      { "<leader>sk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
-      { "<leader>st", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
+      { "<leader>fk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
+      { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
       {
         "<leader>/",

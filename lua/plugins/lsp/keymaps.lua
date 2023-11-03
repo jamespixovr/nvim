@@ -3,8 +3,8 @@ local format = require("plugins.lsp.format").format
 
 
 function M.always_attach()
-  vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
-  vim.keymap.set("n", "<leader>xd", "<cmd>Telescope diagnostics<cr>", { desc = "Telescope Diagnostics" })
+  vim.keymap.set("n", "gl", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+  vim.keymap.set("n", "<leader>fd", "<cmd>Telescope diagnostics<cr>", { desc = "Telescope Diagnostics" })
   vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", { desc = "Goto Definition" })
   vim.keymap.set("n", "gr", "<cmd>Telescope lsp_references<cr>", { desc = "References" })
   vim.keymap.set("n", "gD", "<cmd>Telescope lsp_declarations<cr>", { desc = "Goto Declaration" })

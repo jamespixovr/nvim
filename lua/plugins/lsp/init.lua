@@ -17,11 +17,18 @@ return {
       }
     },
   },
+  -- rename
+  {
+    "smjonas/inc-rename.nvim",
+    config = function()
+      require("inc_rename").setup()
+    end,
+  },
   -- tools
   {
     "williamboman/mason.nvim",
     cmd = "Mason",
-    keys = { { "<leader>mc", "<cmd>Mason<cr>", desc = "Mason" } },
+    keys = { { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" } },
     build = ":MasonUpdate",
     opts = {
       ui = {
