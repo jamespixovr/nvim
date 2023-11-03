@@ -5,7 +5,7 @@ return {
     "nvim-tree/nvim-tree.lua",
     event = "User DirOpened",
     keys = {
-      { "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = "Nvim Tree" },
+      { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Nvim Tree" },
     },
     opts = {
       disable_netrw = true,
