@@ -60,6 +60,7 @@ return {
   },
   {
     "linux-cultist/venv-selector.nvim",
+    event = "VeryLazy",
     cmd = "VenvSelect",
     opts = {
       name = {
@@ -69,6 +70,9 @@ return {
         ".env",
       },
     },
-    keys = { { "<leader>cv", "<cmd>:VenvSelect<cr>", desc = "Select VirtualEnv" } },
+    keys = {
+      { "<leader>vs", "<cmd>:VenvSelect<cr>",       desc = "Select VirtualEnv" },
+      { "<leader>vc", "<cmd>:VenvSelectCached<cr>", desc = "Select VirtualEnv" }
+    },
   },
 }

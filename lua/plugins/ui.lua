@@ -123,8 +123,8 @@ return {
         desc = "Next Buffer",
         mode = { "n", "i" }
       },
-      { "<leader>tb", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
-      { "<leader>cq", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Close All Tabs" },
+      { "<leader>bt", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
+      { "<leader>bq", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Close All Tabs" },
       { '<leader>bl', '<cmd>BufferLineCloseLeft<cr>',                              desc = 'Close buffers to the left' },
       { '<leader>br', '<cmd>BufferLineCloseRight<cr>',                             desc = 'Close buffers to the right' },
       { '<leader>bc', '<cmd>BufferLinePickClose<cr>',                              desc = 'Select a buffer to close' },
