@@ -4,81 +4,6 @@ local format = require("plugins.lsp.format")
 local keymaps = require("plugins.lsp.keymaps")
 
 return {
-  -- neodev
-  {
-    "folke/neodev.nvim",
-    opts = {
-      debug = true,
-      experimental = {
-        pathStrict = true,
-      },
-      library = {
-        library = { plugins = { "nvim-dap-ui" }, types = true },
-      }
-    },
-  },
-  -- rename
-  {
-    "smjonas/inc-rename.nvim",
-    config = function()
-      require("inc_rename").setup()
-    end,
-  },
-  -- tools
-  {
-    "williamboman/mason.nvim",
-    cmd = "Mason",
-    keys = { { "<leader>lm", "<cmd>Mason<cr>", desc = "Mason" } },
-    build = ":MasonUpdate",
-    opts = {
-      ui = {
-        border = "rounded",
-        icons = {
-          package_installed = "✓",
-          package_pending = "➜",
-          package_uninstalled = "✗"
-        }
-      },
-      ensure_installed = {
-        "codelldb",
-        "css-lsp",
-        "emmet-ls",
-        "eslint-lsp",
-        "eslint_d",
-        "gopls",
-        "html-lsp",
-        "js-debug-adapter",
-        "json-lsp",
-        "lua-language-server",
-        "luacheck",
-        "prettier",
-        "prettierd",
-        "rust-analyzer",
-        "shellcheck",
-        "shfmt",
-        "stylelint-lsp", --CSS
-        "stylua",
-        "taplo",
-        "typescript-language-server",
-        "yaml-language-server",
-        "yamllint",
-      },
-    },
-  },
-  {
-    "simrat39/symbols-outline.nvim",
-    keys = {
-      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-    },
-    opts = {
-      width = 30,
-      autofold_depth = 0,
-      keymaps = {
-        hover_symbol = 'K',
-        toggle_preview = 'p',
-      },
-    },
-  },
   -- lspconfig
   {
     "neovim/nvim-lspconfig",
@@ -243,86 +168,17 @@ return {
       end
     end,
   },
-  -- formatters
+  -- neodev
   {
-    "nvimtools/none-ls.nvim",
-    event = "BufReadPre",
-    dependencies = { "mason.nvim" },
-    opts = function()
-      local util = require("helper")
-      local nls = require("null-ls")
-      local fmt = nls.builtins.formatting
-      local dgn = nls.builtins.diagnostics
-      local cda = nls.builtins.code_actions
-      local command_resolver = require("null-ls.helpers.command_resolver")
-
-      return {
-        debounce = 150,
-        save_after_format = true,
-        border = "rounded",
-        root_dir = require("null-ls.utils").root_pattern(".null-ls-root", ".neoconf.json", "Makefile", ".git"),
-        sources = {
-          --  ╭────────────╮
-          --  │ Formatting │
-          --  ╰────────────╯
-          fmt.prettier.with({
-            dynamic_command = command_resolver.from_node_modules(),
-          }),
-          fmt.shfmt,
-          fmt.tidy,
-          fmt.stylua.with({
-            condition = function()
-              return util.executable("stylua", true)
-                  and not vim.tbl_isempty(vim.fs.find({ ".stylua.toml", "stylua.toml" }, {
-                    path = vim.fn.expand("%:p"),
-                    upward = true,
-                  }))
-            end,
-          }),
-          fmt.buf,       --PROTO
-          fmt.pg_format,
-          fmt.gofumpt,   -- GO
-          fmt.goimports, --GO
-
-          --  ╭─────────────╮
-          --  │ Diagnostics │
-          --  ╰─────────────╯
-          dgn.yamllint.with({ extra_filetypes = { "yml" } }), -- add support for yml extensions
-          dgn.tidy,                                           -- xml
-          dgn.buf.with({
-            -- PROTO
-            condition = function()
-              return util.executable("buf", true)
-            end,
-          }),
-          dgn.hadolint,      -- dockerfile
-          dgn.dotenv_linter, --ENV
-          dgn.markdownlint.with({
-            condition = function()
-              return util.executable("markdownlint", true)
-            end,
-          }),
-          dgn.shellcheck.with({
-            condition = function()
-              return util.executable("shellcheck", false)
-            end,
-          }),
-
-          --  ╭──────────────╮
-          --  │ Code Actions │
-          --  ╰──────────────╯
-          cda.refactoring,
-          cda.shellcheck.with({
-            condition = function()
-              return util.executable("shellcheck", true)
-            end,
-          }),
-          cda.impl,
-          -- typescript nvim
-          -- require("typescript.extensions.null-ls.code-actions"),
-        },
+    "folke/neodev.nvim",
+    opts = {
+      debug = true,
+      experimental = {
+        pathStrict = true,
+      },
+      library = {
+        library = { plugins = { "nvim-dap-ui" }, types = true },
       }
-    end,
+    },
   },
-  -- { import = "plugins.lsp.extras.lang.luals" },
 }
