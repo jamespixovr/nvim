@@ -1,5 +1,5 @@
 local M = {}
-local format = require("plugins.lsp.format").format
+local format = require("plugins.lsp.helper.format").format
 
 
 function M.always_attach()

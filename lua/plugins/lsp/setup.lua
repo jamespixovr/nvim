@@ -1,7 +1,7 @@
 local helper = require("helper")
 local settings = require("settings")
-local format = require("plugins.lsp.format")
-local keymaps = require("plugins.lsp.keymaps")
+local format = require("plugins.lsp.helper.format")
+local keymaps = require("plugins.lsp.helper.keymaps")
 
 return {
   -- lspconfig
