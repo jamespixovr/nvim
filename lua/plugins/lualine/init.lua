@@ -37,7 +37,6 @@ return {
             status.filename(),
           },
           lualine_x = {
-            status.codeium(),
             status.LazyUpdates(),
             status.Overseer(),
             status.showMacroRecording(),
