@@ -10,23 +10,6 @@ local indent_exclude_fts = {
 -- }
 
 return {
-  --------------------------------------------------------------------------
-  -- add folding range to capabilities
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      capabilities = {
-        textDocument = {
-          foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-          },
-        },
-      },
-    },
-  },
-
-  --------------------------------------------------------------------------
   {
     "rcarriga/nvim-notify",
     keys = {
@@ -408,21 +391,4 @@ return {
   { "nvim-tree/nvim-web-devicons" },
   -- ui components
   { "MunifTanjim/nui.nvim" },
-  --------------------------------------------------------------------------
-  -- figet
-  {
-    "j-hui/fidget.nvim",
-    lazy = false,
-    priority = 1000,
-    tag = "legacy",
-    event = "LspAttach",
-    opts = {
-      text = {
-        spinner = "dots_scrolling", -- animation shown when tasks are ongoing
-        completed = "Done",         -- message shown when task completes
-      },
-    }
-  },
-  --------------------------------------------------------------------------
-
 }

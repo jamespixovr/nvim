@@ -1,10 +1,23 @@
 local helper = require("helper")
 local settings = require("settings")
-local format = require("plugins.lsp.helper.format")
-local keymaps = require("plugins.lsp.helper.keymaps")
+local format = require("plugins.lsp.lspconfig.format")
+local keymaps = require("plugins.lsp.lspconfig.keymaps")
 
 return {
-  -- lspconfig
+  -- add folding range to capabilities
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      capabilities = {
+        textDocument = {
+          foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+          },
+        },
+      },
+    },
+  },
   {
     "neovim/nvim-lspconfig",
     event = "BufReadPre",
@@ -167,18 +180,5 @@ return {
         mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
       end
     end,
-  },
-  -- neodev
-  {
-    "folke/neodev.nvim",
-    opts = {
-      debug = true,
-      experimental = {
-        pathStrict = true,
-      },
-      library = {
-        library = { plugins = { "nvim-dap-ui" }, types = true },
-      }
-    },
-  },
+  }
 }

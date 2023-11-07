@@ -114,7 +114,6 @@ return {
 
   {
     "nvim-neotest/neotest",
-    event = 'LspAttach',
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-neotest/neotest-plenary",
@@ -141,10 +140,14 @@ return {
         "Run nearest test"
       },
       {
-        "<leader>tt",
-        function()
-          require("neotest").run.run({ vim.api.nvim_buf_get_name(0) })
-        end,
+        "<leader>tT",
+        function() require("neotest").run.run(vim.loop.cwd()) end,
+        desc =
+        "Run All Test Files"
+      },
+      {
+        "<leader>tb",
+        function() require("neotest").run.run(vim.api.nvim_buf_get_name(0)) end,
         mode = "n",
         desc = "Run test file"
       },
@@ -160,7 +163,11 @@ return {
         desc =
         "Run test file"
       },
-      { "<leader>td", function() require('neotest').run.run({ strategy = 'dap' }) end,                desc = "Debug test" },
+      {
+        "<leader>td",
+        function() require('neotest').run.run({ strategy = 'dap' }) end,
+        desc = "Debug test"
+      },
       { "<leader>tD", "w|lua require('neotest').run.run({vim.fn.expand('%'), strategy = 'dap'})<cr>", desc = "Debug File" },
       {
         "<leader>ta",
@@ -170,14 +177,17 @@ return {
       },
       {
         "<leader>ts",
-        "<cmd>lua require('neotest').summary.toggle()<cr>",
-        desc =
-        "Test Summary Toggle"
+        function() require("neotest").summary.toggle() end,
+        desc = "Toggle Summary"
       },
-      { "<leader>tx", "<cmd>lua require('neotest').stop()<cr>", desc = "Stop test" },
+      {
+        "<leader>tx",
+        "<cmd>lua require('neotest').stop()<cr>",
+        desc = "Stop test"
+      },
       {
         "<leader>to",
-        "<cmd>lua require('neotest').output.open({enter = true})<cr>",
+        "<cmd>lua require('neotest').output.open({enter = true, auto_close = true})<cr>",
         desc =
         "Open output test"
       },
@@ -196,18 +206,6 @@ return {
         desc = 'Neotest toggle',
       },
     },
-    init = function()
-      local neotest_ns = vim.api.nvim_create_namespace("neotest")
-      vim.diagnostic.config({
-        virtual_text = {
-          format = function(diagnostic)
-            local message =
-                diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
-            return message
-          end,
-        },
-      }, neotest_ns)
-    end,
     opts = function()
       return {
         status = { virtual_text = true },
@@ -280,6 +278,16 @@ return {
       }
     end,
     config = function(_, opt)
+      local neotest_ns = vim.api.nvim_create_namespace("neotest")
+      vim.diagnostic.config({
+        virtual_text = {
+          format = function(diagnostic)
+            local message =
+                diagnostic.message:gsub("\n", " "):gsub("\t", " "):gsub("%s+", " "):gsub("^%s+", "")
+            return message
+          end,
+        },
+      }, neotest_ns)
       require("neotest").setup(opt)
     end,
   },

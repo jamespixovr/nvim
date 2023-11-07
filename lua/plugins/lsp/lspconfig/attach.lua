@@ -1,6 +1,6 @@
 --TODO: work in progress
 --https://github.com/nazo6/nvim/blob/master/lua/user/plugins/lsp/lspconfig/attach.lua
-vim.api.nvim_create_autocmd("LspAttach1", {
+vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ctx)
     local map = vim.keymap.set
     local client = vim.lsp.get_client_by_id(ctx.data.client_id)
@@ -63,4 +63,3 @@ vim.api.nvim_create_autocmd("LspAttach1", {
     map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", { buffer = bufnr })
   end,
 })
-
