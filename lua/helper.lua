@@ -16,11 +16,6 @@ function M.is_directory()
   return vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) == 1
 end
 
-function M.is_directory_or_nil()
-  local buf_path = vim.api.nvim_buf_get_name(0)
-  return buf_path == "" or vim.fn.isdirectory(buf_path) == 1
-end
-
 local get_map_options = function(custom_options)
   local options = { noremap = true, silent = true }
   if custom_options then

@@ -14,15 +14,6 @@ vim.api.nvim_create_autocmd({ "FileType" }, {
   end,
 })
 
-vim.api.nvim_create_autocmd({ "User" }, {
-  pattern = { "AlphaReady" },
-  callback = function()
-    vim.cmd([[
-      set showtabline=0 | autocmd BufUnload <buffer> set showtabline=2
-    ]])
-  end,
-})
-
 -- resize splits if window got resized
 vim.api.nvim_create_autocmd({ "VimResized" }, {
   callback = function()

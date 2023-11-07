@@ -9,17 +9,11 @@ return {
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-symbols.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
       "kkharji/sqlite.lua",
-      "benfowler/telescope-luasnip.nvim",
       "nvim-telescope/telescope-frecency.nvim",
-      {
-        -- fuzzy finder
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
+      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       {
         "debugloop/telescope-undo.nvim",
         config = function()
@@ -41,7 +35,6 @@ return {
       { "<leader>fM", "<cmd>Telescope man_pages<cr>",                                        desc = "Man Pages" },
       { "<leader>fa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
       { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
-      { "<leader>fl", "<cmd>Telescope symbols<cr>",                                          desc = "Symbols" },
       {
         "<leader>sg",
         "<cmd>Telescope live_grep<cr>",
@@ -68,7 +61,6 @@ return {
       },
       { "<leader>fk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
-      { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
       {
         "<leader>/",
         "<leader>sg",
