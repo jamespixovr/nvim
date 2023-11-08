@@ -1,4 +1,5 @@
 return {
+
   "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
 
   -- search/replace in treesitter

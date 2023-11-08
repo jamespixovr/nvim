@@ -1,4 +1,4 @@
-local nodeDapConfig = require("plugins.debug.js-config").nodeDapConfig
+local nodeDapConfig = require("plugins.dap.typescript").nodeDapConfig
 local icons = {
   dap = {
     Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" }, -- 
