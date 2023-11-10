@@ -11,7 +11,7 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
-      "kkharji/sqlite.lua",
+      -- "kkharji/sqlite.lua",
       "nvim-telescope/telescope-frecency.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
       {
