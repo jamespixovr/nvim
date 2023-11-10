@@ -37,7 +37,7 @@ return {
             status.filename(),
           },
           lualine_x = {
-            status.LazyUpdates(),
+            -- status.LazyUpdates(),
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
@@ -48,7 +48,7 @@ return {
           },
           lualine_z = {
             status.progress(),
-            status.scrollbar(),
+            -- status.scrollbar(),
           },
         },
         extensions = { "nvim-tree", "trouble", "quickfix", "man", "toggleterm" },
