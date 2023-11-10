@@ -14,6 +14,12 @@ return {
   -- Required dependency for many plugins. Super useful Lua functions
   { "nvim-lua/plenary.nvim" },
 
+  -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
+  {
+    "chrisgrieser/nvim-early-retirement",
+    config = true,
+    event = "VeryLazy",
+  },
   {
     "kevinhwang91/nvim-bqf", -- Better quickfix window,
     ft = "qf",
