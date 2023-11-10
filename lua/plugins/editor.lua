@@ -2,14 +2,6 @@ return {
 
   "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
 
-  -- search/replace in treesitter
-  {
-    "cshuaimin/ssr.nvim",
-    -- stylua: ignore
-    keys = {
-      { "<leader>sr", function() require("ssr").open() end, desc = "Structural Replace", mode = { "n", "x" } },
-    },
-  },
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",

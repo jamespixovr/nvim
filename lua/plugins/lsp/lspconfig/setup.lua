@@ -28,15 +28,6 @@ function M.setup(opts)
 
   vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
 
-  -- lspconfig
-  require('lspconfig.ui.windows').default_options.border = 'rounded'
-  if vim.g.lsp_handlers_enabled then
-    vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover,
-      { border = "rounded", silent = true })
-    vim.lsp.handlers["textDocument/signatureHelp"] =
-        vim.lsp.with(vim.lsp.handlers.signature_help, { border = "rounded", silent = true })
-  end
-
   local servers = opts.servers
 
   -- local capabilities = format.common_capabilities()

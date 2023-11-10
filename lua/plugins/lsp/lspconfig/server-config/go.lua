@@ -1,4 +1,4 @@
-local util = require("lspconfig/util")
+local util = require("lspconfig.util")
 return {
   -- correctly setup mason lsp / dap extensions
   {

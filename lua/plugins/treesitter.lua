@@ -14,8 +14,6 @@ return {
     build = ":TSUpdate",
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
-      -- "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-tree-docs",
       "windwp/nvim-ts-autotag",
       "mfussenegger/nvim-ts-hint-textobject",
       "JoosepAlviste/nvim-ts-context-commentstring"
@@ -89,36 +87,6 @@ return {
             node_incremental = "<C-space>",
             scope_incremental = "<nop>",
             node_decremental = "<bs>",
-          },
-        },
-        -- TREESITTER PLUGINS
-        tree_docs = {
-          enable = true,
-          spec_config = {
-            jsdoc = {
-              slots = {
-                class = { author = true },
-              },
-              processors = {
-                author = function()
-                  return " * @author James Amo"
-                end,
-              },
-            },
-          },
-        },
-        refactor = {
-          highlight_definitions = {
-            enable = true,
-            clear_on_cursor_move = false, -- set to true with a very low updatetime
-          },
-          highlight_current_scope = { enable = false },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              -- not using the same hotkey as LSP rename to prevent overwriting it
-              smart_rename = "<leader>v",
-            },
           },
         },
         query_linter = {
