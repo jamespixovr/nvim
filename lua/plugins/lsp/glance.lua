@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-fields
 return {
   {
     "dnlhc/glance.nvim",
@@ -7,7 +8,7 @@ return {
       local actions = glance.actions
 
       glance.setup {
-        height = 18,
+        height = 20,
         zindex = 45,
         preview_win_opts = {
           cursorline = true,
@@ -54,7 +55,22 @@ return {
             ["<leader>l"] = actions.enter_win "list",
           },
         },
-        hooks = {},
+        hooks = {
+          before_open = function(results, open, jump, method)
+            local uri = vim.uri_from_bufnr(0)
+            if #results == 1 then
+              local target_uri = results[1].uri or results[1].targetUri
+
+              if target_uri == uri then
+                jump(results[1])
+              else
+                open(results)
+              end
+            else
+              open(results)
+            end
+          end,
+        },
         folds = {
           fold_closed = "",
           fold_open = "",
