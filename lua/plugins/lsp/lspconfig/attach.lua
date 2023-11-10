@@ -56,13 +56,22 @@ vim.api.nvim_create_autocmd("LspAttach", {
       inlay_hint(bufnr, true)
     end
 
+    if client.supports_method("textDocument/formatting") then
+      vim.api.nvim_create_autocmd("BufWritePre", {
+        group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
+        buffer = bufnr,
+        callback = function()
+          format()
+        end,
+      })
+    end
     if client.server_capabilities.documentSymbolProvider then
       -- require("nvim-navic").attach(client, bufnr)
     end
     -- require("lsp-inlayhints").on_attach(client, bufnr)
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
-    map("n", "gd", "<cmd>Telescope lsp_definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
+    map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
 
     map("n", "gD", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
     map("n", "gr", "<cmd>Glance references<CR>", { buffer = bufnr, desc = "[LSP] Go references" })
