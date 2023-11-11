@@ -189,7 +189,7 @@ return {
     "nvim-neotest/neotest",
     optional = true,
     dependencies = {
-      "haydenmeade/neotest-jest",
+      { "haydenmeade/neotest-jest", version = false },
     },
     opts = {
       adapters = {

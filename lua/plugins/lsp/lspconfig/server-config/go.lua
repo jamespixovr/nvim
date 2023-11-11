@@ -96,7 +96,9 @@ return {
   -- setup DAP
   {
     "leoluz/nvim-dap-go",
-    init = function()
+    lazy = true,
+    config = function()
+      require("dap-go").setup()
       require("helper").on_ft("go", function(event)
         -- stylua: ignore start
         vim.keymap.set("n", "<leader>tg", function() require("dap-go").debug_test() end,
@@ -106,25 +108,13 @@ return {
         -- stylua: ignore end
       end)
     end,
-    config = function()
-      require("dap-go").setup()
-    end,
   },
 
-  {
-    "olexsmir/gopher.nvim",
-    ft = "go",
-    event = "VeryLazy",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-  },
   {
     "nvim-neotest/neotest",
     optional = true,
     dependencies = {
-      "nvim-neotest/neotest-go",
+      { "nvim-neotest/neotest-go", version = false },
     },
     opts = {
       adapters = {

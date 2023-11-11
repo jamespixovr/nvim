@@ -114,6 +114,8 @@ return {
 
   {
     "nvim-neotest/neotest",
+    version = false,
+    lazy = true,
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
@@ -234,8 +236,7 @@ return {
             stop = "u",
           },
         },
-        adapters = {
-        },
+        adapters = {},
         icons = {
           passed = settings.icons.testing.Success,
           running = "",
@@ -265,7 +266,6 @@ return {
           end,
         },
       }, neotest_ns)
-
 
       if opts.adapters then
         local adapters = {}

@@ -103,19 +103,44 @@ return {
         },
       },
       opts = {
-        floating = { border = 'rounded' },
+        icons = { expanded = "▾", collapsed = "▸" },
+        -- floating = { border = 'rounded' },
         layouts = {
           {
             elements = {
-              { id = 'stacks',      size = 0.30 },
-              { id = 'breakpoints', size = 0.20 },
-              { id = 'scopes',      size = 0.50 },
+              -- { id = 'stacks',      size = 0.30 },
+              -- { id = 'breakpoints', size = 0.20 },
+              { id = 'scopes',  size = 0.50 },
+              { id = 'watches', size = 0.50 },
             },
-            position = 'left',
+            position = 'right',
             size = 40,
           },
+          {
+            elements = {
+              { id = "repl",    size = 0.5 },
+              { id = "console", size = 0.5 }
+            },
+            position = "bottom",
+            size = 10
+          }
+        },
+        floating = {
+          max_height = nil,
+          max_width = nil,
+          border = "rounded",
+          mappings = {
+            close = { "q", "<Esc>" },
+          },
+        },
+        render = {
+          max_type_length = nil,
         },
       },
+      config = function(_, opts)
+        local dapui = require("dapui")
+        dapui.setup(opts)
+      end
     },
     -- mason.nvim integration
     {
@@ -184,7 +209,7 @@ return {
 
     local dap = require("dap")
     local dapui = require("dapui")
-    dapui.setup(opts)
+    -- dapui.setup(opts)
     dap.listeners.after.event_initialized["dapui_config"] = function()
       dapui.open({})
     end
