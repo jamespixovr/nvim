@@ -113,7 +113,6 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      plugins = {},
       window = {
         border = "single", -- none, single, double, shadow
       },

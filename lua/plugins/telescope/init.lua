@@ -12,7 +12,7 @@ return {
       "nvim-telescope/telescope-file-browser.nvim",
       -- "kkharji/sqlite.lua",
       "nvim-telescope/telescope-frecency.nvim",
-      { "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
+      { "nvim-telescope/telescope-fzf-native.nvim", enabled = vim.fn.executable "make" == 1, build = "make" },
       {
         "debugloop/telescope-undo.nvim",
         config = function()
@@ -75,6 +75,7 @@ return {
         defaults = {
           theme = "ivy",
           prompt_prefix = "~> ",
+          path_display = { "truncate" },
           preview = {
             filesize_limit = 1, -- in MB, do not preview big files for performance
             msg_bg_fillchar = " ",
@@ -83,6 +84,7 @@ return {
           layout_strategy = "horizontal",
           layout_config = {
             prompt_position = "top",
+            preview_cutoff = 120,
           },
           selection_strategy = "reset",
           sorting_strategy = "ascending",

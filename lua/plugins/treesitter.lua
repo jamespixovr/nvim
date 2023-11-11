@@ -1,7 +1,9 @@
 return {
   {
     "windwp/nvim-ts-autotag",
-    opts = {}
+    opts = {
+      autotag = { enable_close_on_slash = false }
+    }
   },
   -- comments
   {
@@ -36,6 +38,7 @@ return {
       -- no longer trigger the **nvim-treeitter** module to be loaded in time.
       -- Luckily, the only thins that those plugins need are the custom queries, which we make available
       -- during startup.
+      -- CODE FROM LazyVim (thanks folke!) https://github.com/LazyVim/LazyVim/commit/1e1b68d633d4bd4faa912ba5f49ab6b8601dc0c9
       require("lazy.core.loader").add_to_rtp(plugin)
       require("nvim-treesitter.query_predicates")
     end,
@@ -158,6 +161,14 @@ return {
       }
     end,
     config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(parser)
+          if added[parser] then return false end
+          added[parser] = true
+          return true
+        end, opts.ensure_installed)
+      end
       require("nvim-treesitter.configs").setup(opts)
     end,
   },

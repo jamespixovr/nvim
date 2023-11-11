@@ -13,6 +13,11 @@ return {
       end
     end,
     opts = function()
+      -- PERF: we don't need this lualine require madness 🤷
+      -- from https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/ui.lua
+      local lualine_require = require("lualine_require")
+      lualine_require.require = require
+
       local status = require("plugins.lualine.status")
       return {
         options = {
