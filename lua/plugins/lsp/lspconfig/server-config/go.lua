@@ -119,5 +119,24 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
     },
-  }
+  },
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "nvim-neotest/neotest-go",
+    },
+    opts = {
+      adapters = {
+        ["neotest-go"] = {
+          -- Here we can set options for neotest-go, e.g.
+          -- args = { "-tags=integration" }
+          --   args = { "-count=1", "-timeout=60s", "-race", "-cover" },
+          experimental = {
+            test_table = true,
+          }
+        },
+      },
+    },
+  },
 }

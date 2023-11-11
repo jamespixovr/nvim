@@ -2,7 +2,7 @@ return {
   -- formatters
   {
     "nvimtools/none-ls.nvim",
-    event = "BufReadPre",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     dependencies = { "mason.nvim" },
     opts = function()
       local util = require("helper")

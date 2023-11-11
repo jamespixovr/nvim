@@ -119,10 +119,7 @@ return {
       "nvim-neotest/neotest-plenary",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
-      "nvim-neotest/neotest-go",
       "haydenmeade/neotest-jest",
-      "rouge8/neotest-rust",
-      "nvim-neotest/neotest-python",
       {
         "andythigpen/nvim-coverage",
         config = function()
@@ -240,12 +237,6 @@ return {
           },
         },
         adapters = {
-          require("neotest-go")({
-            args = { "-count=1", "-timeout=60s", "-race", "-cover" },
-            experimental = {
-              test_table = true,
-            },
-          }),
           require("neotest-jest")({
             jestCommand = "pnpm exec jest",
             -- jestConfigFile = "jest.config.js",
@@ -253,10 +244,6 @@ return {
             cwd = function(_path)
               return vim.fn.getcwd()
             end,
-          }),
-          require("neotest-rust"),
-          require("neotest-python")({
-            dap = { justMyCode = false },
           }),
         },
         icons = {

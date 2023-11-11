@@ -78,65 +78,32 @@ return {
   },
   -- comments
   {
-    "numToStr/Comment.nvim",
-    keys = {
-      { "gc", desc = "+comment line",  mode = { "n", "x" } },
-      { "gb", desc = "+comment block", mode = { "n", "x" } },
+    "echasnovski/mini.comment",
+    event = "VeryLazy",
+    opts = {
+      options = {
+        custom_commentstring = function()
+          return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
+        end,
+      },
     },
-    opts = function()
-      return {
-        pre_hook = require("ts_context_commentstring.integrations.comment_nvim").create_pre_hook(),
-      }
-    end,
-    config = function(_, opts)
-      require("Comment").setup(opts)
-    end,
   },
   -- better text-objects
   {
     "echasnovski/mini.ai",
     event = "VeryLazy",
-    keys = {
-      { "a", mode = { "x", "o" } },
-      { "i", mode = { "x", "o" } },
-    },
-    dependencies = {
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        init = function()
-          -- no need to load the plugin, since we only need its queries
-          require("lazy.core.loader").disable_rtp_plugin("nvim-treesitter-textobjects")
-        end,
-      },
-    },
     opts = function()
       local ai = require("mini.ai")
-      ---@param func function
-      local function wrap_mark(func)
-        return function(...)
-          vim.cmd("normal! m'")
-          return func(...)
-        end
-      end
       return {
         n_lines = 500,
         custom_textobjects = {
-          o = wrap_mark(ai.gen_spec.treesitter({
+          o = ai.gen_spec.treesitter({
             a = { "@block.outer", "@conditional.outer", "@loop.outer" },
             i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }, {})),
-          f = wrap_mark(ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {})),
-          c = wrap_mark(ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {})),
-          -- Whole buffer
-          e = wrap_mark(function()
-            local from = { line = 1, col = 1 }
-            local to = {
-              line = vim.fn.line("$"),
-              ---@diagnostic disable-next-line: param-type-mismatch, undefined-field
-              col = math.max(vim.fn.getline("$"):len(), 1),
-            }
-            return { from = from, to = to }
-          end),
+          }, {}),
+          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
+          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
+          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
         },
       }
     end,
@@ -163,7 +130,7 @@ return {
 
   {
     "ray-x/lsp_signature.nvim",
-     event = "VeryLazy",
+    event = "VeryLazy",
     keys = {
       {
         "<leader>ls",
@@ -190,6 +157,6 @@ return {
         border = "rounded"
       }
     },
-    config = function(_, opts) require'lsp_signature'.setup(opts) end
+    config = function(_, opts) require 'lsp_signature'.setup(opts) end
   }
 }

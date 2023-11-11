@@ -20,7 +20,7 @@ require("lazy").setup(
     -- { import = "plugins.lsp" },
   },
   {
-    defaults = { lazy = true },
+    defaults = { lazy = false },
     install = { colorscheme = { "catppuccin", "habamax" } },
     checker = {
       enabled = true,           -- automatically check for plugin updates

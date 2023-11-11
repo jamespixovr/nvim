@@ -72,7 +72,7 @@ return {
   -- git signs
   {
     "lewis6991/gitsigns.nvim",
-    lazy = false,
+    event = { "BufNewFile", "BufReadPost", "BufWritePre" },
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -116,5 +116,4 @@ return {
       },
     }
   },
-
 }

@@ -26,12 +26,12 @@ local M = {
       integrations = {
         native_lsp = {
           enabled = true,
-          virtual_text = {
-            errors = { "italic" },
-            hints = { "italic" },
-            warnings = { "italic" },
-            information = { "italic" },
-          },
+          -- virtual_text = {
+          --   errors = { "italic" },
+          --   hints = { "italic" },
+          --   warnings = { "italic" },
+          --   information = { "italic" },
+          -- },
           underlines = {
             errors = { "undercurl" },
             hints = { "undercurl" },
@@ -45,9 +45,7 @@ local M = {
         cmp = true,
         gitsigns = true,
         nvimtree = true,
-        navic = {
-          enabled = true,
-        },
+        navic = { enabled = true, custom_bg = "lualine" },
         mason = true,
         dap = {
           enabled = true,

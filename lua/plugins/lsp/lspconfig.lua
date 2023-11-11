@@ -13,13 +13,14 @@ return {
       },
     },
   },
+
   { "aznhe21/actions-preview.nvim" },
+
   {
     "neovim/nvim-lspconfig",
-    event = "BufReadPre",
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
     dependencies = {
-      { "folke/neoconf.nvim", cmd = "Neoconf", config = true },
-      { "folke/neodev.nvim",  config = true },
+      { "folke/neodev.nvim", config = true },
       "williamboman/mason.nvim",
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",

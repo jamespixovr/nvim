@@ -59,6 +59,16 @@ function M.progress(opts)
   }, opts)
 end
 
+function M.datetime(opts)
+  return helper.extend_tbl({
+    function()
+      return " " .. os.date("%R")
+    end,
+    padding = { left = 0, right = 0 },
+    color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
+  }, opts)
+end
+
 function M.codeium(opts)
   return helper.extend_tbl({
     function()

@@ -91,30 +91,20 @@ return {
     event = "VeryLazy",
     -- stylua: ignore
     keys = {
-      { "[b", "<cmd>BufferLineCyclePrev<cr>", desc = "Previous" },
-      { "]b", "<cmd>BufferLineCycleNext<cr>", desc = "Next" },
-      {
-        "<c-,>",
-        "<esc><cmd>BufferLineCyclePrev<cr>",
-        desc = "Previous Buffer",
-        mode = { "n", "i" }
-      },
-      {
-        "<c-.>",
-        "<esc><cmd>BufferLineCycleNext<cr>",
-        desc = "Next Buffer",
-        mode = { "n", "i" }
-      },
-      { "<leader>bt", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
+      { "[b",         "<cmd>BufferLineCyclePrev<cr>",                              desc = "Previous" },
+      { "]b",         "<cmd>BufferLineCycleNext<cr>",                              desc = "Next" },
       { "<leader>bq", "<cmd>BufferLineCloseLeft<cr><cmd>BufferLineCloseRight<cr>", desc = "Close All Tabs" },
+      { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",                              desc = "Toggle pin" },
+      { "<leader>bP", "<Cmd>BufferLineGroupClose ungrouped<CR>",                   desc = "Delete non-pinned buffers" },
+      { "<leader>bt", "<cmd>BufferLinePick<cr>",                                   desc = "Pick Tab" },
       { '<leader>bl', '<cmd>BufferLineCloseLeft<cr>',                              desc = 'Close buffers to the left' },
       { '<leader>br', '<cmd>BufferLineCloseRight<cr>',                             desc = 'Close buffers to the right' },
       { '<leader>bc', '<cmd>BufferLinePickClose<cr>',                              desc = 'Select a buffer to close' },
-
-
     },
     opts = {
       options = {
+        -- stylua: ignore
+        close_command = function(n) require("mini.bufremove").delete(n, false) end,
         numbers = "none", -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         show_close_icon = false,
         show_buffer_close_icons = false,
@@ -139,6 +129,17 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      require("bufferline").setup(opts)
+      -- Fix bufferline when restoring a session
+      vim.api.nvim_create_autocmd("BufAdd", {
+        callback = function()
+          vim.schedule(function()
+            pcall(nvim_bufferline)
+          end)
+        end,
+      })
+    end,
   },
   --------------------------------------------------------------------------
 
