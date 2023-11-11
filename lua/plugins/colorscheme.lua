@@ -24,14 +24,17 @@ local M = {
         },
       },
       integrations = {
+        alpha = true,
+        lsp_trouble = true,
+        mini = true,
         native_lsp = {
           enabled = true,
-          -- virtual_text = {
-          --   errors = { "italic" },
-          --   hints = { "italic" },
-          --   warnings = { "italic" },
-          --   information = { "italic" },
-          -- },
+          virtual_text = {
+            errors = { "italic" },
+            hints = { "italic" },
+            warnings = { "italic" },
+            information = { "italic" },
+          },
           underlines = {
             errors = { "undercurl" },
             hints = { "undercurl" },
@@ -65,6 +68,7 @@ local M = {
         telekasten = true,
         telescope = { enabled = true },
         treesitter = true,
+        treesitter_context = true,
         symbols_outline = true,
         semantic_tokens = true,
         which_key = true,

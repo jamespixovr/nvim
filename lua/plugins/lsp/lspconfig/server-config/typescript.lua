@@ -184,4 +184,24 @@ return {
       end
     end,
   },
+
+  {
+    "nvim-neotest/neotest",
+    optional = true,
+    dependencies = {
+      "haydenmeade/neotest-jest",
+    },
+    opts = {
+      adapters = {
+        ["neotest-jest"] = {
+          jestCommand = "pnpm exec jest",
+          -- jestConfigFile = "jest.config.js",
+          env = { CI = true },
+          cwd = function(_path)
+            return vim.fn.getcwd()
+          end,
+        },
+      },
+    },
+  }
 }

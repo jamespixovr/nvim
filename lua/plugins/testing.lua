@@ -116,10 +116,8 @@ return {
     "nvim-neotest/neotest",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
-      "nvim-neotest/neotest-plenary",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
-      "haydenmeade/neotest-jest",
       {
         "andythigpen/nvim-coverage",
         config = function()
@@ -237,14 +235,6 @@ return {
           },
         },
         adapters = {
-          require("neotest-jest")({
-            jestCommand = "pnpm exec jest",
-            -- jestConfigFile = "jest.config.js",
-            env = { CI = true },
-            cwd = function(_path)
-              return vim.fn.getcwd()
-            end,
-          }),
         },
         icons = {
           passed = settings.icons.testing.Success,
@@ -264,7 +254,7 @@ return {
         },
       }
     end,
-    config = function(_, opt)
+    config = function(_, opts)
       local neotest_ns = vim.api.nvim_create_namespace("neotest")
       vim.diagnostic.config({
         virtual_text = {
@@ -275,9 +265,59 @@ return {
           end,
         },
       }, neotest_ns)
-      require("neotest").setup(opt)
+
+
+      if opts.adapters then
+        local adapters = {}
+        for name, config in pairs(opts.adapters or {}) do
+          if type(name) == "number" then
+            if type(config) == "string" then
+              config = require(config)
+            end
+            adapters[#adapters + 1] = config
+          elseif config ~= false then
+            local adapter = require(name)
+            if type(config) == "table" and not vim.tbl_isempty(config) then
+              local meta = getmetatable(adapter)
+              if adapter.setup then
+                adapter.setup(config)
+              elseif meta and meta.__call then
+                adapter(config)
+              else
+                error("Adapter " .. name .. " does not support setup")
+              end
+            end
+            adapters[#adapters + 1] = adapter
+          end
+        end
+        opts.adapters = adapters
+      end
+      require("neotest").setup(opts)
+
+      vim.api.nvim_create_user_command("NeotestRun", function()
+        require("neotest").run.run()
+      end, {})
+      vim.api.nvim_create_user_command("NeotestRunCurrent", function()
+        require("neotest").run.run(vim.fn.expand("%"))
+      end, {})
+      vim.api.nvim_create_user_command("NeotestRunDap", function()
+        require("neotest").run.run({ strategy = "dap" })
+      end, {})
+      vim.api.nvim_create_user_command("NeotestStop", function()
+        require("neotest").run.stop()
+      end, {})
+      vim.api.nvim_create_user_command("NeotestAttach", function()
+        require("neotest").run.attach()
+      end, {})
+      vim.api.nvim_create_user_command("NeotestOutput", function()
+        require("neotest").output.open()
+      end, {})
+      vim.api.nvim_create_user_command("NeotestSummary", function()
+        require("neotest").summary.toggle()
+      end, {})
     end,
   },
+
   { -- This plugin
     "Zeioth/compiler.nvim",
     cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },

@@ -67,7 +67,15 @@ return {
         "Find in Files (Grep)",
         remap = true
       },
-      { "<leader>sW", helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
+      { "<leader>sW",      helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
+
+      -- LSP related
+      { '<localleader>dd', '<cmd>Telescope lsp_definitions<CR>',             desc = 'Definitions' },
+      { '<localleader>di', '<cmd>Telescope lsp_implementations<CR>',         desc = 'Implementations' },
+      { '<localleader>dr', '<cmd>Telescope lsp_references<CR>',              desc = 'References' },
+      { '<localleader>da', '<cmd>Telescope lsp_code_actions<CR>',            desc = 'Code actions' },
+      { '<localleader>da', ':Telescope lsp_range_code_actions<CR>',          mode = 'x',              desc =
+      'Code actions' },
     },
     opts = function()
       local actions = require("telescope.actions")

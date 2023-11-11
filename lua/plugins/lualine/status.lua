@@ -69,6 +69,17 @@ function M.datetime(opts)
   }, opts)
 end
 
+function M.searchCount(opts)
+  return helper.extend_tbl({
+    function() require('noice').api.status.search.get() end,
+    cond = function()
+      return package.loaded['noice']
+          and require('noice').api.status.search.has()
+    end,
+    color = { bg = "#282c34", fg = "#ff9e64", gui = "bold" },
+  }, opts)
+end
+
 function M.codeium(opts)
   return helper.extend_tbl({
     function()

@@ -2,6 +2,16 @@ return {
 
   "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
 
+  -----------------------------------------------------------------------------
+  {
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
+    keys = {
+      { '<Leader>gu', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
+    },
+  },
+
+  -----------------------------------------------------------------------------
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",
@@ -141,7 +151,7 @@ return {
         ["<leader>q"] = { name = "+quit/session" },
         ["<leader>s"] = { name = "+search" },
         ["<leader>n"] = { name = "+noice" },
-        -- ["<leader>u"] = { name = "+ui" },
+        ["<leader>u"] = { name = "+ui" },
         ["<leader>t"] = { name = "+test runner" },
         ["<leader>v"] = { name = "+venv" },
         ["<leader>w"] = { name = "+windows" },

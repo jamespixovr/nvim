@@ -25,3 +25,6 @@ vim.api.nvim_create_user_command("AddWrongSpell", "normal! zw", { force = true }
 vim.api.nvim_create_user_command("ChangeCorrectSpell", "normal! z=", { force = true })
 vim.api.nvim_create_user_command("FixCorrectSpell", "ChangeCorrectSpell", { force = true })
 vim.api.nvim_create_user_command("CorrectSpell", "ChangeCorrectSpell", { force = true })
+vim.api.nvim_create_user_command("LspCodeAction", "lua vim.lsp.buf.code_action()", {})
+vim.api.nvim_create_user_command("LspCodeLensRun", "lua vim.lsp.codelens.run()", {})
+vim.api.nvim_create_user_command("LspCodeLensRefresh", "lua vim.lsp.codelens.refresh()", {})
