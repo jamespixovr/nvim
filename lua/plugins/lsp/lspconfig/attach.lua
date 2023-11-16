@@ -52,8 +52,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     end
 
     if client.supports_method('textDocument/inlayHint') then
-      local inlay_hint = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-      inlay_hint(bufnr, true)
+      vim.lsp.inlay_hint.enable(bufnr, true)
     end
 
     if client.supports_method("textDocument/formatting") then
@@ -65,9 +64,9 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end,
       })
     end
-    if client.server_capabilities.documentSymbolProvider then
-      -- require("nvim-navic").attach(client, bufnr)
-    end
+    -- if client.server_capabilities.documentSymbolProvider then
+    -- require("nvim-navic").attach(client, bufnr)
+    -- end
     -- require("lsp-inlayhints").on_attach(client, bufnr)
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
