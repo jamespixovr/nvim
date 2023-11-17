@@ -20,4 +20,13 @@ return {
       },
     },
   },
+  --- HTTP client
+  {
+    "rest-nvim/rest.nvim",
+    ft = "http",
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("rest-nvim").setup({})
+    end
+  },
 }

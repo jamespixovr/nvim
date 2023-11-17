@@ -93,6 +93,7 @@ return {
           "gosum",
           "gowork",
           "html",
+          "http",
           "java",
           "javascript",
           "jsdoc",
