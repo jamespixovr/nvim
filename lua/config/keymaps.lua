@@ -118,7 +118,7 @@ keymap("n", "dQ", function() vim.cmd.cexpr("[]") end, { desc = " Delete Quick
 -- toggle inlay hints
 if vim.lsp.inlay_hint then
   vim.keymap.set("n", "<leader>uh",
-    function() vim.lsp.inlay_hint(0, nil) end, { desc = "Toggle inlay hints" }
+    function() vim.lsp.inlay_hint.enable(0, false) end, { desc = "Toggle inlay hints" }
   )
 end
 

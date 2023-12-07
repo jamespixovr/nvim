@@ -14,6 +14,12 @@ local jsAndTsSettings = {
   suggest = {
     includeCompletionsForModuleExports = true,
   },
+  implementationsCodeLens = {
+    enabled = true,
+  },
+  referencesCodeLens = {
+    enabled = true,
+  }
 }
 
 return {
