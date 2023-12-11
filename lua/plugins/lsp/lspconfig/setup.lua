@@ -1,12 +1,10 @@
+---@diagnostic disable: need-check-nil
+
 local settings = require("settings")
-local format = require("plugins.lsp.lspconfig.format")
 
 local M = {}
 
 function M.setup(opts)
-  -- setup autoformat
-  format.autoformat = opts.autoformat
-
   -- diagnostics
   for name, icon in pairs(settings.icons.diagnostics) do
     name = "DiagnosticSign" .. name
@@ -30,14 +28,13 @@ function M.setup(opts)
 
   local servers = opts.servers
 
-  -- local capabilities = format.common_capabilities()
   local capabilities = vim.tbl_deep_extend(
     "force",
     {},
     vim.lsp.protocol.make_client_capabilities(),
     require("cmp_nvim_lsp").default_capabilities(),
     opts.capabilities or {}
-  )
+  ) or {}
 
   local function setup(server)
     local server_opts = vim.tbl_deep_extend("force", { capabilities = vim.deepcopy(capabilities), },

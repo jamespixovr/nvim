@@ -11,6 +11,16 @@ return {
     }
   },
 
+  --- HTTP client
+  {
+    "rest-nvim/rest.nvim",
+    ft = "http",
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("rest-nvim").setup({})
+    end
+  },
+
 
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {

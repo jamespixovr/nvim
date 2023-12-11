@@ -14,6 +14,7 @@ return {
     },
   },
 
+  -- action preview
   { "aznhe21/actions-preview.nvim" },
 
   {
@@ -26,11 +27,13 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       {
+        -- provides a neat and distraction-free way to display LSP diagnostics
         "dgagn/diagflow.nvim",
         opts = {
           enable = function() return vim.bo.filetype ~= "lazy" end,
-          format = function(diag) return " " .. diag.message end,
-          scope = "line",
+          toggle_event = { 'InsertEnter' },
+          -- format = function(diag) return " " .. diag.message end,
+          -- scope = "line",
         },
       },
     },
@@ -40,7 +43,7 @@ return {
       diagnostics = {
         underline = true,
         update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
+        virtual_text = false, --{ spacing = 4, prefix = "●", source = "if_many" },
         severity_sort = true,
         float = {
           show_header = true,
@@ -51,20 +54,13 @@ return {
           prefix = "",
         },
       },
-      -- Enable this to enable the builtin LSP inlay hints on Neovim >= 0.10.0
-      -- Be aware that you also will need to properly configure your LSP server to
-      -- provide the inlay hints.
-      inlay_hints = {
-        enabled = true,
-      },
-      -- Automatically format on save
-      autoformat = true,
-      -- options for vim.lsp.buf.format
+
       -- but can be also overriden when specified
       format = {
         formatting_options = nil,
         timeout_ms = nil,
       },
+
       capabilities = {},
       ---@type lspconfig.options
       servers = {},
