@@ -19,6 +19,9 @@ return {
     config = function()
       require("rest-nvim").setup({})
     end
+    --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
+    -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
+    -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
   },
 
 
