@@ -33,7 +33,7 @@ return {
           enable = function() return vim.bo.filetype ~= "lazy" end,
           toggle_event = { 'InsertEnter' },
           -- format = function(diag) return " " .. diag.message end,
-          -- scope = "line",
+          scope = "line",
         },
       },
     },
