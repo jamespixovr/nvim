@@ -14,8 +14,6 @@ return {
     },
   },
 
-  -- action preview
-  { "aznhe21/actions-preview.nvim" },
 
   {
     "neovim/nvim-lspconfig",
