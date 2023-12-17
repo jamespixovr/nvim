@@ -71,7 +71,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
     map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
-
     map("n", "gD", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
     map("n", "gr", "<cmd>Glance references<CR>", { buffer = bufnr, desc = "[LSP] Go references" })
     map("n", "gI", "<cmd>Glance implementations<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
@@ -85,13 +84,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       { buffer = bufnr, desc = "[LSP] Signature help" }
     )
 
-    map("n", "<leader>cr", "<cmd>lua vim.lsp.buf.rename()<CR>", { buffer = bufnr, desc = "[LSP] Rename" })
-    map(
-      { "n", "v" },
-      "<leader>ca",
-      [[<cmd>lua require("actions-preview").code_actions()<CR>]],
-      { buffer = bufnr, desc = "[LSP] Code actions" }
-    )
     map(
       "n",
       "gl",
@@ -113,6 +105,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", { buffer = bufnr })
 
 
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "[LSP] Code actions" })
     map({ "n", "v" }, "<leader>cf", format, { desc = "Format Document" })
     map("n", "<leader>ch", vim.lsp.codelens.refresh, { desc = "CodeLens Refresh" })
     map("n", "<leader>ci", "<cmd>LspInfo<cr>", { desc = "Lsp Info" })
