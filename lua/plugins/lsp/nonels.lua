@@ -67,7 +67,6 @@ return {
           --  ╭──────────────╮
           --  │ Code Actions │
           --  ╰──────────────╯
-          cda.refactoring,
           cda.shellcheck.with({
             condition = function()
               return util.executable("shellcheck", true)

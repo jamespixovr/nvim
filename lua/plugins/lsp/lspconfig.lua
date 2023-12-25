@@ -24,16 +24,6 @@ return {
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      {
-        -- provides a neat and distraction-free way to display LSP diagnostics
-        "dgagn/diagflow.nvim",
-        opts = {
-          enable = function() return vim.bo.filetype ~= "lazy" end,
-          toggle_event = { 'InsertEnter' },
-          -- format = function(diag) return " " .. diag.message end,
-          scope = "line",
-        },
-      },
     },
     ---@class PluginLspOpts
     opts = {
@@ -41,7 +31,7 @@ return {
       diagnostics = {
         underline = true,
         update_in_insert = false,
-        virtual_text = false, --{ spacing = 4, prefix = "●", source = "if_many" },
+        virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
         severity_sort = true,
         float = {
           show_header = true,
