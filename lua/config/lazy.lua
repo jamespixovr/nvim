@@ -17,7 +17,6 @@ require("lazy").setup(
     { import = "plugins" },
     { import = "plugins.lsp" },
     { import = "plugins.lsp.lspconfig.server-config" },
-    -- { import = "plugins.lsp" },
   },
   {
     defaults = { lazy = false },
@@ -32,6 +31,10 @@ require("lazy").setup(
     },
     ui = {
       border = "rounded",
+    },
+    dev = {
+      path = "~/Projects/lua",
+      patterns = { "jarmex" },
     },
     diff = { cmd = "browser" }, -- view diffs with "d" in the browser
     readme = { enabled = true },
