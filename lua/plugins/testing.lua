@@ -27,6 +27,7 @@ return {
       { "<leader>ot", "<cmd>OverseerToggle<cr>",       desc = "Toggle" },
     },
     opts = {
+      dap = false,
       strategy = { "jobstart" },
       task_launcher = {
         bindings = {
@@ -35,21 +36,36 @@ return {
           },
         },
       },
+      task_list = {
+        bindings = {
+          ["<Tab>"] = "IncreaseDetail",
+          ["<S-Tab>"] = "DecreaseDetail",
+          ["gh"] = "IncreaseAllDetail",
+          ["gl"] = "DecreaseAllDetail",
+        },
+      },
+      form = {
+        border = "solid",
+        win_opts = {
+          winblend = 0,
+          winhl = "FloatBorder:NormalFloat",
+        },
+      },
       component_aliases = {
         default = {
           { "display_duration",   detail_level = 2 },
-          "on_output_summarize",
+          "on_result_notify",
           "on_exit_set_status",
           { "on_complete_notify", system = "unfocused" },
           "on_complete_dispose",
         },
         default_neotest = {
           "unique",
-          { "on_complete_notify", system = "unfocused", on_change = true },
-          "default",
+          "on_output_summarize",
+          "on_exit_set_status",
+          "on_complete_dispose",
         },
       },
-      post_setup = {},
     },
     config = function(_, opts)
       local overseer = require("overseer")
