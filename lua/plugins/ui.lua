@@ -248,10 +248,10 @@ return {
         }
       },
       presets = {
-        bottom_search = true,
+        bottom_search = false,
         command_palette = true,
         long_message_to_split = true,
-        inc_rename = true,
+        inc_rename = false,
         cmdline_output_to_split = false,
         lsp_doc_border = true,
       },
