@@ -73,6 +73,18 @@ return {
   },
   {
     "David-Kunz/gen.nvim",
+    keys = {
+      { '<leader>ia', mode = { "n", "v" }, "<cmd>Gen Ask<cr>",                      desc = "A[I] [A]sk" },
+      { '<leader>ic', mode = { "n", "v" }, "<cmd>Gen Change<cr>",                   desc = "A[I] [C]hange" },
+      { '<leader>io', mode = { "n", "v" }, "<cmd>Gen Change_Code<cr>",              desc = "A[I] Change C[o]de" },
+      { '<leader>ih', mode = { "n", "v" }, "<cmd>Gen Chat<cr>",                     desc = "A[I] C[h]at" },
+      { '<leader>ie', mode = { "n", "v" }, "<cmd>Gen Enhance_Code<cr>",             desc = "A[I] [E]nhance code" },
+      { '<leader>iw', mode = { "n", "v" }, "<cmd>Gen Enhance_Wording<cr>",          desc = "A[I] Enhance [W]ording" },
+      { '<leader>is', mode = { "n", "v" }, "<cmd>Gen Enhance_Grammar_Spelling<cr>", desc = "A[I] Enhance [G]rammar" },
+      { '<leader>ig', mode = { "n", "v" }, "<cmd>Gen Generate<cr>",                 desc = "A[I] [G]enerate" },
+      { '<leader>ir', mode = { "n", "v" }, "<cmd>Gen Review_Code<cr>",              desc = "A[I] [R]eview Code" },
+      { '<leader>iz', mode = { "n", "v" }, "<cmd>Gen Summarize<cr>",                desc = "A[I] Summari[z]e" },
+    },
     opts = {
       model = "openhermes",   -- The default model to use.
       display_mode = "split", -- The display mode. Can be "float" or "split".
