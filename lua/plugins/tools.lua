@@ -12,25 +12,25 @@ return {
   },
 
   --- HTTP client
-  {
-    "rest-nvim/rest.nvim",
-    ft = "http",
-    dependencies = { { "nvim-lua/plenary.nvim" } },
-    config = function()
-      require("rest-nvim").setup({})
-    end
-    --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
-    -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
-    -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
-  },
-
+  -- {
+  --   "rest-nvim/rest.nvim",
+  --   ft = "http",
+  --   dependencies = { { "nvim-lua/plenary.nvim" } },
+  --   config = function()
+  --     require("rest-nvim").setup({})
+  --   end
+  --   --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
+  --   -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
+  --   -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
+  -- },
+  --
 
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
-  {
-    "chrisgrieser/nvim-early-retirement",
-    config = true,
-    event = "VeryLazy",
-  },
+  -- {
+  --   "chrisgrieser/nvim-early-retirement",
+  --   config = true,
+  --   event = "VeryLazy",
+  -- },
   {
     "kevinhwang91/nvim-bqf", -- Better quickfix window,
     ft = "qf",
@@ -111,14 +111,18 @@ return {
   },
   -- Git
   -- check this also https://github.com/FabijanZulj/blame.nvim
+  -- {
+  --   "f-person/git-blame.nvim",
+  --   event = "BufReadPre",
+  --   config = function()
+  --     require('gitblame').setup {
+  --       enabled = false,
+  --     }
+  --   end
+  -- },
+
   {
-    "f-person/git-blame.nvim",
-    event = "BufReadPre",
-    config = function()
-      require('gitblame').setup {
-        enabled = false,
-      }
-    end
+    "tpope/vim-fugitive",
   },
 
   -- git signs
@@ -127,6 +131,10 @@ return {
     event = { "BufNewFile", "BufReadPost", "BufWritePre" },
     dependencies = {
       "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle Git Blame" },
+      { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",              desc = "Preview Hunk" },
     },
     opts = {
       signs = {
@@ -147,25 +155,15 @@ return {
         interval = 1000,
         follow_files = true,
       },
-      current_line_blame = false,
+      diff_opts = { internal = true },
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-        delay = 1000,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 500,
         ignore_whitespace = false,
+        virt_text_priority = 100,
       },
-      sign_priority = 6,
-      update_debounce = 100,
-      status_formatter = nil,
-      diff_opts = { internal = true },
-      preview_config = {
-        -- Options passed to nvim_open_win
-        border = "single",
-        style = "minimal",
-        relative = "cursor",
-        row = 0,
-        col = 1,
-      },
+      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
     }
   },
 }
