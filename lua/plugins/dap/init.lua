@@ -175,7 +175,6 @@ return {
       {
         "leoluz/nvim-dap-go",
         config = function()
-          print("dap-go loaded")
           require("dap-go").setup({
             dap_configurations = {
               {

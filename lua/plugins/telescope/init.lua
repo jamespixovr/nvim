@@ -10,7 +10,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
-      -- "kkharji/sqlite.lua",
       "nvim-telescope/telescope-frecency.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", enabled = vim.fn.executable "make" == 1, build = "make" },
       {
@@ -59,27 +58,12 @@ return {
         helper.telescope("grep_string", { cwd = false }),
         desc = "Search word under cursor (cwd)"
       },
-      { "<leader>fk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       {
         "<leader>/",
         "<leader>sg",
         desc = "Find in Files (Grep)",
         remap = true
-      },
-      { "<leader>sW", helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
-
-      -- LSP related
-      { '<leader>dd', '<cmd>Telescope lsp_definitions<CR>',             desc = 'Definitions' },
-      { '<leader>di', '<cmd>Telescope lsp_implementations<CR>',         desc = 'Implementations' },
-      { '<leader>dr', '<cmd>Telescope lsp_references<CR>',              desc = 'References' },
-      { '<leader>da', '<cmd>Telescope lsp_code_actions<CR>',            desc = 'Code actions' },
-      {
-        '<leader>da',
-        ':Telescope lsp_range_code_actions<CR>',
-        mode = 'x',
-        desc =
-        'Code actions'
       },
     },
     opts = function()
@@ -234,9 +218,6 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
           },
-          dap = {
-            theme = "cursor",
-          }
         },
       }
     end,

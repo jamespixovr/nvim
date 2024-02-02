@@ -2,14 +2,14 @@
 local jsAndTsSettings = {
   format = {}, -- not used, since taken care of by prettier
   inlayHints = {
-    includeInlayEnumMemberValueHints = true,
-    includeInlayFunctionLikeReturnTypeHints = true,
-    includeInlayFunctionParameterTypeHints = true,
+    includeInlayEnumMemberValueHints = false,
+    includeInlayFunctionLikeReturnTypeHints = false,
+    includeInlayFunctionParameterTypeHints = false,
     includeInlayParameterNameHints = "all", -- none | literals | all
     includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-    includeInlayPropertyDeclarationTypeHints = true,
-    includeInlayVariableTypeHints = true,
-    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+    includeInlayPropertyDeclarationTypeHints = false,
+    includeInlayVariableTypeHints = false,
+    includeInlayVariableTypeHintsWhenTypeMatchesName = false,
   },
   suggest = {
     includeCompletionsForModuleExports = true,
