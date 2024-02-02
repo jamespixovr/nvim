@@ -4,50 +4,67 @@ return {
   -- Telescope
   {
     "nvim-telescope/telescope.nvim",
-    event = "VeryLazy",
     cmd = "Telescope",
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-telescope/telescope-symbols.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
+      "nvim-telescope/telescope-frecency.nvim",
+      { "nvim-telescope/telescope-fzf-native.nvim", enabled = vim.fn.executable "make" == 1, build = "make" },
       {
-        -- fuzzy finder
-        "nvim-telescope/telescope-fzf-native.nvim",
-        build = "make",
-      },
-      {
-        "nvim-telescope/telescope-frecency.nvim",
-        dependencies = {
-          "kkharji/sqlite.lua"
-        },
+        "debugloop/telescope-undo.nvim",
+        config = function()
+          require("telescope").load_extension("undo")
+        end,
       },
     },
     keys = {
-      { "<leader>fp", "<CMD>Telescope project display_type=full<CR>",       desc = "Find project" },
-      { "<leader>T",  "<cmd>Telescope<cr>",                                 desc = "Open Telescope" },
-      { "<leader>rr", "<cmd>Telescope resume<cr>",                          desc = "Telescope Resume" },
-      { "<leader>b",  "<cmd>Telescope buffers show_all_buffers=true<cr>",   desc = "Switch Buffer" },
-      { "<leader>ff", "<cmd>Telescope find_files<cr>",                      desc = "Find Files" },
-      { "<leader>fe", "<cmd>Telescope file_browser<cr>",                    desc = "Browse Files" },
-      { "<leader>fg", "<cmd>Telescope git_files<cr>",                       desc = "Find Git Files" },
-      { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                        desc = "Recent" },
-      { "<leader>:",  "<cmd>Telescope commands<cr>",                        desc = "Commands" },
-      { "<leader>sC", "<cmd>Telescope command_history<cr>",                 desc = "Command History" },
-      { "<leader>sM", "<cmd>Telescope man_pages<cr>",                       desc = "Man Pages" },
-      { "<leader>sa", "<cmd>Telescope autocommands<cr>",                    desc = "Auto Commands" },
-      { "<leader>sb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",       desc = "Buffer" },
-      { "<leader>sl", "<cmd>Telescope symbols<cr>",                         desc = "Symbols" },
-      { "<leader>sg", "<cmd>Telescope live_grep<cr>",                       desc = "Find in Files (Grep)" },
-      { "<leader>sG", helper.telescope("live_grep", { cwd = false }),       desc = "Find in Files (Grep)" },
-      { "<leader>sh", "<cmd>Telescope grep_string<cr>",                     desc = "Search word under cursor" },
-      { "<leader>sH", helper.telescope("grep_string", { cwd = false }),     desc = "Search word under cursor (cwd)" },
-      { "<leader>sk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
-      { "<leader>st", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
-      { "<leader>fs", "<cmd>Telescope lsp_document_symbols<cr>",            desc = "Goto Symbol" },
-      { "<leader>/",  "<leader>sg",                                         desc = "Find in Files (Grep)",          remap = true },
-      { "<leader>sW", helper.telescope("grep_string", { cwd = false }),     desc = "Word (cwd)" },
+      { "<leader>fp", "<CMD>Telescope project display_type=full<CR>",                        desc = "Find project" },
+      { "<leader>T",  "<cmd>Telescope<cr>",                                                  desc = "Open Telescope" },
+      { "<leader>rr", "<cmd>Telescope resume<cr>",                                           desc = "Telescope Resume" },
+      { "<leader>bb", "<cmd>Telescope buffers sort_mru=true ignore_current_buffer=true<cr>", desc = "Switch Buffer" },
+      { "<leader>ff", "<cmd>Telescope find_files<cr>",                                       desc = "Find Files" },
+      { "<leader>fe", "<cmd>Telescope file_browser<cr>",                                     desc = "Browse Files" },
+      { "<leader>fg", "<cmd>Telescope git_files<cr>",                                        desc = "Find Git Files" },
+      { "<leader>fr", "<cmd>Telescope oldfiles<cr>",                                         desc = "Recent" },
+      { "<leader>:",  "<cmd>Telescope commands<cr>",                                         desc = "Commands" },
+      { "<leader>fC", "<cmd>Telescope command_history<cr>",                                  desc = "Command History" },
+      { "<leader>fM", "<cmd>Telescope man_pages<cr>",                                        desc = "Man Pages" },
+      { "<leader>fa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
+      { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
+      {
+        "<leader>fF",
+        helper.telescope("find_files", { cwd = false }),
+        desc = "Find Files (cwd)"
+      },
+      {
+        "<leader>sg",
+        "<cmd>Telescope live_grep<cr>",
+        desc = "Find in Files (Grep)"
+      },
+      {
+        "<leader>sG",
+        helper.telescope("live_grep", { cwd = false }),
+        desc = "Find in Files (Grep)"
+      },
+      {
+        "<leader>sh",
+        "<cmd>Telescope grep_string<cr>",
+        desc = "Search word under cursor"
+      },
+      {
+        "<leader>sH",
+        helper.telescope("grep_string", { cwd = false }),
+        desc = "Search word under cursor (cwd)"
+      },
+      { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
+      {
+        "<leader>/",
+        "<leader>sg",
+        desc = "Find in Files (Grep)",
+        remap = true
+      },
     },
     opts = function()
       local actions = require("telescope.actions")
@@ -55,6 +72,7 @@ return {
         defaults = {
           theme = "ivy",
           prompt_prefix = "~> ",
+          path_display = { "truncate" },
           preview = {
             filesize_limit = 1, -- in MB, do not preview big files for performance
             msg_bg_fillchar = " ",
@@ -63,6 +81,7 @@ return {
           layout_strategy = "horizontal",
           layout_config = {
             prompt_position = "top",
+            preview_cutoff = 120,
           },
           selection_strategy = "reset",
           sorting_strategy = "ascending",
@@ -83,6 +102,11 @@ return {
             "%.jpe?g",
             "%.icns",
             "%.zip",
+            "%.sqlite3",
+            "%.svg",
+            "%.otf",
+            "%.ttf",
+            "%.lock",
           },
           vimgrep_arguments = {
             "rg",
@@ -149,6 +173,16 @@ return {
           },
         },
         extensions = {
+          frecency = {
+            show_scores = false,
+            show_unindexed = false,
+            ignore_patterns = {
+              "*.git/*",
+              "*/tmp/*",
+              "*/node_modules/*",
+              "*/vendor/*",
+            },
+          },
           project = {
             base_dirs = {
               '~/Projects'
@@ -166,7 +200,7 @@ return {
             display_stat = false,
             git_status = false,
             group = true,
-            hide_parent_dir = false,
+            hide_parent_dir = true,
             select_buffer = true,
             mappings = {
               i = {

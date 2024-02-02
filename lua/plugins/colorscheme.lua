@@ -24,7 +24,9 @@ local M = {
         },
       },
       integrations = {
-        treesitter = true,
+        alpha = true,
+        lsp_trouble = true,
+        mini = true,
         native_lsp = {
           enabled = true,
           virtual_text = {
@@ -39,23 +41,19 @@ local M = {
             warnings = { "undercurl" },
             information = { "undercurl" },
           },
+          inlay_hints = {
+            background = true,
+          },
         },
-        neotest = true,
-        noice = true,
-        notify = true,
         cmp = true,
         gitsigns = true,
-        telescope = true,
         nvimtree = true,
-        navic = {
-          enabled = true,
-        },
+        navic = { enabled = true, custom_bg = "lualine" },
         mason = true,
         dap = {
           enabled = true,
           enable_ui = true,
         },
-        which_key = true,
         indent_blankline = {
           enabled = true,
           colored_indent_levels = false,
@@ -63,11 +61,17 @@ local M = {
         dashboard = true,
         bufferline = true,
         markdown = true,
-        ts_rainbow2 = true,
+        neotest = true,
+        notify = true,
+        noice = true,
         illuminate = true,
         telekasten = true,
+        telescope = { enabled = true },
+        treesitter = true,
+        treesitter_context = true,
         symbols_outline = true,
         semantic_tokens = true,
+        which_key = true,
       },
       custom_highlights = function(colors)
         return {

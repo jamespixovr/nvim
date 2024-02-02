@@ -10,40 +10,131 @@ return {
       { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" }
     }
   },
-  { "nvim-lua/plenary.nvim", lazy = true },
+
+  --- HTTP client
   -- {
-  --   -- Code Runner / Scratchpad
-  --   "metakirby5/codi.vim",
-  --   cmd = { "CodiNew", "Codi", "CodiExpand" },
+  --   "rest-nvim/rest.nvim",
+  --   ft = "http",
+  --   dependencies = { { "nvim-lua/plenary.nvim" } },
+  --   config = function()
+  --     require("rest-nvim").setup({})
+  --   end
+  --   --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
+  --   -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
+  --   -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
   -- },
+  --
+
+  -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
+  -- {
+  --   "chrisgrieser/nvim-early-retirement",
+  --   config = true,
+  --   event = "VeryLazy",
+  -- },
+  {
+    "kevinhwang91/nvim-bqf", -- Better quickfix window,
+    ft = "qf",
+    opts = {
+      auto_enable = true,
+      auto_resize_height = true,
+      func_map = {
+        open = "<cr>",
+        openc = "o",
+        vsplit = "v",
+        split = "s",
+        fzffilter = "f",
+        pscrollup = "<C-u>",
+        pscrolldown = "<C-d>",
+        ptogglemode = "F",
+        filter = "n",
+        filterr = "N",
+      },
+    },
+    dependencies = {
+      "junegunn/fzf",
+      build = function()
+        vim.fn["fzf#install"]()
+      end,
+    },
+  },
 
   -- better diffing
   {
     "sindrets/diffview.nvim",
+    event = "VeryLazy",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
-    config = true,
     keys = {
       { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Diff View" },
       { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Close Diff View" },
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff View File History" },
     },
+    -- adopted from https://github.com/rafi/vim-config/blob/master/lua/rafi/plugins/git.lua
+    opts = function()
+      local actions = require('diffview.actions')
+      vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
+        group = vim.api.nvim_create_augroup('rafi_diffview', {}),
+        pattern = 'diffview:///panels/*',
+        callback = function()
+          vim.opt_local.cursorline = true
+          vim.opt_local.winhighlight = 'CursorLine:WildMenu'
+        end,
+      })
+
+      return {
+        enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
+        keymaps = {
+          view = {
+            { 'n', 'q',              '<cmd>DiffviewClose<CR>' },
+            { 'n', '<Tab>',          actions.select_next_entry },
+            { 'n', '<S-Tab>',        actions.select_prev_entry },
+            { 'n', '<LocalLeader>a', actions.focus_files },
+            { 'n', '<LocalLeader>e', actions.toggle_files },
+          },
+          file_panel = {
+            { 'n', 'q',     '<cmd>DiffviewClose<CR>' },
+            { 'n', 'h',     actions.prev_entry },
+            { 'n', 'o',     actions.focus_entry },
+            { 'n', 'gf',    actions.goto_file },
+            { 'n', 'sg',    actions.goto_file_split },
+            { 'n', 'st',    actions.goto_file_tab },
+            { 'n', '<C-r>', actions.refresh_files },
+            { 'n', ';e',    actions.toggle_files },
+          },
+          file_history_panel = {
+            { 'n', 'q', '<cmd>DiffviewClose<CR>' },
+            { 'n', 'o', actions.focus_entry },
+            { 'n', 'O', actions.options },
+          },
+        },
+      }
+    end,
   },
   -- Git
-  -- "tpope/vim-fugitive",
-  -- git blame
+  -- check this also https://github.com/FabijanZulj/blame.nvim
+  -- {
+  --   "f-person/git-blame.nvim",
+  --   event = "BufReadPre",
+  --   config = function()
+  --     require('gitblame').setup {
+  --       enabled = false,
+  --     }
+  --   end
+  -- },
+
   {
-    "f-person/git-blame.nvim",
-    event = "BufReadPre",
-    init = function()
-      vim.g.gitblame_enabled = 0
-    end
+    "tpope/vim-fugitive",
   },
 
   -- git signs
   {
     "lewis6991/gitsigns.nvim",
+    event = { "BufNewFile", "BufReadPost", "BufWritePre" },
     dependencies = {
       "nvim-lua/plenary.nvim",
+    },
+    keys = {
+      { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle Git Blame" },
+      { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",              desc = "Preview Hunk" },
     },
     opts = {
       signs = {
@@ -64,107 +155,15 @@ return {
         interval = 1000,
         follow_files = true,
       },
-      current_line_blame = false,
+      diff_opts = { internal = true },
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
-        delay = 1000,
+        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        delay = 500,
         ignore_whitespace = false,
+        virt_text_priority = 100,
       },
-      sign_priority = 6,
-      update_debounce = 100,
-      status_formatter = nil,
-      diff_opts = { internal = true },
-      preview_config = {
-        -- Options passed to nvim_open_win
-        border = "single",
-        style = "minimal",
-        relative = "cursor",
-        row = 0,
-        col = 1,
-      },
+      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
     }
   },
-  -- browse and preview json files
-  -- {
-  --   "gennaro-tedesco/nvim-jqx",
-  --   ft = { "json", "yaml" },
-  -- },
-
-  -- http client, treesitter: http, json
-  -- {
-  --   "rest-nvim/rest.nvim",
-  --   ft = "http",
-  --   dependencies = { "nvim-lua/plenary.nvim" },
-  --   -- stylua: ignore
-  --   keys = {
-  --     {
-  --       "<leader>th",
-  --       "<Plug>RestNvim",
-  --       desc =
-  --       "Http Request"
-  --     },
-  --     {
-  --       "<leader>tl",
-  --       "<Plug>RestNvimLast",
-  --       desc =
-  --       "Last Http Request"
-  --     },
-  --     {
-  --       "<leader>tc",
-  --       "<Plug>RestNvimPreview",
-  --       desc =
-  --       "Preview cURL command"
-  --     },
-  --     {
-  --       "<leader>ce",
-  --       function()
-  --         local env = vim.fn.input("environment: ", ".env");
-  --         require("rest-nvim").select_env(env);
-  --       end,
-  --       desc =
-  --       "Switch Environment"
-  --     },
-  --     {
-  --       "<leader>cp",
-  --       function() require("rest-nvim").run(true) end,
-  --       desc =
-  --       "Preview Request"
-  --     },
-  --     {
-  --       "<leader>ct",
-  --       function() require("rest-nvim").run() end,
-  --       desc =
-  --       "Test Request"
-  --     },
-  --   },
-  --   opts = {
-  --     -- Open request results in a horizontal split
-  --     result_split_horizontal = false,
-  --     -- Keep the http file buffer above|left when split horizontal|vertical
-  --     result_split_in_place = false,
-  --     -- Skip SSL verification, useful for unknown certificates
-  --     skip_ssl_verification = false,
-  --     -- Highlight request on run
-  --     highlight = {
-  --       enabled = true,
-  --       timeout = 0,
-  --     },
-  --     result = {
-  --       -- toggle showing URL, HTTP info, headers at top the of result window
-  --       show_url = true,
-  --       show_http_info = true,
-  --       show_headers = true,
-  --       formatters = {
-  --         json = "jq",
-  --       },
-  --     },
-  --     -- Jump to request line on run
-  --     jump_to_request = false,
-  --     env_file = ".env",
-  --     custom_dynamic_variables = {},
-  --     yank_dry_run = true,
-  --   },
-  -- },
-
 }

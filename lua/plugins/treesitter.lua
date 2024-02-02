@@ -1,21 +1,70 @@
 return {
-  { "windwp/nvim-ts-autotag", ft = { "html", "xml", "javascriptreact", "typescriptreact" } },
+  {
+    "windwp/nvim-ts-autotag",
+    opts = {
+      autotag = { enable_close_on_slash = false }
+    }
+  },
+  -- comments
+  {
+    "JoosepAlviste/nvim-ts-context-commentstring",
+    lazy = true,
+    opts = {
+      enable_autocmd = false,
+    },
+  },
   {
     "nvim-treesitter/nvim-treesitter-context",
     event = "BufReadPre",
-    config = true,
+    enabled = true,
+    opts = { mode = "cursor", max_lines = 3 },
   },
+
   {
     --- Treesitter
     "nvim-treesitter/nvim-treesitter",
+    version = false,
     build = ":TSUpdate",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
+    cmd = {
+      "TSInstall", "TSUninstall", "TSUpdate", "TSUpdateSync", "TSInstallInfo", "TSInstallSync", "TSInstallFromGrammar" },
+    keys = {
+      { "<c-space>", desc = "Increment selection" },
+      { "<bs>",      desc = "Decrement selection", mode = "x" },
+    },
+    init = function(plugin)
+      -- CODE FROM LazyVim (thanks folke!) https://github.com/LazyVim/LazyVim/commit/1e1b68d633d4bd4faa912ba5f49ab6b8601dc0c9
+      require("lazy.core.loader").add_to_rtp(plugin)
+      require("nvim-treesitter.query_predicates")
+    end,
     dependencies = {
-      -- "nvim-treesitter/nvim-treesitter-textobjects",
-      "nvim-treesitter/nvim-tree-docs",
       "windwp/nvim-ts-autotag",
       "mfussenegger/nvim-ts-hint-textobject",
-      "JoosepAlviste/nvim-ts-context-commentstring"
+      {
+        "nvim-treesitter/nvim-treesitter-textobjects",
+        config = function()
+          -- When in diff mode, we want to use the default
+          -- vim text objects c & C instead of the treesitter ones.
+          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+          local configs = require("nvim-treesitter.configs")
+          for name, fn in pairs(move) do
+            if name:find("goto") == 1 then
+              move[name] = function(q, ...)
+                if vim.wo.diff then
+                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+                  for key, query in pairs(config or {}) do
+                    if q == query and key:find("[%]%[][cC]") then
+                      vim.cmd("normal! " .. key)
+                      return
+                    end
+                  end
+                end
+                return fn(q, ...)
+              end
+            end
+          end
+        end,
+      },
     },
     opts = function()
       local function is_disable(_, bufnr)
@@ -35,9 +84,11 @@ return {
           "fennel",
           "graphql",
           "go",
-          "gosum",
           "gomod",
+          "gosum",
+          "gowork",
           "html",
+          "http",
           "java",
           "javascript",
           "jsdoc",
@@ -51,10 +102,12 @@ return {
           "make",
           "markdown",
           "markdown_inline",
+          "ninja",
           "proto",
           "python",
           "query",
           "regex",
+          "rst",
           "ron",
           "rust",
           "scss",
@@ -70,9 +123,9 @@ return {
           "svelte",
         },
         auto_install = true, -- install missing parsers when entering a buffer
-        highlight = { enable = true, additional_vim_regex_highlighting = false, disable = is_disable },
+        highlight = { enable = true, additional_vim_regex_highlighting = false },
         indent = { enable = true, disable = is_disable },
-        context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
+        -- context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
         autopairs = { enable = true, disable = is_disable },
         autotag = { enable = true, disable = is_disable },
         playground = { enable = true, disable = is_disable },
@@ -87,35 +140,13 @@ return {
             node_decremental = "<bs>",
           },
         },
-        -- TREESITTER PLUGINS
-        rainbow = { enable = true, disable = is_disable },
-        tree_docs = {
-          enable = true,
-          spec_config = {
-            jsdoc = {
-              slots = {
-                class = { author = true },
-              },
-              processors = {
-                author = function()
-                  return " * @author James Amo"
-                end,
-              },
-            },
-          },
-        },
-        refactor = {
-          highlight_definitions = {
+        textobjects = {
+          move = {
             enable = true,
-            clear_on_cursor_move = false, -- set to true with a very low updatetime
-          },
-          highlight_current_scope = { enable = false },
-          smart_rename = {
-            enable = true,
-            keymaps = {
-              -- not using the same hotkey as LSP rename to prevent overwriting it
-              smart_rename = "<leader>v",
-            },
+            goto_next_start = { ["]f"] = "@function.outer", ["]c"] = "@class.outer" },
+            goto_next_end = { ["]F"] = "@function.outer", ["]C"] = "@class.outer" },
+            goto_previous_start = { ["[f"] = "@function.outer", ["[c"] = "@class.outer" },
+            goto_previous_end = { ["[F"] = "@function.outer", ["[C"] = "@class.outer" },
           },
         },
         query_linter = {
@@ -126,16 +157,15 @@ return {
       }
     end,
     config = function(_, opts)
+      if type(opts.ensure_installed) == "table" then
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(parser)
+          if added[parser] then return false end
+          added[parser] = true
+          return true
+        end, opts.ensure_installed)
+      end
       require("nvim-treesitter.configs").setup(opts)
     end,
-    cmd = {
-      "TSInstall",
-      "TSUninstall",
-      "TSUpdate",
-      "TSUpdateSync",
-      "TSInstallInfo",
-      "TSInstallSync",
-      "TSInstallFromGrammar",
-    },
   },
 }

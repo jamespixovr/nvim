@@ -1,55 +1,27 @@
 return {
-  "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
-  -- file explorer
+  -- Improved [esc]
+  -- https://github.com/max397574/better-escape.nvim
   {
-    "nvim-tree/nvim-tree.lua",
-    event = "User DirOpened",
-    keys = {
-      { "<leader>n", "<cmd>NvimTreeToggle<cr>", desc = "Nvim Tree" },
-    },
+    "max397574/better-escape.nvim",
+    event = "InsertCharPre",
     opts = {
-      disable_netrw = true,
-      hijack_cursor = true,
-      filters = { dotfiles = true },
-      update_focused_file = {
-        enable = true,
-        update_root = false,
-        ignore_list = { "fzf", "help", "git" },
-      },
-      diagnostics = {
-        enable = true,
-        icons = { hint = "", info = "", warning = "", error = "" },
-      },
-      actions = { open_file = { quit_on_open = true } },
-      view = {
-        adaptive_size = true,
-        width = 40,
-        signcolumn = "no",
-      },
-      on_attach = require("util.nvim_tree_mapping").on_attach,
-      renderer = {
-        indent_markers = {
-          enable = true,
-        },
-        group_empty = true,
-        highlight_git = true,
-        root_folder_modifier = ":~",
-        icons = {
-          glyphs = { folder = { arrow_closed = "▸", arrow_open = "▾" } },
-        },
-        special_files = { "Cargo.toml", "Makefile", "README.md", "go.mod" },
-      },
+      mapping = {},
+      timeout = 300,
     },
   },
 
-  -- search/replace in treesitter
+  "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
+
+  -----------------------------------------------------------------------------
   {
-    "cshuaimin/ssr.nvim",
-    -- stylua: ignore
+    'mbbill/undotree',
+    cmd = 'UndotreeToggle',
     keys = {
-      { "<leader>sr", function() require("ssr").open() end, desc = "Structural Replace", mode = { "n", "x" } },
+      { '<Leader>gu', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
     },
   },
+
+  -----------------------------------------------------------------------------
   -- better diagnostics list and others
   {
     "folke/trouble.nvim",
@@ -89,17 +61,22 @@ return {
     "echasnovski/mini.bufremove",
     -- stylua: ignore
     keys = {
-      { "<leader>cb", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-      { "<leader>cB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
+      { "<leader>bc", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
+      { "<leader>bB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
     },
   },
 
   -- references
   {
     "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile" },
+    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
     opts = {
       delay = 300,
+      providers = {
+        'lsp',
+        'treesitter',
+        'regex',
+      },
       large_file_cutoff = 2000,
       large_file_overrides = {
         providers = { "lsp" },
@@ -107,7 +84,6 @@ return {
     },
     config = function(_, opts)
       require("illuminate").configure(opts)
-      -- vim.g.Illuminate_highlightUnderCursor = 0
     end,
     -- stylua: ignore
     keys = {
@@ -137,10 +113,9 @@ return {
       },
     },
     opts = {
-      size = 20,
       open_mapping = [[<c-\>]],
       shading_factor = 2,
-      direction = "float",
+      direction = "horizontal",
       float_opts = {
         border = "curved",
         winblend = 0,
@@ -163,7 +138,6 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
-      plugins = {},
       window = {
         border = "single", -- none, single, double, shadow
       },
@@ -181,18 +155,21 @@ return {
         ["]"] = { name = "+next" },
         ["["] = { name = "+prev" },
         -- ["<leader><tab>"] = { name = "+tabs" },
-        -- ["<leader>b"] = { name = "+buffer" },
+        ["<leader>b"] = { name = "+buffer" },
         ["<leader>c"] = { name = "+code" },
-        -- ["<leader>f"] = { name = "+file/find" },
-        -- ["<leader>g"] = { name = "+git" },
-        -- ["<leader>gh"] = { name = "+hunks" },
-        ["<leader>q"] = { name = "+quit/session" },
-        -- ["<leader>s"] = { name = "+search" },
-        ["<leader>sn"] = { name = "+noice" },
-        -- ["<leader>u"] = { name = "+ui" },
-        -- ["<leader>w"] = { name = "+windows" },
-        ["<leader>t"] = { name = "+test runner" },
         ["<leader>d"] = { name = "+debugger" },
+        ["<leader>f"] = { name = "+file/find/telescope" },
+        ["<leader>g"] = { name = "+git" },
+        ["<leader>h"] = { name = "+hardtime" },
+        -- ["<leader>gh"] = { name = "+hunks" },
+        ["<leader>o"] = { name = "+task runner" },
+        ["<leader>q"] = { name = "+quit/session" },
+        ["<leader>s"] = { name = "+search" },
+        ["<leader>n"] = { name = "+noice" },
+        ["<leader>u"] = { name = "+ui" },
+        ["<leader>t"] = { name = "+test runner" },
+        ["<leader>v"] = { name = "+venv" },
+        ["<leader>w"] = { name = "+windows" },
         ["<leader>x"] = { name = "+diagnostics/quickfix" },
       })
     end,

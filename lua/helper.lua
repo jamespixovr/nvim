@@ -16,11 +16,6 @@ function M.is_directory()
   return vim.fn.isdirectory(vim.api.nvim_buf_get_name(0)) == 1
 end
 
-function M.is_directory_or_nil()
-  local buf_path = vim.api.nvim_buf_get_name(0)
-  return buf_path == "" or vim.fn.isdirectory(buf_path) == 1
-end
-
 local get_map_options = function(custom_options)
   local options = { noremap = true, silent = true }
   if custom_options then
@@ -37,16 +32,6 @@ M.nmap_buf = function(...)
   M.buf_map("n", ...)
 end
 
----@param on_attach fun(client, buffer)
-function M.on_lsp_attach(on_attach)
-  vim.api.nvim_create_autocmd("LspAttach", {
-    callback = function(args)
-      local buffer = args.buf
-      local client = vim.lsp.get_client_by_id(args.data.client_id)
-      on_attach(client, buffer)
-    end,
-  })
-end
 
 ---@param plugin string
 function M.has(plugin)
@@ -122,7 +107,7 @@ function M.get_root()
 end
 
 -- this will return a function that calls telescope.
--- cwd will defautlt to lazyvim.util.get_root
+-- cwd will defautlt to util.get_root
 -- for `files`, git_files or find_files will be chosen depending on .git
 function M.telescope(builtin, opts)
   local params = { builtin = builtin, opts = opts }
@@ -184,30 +169,6 @@ function M.toggle_diagnostics()
     msg = "Disabled diagnostics"
   end
   vim.notify(msg, vim.log.levels.INFO, { title = "Diagnostics" })
-end
-
-function M.vscodeExtensions()
-  -- ## DAP `launch.json`
-  require('dap.ext.vscode').load_launchjs(nil, {
-    ['python'] = {
-      'python',
-    },
-    ['pwa-node'] = {
-      'javascript',
-      'typescript',
-    },
-    ['node'] = {
-      'javascript',
-      'typescript',
-    },
-    ['cppdbg'] = {
-      'c',
-      'cpp',
-    },
-    ['dlv'] = {
-      'go',
-    },
-  })
 end
 
 M.str_isempty = function(s)
@@ -281,6 +242,15 @@ function M.opts(name)
   end
   local Plugin = require("lazy.core.plugin")
   return Plugin.values(plugin, "opts", false)
+end
+
+---send notification
+---@param msg string
+---@param title string
+---@param level? "info"|"trace"|"debug"|"warn"|"error"
+function M.notify(title, msg, level)
+  if not level then level = "info" end
+  vim.notify(msg, vim.log.levels[level:upper()], { title = title })
 end
 
 return M

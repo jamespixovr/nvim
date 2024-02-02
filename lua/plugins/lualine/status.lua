@@ -1,8 +1,28 @@
 local settings = require("settings")
 local helper = require('helper')
 local symbols = settings.icons
+local lazy_status = require("lazy.status")
 
 local M = {}
+
+local function show_macro_recording()
+  local recording_register = vim.fn.reg_recording()
+  if recording_register == "" then
+    return ""
+  else
+    return "recording @" .. recording_register
+  end
+end
+
+
+function M.LazyUpdates(opts)
+  return helper.extend_tbl({
+    lazy_status.updates,
+    padding = { left = 1, right = 1 },
+    cond = lazy_status.has_updates,
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
 
 function M.mode(opts)
   return helper.extend_tbl({
@@ -10,6 +30,14 @@ function M.mode(opts)
       return settings.icons.ui.Target
     end,
     padding = { left = 0, right = 0 },
+    color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
+  }, opts)
+end
+
+function M.showMacroRecording(opts)
+  return helper.extend_tbl({
+    "macro-recording",
+    fmt = show_macro_recording,
     color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
   }, opts)
 end
@@ -28,6 +56,27 @@ function M.progress(opts)
   return helper.extend_tbl({
     "progress",
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
+
+function M.datetime(opts)
+  return helper.extend_tbl({
+    function()
+      return " " .. os.date("%R")
+    end,
+    padding = { left = 0, right = 0 },
+    color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
+  }, opts)
+end
+
+function M.searchCount(opts)
+  return helper.extend_tbl({
+    function() require('noice').api.status.search.get() end,
+    cond = function()
+      return package.loaded['noice']
+          and require('noice').api.status.search.has()
+    end,
+    color = { bg = "#282c34", fg = "#ff9e64", gui = "bold" },
   }, opts)
 end
 
@@ -131,7 +180,7 @@ function M.lsp(opts)
 
 
       local unique_client_names = table.concat(buf_client_names, ", ")
-      local language_servers = string.format("[%s]", unique_client_names)
+      local language_servers = string.format("%s", unique_client_names)
 
       return language_servers
     end,
@@ -153,6 +202,20 @@ function M.scrollbar(opts)
     padding = { left = 0, right = 0 },
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
     cond = nil,
+  }, opts)
+end
+
+function M.Overseer(opts)
+  return helper.extend_tbl({
+    "overseer",
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    label = '',         -- Prefix for task counts
+    colored = true,     -- Color the task icons and counts
+    unique = false,     -- Unique-ify non-running task count by name
+    name = nil,         -- List of task names to search for
+    name_not = false,   -- When true, invert the name search
+    status = nil,       -- List of task statuses to display
+    status_not = false, -- When true, invert the status search
   }, opts)
 end
 
