@@ -35,47 +35,52 @@ return {
       { "<leader>fa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
       { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
       {
+        "<leader>fF",
+        helper.telescope("find_files", { cwd = false }),
+        desc = "Find Files (cwd)"
+      },
+      {
         "<leader>sg",
         "<cmd>Telescope live_grep<cr>",
-        desc =
-        "Find in Files (Grep)"
+        desc = "Find in Files (Grep)"
       },
       {
         "<leader>sG",
         helper.telescope("live_grep", { cwd = false }),
-        desc =
-        "Find in Files (Grep)"
+        desc = "Find in Files (Grep)"
       },
       {
         "<leader>sh",
         "<cmd>Telescope grep_string<cr>",
-        desc =
-        "Search word under cursor"
+        desc = "Search word under cursor"
       },
       {
         "<leader>sH",
         helper.telescope("grep_string", { cwd = false }),
-        desc =
-        "Search word under cursor (cwd)"
+        desc = "Search word under cursor (cwd)"
       },
       { "<leader>fk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       {
         "<leader>/",
         "<leader>sg",
-        desc =
-        "Find in Files (Grep)",
+        desc = "Find in Files (Grep)",
         remap = true
       },
-      { "<leader>sW",      helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
+      { "<leader>sW", helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
 
       -- LSP related
-      { '<localleader>dd', '<cmd>Telescope lsp_definitions<CR>',             desc = 'Definitions' },
-      { '<localleader>di', '<cmd>Telescope lsp_implementations<CR>',         desc = 'Implementations' },
-      { '<localleader>dr', '<cmd>Telescope lsp_references<CR>',              desc = 'References' },
-      { '<localleader>da', '<cmd>Telescope lsp_code_actions<CR>',            desc = 'Code actions' },
-      { '<localleader>da', ':Telescope lsp_range_code_actions<CR>',          mode = 'x',              desc =
-      'Code actions' },
+      { '<leader>dd', '<cmd>Telescope lsp_definitions<CR>',             desc = 'Definitions' },
+      { '<leader>di', '<cmd>Telescope lsp_implementations<CR>',         desc = 'Implementations' },
+      { '<leader>dr', '<cmd>Telescope lsp_references<CR>',              desc = 'References' },
+      { '<leader>da', '<cmd>Telescope lsp_code_actions<CR>',            desc = 'Code actions' },
+      {
+        '<leader>da',
+        ':Telescope lsp_range_code_actions<CR>',
+        mode = 'x',
+        desc =
+        'Code actions'
+      },
     },
     opts = function()
       local actions = require("telescope.actions")
@@ -229,6 +234,9 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
           },
+          dap = {
+            theme = "cursor",
+          }
         },
       }
     end,

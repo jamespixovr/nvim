@@ -1,5 +1,17 @@
 local settings = require("settings")
 return {
+  --  COMPILER ----------------------------------------------------------------
+  --  compiler.nvim [compiler]
+  --  https://github.com/Zeioth/compiler.nvim
+  {
+    "Zeioth/compiler.nvim",
+    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
+    dependencies = { "stevearc/overseer.nvim" },
+    opts = {},
+  },
+
+  --  overseer [task runner]
+  --  https://github.com/stevearc/overseer.nvim
   {
     "stevearc/overseer.nvim",
     event = 'VeryLazy',
@@ -12,6 +24,8 @@ return {
       "OverseerRun",
       "OverseerRunCmd",
       "OverseerToggle",
+      "CompilerOpen",
+      "CompilerToggleResults"
     },
     keys = {
       { "<leader>oR", "<cmd>OverseerRunCmd<cr>",       desc = "Run Command" },
@@ -37,6 +51,10 @@ return {
         },
       },
       task_list = {
+        direction = "bottom",
+        min_height = 25,
+        max_height = 25,
+        default_detail = 1,
         bindings = {
           ["<Tab>"] = "IncreaseDetail",
           ["<S-Tab>"] = "DecreaseDetail",
@@ -127,6 +145,31 @@ return {
       })
     end
   },
+  --  Shows a float panel with the [code coverage]
+  --  https://github.com/andythigpen/nvim-coverage
+  --
+  --  Your project must generate coverage/lcov.info for this to work.
+  --
+  --  On jest, make sure your packages.json file has this:
+  --  "tests": "jest --coverage"
+  --
+  --  If you use other framework or language, refer to nvim-coverage docs:
+  --  https://github.com/andythigpen/nvim-coverage/blob/main/doc/nvim-coverage.txt
+  {
+    "andythigpen/nvim-coverage",
+    cmd = {
+      "Coverage",
+      "CoverageLoad",
+      "CoverageLoadLcov",
+      "CoverageShow",
+      "CoverageHide",
+      "CoverageToggle",
+      "CoverageClear",
+      "CoverageSummary",
+    },
+    config = function() require("coverage").setup() end,
+    requires = { "nvim-lua/plenary.nvim" },
+  },
 
   {
     "nvim-neotest/neotest",
@@ -136,14 +179,6 @@ return {
       "nvim-treesitter/nvim-treesitter",
       "nvim-lua/plenary.nvim",
       "antoinemadec/FixCursorHold.nvim",
-      {
-        "andythigpen/nvim-coverage",
-        config = function()
-          require("coverage").setup({
-            auto_reload = true,
-          })
-        end
-      },
     },
     keys = {
       {
@@ -334,10 +369,4 @@ return {
     end,
   },
 
-  { -- This plugin
-    "Zeioth/compiler.nvim",
-    cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
-    dependencies = { "stevearc/overseer.nvim" },
-    opts = {},
-  },
 }
