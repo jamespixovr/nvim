@@ -79,8 +79,8 @@ return {
     },
     config = function()
       require("go").setup({
-        dap_debug = true,
-        dap_debug_gui = true,
+        dap_debug = false,
+        dap_debug_gui = false,
         run_in_floaterm = true,
       })
     end,
@@ -92,22 +92,6 @@ return {
     },
     ft = { "go", 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-  },
-  -- setup DAP
-  {
-    "leoluz/nvim-dap-go",
-    lazy = true,
-    config = function()
-      require("dap-go").setup()
-      require("helper").on_ft("go", function(event)
-        -- stylua: ignore start
-        vim.keymap.set("n", "<leader>tg", function() require("dap-go").debug_test() end,
-          { desc = "debug test", buffer = event.buf })
-        vim.keymap.set("n", "<leader>tD", function() require("dap-go").debug_last_test() end,
-          { desc = "debug last test", buffer = event.buf })
-        -- stylua: ignore end
-      end)
-    end,
   },
 
   {

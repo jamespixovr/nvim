@@ -1,4 +1,14 @@
 return {
+  -- Improved [esc]
+  -- https://github.com/max397574/better-escape.nvim
+  {
+    "max397574/better-escape.nvim",
+    event = "InsertCharPre",
+    opts = {
+      mapping = {},
+      timeout = 300,
+    },
+  },
 
   "antoinemadec/FixCursorHold.nvim", -- This is needed to fix lsp doc highlight
 
