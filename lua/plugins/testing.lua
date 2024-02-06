@@ -8,6 +8,11 @@ return {
     cmd = { "CompilerOpen", "CompilerToggleResults", "CompilerRedo" },
     dependencies = { "stevearc/overseer.nvim" },
     opts = {},
+    keys = {
+      { "<leader>lo", "<cmd>CompilerOpen<cr>", desc = "Compi[l]er [o]pen" },
+      { "<leader>lr", "<cmd>CompilerRedo<cr>", desc = "Compi[l]er [r]edo" },
+    },
+
   },
 
   --  overseer [task runner]
@@ -344,28 +349,6 @@ return {
         opts.adapters = adapters
       end
       require("neotest").setup(opts)
-
-      vim.api.nvim_create_user_command("NeotestRun", function()
-        require("neotest").run.run()
-      end, {})
-      vim.api.nvim_create_user_command("NeotestRunCurrent", function()
-        require("neotest").run.run(vim.fn.expand("%"))
-      end, {})
-      vim.api.nvim_create_user_command("NeotestRunDap", function()
-        require("neotest").run.run({ strategy = "dap" })
-      end, {})
-      vim.api.nvim_create_user_command("NeotestStop", function()
-        require("neotest").run.stop()
-      end, {})
-      vim.api.nvim_create_user_command("NeotestAttach", function()
-        require("neotest").run.attach()
-      end, {})
-      vim.api.nvim_create_user_command("NeotestOutput", function()
-        require("neotest").output.open()
-      end, {})
-      vim.api.nvim_create_user_command("NeotestSummary", function()
-        require("neotest").summary.toggle()
-      end, {})
     end,
   },
 

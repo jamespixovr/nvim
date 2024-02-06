@@ -36,7 +36,9 @@ require("lazy").setup(
       path = "~/Projects/lua",
       patterns = { "jarmex" },
     },
-    diff = { cmd = "browser" }, -- view diffs with "d" in the browser
+    diff = {
+      cmd = "diffview.nvim",
+    },
     readme = { enabled = true },
     performance = {
       rtp = {

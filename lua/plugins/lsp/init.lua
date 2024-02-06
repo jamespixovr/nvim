@@ -1,20 +1,4 @@
 return {
-  -- add folding range to capabilities
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      capabilities = {
-        textDocument = {
-          foldingRange = {
-            dynamicRegistration = false,
-            lineFoldingOnly = true,
-          },
-        },
-      },
-    },
-  },
-
-
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
@@ -24,22 +8,28 @@ return {
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
+      -- For Typescript
+      {
+        "pmizio/typescript-tools.nvim",
+        opts = {
+          settings = {
+            tsserver_file_preferences = {
+              includeInlayParameterNameHints = "all",
+              includeCompletionsForModuleExports = true,
+              quotePreference = "auto",
+            },
+          },
+        },
+      },
     },
     ---@class PluginLspOpts
     opts = {
-      -- options for vim.diagnostic.config()
-      diagnostics = {
-        underline = true,
-        update_in_insert = false,
-        virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
-        severity_sort = true,
-        float = {
-          show_header = true,
-          focusable = true,
-          style = "minimal",
-          border = "rounded",
-          source = "always",
-          prefix = "",
+      capabilities = {
+        textDocument = {
+          foldingRange = {
+            dynamicRegistration = false,
+            lineFoldingOnly = true,
+          },
         },
       },
 
@@ -49,7 +39,6 @@ return {
         timeout_ms = nil,
       },
 
-      capabilities = {},
       ---@type lspconfig.options
       servers = {},
       -- you can do any additional lsp server setup here

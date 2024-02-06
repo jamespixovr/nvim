@@ -6,14 +6,31 @@ local M = {}
 
 function M.setup(opts)
   -- diagnostics
+  -- options for vim.diagnostic.config()
+  local diagnostics = {
+    underline = true,
+    signs = { active = settings.icons.diagnostics },
+    update_in_insert = false,
+    virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
+    severity_sort = true,
+    float = {
+      show_header = true,
+      focusable = true,
+      style = "minimal",
+      border = "rounded",
+      source = "always",
+      prefix = "",
+    },
+  }
+
   for name, icon in pairs(settings.icons.diagnostics) do
     name = "DiagnosticSign" .. name
     vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
   end
 
 
-  if type(opts.diagnostics.virtual_text) == "table" and opts.diagnostics.virtual_text.prefix == "icons" then
-    opts.diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
+  if type(diagnostics.virtual_text) == "table" and diagnostics.virtual_text.prefix == "icons" then
+    diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
         or function(diagnostic)
           local icons = settings.icons.diagnostics
           for d, icon in pairs(icons) do
@@ -24,7 +41,9 @@ function M.setup(opts)
         end
   end
 
-  vim.diagnostic.config(vim.deepcopy(opts.diagnostics))
+
+
+  vim.diagnostic.config(vim.deepcopy(diagnostics))
 
   local servers = opts.servers
 

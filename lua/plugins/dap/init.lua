@@ -18,7 +18,7 @@ return {
   --  We currently ship most of them with nvim.
   {
     "mfussenegger/nvim-dap",
-    event = "User BaseFile",
+    event = "VeryLazy",
     -- stylua: ignore
     keys = {
       {
