@@ -120,3 +120,20 @@ vim.api.nvim_create_user_command("Curl", function(ctx)
   a.nvim_buf_set_option(bufId, "buftype", "nowrite") -- no-write allows lsp to attach
   vim.defer_fn(function() vim.cmd.Format() end, 100) -- formatter.nvim
 end, { nargs = 1 })
+
+--------------------------------------------------------
+vim.api.nvim_create_user_command("GinkgoGen", function(ctx)
+  local filename = ctx.args
+  local cwd = vim.fn.getcwd()
+  local buf_filepath = vim.api.nvim_buf_get_name(0)
+  local dir_path = vim.fn.fnamemodify(cwd, ':h') .. '/'
+  local current_buffer_dir_path = string.sub(buf_filepath, 1,
+    string.len(buf_filepath) - string.len(vim.fn.fnamelength(buf_filepath)))
+
+  local location = dir_path .. current_buffer_dir_path
+  print("location: " .. location)
+  local user_cmd = "cd " .. location .. " && ginkgo generate " .. filename
+
+  u.notify("", "GinkgoGen: " .. user_cmd, "warn")
+  -- print(user_cmd)
+end, { desc = "Generate Ginkgo Test" })
