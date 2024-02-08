@@ -86,7 +86,7 @@ return {
     end,
     event = { "CmdlineEnter" },
     keys = {
-      { "<leader>tgn", "<cmd>GoTestFunc<CR>", desc = "Run nearest test" },
+      { "<leader>tgn", "<cmd>GinkgoFunc<CR>", desc = "Run nearest test" },
       { "<leader>tgr", "<cmd>GoRun<CR>",      desc = "Run Go main" },
       { "<leader>tgf", "<cmd>GoTestFile<CR>", desc = "Run test file" },
     },
