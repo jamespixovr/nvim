@@ -4,22 +4,21 @@ return {
   {
     "L3MON4D3/LuaSnip",
     event = 'InsertEnter',
+    version = "v2.*",
+    build = "make install_jsregexp",
     dependencies = {
-      "rafamadriz/friendly-snippets",
-      config = function()
-        require("luasnip.loaders.from_vscode").lazy_load()
-      end,
-    },
-    opts = {
-      history = false,
-      -- delete_check_events = "TextChanged",
-      updateevents = "TextChanged,TextChangedI",
-      -- Event on which to check for exiting a snippet's region
-      region_check_events = 'InsertEnter',
-      delete_check_events = 'InsertLeave',
-      ft_func = function()
-        return vim.split(vim.bo.filetype, '.', { plain = true })
-      end,
+      {
+        "rafamadriz/friendly-snippets",
+        config = function()
+          local luasnip = require("luasnip")
+          luasnip.filetype_extend("javascriptreact", { "html" })
+          luasnip.filetype_extend("typescriptreact", { "html" })
+          luasnip.filetype_extend("svelte", { "html" })
+          luasnip.filetype_extend("vue", { "html" })
+
+          require("luasnip.loaders.from_vscode").lazy_load()
+        end
+      },
     },
     -- stylua: ignore
     keys = {
@@ -55,15 +54,8 @@ return {
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
       local compare = require "cmp.config.compare"
-      --[[ local maxline = 50
-      local ellipsis = "..."
-      local menu = {
-        luasnip = "[Snip]",
-        nvim_lsp = "[Lsp]",
-        buffer = "[Buf]",
-        path = "[Path]",
-        cmdline = "[Cmd]",
-      } ]]
+
+
       local check_backspace = function()
         local col = vim.fn.col(".") - 1
         return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
