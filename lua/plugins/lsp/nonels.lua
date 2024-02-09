@@ -24,7 +24,9 @@ return {
           fmt.prettier.with({
             dynamic_command = command_resolver.from_node_modules(),
           }),
-          fmt.shfmt,
+          fmt.shfmt.with({
+            filetypes = { 'sh', 'zsh' },
+          }),
           fmt.tidy,
           fmt.stylua.with({
             condition = function()
@@ -39,6 +41,17 @@ return {
           fmt.pg_format,
           fmt.gofumpt,   -- GO
           fmt.goimports, --GO
+
+          -- fmt.biome.with({
+          --   args = {
+          --     'check',
+          --     '--apply-unsafe',
+          --     '--formatter-enabled=true',
+          --     '--organize-imports-enabled=true',
+          --     '--skip-errors',
+          --     '$FILENAME',
+          --   },
+          -- }),
 
           --  ╭─────────────╮
           --  │ Diagnostics │
