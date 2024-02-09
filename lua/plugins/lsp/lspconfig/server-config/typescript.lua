@@ -43,6 +43,7 @@ return {
     opts = {
       -- make sure mason installs the server
       servers = {
+        biome = {},
         ---@type lspconfig.options.tsserver
         tsserver = {
           keys = {
