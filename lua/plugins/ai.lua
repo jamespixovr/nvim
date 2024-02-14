@@ -47,7 +47,8 @@ return {
   },
 
   {
-    "piersolenski/wtf.nvim",
+    "jarmex/wtf.nvim",
+    branch = "ollama-zephyr",
     dependencies = {
       "MunifTanjim/nui.nvim",
     },
