@@ -121,19 +121,56 @@ vim.api.nvim_create_user_command("Curl", function(ctx)
   vim.defer_fn(function() vim.cmd.Format() end, 100) -- formatter.nvim
 end, { nargs = 1 })
 
---------------------------------------------------------
-vim.api.nvim_create_user_command("GinkgoGen", function(ctx)
-  local filename = ctx.args
-  local cwd = vim.fn.getcwd()
-  local buf_filepath = vim.api.nvim_buf_get_name(0)
-  local dir_path = vim.fn.fnamemodify(cwd, ':h') .. '/'
-  local current_buffer_dir_path = string.sub(buf_filepath, 1,
-    string.len(buf_filepath) - string.len(vim.fn.fnamelength(buf_filepath)))
 
-  local location = dir_path .. current_buffer_dir_path
-  print("location: " .. location)
-  local user_cmd = "cd " .. location .. " && ginkgo generate " .. filename
+-------------------Run System test-------------------------------------
+-- This run a cucumber test file in golang
+-- <args> - lifecycle of test
+vim.api.nvim_create_user_command("PixoTest", function(ctx)
+  local name = "PixoTest"
+  local status, overseer = pcall(require, 'overseer')
 
-  u.notify("", "GinkgoGen: " .. user_cmd, "warn")
-  -- print(user_cmd)
-end, { desc = "Generate Ginkgo Test" })
+  if not status then
+    u.notify(name .. ":", "overseer not found", "warn")
+    return
+  end
+
+  local filetype = vim.bo.filetype
+
+  if filetype ~= "cucumber" then
+    u.notify(name .. ":", "the current file is not supported", "warn")
+    return
+  end
+
+  local lifecycle = ctx.args
+  if #lifecycle == 0 or #lifecycle > 1 then
+    lifecycle = "local"
+  end
+
+  local row, col = unpack(vim.api.nvim_win_get_cursor(0))
+  row, col = row - 1, col
+
+  local line = vim.api.nvim_buf_get_lines(0, row, row + 1, true)[1]
+  line = line:gsub('^%s+', '') -- lstrip
+  line = line:gsub('%s+$', '') -- rstrip
+
+  if not line:match("^@") then
+    u.notify(name .. ":", "Only works with tags (@)", "warn")
+    return
+  end
+
+  -- remove @ from the line
+  line = line:gsub("@", "")
+  line = line:gsub("%s+", ",")
+
+
+  local user_cmd = "go test -v --godog.random --godog.tags=" .. line .. " -l " .. lifecycle
+  -- u.notify("", "RunSystemTest: " .. user_cmd, "warn")
+  u.notify("", name .. " starting", "info")
+  local task = overseer.new_task({
+    cmd = user_cmd,
+    name = name,
+    components = { 'default' }
+  })
+  task:start()
+  overseer.toggle()
+end, { desc = "Run Pixo Test" })

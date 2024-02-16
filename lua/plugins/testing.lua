@@ -61,8 +61,8 @@ return {
         max_height = 25,
         default_detail = 1,
         bindings = {
-          ["<Tab>"] = "IncreaseDetail",
-          ["<S-Tab>"] = "DecreaseDetail",
+          -- ["<Tab>"] = "IncreaseDetail",
+          -- ["<S-Tab>"] = "DecreaseDetail",
           ["gh"] = "IncreaseAllDetail",
           ["gl"] = "DecreaseAllDetail",
         },
