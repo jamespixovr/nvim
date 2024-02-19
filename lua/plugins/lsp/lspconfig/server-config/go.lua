@@ -98,7 +98,8 @@ return {
     "nvim-neotest/neotest",
     optional = true,
     dependencies = {
-      { "nvim-neotest/neotest-go", version = false },
+      -- { "nvim-neotest/neotest-go", version = false },
+      { "jarmex/neotest-go", version = false, branch = "ginkgo" },
     },
     opts = {
       adapters = {
