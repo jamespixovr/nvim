@@ -173,7 +173,7 @@ return {
       "CoverageSummary",
     },
     config = function() require("coverage").setup() end,
-    requires = { "nvim-lua/plenary.nvim" },
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
 
   {
