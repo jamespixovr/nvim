@@ -261,6 +261,7 @@ return {
     },
     opts = function()
       return {
+        -- log_level = vim.log.levels.DEBUG,
         status = { virtual_text = true },
         output = { open_on_run = true },
         floating = {
