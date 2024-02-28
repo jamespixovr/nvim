@@ -35,6 +35,14 @@ return {
         expr = true,
         silent = true,
         desc = "󰚩 Clear Suggestion",
+      },
+      {
+        "<leader>cd",
+        function() return vim.fn["codeium#Chat"]() end,
+        mode = "n",
+        expr = true,
+        silent = true,
+        desc = "󰚩 Chat",
       }
     },
     config = function()
