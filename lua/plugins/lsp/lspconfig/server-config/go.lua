@@ -41,7 +41,7 @@ return {
                 upgrade_dependency = true,
                 vendor = true,
               },
-              hints = {
+              hints = { -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
                 compositeLiteralTypes = true,
@@ -51,11 +51,13 @@ return {
                 rangeVariableTypes = true,
               },
               analyses = {
-                -- fieldalignment = true,
+                fieldalignment = true,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
                 useany = true,
+                shadow = true,
+                unusedvariable = true,
               },
               staticcheck = true,
               usePlaceholders = true,

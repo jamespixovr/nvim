@@ -37,10 +37,10 @@ return {
                   }))
             end,
           }),
-          fmt.buf,       --PROTO
+          fmt.buf, --PROTO
           fmt.pg_format,
-          fmt.gofumpt,   -- GO
-          fmt.goimports, --GO
+          -- fmt.gofumpt,   -- GO
+          -- fmt.goimports, --GO
 
           -- fmt.biome.with({
           --   args = {
