@@ -18,7 +18,11 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        golangci_lint_ls = {}, -- linter
+        golangci_lint_ls = {
+          cmd = { "golangci-lint-langserver" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl" },
+          root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+        }, -- linter
         gopls = {
           cmd = { "gopls" },
           filetypes = { "go", "gomod", "gowork", "gotmpl" },
