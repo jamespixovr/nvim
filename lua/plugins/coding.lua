@@ -158,5 +158,38 @@ return {
       }
     },
     config = function(_, opts) require 'lsp_signature'.setup(opts) end
-  }
+  },
+  {
+    "simrat39/symbols-outline.nvim",
+    keys = {
+      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+    },
+    opts = {
+      width = 30,
+      autofold_depth = 0,
+      keymaps = {
+        hover_symbol = 'K',
+        toggle_preview = 'p',
+      },
+    },
+  },
+  -- rename
+  {
+    "smjonas/inc-rename.nvim",
+    cmd = "IncRename",
+    config = true,
+  },
+  {
+    "cshuaimin/ssr.nvim",
+    keys = {
+      {
+        "<leader>sR",
+        function()
+          require("ssr").open()
+        end,
+        mode = { "n", "x" },
+        desc = "Structural Replace",
+      },
+    },
+  },
 }

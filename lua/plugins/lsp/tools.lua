@@ -1,23 +1,9 @@
 return {
-  -- rename
   {
-    "smjonas/inc-rename.nvim",
-    config = function()
-      require("inc_rename").setup()
-    end,
-  },
-  {
-    "simrat39/symbols-outline.nvim",
+    "Wansmer/treesj",
     keys = {
-      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+      { "J", "<cmd>TSJToggle<cr>", desc = "Join Toggle" },
     },
-    opts = {
-      width = 30,
-      autofold_depth = 0,
-      keymaps = {
-        hover_symbol = 'K',
-        toggle_preview = 'p',
-      },
-    },
+    opts = { use_default_keymaps = false, max_join_length = 150 },
   },
 }

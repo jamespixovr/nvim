@@ -59,6 +59,7 @@ return {
         biome = {},
         ---@type lspconfig.options.tsserver
         tsserver = {
+          single_file_support = false,
           keys = {
             {
               "<leader>co",
