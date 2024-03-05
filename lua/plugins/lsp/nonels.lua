@@ -71,20 +71,20 @@ return {
               return util.executable("markdownlint", true)
             end,
           }),
-          dgn.shellcheck.with({
-            condition = function()
-              return util.executable("shellcheck", false)
-            end,
-          }),
+          -- dgn.shellcheck.with({
+          --   condition = function()
+          --     return util.executable("shellcheck", false)
+          --   end,
+          -- }),
 
           --  ╭──────────────╮
           --  │ Code Actions │
           --  ╰──────────────╯
-          cda.shellcheck.with({
-            condition = function()
-              return util.executable("shellcheck", true)
-            end,
-          }),
+          -- cda.shellcheck.with({
+          --   condition = function()
+          --     return util.executable("shellcheck", true)
+          --   end,
+          -- }),
           cda.impl,
           -- typescript nvim
           -- require("typescript.extensions.null-ls.code-actions"),
