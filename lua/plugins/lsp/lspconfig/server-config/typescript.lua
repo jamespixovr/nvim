@@ -37,6 +37,19 @@ return {
     "davidosomething/format-ts-errors.nvim", -- extracted ts error formatter
     lazy = true,
   },
+  { 'dmmulroy/ts-error-translator.nvim', lazy = true, opts = {} },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   opts = {
+  --     settings = {
+  --       tsserver_file_preferences = {
+  --         includeInlayParameterNameHints = "all",
+  --         includeCompletionsForModuleExports = true,
+  --         quotePreference = "auto",
+  --       },
+  --     },
+  --   },
+  -- },
 
   {
     "neovim/nvim-lspconfig",

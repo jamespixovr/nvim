@@ -9,18 +9,6 @@ return {
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
       -- For Typescript
-      {
-        "pmizio/typescript-tools.nvim",
-        opts = {
-          settings = {
-            tsserver_file_preferences = {
-              includeInlayParameterNameHints = "all",
-              includeCompletionsForModuleExports = true,
-              quotePreference = "auto",
-            },
-          },
-        },
-      },
     },
     ---@class PluginLspOpts
     opts = {
