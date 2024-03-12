@@ -163,7 +163,7 @@ vim.api.nvim_create_user_command("PixoTest", function(ctx)
   line = line:gsub("%s+", ",")
 
 
-  local user_cmd = "go test -v --godog.random --godog.tags=" .. line .. " -l " .. lifecycle
+  local user_cmd = "go test -failfast -v --godog.random --godog.tags=" .. line .. " -l " .. lifecycle
   -- u.notify("", "RunSystemTest: " .. user_cmd, "warn")
   u.notify("", name .. " starting", "info")
   local task = overseer.new_task({
