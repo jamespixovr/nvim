@@ -1,27 +1,3 @@
--- https://github.com/typescript-language-server/typescript-language-server#workspacedidchangeconfiguration
-local jsAndTsSettings = {
-  format = {}, -- not used, since taken care of by prettier
-  inlayHints = {
-    includeInlayEnumMemberValueHints = false,
-    includeInlayFunctionLikeReturnTypeHints = false,
-    includeInlayFunctionParameterTypeHints = false,
-    includeInlayParameterNameHints = "all", -- none | literals | all
-    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-    includeInlayPropertyDeclarationTypeHints = false,
-    includeInlayVariableTypeHints = false,
-    includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-  },
-  suggest = {
-    includeCompletionsForModuleExports = true,
-  },
-  implementationsCodeLens = {
-    enabled = true,
-  },
-  referencesCodeLens = {
-    enabled = true,
-  }
-}
-
 return {
   -- add typescript to treesitter
   {
@@ -32,124 +8,56 @@ return {
       end
     end,
   },
-  -- typescript
-  {
-    "davidosomething/format-ts-errors.nvim", -- extracted ts error formatter
-    lazy = true,
-  },
-  { 'dmmulroy/ts-error-translator.nvim', lazy = true, opts = {} },
-  -- {
-  --   "pmizio/typescript-tools.nvim",
-  --   opts = {
-  --     settings = {
-  --       tsserver_file_preferences = {
-  --         includeInlayParameterNameHints = "all",
-  --         includeCompletionsForModuleExports = true,
-  --         quotePreference = "auto",
-  --       },
-  --     },
-  --   },
-  -- },
-
+  -- Configure nvim-lspconfig to install the server automatically via mason, but
+  -- defer actually starting it to our configuration of typescript-tools below.
   {
     "neovim/nvim-lspconfig",
     opts = {
       -- make sure mason installs the server
       servers = {
-        ---@type lspconfig.options.tsserver
-        tsserver = {
-          single_file_support = false,
-          keys = {
-            {
-              "<leader>co",
-              function()
-                vim.lsp.buf.code_action({
-                  apply = true,
-                  context = {
-                    only = { "source.organizeImports.ts" },
-                    diagnostics = {},
-                  },
-                })
-              end,
-              desc = "Organize Imports",
-            },
-            {
-              "<leader>cR",
-              function()
-                vim.lsp.buf.code_action({
-                  apply = true,
-                  context = {
-                    only = { "source.removeUnused.ts" },
-                    diagnostics = {},
-                  },
-                })
-              end,
-              desc = "Remove Unused Imports",
-            },
-          },
-          init_options = {
-            preferences = {
-              importModuleSpecifierPreference = "project-relative",
-            }
-          },
-          handlers = {
-            ["textDocument/publishDiagnostics"] = function(
-              _,
-              result,
-              ctx,
-              config
-            )
-              if result.diagnostics == nil then
-                return
-              end
-
-              -- ignore some tsserver diagnostics
-              local idx = 1
-              while idx <= #result.diagnostics do
-                local entry = result.diagnostics[idx]
-
-                local formatter = require("format-ts-errors")[entry.code]
-                entry.message = formatter and formatter(entry.message)
-                    or entry.message
-
-                -- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
-                if entry.code == 80001 then
-                  -- { message = "File is a CommonJS module; it may be converted to an ES module.", }
-                  table.remove(result.diagnostics, idx)
-                else
-                  idx = idx + 1
-                end
-              end
-
-              vim.lsp.diagnostic.on_publish_diagnostics(
-                _,
-                result,
-                ctx,
-                config
-              )
-            end,
-          },
-          settings = {
-            -- enable checking javascript without a `jsconfig.json`
-            implicitProjectConfiguration = {
-              checkJs = true,
-              -- JXA is compliant with most of ECMAScript: https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/ES6-Features-in-JXA
-              -- ES2022: .at(), ES2021: `.replaceAll()`, `new Set`
-              target = "ES2022",
-              strictNullChecks = true,
-            },
-            completions = {
-              completeFunctionCalls = true,
-            },
-            diagnostics = {
-              ignoredCodes = { 80001 },
-            },
-            typescript = jsAndTsSettings,
-            javascript = jsAndTsSettings,
-          },
-        },
+        tsserver = {},
+      },
+      setup = {
+        tsserver = function()
+          return true -- avoid duplicate servers
+        end,
       },
     },
+  },
+
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "neovim/nvim-lspconfig",
+      "dmmulroy/ts-error-translator.nvim",
+    },
+    config = function()
+      local api = require("typescript-tools.api")
+      require("typescript-tools").setup {
+        handlers = {
+          ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
+            require("ts-error-translator").translate_diagnostics(err, result, ctx, config)
+            -- vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+            api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
+          end,
+
+        },
+        settings = {
+          tsserver_file_preferences = {
+            includeInlayEnumMemberValueHints = false,
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayFunctionParameterTypeHints = false,
+            includeInlayParameterNameHints = "all", -- none | literals | all
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+            includeInlayPropertyDeclarationTypeHints = false,
+            includeInlayVariableTypeHints = false,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+            includeCompletionsForModuleExports = true,
+          },
+        },
+      }
+    end,
   },
 
   {
