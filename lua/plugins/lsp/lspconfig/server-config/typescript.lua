@@ -1,26 +1,26 @@
 -- https://github.com/typescript-language-server/typescript-language-server#workspacedidchangeconfiguration
-local jsAndTsSettings = {
-  format = {}, -- not used, since taken care of by prettier
-  inlayHints = {
-    includeInlayEnumMemberValueHints = true,
-    includeInlayFunctionLikeReturnTypeHints = true,
-    includeInlayFunctionParameterTypeHints = true,
-    includeInlayParameterNameHints = "all", -- none | literals | all
-    includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-    includeInlayPropertyDeclarationTypeHints = true,
-    includeInlayVariableTypeHints = true,
-    includeInlayVariableTypeHintsWhenTypeMatchesName = true,
-  },
-  suggest = {
-    includeCompletionsForModuleExports = true,
-  },
-  implementationsCodeLens = {
-    enabled = true,
-  },
-  referencesCodeLens = {
-    enabled = true,
-  }
-}
+-- local jsAndTsSettings = {
+--   format = {}, -- not used, since taken care of by prettier
+--   inlayHints = {
+--     includeInlayEnumMemberValueHints = true,
+--     includeInlayFunctionLikeReturnTypeHints = true,
+--     includeInlayFunctionParameterTypeHints = true,
+--     includeInlayParameterNameHints = "all", -- none | literals | all
+--     includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+--     includeInlayPropertyDeclarationTypeHints = true,
+--     includeInlayVariableTypeHints = true,
+--     includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+--   },
+--   suggest = {
+--     includeCompletionsForModuleExports = true,
+--   },
+--   implementationsCodeLens = {
+--     enabled = true,
+--   },
+--   referencesCodeLens = {
+--     enabled = true,
+--   }
+-- }
 
 return {
   -- add typescript to treesitter
@@ -32,126 +32,144 @@ return {
       end
     end,
   },
-  -- typescript
-  {
-    "davidosomething/format-ts-errors.nvim", -- extracted ts error formatter
-    lazy = true,
-  },
-  { 'dmmulroy/ts-error-translator.nvim', lazy = true, opts = {} },
+  -- -- typescript
   -- {
-  --   "pmizio/typescript-tools.nvim",
+  --   "davidosomething/format-ts-errors.nvim", -- extracted ts error formatter
+  --   lazy = true,
+  -- },
+  { 'dmmulroy/ts-error-translator.nvim', lazy = true, opts = {} },
+
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    config = function()
+      local api = require("typescript-tools.api")
+      require("typescript-tools").setup {
+        handlers = {
+          ["textDocument/publishDiagnostics"] = api.filter_diagnostics(
+          -- Ignore 'This may be converted to an async function' diagnostics.
+            { 80006, 80001 }
+          ),
+        },
+        settings = {
+          tsserver_file_preferences = {
+            includeInlayEnumMemberValueHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayParameterNameHints = "all", -- none | literals | all
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+            includeCompletionsForModuleExports = true,
+            quotePreference = "auto",
+          },
+        },
+      }
+    end
+  },
+
+  -- {
+  --   "neovim/nvim-lspconfig",
   --   opts = {
-  --     settings = {
-  --       tsserver_file_preferences = {
-  --         includeInlayParameterNameHints = "all",
-  --         includeCompletionsForModuleExports = true,
-  --         quotePreference = "auto",
+  --     -- make sure mason installs the server
+  --     servers = {
+  --       biome = {},
+  --       ---@type lspconfig.options.tsserver
+  --       tsserver = {
+  --         single_file_support = false,
+  --         keys = {
+  --           {
+  --             "<leader>co",
+  --             function()
+  --               vim.lsp.buf.code_action({
+  --                 apply = true,
+  --                 context = {
+  --                   only = { "source.organizeImports.ts" },
+  --                   diagnostics = {},
+  --                 },
+  --               })
+  --             end,
+  --             desc = "Organize Imports",
+  --           },
+  --           {
+  --             "<leader>cR",
+  --             function()
+  --               vim.lsp.buf.code_action({
+  --                 apply = true,
+  --                 context = {
+  --                   only = { "source.removeUnused.ts" },
+  --                   diagnostics = {},
+  --                 },
+  --               })
+  --             end,
+  --             desc = "Remove Unused Imports",
+  --           },
+  --         },
+  --         init_options = {
+  --           preferences = {
+  --             importModuleSpecifierPreference = "project-relative",
+  --           }
+  --         },
+  --         handlers = {
+  --           ["textDocument/publishDiagnostics"] = function(
+  --             _,
+  --             result,
+  --             ctx,
+  --             config
+  --           )
+  --             if result.diagnostics == nil then
+  --               return
+  --             end
+  --
+  --             -- ignore some tsserver diagnostics
+  --             local idx = 1
+  --             while idx <= #result.diagnostics do
+  --               local entry = result.diagnostics[idx]
+  --
+  --               local formatter = require("format-ts-errors")[entry.code]
+  --               entry.message = formatter and formatter(entry.message)
+  --                   or entry.message
+  --
+  --               -- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+  --               if entry.code == 80001 then
+  --                 -- { message = "File is a CommonJS module; it may be converted to an ES module.", }
+  --                 table.remove(result.diagnostics, idx)
+  --               else
+  --                 idx = idx + 1
+  --               end
+  --             end
+  --
+  --             vim.lsp.diagnostic.on_publish_diagnostics(
+  --               _,
+  --               result,
+  --               ctx,
+  --               config
+  --             )
+  --           end,
+  --         },
+  --         settings = {
+  --           -- enable checking javascript without a `jsconfig.json`
+  --           implicitProjectConfiguration = {
+  --             checkJs = true,
+  --             -- JXA is compliant with most of ECMAScript: https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/ES6-Features-in-JXA
+  --             -- ES2022: .at(), ES2021: `.replaceAll()`, `new Set`
+  --             target = "ES2022",
+  --             strictNullChecks = true,
+  --           },
+  --           completions = {
+  --             completeFunctionCalls = true,
+  --           },
+  --           diagnostics = {
+  --             ignoredCodes = { 80001 },
+  --           },
+  --           typescript = jsAndTsSettings,
+  --           javascript = jsAndTsSettings,
+  --         },
   --       },
   --     },
   --   },
   -- },
-
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      -- make sure mason installs the server
-      servers = {
-        biome = {},
-        ---@type lspconfig.options.tsserver
-        tsserver = {
-          single_file_support = false,
-          keys = {
-            {
-              "<leader>co",
-              function()
-                vim.lsp.buf.code_action({
-                  apply = true,
-                  context = {
-                    only = { "source.organizeImports.ts" },
-                    diagnostics = {},
-                  },
-                })
-              end,
-              desc = "Organize Imports",
-            },
-            {
-              "<leader>cR",
-              function()
-                vim.lsp.buf.code_action({
-                  apply = true,
-                  context = {
-                    only = { "source.removeUnused.ts" },
-                    diagnostics = {},
-                  },
-                })
-              end,
-              desc = "Remove Unused Imports",
-            },
-          },
-          init_options = {
-            preferences = {
-              importModuleSpecifierPreference = "project-relative",
-            }
-          },
-          handlers = {
-            ["textDocument/publishDiagnostics"] = function(
-              _,
-              result,
-              ctx,
-              config
-            )
-              if result.diagnostics == nil then
-                return
-              end
-
-              -- ignore some tsserver diagnostics
-              local idx = 1
-              while idx <= #result.diagnostics do
-                local entry = result.diagnostics[idx]
-
-                local formatter = require("format-ts-errors")[entry.code]
-                entry.message = formatter and formatter(entry.message)
-                    or entry.message
-
-                -- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
-                if entry.code == 80001 then
-                  -- { message = "File is a CommonJS module; it may be converted to an ES module.", }
-                  table.remove(result.diagnostics, idx)
-                else
-                  idx = idx + 1
-                end
-              end
-
-              vim.lsp.diagnostic.on_publish_diagnostics(
-                _,
-                result,
-                ctx,
-                config
-              )
-            end,
-          },
-          settings = {
-            -- enable checking javascript without a `jsconfig.json`
-            implicitProjectConfiguration = {
-              checkJs = true,
-              -- JXA is compliant with most of ECMAScript: https://github.com/JXA-Cookbook/JXA-Cookbook/wiki/ES6-Features-in-JXA
-              -- ES2022: .at(), ES2021: `.replaceAll()`, `new Set`
-              target = "ES2022",
-              strictNullChecks = true,
-            },
-            completions = {
-              completeFunctionCalls = true,
-            },
-            diagnostics = {
-              ignoredCodes = { 80001 },
-            },
-            typescript = jsAndTsSettings,
-            javascript = jsAndTsSettings,
-          },
-        },
-      },
-    },
-  },
 
   {
     "mfussenegger/nvim-dap",
