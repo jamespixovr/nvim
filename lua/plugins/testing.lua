@@ -291,6 +291,8 @@ return {
             run = "<C-r>",
             short = "p",
             stop = "u",
+            next_failed = "J",
+            prev_failed = "K",
           },
         },
         adapters = {},

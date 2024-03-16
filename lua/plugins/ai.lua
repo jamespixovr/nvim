@@ -50,7 +50,7 @@ return {
         TelescopePrompt = false,
         DressingInput = false,
       }
-      vim.g.codeium_disable_bindings = 1
+      -- vim.g.codeium_disable_bindings = 1
     end
   },
 
