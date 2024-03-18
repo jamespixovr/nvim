@@ -32,13 +32,19 @@ return {
       "neovim/nvim-lspconfig",
       "dmmulroy/ts-error-translator.nvim",
     },
+    keys = {
+      { "<leader>li", "<cmd>TSToolsOrganizeImports<cr>",     desc = "[L]SP Organize [I]mports" },
+      { "<leader>la", "<cmd>TSToolsAddMissingImports<cr>",   desc = "[L]SP Add [A]dd Missing Imports" },
+      { "<leader>lu", "<cmd>TSToolsRemoveUnusedImports<cr>", desc = "[L]SP Remove [U]nused Imports" },
+      { "<leader>lx", "<cmd>TSToolsFixAll<cr>",              desc = "Fi[x] fixable errors" },
+    },
+    ft = { 'javascriptreact', 'typescriptreact', 'javascript.jsx', 'typescript.tsx', 'javascript', 'typescript' },
     config = function()
       local api = require("typescript-tools.api")
       require("typescript-tools").setup {
         handlers = {
           ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
             require("ts-error-translator").translate_diagnostics(err, result, ctx, config)
-            -- vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
             api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
           end,
 
@@ -54,6 +60,13 @@ return {
             includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
             includeCompletionsForModuleExports = true,
+          },
+          tsserver_plugins = {
+            -- https://github.com/styled-components/typescript-styled-plugin
+            -- for TypeScript v4.9+
+            '@styled/typescript-styled-plugin',
+            -- or for older TypeScript versions
+            -- "typescript-styled-plugin",
           },
         },
       }
