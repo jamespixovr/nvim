@@ -51,9 +51,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.hoverProvider = false
     end
 
-    if client.supports_method('textDocument/inlayHint') then
-      vim.lsp.inlay_hint.enable(bufnr, true)
-    end
+    -- if client.supports_method('textDocument/inlayHint') then
+    -- vim.lsp.buf.inlay_hint(bufnr, true)
+    -- vim.lsp.inlay_hint.enable(bufnr, true)
+    -- end
 
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -105,11 +106,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>wl", "<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>", { buffer = bufnr })
 
 
-    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "[LSP] Code actions" })
-    map({ "n", "v" }, "<leader>cf", format, { desc = "Format Document" })
-    map("n", "<leader>ch", vim.lsp.codelens.refresh, { desc = "CodeLens Refresh" })
+    map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "[C]ode [A]ctions" })
+    map({ "n", "v" }, "<leader>fd", format, { desc = "[F]ormat Document" })
     map("n", "<leader>ci", "<cmd>LspInfo<cr>", { desc = "Lsp Info" })
-    map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "CodeLens Run" })
-    map("n", "<leader>cr", rename, { desc = "Rename" })
+    map("n", "<leader>ch", vim.lsp.codelens.refresh, { desc = "CodeLens Refresh" })
+    map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "[C]ode[L]ens Run" })
+    map("n", "<leader>cr", rename, { desc = "[R]ename" })
+
+    map("n", "<leader>cs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "[C]ode [S]ymbols" })
+
+    map('n', '<leader>lu', function()
+      return require('telescope.builtin').lsp_references({
+        previewer = false,
+        fname_width = (vim.o.columns * 0.4),
+      })
+    end, { desc = 'LSP references' })
   end,
 })
