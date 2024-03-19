@@ -11,6 +11,9 @@ return {
     }
   },
 
+
+  -- A library for asynchronous IO in Neovim
+  { "nvim-neotest/nvim-nio" },
   --- HTTP client
   -- {
   --   "rest-nvim/rest.nvim",
