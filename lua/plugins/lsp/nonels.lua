@@ -39,20 +39,6 @@ return {
           }),
           fmt.buf, --PROTO
           fmt.pg_format,
-          -- fmt.gofumpt,   -- GO
-          -- fmt.goimports, --GO
-
-          -- fmt.biome.with({
-          --   args = {
-          --     'check',
-          --     '--apply-unsafe',
-          --     '--formatter-enabled=true',
-          --     '--organize-imports-enabled=true',
-          --     '--skip-errors',
-          --     '$FILENAME',
-          --   },
-          -- }),
-
           --  ╭─────────────╮
           --  │ Diagnostics │
           --  ╰─────────────╯
@@ -71,20 +57,9 @@ return {
               return util.executable("markdownlint", true)
             end,
           }),
-          -- dgn.shellcheck.with({
-          --   condition = function()
-          --     return util.executable("shellcheck", false)
-          --   end,
-          -- }),
-
           --  ╭──────────────╮
           --  │ Code Actions │
           --  ╰──────────────╯
-          -- cda.shellcheck.with({
-          --   condition = function()
-          --     return util.executable("shellcheck", true)
-          --   end,
-          -- }),
           cda.impl,
           -- typescript nvim
           -- require("typescript.extensions.null-ls.code-actions"),

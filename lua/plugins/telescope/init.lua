@@ -68,19 +68,6 @@ return {
         remap = true
       },
       { "<leader>sW", helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
-
-      -- LSP related
-      { '<leader>dd', '<cmd>Telescope lsp_definitions<CR>',             desc = 'Definitions' },
-      { '<leader>di', '<cmd>Telescope lsp_implementations<CR>',         desc = 'Implementations' },
-      { '<leader>dr', '<cmd>Telescope lsp_references<CR>',              desc = 'References' },
-      { '<leader>da', '<cmd>Telescope lsp_code_actions<CR>',            desc = 'Code actions' },
-      {
-        '<leader>da',
-        ':Telescope lsp_range_code_actions<CR>',
-        mode = 'x',
-        desc =
-        'Code actions'
-      },
     },
     opts = function()
       local actions = require("telescope.actions")
