@@ -31,19 +31,24 @@ return {
 
   -- A library for asynchronous IO in Neovim
   { "nvim-neotest/nvim-nio" },
-  --- HTTP client
-  -- {
-  --   "rest-nvim/rest.nvim",
-  --   ft = "http",
-  --   dependencies = { { "nvim-lua/plenary.nvim" } },
-  --   config = function()
-  --     require("rest-nvim").setup({})
-  --   end
-  --   --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
-  --   -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
-  --   -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
-  -- },
-  --
+
+  -- - HTTP client
+  -- Fast Neovim http client written in Lua ---------------
+  {
+    "vhyrro/luarocks.nvim",
+    config = function()
+      require("luarocks").setup({})
+    end,
+  },
+  {
+    'rest-nvim/rest.nvim',
+    ft = 'http',
+    dependencies = { "luarocks.nvim" },
+    keys = {
+      { '<Leader>mh', '<Plug>RestNvim', desc = 'Execute HTTP request' },
+    },
+    opts = { skip_ssl_verification = true },
+  },
 
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {
