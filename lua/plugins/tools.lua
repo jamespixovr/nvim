@@ -36,9 +36,8 @@ return {
   -- Fast Neovim http client written in Lua ---------------
   {
     "vhyrro/luarocks.nvim",
-    config = function()
-      require("luarocks").setup({})
-    end,
+    priority = 1000,
+    config = true,
   },
   {
     'rest-nvim/rest.nvim',
