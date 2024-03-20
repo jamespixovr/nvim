@@ -10,20 +10,40 @@ return {
       { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" }
     }
   },
+  -- Flash enhances the built-in search functionality by showing labels
+  -- at the end of each match, letting you quickly jump to a specific
+  -- location.
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    vscode = true,
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s",     mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
+      { "S",     mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flash Treesitter" },
+      { "r",     mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
+      { "R",     mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle Flash Search" },
+    },
+  },
 
-  --- HTTP client
-  -- {
-  --   "rest-nvim/rest.nvim",
-  --   ft = "http",
-  --   dependencies = { { "nvim-lua/plenary.nvim" } },
-  --   config = function()
-  --     require("rest-nvim").setup({})
-  --   end
-  --   --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
-  --   -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
-  --   -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
-  -- },
-  --
+  -- A library for asynchronous IO in Neovim
+  { "nvim-neotest/nvim-nio" },
+
+  -- - HTTP client
+  {
+    "rest-nvim/rest.nvim",
+    ft = "http",
+    dependencies = { { "nvim-lua/plenary.nvim" } },
+    config = function()
+      require("rest-nvim").setup({})
+    end
+    --   map("n", ",x", "<Plug>RestNvim", { desc = "execute request" })
+    -- map("n", ",p", "<Plug>RestNvimPreview", { desc = "preview curl" })
+    -- map("n", ",l", "<Plug>RestNvimLast", { desc = "repeat last request" })
+  },
 
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {
