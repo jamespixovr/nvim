@@ -128,6 +128,3 @@ keymap(
   function() vim.cmd("silent later " .. tostring(vim.opt.undolevels:get())) end,
   { desc = "󰛒 Redo All" }
 )
-
--- run pixo system test for the current tag
-keymap("n", "<leader>tw", "<cmd>PixoTest<cr>", { desc = "Run pixo system test" })

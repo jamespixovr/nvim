@@ -36,9 +36,8 @@ return {
   -- Fast Neovim http client written in Lua ---------------
   {
     "vhyrro/luarocks.nvim",
-    config = function()
-      require("luarocks").setup({})
-    end,
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
   },
   {
     'rest-nvim/rest.nvim',
@@ -191,5 +190,19 @@ return {
       },
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
     }
+  },
+
+  ---- pixo related plugins ----
+  {
+    "jamespixo/pixovr.nvim",
+    dependencies = {
+      "stevearc/overseer.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
+      { "<leader>ty", "<cmd>Pixovr lifecycle<cr>", desc = "System [T]est [L]ifecycle" },
+    },
+    config = true
   },
 }
