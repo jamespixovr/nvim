@@ -34,20 +34,20 @@ return {
 
   -- - HTTP client
   -- Fast Neovim http client written in Lua ---------------
-  {
-    "vhyrro/luarocks.nvim",
-    priority = 1000,
-    config = true,
-  },
-  {
-    'rest-nvim/rest.nvim',
-    ft = 'http',
-    dependencies = { "luarocks.nvim" },
-    keys = {
-      { '<Leader>mh', '<Plug>RestNvim', desc = 'Execute HTTP request' },
-    },
-    opts = { skip_ssl_verification = true },
-  },
+  -- {
+  --   "vhyrro/luarocks.nvim",
+  --   priority = 1000,
+  --   config = true,
+  -- },
+  -- {
+  --   'rest-nvim/rest.nvim',
+  --   ft = 'http',
+  --   dependencies = { "luarocks.nvim" },
+  --   keys = {
+  --     { '<Leader>mh', '<Plug>RestNvim', desc = 'Execute HTTP request' },
+  --   },
+  --   opts = { skip_ssl_verification = true },
+  -- },
   -----------------------------------
 
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.

@@ -95,9 +95,9 @@ return {
       { '<leader>iz', mode = { "n", "v" }, "<cmd>Gen Summarize<cr>",                desc = "A[I] Summari[z]e" },
     },
     opts = {
-      model = "openhermes",   -- The default model to use.
-      display_mode = "split", -- The display mode. Can be "float" or "split".
-      debug = false           -- Prints errors and the command which is run.
+      model = "dolphin-mistral", -- The default model to use.
+      display_mode = "split",    -- The display mode. Can be "float" or "split".
+      debug = false              -- Prints errors and the command which is run.
     }
   }
 }
