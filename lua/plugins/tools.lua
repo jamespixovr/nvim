@@ -25,7 +25,7 @@ return {
       { "<leader>hS", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flas[h] Tree[s]itter" },
       { "<leader>hr", mode = "o",               function() require("flash").remote() end,            desc = "[R]emote Flas[h]" },
       { "<leader>hT", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Flas[h] [T]reesitter Search" },
-      { "<leader>hf", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle [F]las[h] Search" },
+      -- { "<leader>hf", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle [F]las[h] Search" },
     },
   },
 
