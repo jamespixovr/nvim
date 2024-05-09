@@ -197,20 +197,29 @@ return {
   },
   -- highlight colors
   {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({
-        "css",
-        "scss",
-        "javascript",
-        html = { mode = "background" },
-      }, { mode = "foreground" })
-    end,
+    "NvChad/nvim-colorizer.lua",
+    event = "BufReadPost",
+    opts = {
+      user_default_options = {
+        names = false,
+      },
+    },
   },
+  -- display number of lines
   {
     -- display line numbers while going to a line with `:`
     "nacro90/numb.nvim",
     keys = ":",
     config = function() require("numb").setup() end,
+  },
+  -- file explorer
+  {
+    "stevearc/oil.nvim",
+    keys = {
+      { "-", "<cmd>Oil<cr>" },
+    },
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 }

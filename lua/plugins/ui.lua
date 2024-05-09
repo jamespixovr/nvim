@@ -237,15 +237,9 @@ return {
         },
       },
       lsp = {
-        progress = {
-          enabled = false,
-        },
-        signature = {
-          enabled = false,
-        },
-        hover = {
-          enabled = false,
-        }
+        progress = { enabled = false },
+        signature = { enabled = false },
+        hover = { enabled = false }
       },
       presets = {
         bottom_search = false,

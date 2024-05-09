@@ -89,6 +89,7 @@ return {
           "gowork",
           "html",
           "http",
+          "hurl",
           "java",
           "javascript",
           "jsdoc",
