@@ -197,17 +197,14 @@ return {
       })
     end,
   },
-  -- highlight colors
   {
-    "norcalli/nvim-colorizer.lua",
-    config = function()
-      require("colorizer").setup({
-        "css",
-        "scss",
-        "javascript",
-        html = { mode = "background" },
-      }, { mode = "foreground" })
-    end,
+    "NvChad/nvim-colorizer.lua",
+    event = "BufReadPost",
+    opts = {
+      user_default_options = {
+        names = false,
+      }
+    }
   },
   {
     -- display line numbers while going to a line with `:`
@@ -215,4 +212,12 @@ return {
     keys = ":",
     config = function() require("numb").setup() end,
   },
+
+  {
+    "stevearc/oil.nvim",
+    keys = {
+      { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+    },
+    opts = {},
+  }
 }

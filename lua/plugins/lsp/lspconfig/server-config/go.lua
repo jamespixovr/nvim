@@ -85,8 +85,8 @@ return {
     },
     config = function()
       require("go").setup({
-        dap_debug = false,
-        dap_debug_gui = false,
+        dap_debug = true,
+        dap_debug_gui = true,
         run_in_floaterm = true,
       })
     end,
