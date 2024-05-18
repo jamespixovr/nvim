@@ -205,7 +205,26 @@ return {
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
     }
   },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",  -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
 
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
+    },
+    config = true
+  },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end
+  },
   ---- pixo related plugins ----
   {
     "jamespixo/pixovr.nvim",
@@ -219,4 +238,5 @@ return {
     },
     config = true
   },
+
 }
