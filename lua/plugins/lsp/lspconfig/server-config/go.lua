@@ -35,16 +35,16 @@ return {
             gopls = {
               experimentalPostfixCompletions = true,
               gofumpt = true,
-              codelenses = {
-                gc_details = false,
-                generate = true,
-                regenerate_cgo = true,
-                run_govulncheck = true,
-                test = true,
-                tidy = true,
-                upgrade_dependency = true,
-                vendor = true,
-              },
+              -- codelenses = {
+              --   gc_details = false,
+              --   generate = false,
+              --   regenerate_cgo = true,
+              --   run_govulncheck = true,
+              --   test = true,
+              --   tidy = true,
+              --   upgrade_dependency = true,
+              --   vendor = true,
+              -- },
               hints = { -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
