@@ -81,26 +81,6 @@ return {
       },
     },
   },
-  -- better escape
-  {
-    "max397574/better-escape.nvim",
-    event = "InsertEnter",
-    opts = {
-      mapping = { "jk", "kj" },
-    },
-  },
-  -- comments
-  {
-    "echasnovski/mini.comment",
-    event = "VeryLazy",
-    opts = {
-      options = {
-        custom_commentstring = function()
-          return require("ts_context_commentstring.internal").calculate_commentstring() or vim.bo.commentstring
-        end,
-      },
-    },
-  },
   -- better text-objects
   {
     "echasnovski/mini.ai",

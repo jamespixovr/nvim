@@ -1,9 +1,8 @@
 return {
   {
     "windwp/nvim-ts-autotag",
-    opts = {
-      autotag = { enable_close_on_slash = false }
-    }
+    event = "VeryLazy",
+    opts = {}
   },
   -- comments
   {
@@ -38,7 +37,6 @@ return {
       require("nvim-treesitter.query_predicates")
     end,
     dependencies = {
-      "windwp/nvim-ts-autotag",
       "mfussenegger/nvim-ts-hint-textobject",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",
@@ -128,7 +126,6 @@ return {
         indent = { enable = true, disable = is_disable },
         -- context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
         autopairs = { enable = true, disable = is_disable },
-        autotag = { enable = true, disable = is_disable },
         playground = { enable = true, disable = is_disable },
         matchup = { enable = true, disable = is_disable },
         incremental_selection = {

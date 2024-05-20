@@ -24,6 +24,10 @@ return {
       },
     },
   },
+  {
+    "dmmulroy/ts-error-translator.nvim",
+    opts = {},
+  },
 
   {
     "pmizio/typescript-tools.nvim",
@@ -50,20 +54,30 @@ return {
 
         },
         settings = {
+          code_lens = "all",
+          expose_as_code_action = "all",
           jsx_close_tag = {
             enable = true,
             filetypes = { "javascriptreact", "typescriptreact" },
           },
           tsserver_file_preferences = {
-            includeInlayEnumMemberValueHints = false,
-            includeInlayFunctionLikeReturnTypeHints = false,
-            includeInlayFunctionParameterTypeHints = false,
-            includeInlayParameterNameHints = "all", -- none | literals | all
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = false,
-            includeInlayVariableTypeHints = false,
-            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+            completions = {
+              completeFunctionCalls = true,
+            },
+            init_options = {
+              preferences = {
+                disableSuggestions = true,
+              },
+            },
             includeCompletionsForModuleExports = true,
+            includeInlayEnumMemberValueHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayParameterNameHints = "all", -- none | literals | all
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayPropertyDeclarationTypeHints = false,
+            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
           },
           tsserver_plugins = {
             -- https://github.com/styled-components/typescript-styled-plugin
@@ -159,6 +173,10 @@ return {
           end,
         },
       },
+    },
+    -- stylua: ignore
+    keys = {
+      { "<leader>tw", function() require('neotest').run.run({ jestCommand = 'jest --watch ' }) end, desc = "Run Watch" },
     },
   }
 }

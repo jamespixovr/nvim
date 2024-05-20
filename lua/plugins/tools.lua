@@ -206,4 +206,26 @@ return {
       current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
     }
   },
+  {
+    "NeogitOrg/neogit",
+    dependencies = {
+      "nvim-lua/plenary.nvim",  -- required
+      "sindrets/diffview.nvim", -- optional - Diff integration
+      "ibhagwan/fzf-lua",       -- optional
+    },
+    cmd = { "Neogit" },
+    opts = {},
+    keys = {
+      { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
+    },
+  },
+  {
+    "ibhagwan/fzf-lua",
+    -- optional for icon support
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    config = function()
+      -- calling `setup` is optional for customization
+      require("fzf-lua").setup({})
+    end
+  }
 }
