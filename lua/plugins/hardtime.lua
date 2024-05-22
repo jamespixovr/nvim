@@ -1,5 +1,6 @@
 return {
   "m4xshen/hardtime.nvim",
+  event = "VeryLazy",
   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
   keys = {
     { "<leader>hd", "<cmd>Hardtime disable<cr>", desc = "Hard Time Toggle" },
