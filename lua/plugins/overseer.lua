@@ -1,0 +1,137 @@
+return {
+  --  overseer [task runner]
+  --  https://github.com/stevearc/overseer.nvim
+  {
+    "stevearc/overseer.nvim",
+    event = 'VeryLazy',
+    cmd = {
+      "Grep",
+      "Make",
+      "OverseerDebugParser",
+      "OverseerInfo",
+      "OverseerOpen",
+      "OverseerRun",
+      "OverseerRunCmd",
+      "OverseerToggle",
+      "CompilerOpen",
+      "CompilerToggleResults"
+    },
+    keys = {
+      { "<leader>oR", "<cmd>OverseerRunCmd<cr>",       desc = "Run Command" },
+      { "<leader>oa", "<cmd>OverseerTaskAction<cr>",   desc = "Task Action" },
+      { "<leader>ob", "<cmd>OverseerBuild<cr>",        desc = "Build" },
+      { "<leader>oc", "<cmd>OverseerClose<cr>",        desc = "Close" },
+      { "<leader>od", "<cmd>OverseerDeleteBundle<cr>", desc = "Delete Bundle" },
+      { "<leader>ol", "<cmd>OverseerLoadBundle<cr>",   desc = "Load Bundle" },
+      { "<leader>oo", "<cmd>OverseerOpen<cr>",         desc = "Open" },
+      { "<leader>oq", "<cmd>OverseerQuickAction<cr>",  desc = "Quick Action" },
+      { "<leader>or", "<cmd>OverseerRun<cr>",          desc = "Run" },
+      { "<leader>os", "<cmd>OverseerSaveBundle<cr>",   desc = "Save Bundle" },
+      { "<leader>ot", "<cmd>OverseerToggle<cr>",       desc = "Toggle" },
+    },
+    opts = {
+      dap = false,
+      strategy = { "jobstart" },
+      task_launcher = {
+        bindings = {
+          n = {
+            ["<leader>c"] = "Cancel",
+          },
+        },
+      },
+      task_list = {
+        direction = "bottom",
+        min_height = 25,
+        max_height = 25,
+        default_detail = 1,
+        bindings = {
+          ["<C-l>"] = false,
+          ["<C-h>"] = false,
+          ["<gl>"] = "IncreaseDetail",
+          ["<gh>"] = "DecreaseDetail",
+        },
+      },
+      form = {
+        border = "solid",
+        win_opts = {
+          winblend = 0,
+          winhl = "FloatBorder:NormalFloat",
+        },
+      },
+      component_aliases = {
+        default = {
+          { "display_duration",   detail_level = 2 },
+          "on_result_notify",
+          "on_exit_set_status",
+          { "on_complete_notify", system = "unfocused" },
+          "on_complete_dispose",
+        },
+        default_neotest = {
+          "unique",
+          "on_output_summarize",
+          "on_exit_set_status",
+          "on_complete_dispose",
+        },
+      },
+    },
+    config = function(_, opts)
+      local overseer = require("overseer")
+      overseer.setup(opts)
+
+      vim.api.nvim_create_user_command("OverseerDebugParser", 'lua require("overseer").debug_parser()', {})
+
+      vim.api.nvim_create_user_command("Grep", function(params)
+        local args = vim.fn.expandcmd(params.args)
+        -- Insert args at the '$*' in the grepprg
+        local cmd, num_subs = vim.o.grepprg:gsub("%$%*", args)
+        if num_subs == 0 then
+          cmd = cmd .. " " .. args
+        end
+        local cwd
+        local has_oil, oil = pcall(require, "oil")
+        if has_oil then
+          cwd = oil.get_current_dir()
+        end
+        local task = overseer.new_task({
+          cmd = cmd,
+          cwd = cwd,
+          name = "grep " .. args,
+          components = {
+            {
+              "on_output_quickfix",
+              errorformat = vim.o.grepformat,
+              open = not params.bang,
+              open_height = 8,
+              items_only = true,
+            },
+            -- We don't care to keep this around as long as most tasks
+            { "on_complete_dispose", timeout = 30 },
+            "default",
+          },
+        })
+        task:start()
+      end, { nargs = "*", bang = true, bar = true, complete = "file" })
+
+      vim.api.nvim_create_user_command("Make", function(params)
+        -- Insert args at the '$*' in the makeprg
+        local cmd, num_subs = vim.o.makeprg:gsub("%$%*", params.args)
+        if num_subs == 0 then
+          cmd = cmd .. " " .. params.args
+        end
+        local task = require("overseer").new_task({
+          cmd = vim.fn.expandcmd(cmd),
+          components = {
+            { "on_output_quickfix", open = not params.bang, open_height = 8 },
+            "unique",
+            "default",
+          },
+        })
+        task:start()
+      end, {
+        desc = "Run your makeprg as an Overseer task",
+        nargs = "*",
+        bang = true,
+      })
+    end
+  },
+}

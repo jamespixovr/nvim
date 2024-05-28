@@ -41,6 +41,7 @@ return {
     },
     ft = { "hurl" },
     opts = {
+      show_headers = false,
       debug = false,
       show_notification = false,
       mode = "split",

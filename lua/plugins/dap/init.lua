@@ -155,20 +155,20 @@ return {
           dapui.setup(opts)
         end
       },
-      {
-        "rcarriga/cmp-dap",
-        dependencies = { "nvim-cmp" },
-        config = function()
-          require("cmp").setup.filetype(
-            { "dap-repl", "dapui_watches", "dapui_hover" },
-            {
-              sources = {
-                { name = "dap" },
-              },
-            }
-          )
-        end,
-      },
+      -- {
+      --   "rcarriga/cmp-dap",
+      --   dependencies = { "nvim-cmp" },
+      --   config = function()
+      --     require("cmp").setup.filetype(
+      --       { "dap-repl", "dapui_watches", "dapui_hover" },
+      --       {
+      --         sources = {
+      --           { name = "dap" },
+      --         },
+      --       }
+      --     )
+      --   end,
+      -- },
 
 
       --  Debugging with go debugger
@@ -212,13 +212,15 @@ return {
       -- JS/TS debugging.
       {
         "mxsdev/nvim-dap-vscode-js",
-        dependencies = {
-          {
-            'microsoft/vscode-js-debug',
-            build = 'npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
-          },
+        opts = {
+          debugger_path = vim.fn.stdpath("data") .. "/lazy/vscode-js-debug",
+          adapters = { "pwa-node", "pwa-chrome", "pwa-msedge", "node-terminal", "pwa-extensionHost" },
         },
-
+      },
+      {
+        "microsoft/vscode-js-debug",
+        version = "1.x",
+        build = "npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out",
       },
       -- Lua adapter.
       {
@@ -242,7 +244,11 @@ return {
           }
         end,
       },
-      { "stevearc/overseer.nvim" }
+      { "stevearc/overseer.nvim" },
+      -- VsCode launch.json parser
+      {
+        "folke/neoconf.nvim",
+      },
     },
 
     config = function()
@@ -260,30 +266,25 @@ return {
       require("dap.ext.vscode").json_decode = require("overseer.json").decode
       require("overseer").patch_dap(true)
 
-      -- JS/TS configurations.
-      local dap_js = require("dap-vscode-js")
-      local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
-      dap_js.setup({
-        debugger_path = DEBUGGER_PATH,
-        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
-      })
       local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
       for _, language in ipairs(exts) do
-        dap.configurations[language] = nodeDapConfig(language)
+        if not dap.configurations[language] then
+          dap.configurations[language] = nodeDapConfig(language)
+        end
       end
 
       -- Lua
-      dap.adapters.nlua = function(callback, config)
-        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-      end
-      dap.configurations.lua = {
-        {
-          type = 'nlua',
-          request = 'attach',
-          name = "Attach to running Neovim instance",
-          program = function() pcall(require "osv".launch({ port = 8086 })) end,
-        }
-      }
+      -- dap.adapters.nlua = function(callback, config)
+      --   callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
+      -- end
+      -- dap.configurations.lua = {
+      --   {
+      --     type = 'nlua',
+      --     request = 'attach',
+      --     name = "Attach to running Neovim instance",
+      --     program = function() pcall(require "osv".launch({ port = 8086 })) end,
+      --   }
+      -- }
     end,
   }
 }

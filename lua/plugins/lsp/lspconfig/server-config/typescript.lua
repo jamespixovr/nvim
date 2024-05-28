@@ -10,20 +10,20 @@ return {
   },
   -- Configure nvim-lspconfig to install the server automatically via mason, but
   -- defer actually starting it to our configuration of typescript-tools below.
-  {
-    "neovim/nvim-lspconfig",
-    opts = {
-      -- make sure mason installs the server
-      servers = {
-        tsserver = {},
-      },
-      setup = {
-        tsserver = function()
-          return true -- avoid duplicate servers
-        end,
-      },
-    },
-  },
+  -- {
+  --   "neovim/nvim-lspconfig",
+  --   opts = {
+  --     -- make sure mason installs the server
+  --     servers = {
+  --       tsserver = {},
+  --     },
+  --     setup = {
+  --       tsserver = function()
+  --         return true -- avoid duplicate servers
+  --       end,
+  --     },
+  --   },
+  -- },
   {
     "dmmulroy/ts-error-translator.nvim",
     opts = {},
