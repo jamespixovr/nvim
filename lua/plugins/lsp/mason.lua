@@ -21,6 +21,7 @@ return {
         "eslint-lsp",
         "eslint_d",
         "gopls",
+        "graphql-language-service-cli",
         "html-lsp",
         "js-debug-adapter",
         "json-lsp",
