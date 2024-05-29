@@ -3,12 +3,12 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
     dependencies = {
-      { "folke/neodev.nvim", config = true },
+      { "folke/neodev.nvim",                   config = true },
       "williamboman/mason.nvim",
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      -- For Typescript
+      { 'antosha417/nvim-lsp-file-operations', config = true },
     },
     ---@class PluginLspOpts
     opts = {

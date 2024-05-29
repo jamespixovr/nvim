@@ -174,6 +174,12 @@ return {
     keys = {
       { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle Git Blame" },
       { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",              desc = "Preview Hunk" },
+      { "]g",         "<cmd>Gitsigns next_hunk<cr>",                 desc = "Next Hunk" },
+      { "[g",         "<cmd>Gitsigns prev_hunk<cr>",                 desc = "Prev Hunk" },
+      { "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",                desc = "Stage Hunk" },
+      { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>",           desc = "Undo Stage Hunk" },
+      { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>",                desc = "Reset Hunk" },
+      { "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>",              desc = "Reset Buffer" },
     },
     opts = {
       signs = {

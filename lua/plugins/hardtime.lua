@@ -32,6 +32,7 @@ return {
       "qf",
       "undotree",
       "Trouble",
+      "Outline"
     },
     hints = {
       ["[dcyvV][ia]%("] = {
