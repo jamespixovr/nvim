@@ -155,21 +155,6 @@ return {
           dapui.setup(opts)
         end
       },
-      {
-        "rcarriga/cmp-dap",
-        dependencies = { "nvim-cmp" },
-        config = function()
-          require("cmp").setup.filetype(
-            { "dap-repl", "dapui_watches", "dapui_hover" },
-            {
-              sources = {
-                { name = "dap" },
-              },
-            }
-          )
-        end,
-      },
-
 
       --  Debugging with go debugger
       {
@@ -243,7 +228,7 @@ return {
       },
     },
 
-    config = function(_, opts)
+    config = function()
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
       for name, sign in pairs(icons.dap) do
         sign = type(sign) == "table" and sign or { sign }
