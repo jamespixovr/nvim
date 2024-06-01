@@ -30,7 +30,7 @@ function M.setup(opts)
 
 
   if type(diagnostics.virtual_text) == "table" and diagnostics.virtual_text.prefix == "icons" then
-    diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
+    diagnostics.virtual_text.prefix = "●"
         or function(diagnostic)
           local icons = settings.icons.diagnostics
           for d, icon in pairs(icons) do
@@ -40,8 +40,6 @@ function M.setup(opts)
           end
         end
   end
-
-
 
   vim.diagnostic.config(vim.deepcopy(diagnostics))
 

@@ -1,3 +1,5 @@
+local nodeDapConfig = require("plugins.dap.typescript").nodeDapConfig
+
 return {
   -- add typescript to treesitter
   {
@@ -10,20 +12,20 @@ return {
   },
   -- Configure nvim-lspconfig to install the server automatically via mason, but
   -- defer actually starting it to our configuration of typescript-tools below.
-  -- {
-  --   "neovim/nvim-lspconfig",
-  --   opts = {
-  --     -- make sure mason installs the server
-  --     servers = {
-  --       tsserver = {},
-  --     },
-  --     setup = {
-  --       tsserver = function()
-  --         return true -- avoid duplicate servers
-  --       end,
-  --     },
-  --   },
-  -- },
+  {
+    "neovim/nvim-lspconfig",
+    opts = {
+      -- make sure mason installs the server
+      servers = {
+        tsserver = {},
+      },
+      setup = {
+        tsserver = function()
+          return true -- avoid duplicate servers
+        end,
+      },
+    },
+  },
   {
     "dmmulroy/ts-error-translator.nvim",
     opts = {},
@@ -105,6 +107,7 @@ return {
     },
     opts = function()
       local dap = require("dap")
+
       if not dap.adapters["pwa-node"] then
         require("dap").adapters["pwa-node"] = {
           type = "server",
@@ -112,7 +115,6 @@ return {
           port = "${port}",
           executable = {
             command = "node",
-            -- 💀 Make sure to update this path to point to your installation
             args = {
               require("mason-registry").get_package("js-debug-adapter"):get_install_path()
               .. "/js-debug/src/dapDebugServer.js",
@@ -121,24 +123,11 @@ return {
           },
         }
       end
-      for _, language in ipairs({ "typescript", "javascript", "typescriptreact", "javascriptreact" }) do
+
+      local languages = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue' }
+      for _, language in ipairs(languages) do
         if not dap.configurations[language] then
-          dap.configurations[language] = {
-            {
-              type = "pwa-node",
-              request = "launch",
-              name = "Launch file",
-              program = "${file}",
-              cwd = "${workspaceFolder}",
-            },
-            {
-              type = "pwa-node",
-              request = "attach",
-              name = "Attach",
-              processId = require("dap.utils").pick_process,
-              cwd = "${workspaceFolder}",
-            },
-          }
+          dap.configurations[language] = nodeDapConfig(language)
         end
       end
     end,
@@ -173,10 +162,6 @@ return {
           end,
         },
       },
-    },
-    -- stylua: ignore
-    keys = {
-      { "<leader>tw", function() require('neotest').run.run({ jestCommand = 'jest --watch ' }) end, desc = "Run Watch" },
     },
   }
 }

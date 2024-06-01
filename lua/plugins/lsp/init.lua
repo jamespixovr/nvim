@@ -3,7 +3,8 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
     dependencies = {
-      { "folke/neodev.nvim", config = true },
+      { "folke/neodev.nvim",  opts = {} },
+      { "folke/neoconf.nvim", cmd = "Neoconf", config = false, dependencies = { "nvim-lspconfig" } },
       "williamboman/mason.nvim",
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -13,6 +14,12 @@ return {
     ---@class PluginLspOpts
     opts = {
       capabilities = {
+        workspace = {
+          fileOperations = {
+            didRename = true,
+            willRename = true,
+          },
+        },
         textDocument = {
           foldingRange = {
             dynamicRegistration = false,

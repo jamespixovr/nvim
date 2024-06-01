@@ -1,4 +1,3 @@
-local nodeDapConfig = require("plugins.dap.typescript").nodeDapConfig
 local icons = {
   dap = {
     Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" }, -- 
@@ -222,28 +221,6 @@ return {
         version = "1.x",
         build = "npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out",
       },
-      -- Lua adapter.
-      {
-        "jbyuki/one-small-step-for-vimkind",
-        -- stylua: ignore
-        keys = {
-          { "<leader>daL", function() require("osv").launch({ port = 8086 }) end, desc = "Adapter Lua Server" },
-          { "<leader>dal", function() require("osv").run_this() end,              desc = "Adapter Lua" },
-        },
-        config = function()
-          local dap = require("dap")
-          dap.adapters.nlua = function(callback, config)
-            callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-          end
-          dap.configurations.lua = {
-            {
-              type = "nlua",
-              request = "attach",
-              name = "Attach to running Neovim instance",
-            },
-          }
-        end,
-      },
       { "stevearc/overseer.nvim" },
       -- VsCode launch.json parser
       {
@@ -262,16 +239,11 @@ return {
       end
 
       local dap = require("dap")
+      dap.set_log_level('TRACE')
       --https://github.com/stevearc/overseer.nvim/blob/master/doc/third_party.md#dap
       require("dap.ext.vscode").json_decode = require("overseer.json").decode
       require("overseer").patch_dap(true)
 
-      local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
-      for _, language in ipairs(exts) do
-        if not dap.configurations[language] then
-          dap.configurations[language] = nodeDapConfig(language)
-        end
-      end
 
       -- Lua
       -- dap.adapters.nlua = function(callback, config)
