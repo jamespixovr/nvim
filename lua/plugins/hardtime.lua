@@ -31,7 +31,7 @@ return {
       "prompt",
       "qf",
       "undotree",
-      "Trouble",
+      "trouble",
       "Outline"
     },
     hints = {

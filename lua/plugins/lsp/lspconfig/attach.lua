@@ -113,8 +113,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "[C]ode[L]ens Run" })
     map("n", "<leader>cr", rename, { desc = "[R]ename" })
 
-    map("n", "<leader>cs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "[C]ode [S]ymbols" })
-
     map('n', '<leader>lu', function()
       return require('telescope.builtin').lsp_references({
         previewer = false,

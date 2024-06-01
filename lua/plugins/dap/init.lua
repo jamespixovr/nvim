@@ -90,6 +90,7 @@ return {
       -- fancy UI for the debugger
       {
         "rcarriga/nvim-dap-ui",
+        dependencies = { "nvim-neotest/nvim-nio" },
         -- stylua: ignore
         keys = {
           { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" },
@@ -129,8 +130,8 @@ return {
             }
           },
           floating = {
-            max_height = nil,
-            max_width = nil,
+            max_height = 0.5,
+            max_width = 0.9,
             border = "rounded",
             mappings = {
               close = { "q", "<Esc>" },
@@ -143,15 +144,19 @@ return {
         config = function(_, opts)
           local dap, dapui = require "dap", require "dapui"
           -- dapui.setup(opts)
-          dap.listeners.after.event_initialized["dapui_config"] = function()
-            dapui.open({})
+          dap.listeners.before.attach.dapui_config = function()
+            dapui.open()
           end
-          dap.listeners.before.event_terminated["dapui_config"] = function()
-            dapui.close({})
+          dap.listeners.before.launch.dapui_config = function()
+            dapui.open()
           end
-          dap.listeners.before.event_exited["dapui_config"] = function()
-            dapui.close({})
+          dap.listeners.before.event_terminated.dapui_config = function()
+            dapui.close()
           end
+          dap.listeners.before.event_exited.dapui_config = function()
+            dapui.close()
+          end
+
           dapui.setup(opts)
         end
       },
