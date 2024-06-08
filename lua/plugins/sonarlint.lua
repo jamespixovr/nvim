@@ -27,6 +27,7 @@ return {
         "python",
         "go",
         "javascript",
+        "typescript",
       },
     }
   end,

@@ -9,7 +9,6 @@ return {
       local nls = require("null-ls")
       local fmt = nls.builtins.formatting
       local dgn = nls.builtins.diagnostics
-      local cda = nls.builtins.code_actions
       local command_resolver = require("null-ls.helpers.command_resolver")
 
       return {
@@ -25,7 +24,7 @@ return {
             dynamic_command = command_resolver.from_node_modules(),
           }),
           fmt.shfmt.with({
-            filetypes = { 'sh', 'zsh' },
+            filetypes = { "sh", "zsh" },
           }),
           fmt.tidy,
           fmt.stylua.with({
@@ -39,6 +38,7 @@ return {
           }),
           fmt.buf, --PROTO
           fmt.pg_format,
+
           --  ╭─────────────╮
           --  │ Diagnostics │
           --  ╰─────────────╯
@@ -57,12 +57,6 @@ return {
               return util.executable("markdownlint", true)
             end,
           }),
-          --  ╭──────────────╮
-          --  │ Code Actions │
-          --  ╰──────────────╯
-          cda.impl,
-          -- typescript nvim
-          -- require("typescript.extensions.null-ls.code-actions"),
         },
       }
     end,

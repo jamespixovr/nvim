@@ -37,6 +37,7 @@ return {
       require("nvim-treesitter.query_predicates")
     end,
     dependencies = {
+      "windwp/nvim-ts-autotag",
       "mfussenegger/nvim-ts-hint-textobject",
       {
         "nvim-treesitter/nvim-treesitter-textobjects",

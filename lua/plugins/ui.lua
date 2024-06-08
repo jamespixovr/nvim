@@ -60,29 +60,48 @@ return {
         return vim.ui.input(...)
       end
     end,
-    -- opts = {
-    --   input = {
-    --     insert_only = true,
-    --     win_options = {
-    --       winblend = 0,
-    --     },
-    --   },
-    --   select = {
-    --     telescope = require('telescope.themes').get_cursor({
-    --       layout_config = {
-    --         width = function(_, max_columns, _)
-    --           return math.min(max_columns, 80)
-    --         end,
-    --         height = function(_, _, max_lines)
-    --           return math.min(max_lines, 15)
-    --         end,
-    --       },
-    --     }),
-    --   },
-    -- },
-    -- config = function(_, opts)
-    --   require("dressing").setup(opts)
-    -- end,
+    keys = {
+      { "<Tab>",   "j", ft = "DressingSelect" },
+      { "<S-Tab>", "k", ft = "DressingSelect" },
+    },
+    opts = {                 -- adapted from https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/appearance.lua
+      input = {
+        insert_only = false, -- = enable normal mode
+        trim_prompt = true,
+        border = vim.g.borderStyle,
+        relative = "editor",
+        title_pos = "left",
+        prefer_width = 73, -- commit width + 1 for padding
+        min_width = 0.4,
+        max_width = 0.9,
+        mappings = { n = { ["q"] = "Close" } },
+      },
+      select = {
+        backend = { "telescope", "builtin" },
+        trim_prompt = true,
+        builtin = {
+          mappings = { ["q"] = "Close" },
+          show_numbers = false,
+          border = vim.g.borderStyle,
+          relative = "editor",
+          max_width = 80,
+          min_width = 20,
+          max_height = 12,
+          min_height = 3,
+        },
+        telescope = {
+          layout_config = {
+            horizontal = { width = { 0.7, max = 75 }, height = 0.6 },
+          },
+        },
+        get_config = function(opts)
+          local useBuiltin = { "just-recipes", "codeaction", "rule_selection" }
+          if vim.tbl_contains(useBuiltin, opts.kind) then
+            return { backend = { "builtin" }, builtin = { relative = "cursor" } }
+          end
+        end,
+      },
+    },
   },
   --------------------------------------------------------------------------
   -- Tabs
@@ -237,9 +256,15 @@ return {
         },
       },
       lsp = {
-        progress = { enabled = false },
-        signature = { enabled = false },
-        hover = { enabled = false }
+        progress = {
+          enabled = false,
+        },
+        signature = {
+          enabled = false,
+        },
+        hover = {
+          enabled = false,
+        }
       },
       presets = {
         bottom_search = false,
@@ -362,8 +387,7 @@ return {
         close_fold_kinds_for_ft = {
           default = { 'imports', 'comment' },
           json = { 'array' },
-          c = { 'comment', 'region' },
-          java = { 'import' }
+          c = { 'comment', 'region' }
         },
         preview = {
           win_config = {

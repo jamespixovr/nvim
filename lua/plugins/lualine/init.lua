@@ -52,7 +52,7 @@ return {
             status.filename(),
           },
           lualine_x = {
-            -- status.LazyUpdates(),
+            status.DapStatus(),
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),

@@ -10,7 +10,6 @@ return {
       "nvim-lua/plenary.nvim",
       "nvim-telescope/telescope-project.nvim",
       "nvim-telescope/telescope-file-browser.nvim",
-      -- "kkharji/sqlite.lua",
       "nvim-telescope/telescope-frecency.nvim",
       { "nvim-telescope/telescope-fzf-native.nvim", enabled = vim.fn.executable "make" == 1, build = "make" },
       {
@@ -33,8 +32,7 @@ return {
       { "<leader>fC", "<cmd>Telescope command_history<cr>",                                  desc = "Command History" },
       { "<leader>fM", "<cmd>Telescope man_pages<cr>",                                        desc = "Man Pages" },
       { "<leader>fa", "<cmd>Telescope autocommands<cr>",                                     desc = "Auto Commands" },
-      { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find case_mode=ignore_case<cr>",  desc = "Buffer" },
-      { "<leader>fh", "<cmd>Telescope find_files hidden=true no_ignore=true<cr>",            desc = "Find Files" },
+      { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>",                        desc = "Buffer" },
       {
         "<leader>fF",
         helper.telescope("find_files", { cwd = false }),
@@ -60,7 +58,6 @@ return {
         helper.telescope("grep_string", { cwd = false }),
         desc = "Search word under cursor (cwd)"
       },
-      { "<leader>fk", "<cmd>Telescope keymaps<cr>",                         desc = "Key Maps" },
       { "<leader>ft", "<cmd>Telescope builtin include_extensions=true<cr>", desc = "Telescope" },
       {
         "<leader>/",
@@ -68,7 +65,6 @@ return {
         desc = "Find in Files (Grep)",
         remap = true
       },
-      { "<leader>sW", helper.telescope("grep_string", { cwd = false }), desc = "Word (cwd)" },
     },
     opts = function()
       local actions = require("telescope.actions")
@@ -222,16 +218,12 @@ return {
             override_file_sorter = true,
             case_mode = "smart_case", -- or "ignore_case" or "respect_case"
           },
-          dap = {
-            theme = "cursor",
-          }
         },
       }
     end,
     config = function(_, opts)
       local telescope = require("telescope")
       telescope.setup(opts)
-      telescope.load_extension("dap")
       telescope.load_extension("fzf")
       telescope.load_extension("project")
       telescope.load_extension("file_browser")

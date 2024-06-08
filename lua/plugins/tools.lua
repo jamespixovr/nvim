@@ -24,12 +24,12 @@ return {
       { "<leader>hS", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flas[h] Tree[s]itter" },
       { "<leader>hr", mode = "o",               function() require("flash").remote() end,            desc = "[R]emote Flas[h]" },
       { "<leader>hT", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Flas[h] [T]reesitter Search" },
+      -- { "<leader>hf", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle [F]las[h] Search" },
     },
   },
 
   -- A library for asynchronous IO in Neovim
   { "nvim-neotest/nvim-nio" },
-
   -- - HTTP client
   {
     "jellydn/hurl.nvim",
@@ -40,7 +40,6 @@ return {
     },
     ft = { "hurl" },
     opts = {
-      show_headers = false,
       debug = false,
       show_notification = false,
       mode = "split",
@@ -63,7 +62,6 @@ return {
     },
   },
   -----------------------------------
-
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {
     "chrisgrieser/nvim-early-retirement",
@@ -180,6 +178,7 @@ return {
       { "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",                desc = "Stage Hunk" },
       { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>",           desc = "Undo Stage Hunk" },
       { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>",                desc = "Reset Hunk" },
+      { "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>",              desc = "Reset Buffer" },
     },
     opts = {
       signs = {
@@ -216,13 +215,20 @@ return {
     dependencies = {
       "nvim-lua/plenary.nvim",  -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
-      "ibhagwan/fzf-lua",       -- optional
+
+      -- Only one of these is needed, not both.
+      "nvim-telescope/telescope.nvim", -- optional
     },
-    cmd = { "Neogit" },
-    opts = {},
+    cmd = "Neogit",
+    opts = {
+      integrations = {
+        diffview = true
+      }
+    },
     keys = {
       { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
     },
+    config = true
   },
   {
     "ibhagwan/fzf-lua",
@@ -232,5 +238,20 @@ return {
       -- calling `setup` is optional for customization
       require("fzf-lua").setup({})
     end
-  }
+  },
+  ---- pixo related plugins ----
+  {
+    "jamespixo/pixovr.nvim",
+    dependencies = {
+      "stevearc/overseer.nvim",
+      "MunifTanjim/nui.nvim",
+    },
+    keys = {
+      { "<leader>p",  "<cmd>Pixovr<cr>",           desc = "Pixovr" },
+      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
+      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
+      { "<leader>ty", "<cmd>Pixovr lifecycle<cr>", desc = "System [T]est [L]ifecycle" },
+    },
+    config = true
+  },
 }

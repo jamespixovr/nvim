@@ -120,3 +120,12 @@ vim.api.nvim_create_user_command("Curl", function(ctx)
   a.nvim_buf_set_option(bufId, "buftype", "nowrite") -- no-write allows lsp to attach
   vim.defer_fn(function() vim.cmd.Format() end, 100) -- formatter.nvim
 end, { nargs = 1 })
+
+local group = vim.api.nvim_create_augroup("__env", { clear = true })
+vim.api.nvim_create_autocmd("BufEnter", {
+  pattern = ".env",
+  group = group,
+  callback = function(args)
+    vim.diagnostic.disable(args.buf)
+  end
+})

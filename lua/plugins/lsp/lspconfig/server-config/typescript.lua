@@ -1,5 +1,3 @@
-local nodeDapConfig = require("plugins.dap.typescript").nodeDapConfig
-
 return {
   -- add typescript to treesitter
   {
@@ -25,10 +23,6 @@ return {
         end,
       },
     },
-  },
-  {
-    "dmmulroy/ts-error-translator.nvim",
-    opts = {},
   },
 
   {
@@ -56,30 +50,16 @@ return {
 
         },
         settings = {
-          code_lens = "all",
-          expose_as_code_action = "all",
-          jsx_close_tag = {
-            enable = true,
-            filetypes = { "javascriptreact", "typescriptreact" },
-          },
           tsserver_file_preferences = {
-            completions = {
-              completeFunctionCalls = true,
-            },
-            init_options = {
-              preferences = {
-                disableSuggestions = true,
-              },
-            },
-            includeCompletionsForModuleExports = true,
-            includeInlayEnumMemberValueHints = true,
-            includeInlayFunctionLikeReturnTypeHints = true,
-            includeInlayFunctionParameterTypeHints = true,
+            includeInlayEnumMemberValueHints = false,
+            includeInlayFunctionLikeReturnTypeHints = false,
+            includeInlayFunctionParameterTypeHints = false,
             includeInlayParameterNameHints = "all", -- none | literals | all
-            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
             includeInlayPropertyDeclarationTypeHints = false,
-            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+            includeCompletionsForModuleExports = true,
           },
           tsserver_plugins = {
             -- https://github.com/styled-components/typescript-styled-plugin
@@ -88,48 +68,9 @@ return {
             -- or for older TypeScript versions
             -- "typescript-styled-plugin",
           },
+          separate_diagnostic_server = true,
         },
       }
-    end,
-  },
-
-  {
-    "mfussenegger/nvim-dap",
-    optional = true,
-    dependencies = {
-      {
-        "williamboman/mason.nvim",
-        opts = function(_, opts)
-          opts.ensure_installed = opts.ensure_installed or {}
-          table.insert(opts.ensure_installed, "js-debug-adapter")
-        end,
-      },
-    },
-    opts = function()
-      local dap = require("dap")
-
-      if not dap.adapters["pwa-node"] then
-        require("dap").adapters["pwa-node"] = {
-          type = "server",
-          host = "localhost",
-          port = "${port}",
-          executable = {
-            command = "node",
-            args = {
-              require("mason-registry").get_package("js-debug-adapter"):get_install_path()
-              .. "/js-debug/src/dapDebugServer.js",
-              "${port}",
-            },
-          },
-        }
-      end
-
-      local languages = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue' }
-      for _, language in ipairs(languages) do
-        if not dap.configurations[language] then
-          dap.configurations[language] = nodeDapConfig(language)
-        end
-      end
     end,
   },
 
@@ -142,22 +83,10 @@ return {
     opts = {
       adapters = {
         ["neotest-jest"] = {
-          jest_test_discovery = false,
-          jestCommand = "pnpm test --",
-          jestConfigFile = function()
-            local file = vim.fn.expand('%:p')
-            if string.find(file, "/packages/") then
-              return string.match(file, "(.-/[^/]+/)src") .. "jest.config.ts"
-            end
-
-            return vim.fn.getcwd() .. "/jest.config.ts"
-          end,
+          jestCommand = "pnpm exec jest",
+          -- jestConfigFile = "jest.config.js",
           env = { CI = true },
           cwd = function(_path)
-            local file = vim.fn.expand('%:p')
-            if string.find(file, "/packages/") then
-              return string.match(file, "(.-/[^/]+/)src")
-            end
             return vim.fn.getcwd()
           end,
         },

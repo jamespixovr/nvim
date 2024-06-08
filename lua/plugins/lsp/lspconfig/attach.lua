@@ -11,20 +11,6 @@ local function diagnostic_goto(next, severity)
     go({ severity = severity })
   end
 end
----
----@param buf? number
----@param value? boolean
-local function inlay_hints(buf, value)
-  local ih = vim.lsp.buf.inlay_hint or vim.lsp.inlay_hint
-  if type(ih) == "function" then
-    ih(buf, value)
-  elseif type(ih) == "table" and ih.enable then
-    if value == nil then
-      value = not ih.is_enabled({ bufnr = buf or 0 })
-    end
-    ih.enable(value, { bufnr = buf })
-  end
-end
 
 local function rename()
   if pcall(require, "inc_rename") then
@@ -38,8 +24,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ctx)
     local map = vim.keymap.set
     local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-
+    assert(client, "No client found")
     local bufnr = ctx.buf
+
+    if client.name == "copilot" then
+      return
+    end
 
     if client.name == "gopls" then
       if not client.server_capabilities.semanticTokensProvider then
@@ -55,17 +45,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end
     end
 
-    if vim.fn.has("nvim-0.10") == 1 then
-      if client.supports_method('textDocument/inlayHint') then
-        inlay_hints(bufnr, true)
-      end
-    end
 
     if client.name == "ruff_lsp" then
       -- Disable hover in favor of Pyright
       client.server_capabilities.hoverProvider = false
     end
 
+    -- if client.supports_method('textDocument/inlayHint') then
+    -- vim.lsp.buf.inlay_hint(bufnr, true)
+    -- vim.lsp.inlay_hint.enable(bufnr, true)
+    -- end
 
     if client.supports_method("textDocument/formatting") then
       vim.api.nvim_create_autocmd("BufWritePre", {
@@ -76,13 +65,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
         end,
       })
     end
+    -- if client.server_capabilities.documentSymbolProvider then
+    -- require("nvim-navic").attach(client, bufnr)
+    -- end
+    -- require("lsp-inlayhints").on_attach(client, bufnr)
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
-    map("n", "gD", "<cmd>vim.lsp.buf.declaration()<CR>", { buffer = bufnr, desc = "[LSP] Go declaration" })
+    map("n", "gy", vim.lsp.buf.declaration, { buffer = bufnr, desc = "[LSP] Go declaration" })
     map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
     map("n", "gr", "<cmd>Glance references<CR>", { buffer = bufnr, desc = "[LSP] Go references" })
-    map("n", "gi", "<cmd>Glance implementations<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
-    map("n", "gy", "<cmd>Glance type_definitions<cr>", { desc = "Goto Type Definition" })
+    map("n", "gI", "<cmd>Glance implementations<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
+    map("n", "gt", "<cmd>Glance type_definitions<cr>", { desc = "Goto Type Definition" })
 
     map("n", "K", "<cmd>lua vim.lsp.buf.hover()<CR>", { buffer = bufnr, desc = "[LSP] Hover" })
     map(
@@ -119,8 +112,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
     map("n", "<leader>ch", vim.lsp.codelens.refresh, { desc = "CodeLens Refresh" })
     map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "[C]ode[L]ens Run" })
     map("n", "<leader>cr", rename, { desc = "[R]ename" })
-
-    map("n", "<leader>cs", "<cmd>Telescope lsp_document_symbols<cr>", { desc = "[C]ode [S]ymbols" })
 
     map('n', '<leader>lu', function()
       return require('telescope.builtin').lsp_references({

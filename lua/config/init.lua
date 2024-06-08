@@ -9,7 +9,7 @@ end
 
 local disable_providers = function()
   local default_providers = {
-    --    "node",
+    "node",
     "perl",
     "python3",
     "ruby",

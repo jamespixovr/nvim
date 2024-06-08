@@ -28,14 +28,21 @@ return {
     cmd = "Trouble",
     opts = {
       focus = true,
+      modes = {
+        diagnostics = {
+          groups = {
+            { "filename", format = "{file_icon} {basename:Title} {count}" },
+          },
+        },
+      },
     },
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",                        desc = "Diagnostics (Trouble)", },
-      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",           desc = "Buffer Diagnostics (Trouble)", },
-      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>",                desc = "Symbols (Trouble)", },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",                        desc = "Diagnostics (Trouble)" },
+      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",           desc = "Buffer Diagnostics (Trouble)" },
+      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>",                desc = "Symbols (Trouble)" },
       { "<leader>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP Definitions / references / ... (Trouble)", },
       { "<leader>xL", "<cmd>Trouble loclist toggle<cr>",                            desc = "Location List (Trouble)", },
-      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>",                             desc = "Quickfix List (Trouble)", },
+      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>",                             desc = "Quickfix List (Trouble)" },
     },
   },
 
@@ -67,6 +74,7 @@ return {
       { "<leader>bB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
     },
   },
+
   -- references
   {
     "RRethy/vim-illuminate",
@@ -115,6 +123,7 @@ return {
       { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
     },
   },
+
   -- toggle terminal
   {
     "akinsho/toggleterm.nvim",
@@ -197,31 +206,27 @@ return {
       })
     end,
   },
-  -- highlight colors
   {
     "NvChad/nvim-colorizer.lua",
     event = "BufReadPost",
     opts = {
       user_default_options = {
         names = false,
-      },
-    },
+      }
+    }
   },
-  -- display number of lines
   {
     -- display line numbers while going to a line with `:`
     "nacro90/numb.nvim",
     keys = ":",
     config = function() require("numb").setup() end,
   },
-  -- file explorer
+
   {
     "stevearc/oil.nvim",
     keys = {
-      { "-", "<cmd>Oil<cr>" },
+      { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
     },
     opts = {},
-    -- Optional dependencies
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
+  }
 }

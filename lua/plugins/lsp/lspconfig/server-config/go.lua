@@ -18,29 +18,33 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
-        golangci_lint_ls = {}, -- linter
+        golangci_lint_ls = {
+          cmd = { "golangci-lint-langserver" },
+          filetypes = { "go", "gomod", "gowork", "gotmpl" },
+          root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+        }, -- linter
         gopls = {
           cmd = { "gopls" },
           filetypes = { "go", "gomod", "gowork", "gotmpl" },
           root_dir = util.root_pattern("go.work", "go.mod", ".git"),
           keys = {
             -- Workaround for the lack of a DAP strategy in neotest-go: https://github.com/nvim-neotest/neotest-go/issues/12
-            { "<leader>td", "<cmd>lua require('dap-go').debug_test()<CR>", desc = "Debug Nearest (Go)" },
+            -- { "<leader>td", "<cmd>lua require('dap-go').debug_test()<CR>", desc = "Debug Nearest (Go)" },
           },
           settings = {
             gopls = {
               experimentalPostfixCompletions = true,
               gofumpt = true,
-              codelenses = {
-                gc_details = false,
-                generate = true,
-                regenerate_cgo = true,
-                run_govulncheck = true,
-                test = true,
-                tidy = true,
-                upgrade_dependency = true,
-                vendor = true,
-              },
+              -- codelenses = {
+              --   gc_details = false,
+              --   generate = false,
+              --   regenerate_cgo = true,
+              --   run_govulncheck = true,
+              --   test = true,
+              --   tidy = true,
+              --   upgrade_dependency = true,
+              --   vendor = true,
+              -- },
               hints = { -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
@@ -51,7 +55,7 @@ return {
                 rangeVariableTypes = true,
               },
               analyses = {
-                fieldalignment = true,
+                -- fieldalignment = true,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -81,8 +85,8 @@ return {
     },
     config = function()
       require("go").setup({
-        dap_debug = false,
-        dap_debug_gui = false,
+        dap_debug = true,
+        dap_debug_gui = true,
         run_in_floaterm = true,
       })
     end,
@@ -94,14 +98,14 @@ return {
     },
     ft = { "go", 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
-    -- -transform camelcase
   },
 
   {
     "nvim-neotest/neotest",
     optional = true,
     dependencies = {
-      { "jarmex/neotest-go", branch = "ginkgo" },
+      -- { "nvim-neotest/neotest-go", version = false },
+      { "jarmex/neotest-go", version = false, branch = "ginkgo" },
     },
     opts = {
       adapters = {
