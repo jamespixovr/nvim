@@ -241,7 +241,7 @@ return {
   },
   ---- pixo related plugins ----
   {
-    "jamespixo/pixovr.nvim",
+    "jamespixovr/pixovr.nvim",
     dependencies = {
       "stevearc/overseer.nvim",
       "MunifTanjim/nui.nvim",
