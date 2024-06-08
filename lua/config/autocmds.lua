@@ -56,7 +56,7 @@ vim.api.nvim_create_user_command("LspCapabilities", function(ctx)
 
   local filter = selected == "" and { bufnr = vim.api.nvim_get_current_buf() }
       or { name = selected }
-  local clients = vim.lsp.get_active_clients(filter)
+  local clients = vim.lsp.get_clients(filter)
 
   local out = {}
   for _, client in pairs(clients) do

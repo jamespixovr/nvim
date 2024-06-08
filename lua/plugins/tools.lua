@@ -219,6 +219,15 @@ return {
       -- Only one of these is needed, not both.
       "nvim-telescope/telescope.nvim", -- optional
     },
+    cmd = "Neogit",
+    opts = {
+      integrations = {
+        diffview = true
+      }
+    },
+    keys = {
+      { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
+    },
     config = true
   },
   {
@@ -238,6 +247,8 @@ return {
       "MunifTanjim/nui.nvim",
     },
     keys = {
+      { "<leader>p",  "<cmd>Pixovr<cr>",           desc = "Pixovr" },
+      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
       { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
       { "<leader>ty", "<cmd>Pixovr lifecycle<cr>", desc = "System [T]est [L]ifecycle" },
     },

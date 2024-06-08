@@ -163,7 +163,7 @@ end
 function M.lsp(opts)
   return helper.extend_tbl({
     function()
-      local buf_clients = vim.lsp.get_active_clients { bufnr = 0 }
+      local buf_clients = vim.lsp.get_clients { bufnr = 0 }
       if #buf_clients == 0 then
         return "LSP Inactive"
       end
@@ -216,6 +216,17 @@ function M.Overseer(opts)
     name_not = false,   -- When true, invert the name search
     status = nil,       -- List of task statuses to display
     status_not = false, -- When true, invert the status search
+  }, opts)
+end
+
+function M.DapStatus(opts)
+  return helper.extend_tbl({
+    function()
+      local dapStatus = require("dap").status()
+      if dapStatus == "" then return "" end
+      return "  " .. dapStatus
+    end,
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
 

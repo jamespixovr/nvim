@@ -1,13 +1,21 @@
-local nodeDapConfig = require("plugins.dap.typescript").nodeDapConfig
-local icons = {
-  dap = {
-    Stopped = { " ", "DiagnosticWarn", "DapStoppedLine" }, -- 
-    Breakpoint = " ",
-    BreakpointCondition = " ",
-    BreakpointRejected = { " ", "DiagnosticError" },
-    LogPoint = "",
-  },
-}
+local icons = require("settings").icons.diagnostics
+
+--------------------------------------------------------------------------------------
+
+local function dapConfig()
+  vim.fn.sign_define("DapStopped", { text = icons.Stopped, texthl = "DiagnosticHint", linehl = "DapPause" })
+  vim.fn.sign_define("DapBreakpoint", { text = icons.Breakpoint, texthl = "DiagnosticInfo", linehl = "DapBreak" })
+  vim.fn.sign_define("DapBreakpointRejected", { text = icons.BreakpointRejected, texthl = "DiagnosticError" })
+
+  -- AUTO-OPEN/CLOSE THE DAP-UI
+  local listener = require("dap").listeners.before
+  listener.attach.dapui_config = function() require("dapui").open() end
+  listener.launch.dapui_config = function() require("dapui").open() end
+  listener.event_terminated.dapui_config = function() require("dapui").close() end
+  listener.event_exited.dapui_config = function() require("dapui").close() end
+
+  require("plugins.dap.typescript")
+end
 
 return {
   --  DEBUGGER ----------------------------------------------------------------
@@ -53,17 +61,11 @@ return {
         function() require("dap.ui.widgets").hover() end,
         desc = "Widgets"
       },
-      {
-        "<leader>dl",
-        "<cmd>Telescope dap list_breakpoints<cr>",
-        desc = "Show All Breakpoints"
-      },
       { "<leader>dE", "<cmd>lua require('dapui').eval(vim.fn.input '[Expression] > ')<cr>", desc = "Evaluate Input" },
       { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>",                             desc = "Step Out" },
       { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>",                      desc = "Float Element" },
       { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>",                        desc = "Run to Cursor" },
       { "<leader>dS", function() require("dap.ui.widgets").scopes() end,                    desc = "Scopes", },
-      { "<leader>dT", "<cmd>Telescope dap configurations<cr>",                              desc = "Configurations" },
       { "<leader>dd", "<cmd>lua require('dap').disconnect()<cr>",                           desc = "Disconnect" },
       { "<leader>dg", function() require("dap").session() end,                              desc = "Get Session", },
       { "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<cr>",                     desc = "Hover Variables" },
@@ -81,196 +83,109 @@ return {
 
     dependencies = {
       { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = 'eol' }, },
-
-      "nvim-telescope/telescope-dap.nvim",
-
-
-      { 'nvim-treesitter/nvim-treesitter' },
-
-      -- fancy UI for the debugger
-      {
-        "rcarriga/nvim-dap-ui",
-        dependencies = { "nvim-neotest/nvim-nio" },
-        -- stylua: ignore
-        keys = {
-          { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" },
-
-          {
-            "<leader>de",
-            function()
-              -- Calling this twice to open and jump into the window.
-              require('dapui').eval()
-              require('dapui').eval()
-            end,
-            mode = { "n", "v" },
-            desc = "Evaluate expression"
-          },
-        },
-        opts = {
-          icons = { expanded = "▾", collapsed = "▸" },
-          -- floating = { border = 'rounded' },
-          layouts = {
-            {
-              elements = {
-                -- { id = 'stacks',      size = 0.30 },
-                -- { id = 'breakpoints', size = 0.20 },
-                { id = 'scopes',  size = 0.50 },
-                { id = 'watches', size = 0.50 },
-              },
-              position = 'right',
-              size = 40,
-            },
-            {
-              elements = {
-                { id = "repl",    size = 0.5 },
-                { id = "console", size = 0.5 }
-              },
-              position = "bottom",
-              size = 10
-            }
-          },
-          floating = {
-            max_height = 0.5,
-            max_width = 0.9,
-            border = "rounded",
-            mappings = {
-              close = { "q", "<Esc>" },
-            },
-          },
-          render = {
-            max_type_length = nil,
-          },
-        },
-        config = function(_, opts)
-          local dap, dapui = require "dap", require "dapui"
-          -- dapui.setup(opts)
-          dap.listeners.before.attach.dapui_config = function()
-            dapui.open()
-          end
-          dap.listeners.before.launch.dapui_config = function()
-            dapui.open()
-          end
-          dap.listeners.before.event_terminated.dapui_config = function()
-            dapui.close()
-          end
-          dap.listeners.before.event_exited.dapui_config = function()
-            dapui.close()
-          end
-
-          dapui.setup(opts)
-        end
-      },
-
-      --  Debugging with go debugger
-      {
-        "leoluz/nvim-dap-go",
-        config = function()
-          require("dap-go").setup({
-            dap_configurations = {
-              {
-                type = "go",
-                name = "Debug (Main) Package",
-                request = "launch",
-                program = "main.go",
-                cwd = '${workspaceFolder}',
-              },
-            },
-          })
-        end
-      },
-      -- mason.nvim integration
-      {
-        "jay-babu/mason-nvim-dap.nvim",
-        dependencies = "mason.nvim",
-        cmd = { "DapInstall", "DapUninstall" },
-        opts = {
-          -- Makes a best effort to setup the various debuggers with
-          -- reasonable debug configurations
-          automatic_setup = true,
-          -- You can provide additional configuration to the handlers,
-          -- see mason-nvim-dap README for more information
-          handlers = {},
-          -- You'll need to check that you have the required things installed
-          -- online, please don't ask me how to install them :)
-          ensure_installed = {
-            -- Update this to ensure that you have the debuggers for the langs you want
-          },
-        },
-      },
-
-      -- JS/TS debugging.
-      {
-        "mxsdev/nvim-dap-vscode-js",
-        dependencies = {
-          {
-            'microsoft/vscode-js-debug',
-            build = 'npm i && npm run compile vsDebugServerBundle && rm -rf out && mv -f dist out',
-          },
-        },
-
-      },
-      -- Lua adapter.
-      {
-        "jbyuki/one-small-step-for-vimkind",
-        -- stylua: ignore
-        keys = {
-          { "<leader>daL", function() require("osv").launch({ port = 8086 }) end, desc = "Adapter Lua Server" },
-          { "<leader>dal", function() require("osv").run_this() end,              desc = "Adapter Lua" },
-        },
-        config = function()
-          local dap = require("dap")
-          dap.adapters.nlua = function(callback, config)
-            callback({ type = "server", host = config.host or "127.0.0.1", port = config.port or 8086 })
-          end
-          dap.configurations.lua = {
-            {
-              type = "nlua",
-              request = "attach",
-              name = "Attach to running Neovim instance",
-            },
-          }
-        end,
-      },
     },
 
-    config = function()
-      vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
-      for name, sign in pairs(icons.dap) do
-        sign = type(sign) == "table" and sign or { sign }
-        vim.fn.sign_define(
-          "Dap" .. name,
-          { text = sign[1], texthl = sign[2] or "DiagnosticInfo", linehl = sign[3], numhl = sign[3] }
-        )
-      end
+    config = dapConfig,
+  },
 
-      local dap = require("dap")
+  { "mxsdev/nvim-dap-vscode-js" },
 
-      -- JS/TS configurations.
-      local dap_js = require("dap-vscode-js")
-      local DEBUGGER_PATH = vim.fn.stdpath("data") .. '/lazy/vscode-js-debug'
-      dap_js.setup({
-        debugger_path = DEBUGGER_PATH,
-        adapters = { 'pwa-node', 'pwa-chrome', 'pwa-msedge', 'node-terminal', 'pwa-extensionHost' }
-      })
-      local exts = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact', 'vue', 'svelte' }
-      for _, language in ipairs(exts) do
-        dap.configurations[language] = nodeDapConfig(language)
-      end
-
-      -- Lua
-      dap.adapters.nlua = function(callback, config)
-        callback({ type = 'server', host = config.host or "127.0.0.1", port = config.port or 8086 })
-      end
-      dap.configurations.lua = {
+  { -- fancy UI for the debugger
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "nvim-neotest/nvim-nio" },
+    -- stylua: ignore
+    keys = {
+      { "<leader>dI", function() require("dapui").toggle({}) end, desc = "Dap UI" },
+      {
+        "<leader>dl",
+        ---@diagnostic disable-next-line: missing-fields
+        function() require("dapui").float_element("breakpoints", { enter = true }) end,
+        desc = " List Breakpoints",
+      },
+      {
+        "<leader>de",
+        function()
+          -- Calling this twice to open and jump into the window.
+          require('dapui').eval()
+          require('dapui').eval()
+        end,
+        mode = { "n", "v" },
+        desc = "Evaluate expression"
+      },
+    },
+    opts = {
+      icons = { expanded = "▾", collapsed = "▸" },
+      -- floating = { border = 'rounded' },
+      layouts = {
         {
-          type = 'nlua',
-          request = 'attach',
-          name = "Attach to running Neovim instance",
-          program = function() pcall(require "osv".launch({ port = 8086 })) end,
+          elements = {
+            -- { id = 'stacks',      size = 0.30 },
+            -- { id = 'breakpoints', size = 0.20 },
+            { id = 'scopes',  size = 0.50 },
+            { id = 'watches', size = 0.50 },
+          },
+          position = 'right',
+          size = 40,
+        },
+        {
+          elements = {
+            { id = "repl",    size = 0.5 },
+            { id = "console", size = 0.5 }
+          },
+          position = "bottom",
+          size = 10
         }
-      }
-    end,
-  }
+      },
+      floating = {
+        border = vim.g.borderStyle,
+        -- max_height = 0.5,
+        -- max_width = 0.9,
+        -- border = "rounded",
+        mappings = {
+          close = { "q", "<Esc>" },
+        },
+      },
+      render = {
+        max_type_length = nil,
+      },
+    },
+  },
+
+  { -- mason.nvim integration
+    "jay-babu/mason-nvim-dap.nvim",
+    dependencies = "mason.nvim",
+    cmd = { "DapInstall", "DapUninstall" },
+    opts = {
+      -- Makes a best effort to setup the various debuggers with
+      -- reasonable debug configurations
+      automatic_setup = true,
+      -- You can provide additional configuration to the handlers,
+      -- see mason-nvim-dap README for more information
+      handlers = {},
+      -- You'll need to check that you have the required things installed
+      -- online, please don't ask me how to install them :)
+      ensure_installed = {
+        -- Update this to ensure that you have the debuggers for the langs you want
+      },
+    },
+  },
+  --  Debugging with go debugger
+  {
+    "leoluz/nvim-dap-go",
+    config = function()
+      require("dap-go").setup({
+        dap_configurations = {
+          {
+            type = "go",
+            name = "Debug (Main) Package",
+            request = "launch",
+            program = "main.go",
+            cwd = '${workspaceFolder}',
+          },
+        },
+      })
+    end
+  },
 }
 
 

@@ -71,8 +71,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- require("lsp-inlayhints").on_attach(client, bufnr)
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
+    map("n", "gy", vim.lsp.buf.declaration, { buffer = bufnr, desc = "[LSP] Go declaration" })
     map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
-    map("n", "gD", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
     map("n", "gr", "<cmd>Glance references<CR>", { buffer = bufnr, desc = "[LSP] Go references" })
     map("n", "gI", "<cmd>Glance implementations<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
     map("n", "gt", "<cmd>Glance type_definitions<cr>", { desc = "Goto Type Definition" })
