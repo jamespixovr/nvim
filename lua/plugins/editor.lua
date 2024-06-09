@@ -133,16 +133,6 @@ return {
       { "<a-1>", "<cmd>1ToggleTerm<cr>", desc = "Toggle Term 1",      mode = { "n", "t" } },
       { "<a-2>", "<cmd>2ToggleTerm<cr>", desc = "Toggle Term 2",      mode = { "n", "t" } },
       { "<a-3>", "<cmd>3ToggleTerm<cr>", desc = "Toggle Term 3",      mode = { "n", "t" } },
-      {
-        "<leader>gg",
-        function()
-          require("toggleterm.terminal").Terminal
-              :new({ cmd = "lazygit", direction = "float", id = 1000 })
-              :toggle()
-        end,
-        desc = "Toggle lazygit",
-        mode = { "n", "t" },
-      },
     },
     opts = {
       open_mapping = [[<c-\>]],

@@ -1,5 +1,5 @@
 local settings = require("settings")
-local helper = require('helper')
+local helper = require("helper")
 local symbols = settings.icons
 local lazy_status = require("lazy.status")
 
@@ -13,7 +13,6 @@ local function show_macro_recording()
     return "recording @" .. recording_register
   end
 end
-
 
 function M.LazyUpdates(opts)
   return helper.extend_tbl({
@@ -71,10 +70,11 @@ end
 
 function M.searchCount(opts)
   return helper.extend_tbl({
-    function() require('noice').api.status.search.get() end,
+    function()
+      require("noice").api.status.search.get()
+    end,
     cond = function()
-      return package.loaded['noice']
-          and require('noice').api.status.search.has()
+      return package.loaded["noice"] and require("noice").api.status.search.has()
     end,
     color = { bg = "#282c34", fg = "#ff9e64", gui = "bold" },
   }, opts)
@@ -84,7 +84,7 @@ function M.codeium(opts)
   return helper.extend_tbl({
     function()
       return vim.fn["codeium#GetStatusString"]()
-    end
+    end,
   }, opts)
 end
 
@@ -99,7 +99,7 @@ function M.diagnostics(opts)
       hint = symbols.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
-    color = { bg = "None" }
+    color = { bg = "None" },
   }, opts)
 end
 
@@ -155,7 +155,7 @@ function M.git_diff(opts)
       modified = symbols.git.modified,
       removed = symbols.git.removed,
     }, -- changes diff symbols
-    color = { bg = "None" }
+    color = { bg = "None" },
     -- cond = helper.is_git_repo
   }, opts)
 end
@@ -163,7 +163,7 @@ end
 function M.lsp(opts)
   return helper.extend_tbl({
     function()
-      local buf_clients = vim.lsp.get_clients { bufnr = 0 }
+      local buf_clients = vim.lsp.get_clients({ bufnr = 0 })
       if #buf_clients == 0 then
         return "LSP Inactive"
       end
@@ -178,7 +178,6 @@ function M.lsp(opts)
         end
       end
 
-
       local unique_client_names = table.concat(buf_client_names, ", ")
       local language_servers = string.format("%s", unique_client_names)
 
@@ -192,8 +191,8 @@ end
 function M.scrollbar(opts)
   return helper.extend_tbl({
     function()
-      local current_line = vim.fn.line "."
-      local total_lines = vim.fn.line "$"
+      local current_line = vim.fn.line(".")
+      local total_lines = vim.fn.line("$")
       local chars = { "__", "▁▁", "▂▂", "▃▃", "▄▄", "▅▅", "▆▆", "▇▇", "██" }
       local line_ratio = current_line / total_lines
       local index = math.ceil(line_ratio * #chars)
@@ -209,12 +208,12 @@ function M.Overseer(opts)
   return helper.extend_tbl({
     "overseer",
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
-    label = '',         -- Prefix for task counts
-    colored = true,     -- Color the task icons and counts
-    unique = false,     -- Unique-ify non-running task count by name
-    name = nil,         -- List of task names to search for
-    name_not = false,   -- When true, invert the name search
-    status = nil,       -- List of task statuses to display
+    label = "", -- Prefix for task counts
+    colored = true, -- Color the task icons and counts
+    unique = false, -- Unique-ify non-running task count by name
+    name = nil, -- List of task names to search for
+    name_not = false, -- When true, invert the name search
+    status = nil, -- List of task statuses to display
     status_not = false, -- When true, invert the status search
   }, opts)
 end
@@ -223,8 +222,23 @@ function M.DapStatus(opts)
   return helper.extend_tbl({
     function()
       local dapStatus = require("dap").status()
-      if dapStatus == "" then return "" end
+      if dapStatus == "" then
+        return ""
+      end
       return "  " .. dapStatus
+    end,
+    color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
+
+function M.LintStatus(opts)
+  return helper.extend_tbl({
+    function()
+      local linters = require("lint").get_running()
+      if #linters == 0 then
+        return "󰦕"
+      end
+      return "󱉶 " .. table.concat(linters, ", ")
     end,
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)

@@ -291,7 +291,7 @@ return {
           }
         },
         summary = {
-          -- open = "botright vsplit | vertical resize 60",
+          open = "botright vsplit | vertical resize 60",
           enabled = true,
           expand_errors = true,
           follow = true,

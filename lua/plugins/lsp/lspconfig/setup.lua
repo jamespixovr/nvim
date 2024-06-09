@@ -28,20 +28,17 @@ function M.setup(opts)
     vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
   end
 
-
   if type(diagnostics.virtual_text) == "table" and diagnostics.virtual_text.prefix == "icons" then
     diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-        or function(diagnostic)
-          local icons = settings.icons.diagnostics
-          for d, icon in pairs(icons) do
-            if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-              return icon
-            end
+      or function(diagnostic)
+        local icons = settings.icons.diagnostics
+        for d, icon in pairs(icons) do
+          if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
+            return icon
           end
         end
+      end
   end
-
-
 
   vim.diagnostic.config(vim.deepcopy(diagnostics))
 
@@ -56,8 +53,8 @@ function M.setup(opts)
   ) or {}
 
   local function setup(server)
-    local server_opts = vim.tbl_deep_extend("force", { capabilities = vim.deepcopy(capabilities), },
-      servers[server] or {})
+    local server_opts =
+      vim.tbl_deep_extend("force", { capabilities = vim.deepcopy(capabilities) }, servers[server] or {})
 
     if opts.setup[server] then
       if opts.setup[server](server, server_opts) then
@@ -71,7 +68,7 @@ function M.setup(opts)
     require("lspconfig")[server].setup(server_opts)
   end
 
-  -- get all the servers that are available thourgh mason-lspconfig
+  -- get all the servers that are available through mason-lspconfig
   local have_mason, mlsp = pcall(require, "mason-lspconfig")
   local all_mslp_servers = {}
   if have_mason then
@@ -94,8 +91,9 @@ function M.setup(opts)
   if have_mason then
     mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
   end
-  require "plugins.lsp.lspconfig.attach"
-  require "plugins.lsp.lspconfig.handlers"
+
+  require("plugins.lsp.lspconfig.attach")
+  require("plugins.lsp.lspconfig.handlers")
 end
 
 return M

@@ -48,11 +48,12 @@ return {
             status.diagnostics(),
           },
           lualine_c = {
-            '%=',
+            "%=",
             status.filename(),
           },
           lualine_x = {
             status.DapStatus(),
+            status.LintStatus(),
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
@@ -73,5 +74,5 @@ return {
     config = function(_, opts)
       require("lualine").setup(opts)
     end,
-  }
+  },
 }
