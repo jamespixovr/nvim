@@ -284,15 +284,24 @@ return {
         output_panel = {
           open = 'rightbelow vsplit | resize 30',
         },
+        strategies = {
+          integrated = {
+            height = 40,
+            width = 120
+          }
+        },
         summary = {
-          open = "botright vsplit | vertical resize 60",
+          -- open = "botright vsplit | vertical resize 60",
+          enabled = true,
+          expand_errors = true,
+          follow = true,
           mappings = {
             attach = "a",
-            expand = "l",
+            expand = { "<CR>", "<2-LeftMouse>" },
             expand_all = "L",
             jumpto = "gf",
             output = "o",
-            run = "<C-r>",
+            run = "r",
             short = "p",
             stop = "u",
           },

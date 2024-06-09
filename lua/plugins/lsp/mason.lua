@@ -15,6 +15,8 @@ return {
         }
       },
       ensure_installed = {
+        "biome",
+        "typos-lsp",-- spellchecker for code
         "codelldb",
         "css-lsp",
         "emmet-ls",

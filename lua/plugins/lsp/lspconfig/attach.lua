@@ -2,7 +2,6 @@
 --TODO: work in progress
 --https://github.com/nazo6/nvim/blob/master/lua/user/plugins/lsp/lspconfig/attach.lua
 
-local format = require("plugins.lsp.lspconfig.format").format
 
 local function diagnostic_goto(next, severity)
   local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
@@ -51,24 +50,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.hoverProvider = false
     end
 
-    -- if client.supports_method('textDocument/inlayHint') then
-    -- vim.lsp.buf.inlay_hint(bufnr, true)
-    -- vim.lsp.inlay_hint.enable(bufnr, true)
-    -- end
-
-    if client.supports_method("textDocument/formatting") then
-      vim.api.nvim_create_autocmd("BufWritePre", {
-        group = vim.api.nvim_create_augroup("LspFormat." .. bufnr, {}),
-        buffer = bufnr,
-        callback = function()
-          format()
-        end,
-      })
-    end
-    -- if client.server_capabilities.documentSymbolProvider then
-    -- require("nvim-navic").attach(client, bufnr)
-    -- end
-    -- require("lsp-inlayhints").on_attach(client, bufnr)
 
     map("n", "gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", { buffer = bufnr, desc = "[LSP] Go implementation" })
     map("n", "gy", vim.lsp.buf.declaration, { buffer = bufnr, desc = "[LSP] Go declaration" })
@@ -107,7 +88,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 
     map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = bufnr, desc = "[C]ode [A]ctions" })
-    map({ "n", "v" }, "<leader>fd", format, { desc = "[F]ormat Document" })
+    -- map({ "n", "v" }, "<leader>fd", format, { desc = "[F]ormat Document" })
     map("n", "<leader>ci", "<cmd>LspInfo<cr>", { desc = "Lsp Info" })
     map("n", "<leader>ch", vim.lsp.codelens.refresh, { desc = "CodeLens Refresh" })
     map("n", "<leader>cl", vim.lsp.codelens.run, { desc = "[C]ode[L]ens Run" })

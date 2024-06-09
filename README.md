@@ -36,7 +36,6 @@ documentation for further information, I think each files is pretty self-explana
 - [mini.nvim](https://github.com/echasnovski/mini.nvim)
 - [nvim-tree](https://github.com/nvim-tree/nvim-tree.lua)
 - [neoconf.nvim](https://github.com/folke/neoconf.nvim)
-- [neodev.nvim](https://github.com/folke/neodev.nvim)
 - [neogen](https://github.com/danymat/neogen)
 - [noice.nvim](https://github.com/folke/noice.nvim)
 - [nui.nvim](https://github.com/MunifTanjim/nui.nvim)
