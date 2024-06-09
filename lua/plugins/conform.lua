@@ -24,9 +24,14 @@ return {
       css = { { "prettied", "prettier" } },
       graphql = { { "prettied", "prettier" } },
       html = { { "prettied", "prettier" } },
-      javascript = { { "prettied", "prettier" } },
-      javascriptreact = { { "prettied", "prettier" } },
+      javascript = { "biome" },
+      javascriptreact = { "biome" },
+      typescript = { "biome" },
+      typescriptreact = { "biome" },
+      -- javascript = { { "prettied", "prettier" } },
+      -- javascriptreact = { { "prettied", "prettier" } },
       json = { "jq" },
+      handlebars = { "prettier" },
       -- json = { { "prettied", "prettier" } },
       lua = { "stylua" },
       go = { "goimports", "gofmt" },
@@ -34,16 +39,16 @@ return {
       python = { "isort", "black" },
       sql = { "sql-formatter" },
       svelte = { { "prettied", "prettier" } },
-      typescript = { { "prettied", "prettier" } },
-      typescriptreact = { { "prettied", "prettier" } },
+      -- typescript = { { "prettied", "prettier" } },
+      -- typescriptreact = { { "prettied", "prettier" } },
       yaml = { "prettier" },
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {
       sqlfluff = {
         args = { "format", "--dialect=ansi", "-" },
-      }
-    }
+      },
+    },
   },
   init = function()
     -- If you want the formatexpr, here is the place to set it

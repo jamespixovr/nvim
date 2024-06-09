@@ -53,18 +53,17 @@ return {
           },
           lualine_x = {
             status.DapStatus(),
-            status.LintStatus(),
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
-            status.treesitter(),
+            -- status.treesitter(),
           },
           lualine_y = {
             status.lsp(),
           },
           lualine_z = {
             status.progress(),
-            status.datetime(),
+            -- status.datetime(),
             -- status.scrollbar(),
           },
         },
