@@ -34,7 +34,7 @@ require("lazy").setup(
     },
     dev = {
       path = "~/Projects/lua",
-      patterns = { "jamespixo" },
+      patterns = { "jarmex" },
     },
     diff = {
       cmd = "diffview.nvim",

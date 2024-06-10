@@ -3,7 +3,6 @@ return {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
     dependencies = {
-      { "folke/neodev.nvim",                   config = true },
       "williamboman/mason.nvim",
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
@@ -21,7 +20,7 @@ return {
         },
       },
 
-      -- but can be also overriden when specified
+      -- but can be also overridden when specified
       format = {
         formatting_options = nil,
         timeout_ms = nil,
@@ -46,5 +45,37 @@ return {
     config = function(_, opts)
       require("plugins.lsp.lspconfig.setup").setup(opts)
     end,
-  }
+  },
+  { -- signature hints
+    "ray-x/lsp_signature.nvim",
+    event = "BufReadPre",
+    keys = {
+      {
+        "<D-g>",
+        function() require("lsp_signature").toggle_float_win() end,
+        mode = { "n", "v", "i" },
+        desc = "󰒕 LSP signature",
+      },
+    },
+    opts = {
+      hint_prefix = "󰏪 ",
+      hint_scheme = "@variable.parameter", -- highlight group
+      floating_window = false,
+      always_trigger = true,
+      handler_opts = { border = vim.g.borderStyle },
+      auto_close_after = 3000,
+    },
+  },
+  {
+    "folke/lazydev.nvim",
+    ft = "lua", -- only load on lua files
+    opts = {
+      library = {
+        "lazy.nvim",
+        -- Load luvit types when the `vim.uv` word is found
+        { path = "luvit-meta/library", words = { "vim%.uv" } },
+      },
+    },
+  },
+  { "Bilal2453/luvit-meta", lazy = true },
 }

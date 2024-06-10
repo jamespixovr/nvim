@@ -64,6 +64,7 @@ return {
       { "<Tab>",   "j", ft = "DressingSelect" },
       { "<S-Tab>", "k", ft = "DressingSelect" },
     },
+    --[[ 
     opts = {                 -- adapted from https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/appearance.lua
       input = {
         insert_only = false, -- = enable normal mode
@@ -102,6 +103,7 @@ return {
         end,
       },
     },
+    --]]
   },
   --------------------------------------------------------------------------
   -- Tabs

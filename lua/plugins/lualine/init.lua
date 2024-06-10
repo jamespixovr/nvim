@@ -48,7 +48,7 @@ return {
             status.diagnostics(),
           },
           lualine_c = {
-            '%=',
+            "%=",
             status.filename(),
           },
           lualine_x = {
@@ -56,14 +56,14 @@ return {
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
-            status.treesitter(),
+            -- status.treesitter(),
           },
           lualine_y = {
             status.lsp(),
           },
           lualine_z = {
             status.progress(),
-            status.datetime(),
+            -- status.datetime(),
             -- status.scrollbar(),
           },
         },
@@ -73,5 +73,5 @@ return {
     config = function(_, opts)
       require("lualine").setup(opts)
     end,
-  }
+  },
 }
