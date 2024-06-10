@@ -38,8 +38,8 @@ return {
       { ft = "neotest-summary", title = "Neotest Summary", size = { width = 0.4 } },
     },
     right = {
-      { ft = "codecompanion", title = "Code Companion Chat", size = { width = 0.4 } },
-      { ft = "aerial", title = "Symbols", size = { width = 0.2 } },
+      { ft = "codecompanion", title = "Code Companion Chat", size = { width = 0.45 } },
+      -- { ft = "aerial", title = "Symbols", size = { width = 0.2 } },
     },
   },
 }

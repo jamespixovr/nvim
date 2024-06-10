@@ -1,0 +1,13 @@
+# DOCS https://github.com/crate-ci/typos/blob/master/docs/reference.md
+#───────────────────────────────────────────────────────────────────────────────
+
+# ignore these words
+[default.extend-words]
+noice = "noice" # plugin name
+iy = "iy"       # keymap
+caf = "caf"     # `.caf` file extension
+
+# ignore these files
+# INFO (needs glob due to conform.nvim appending stuff for temporary file)
+[files]
+extend-exclude = ["*spellfixes.lua"]

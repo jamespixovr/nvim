@@ -2,12 +2,12 @@ return {
   {
     "mfussenegger/nvim-lint",
     event = "BufReadPre",
-    config = function(_, opts)
-      require("lint").linters_by_ft = opts.linters_by_ft
+    config = function()
       require("lint").linters_by_ft = {
         python = { "ruff" },
         htmldjango = { "djlint" },
-        lua = { "selene", "luacheck" },
+        lua = { "selene" },
+        -- lua = { "selene", "luacheck" },
         typescript = { "biomejs", "eslint_d", "eslint" },
         javascript = { "biomejs", "eslint_d", "eslint" },
         typescriptreact = { "biomejs", "eslint_d", "eslint" },

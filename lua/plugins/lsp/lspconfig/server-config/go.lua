@@ -70,9 +70,9 @@ return {
               semanticTokens = true,
             },
           },
-        }
+        },
       },
-    }
+    },
   },
 
   {
@@ -88,15 +88,18 @@ return {
         dap_debug = true,
         dap_debug_gui = true,
         run_in_floaterm = true,
+        luasnip = true,
+        dap_debug_keymap = false,
+        lsp_codelens = false,
       })
     end,
     event = { "CmdlineEnter" },
     keys = {
       { "<leader>tgn", "<cmd>GinkgoFunc<CR>", desc = "Run nearest test" },
-      { "<leader>tgr", "<cmd>GoRun<CR>",      desc = "Run Go main" },
+      { "<leader>tgr", "<cmd>GoRun<CR>", desc = "Run Go main" },
       { "<leader>tgf", "<cmd>GoTestFile<CR>", desc = "Run test file" },
     },
-    ft = { "go", 'gomod' },
+    ft = { "go", "gomod" },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
 
@@ -105,17 +108,18 @@ return {
     optional = true,
     dependencies = {
       -- { "nvim-neotest/neotest-go", version = false },
-      { "jarmex/neotest-go", version = false, branch = "ginkgo" },
+      -- { "jarmex/neotest-go", version = false, branch = "ginkgo" },
+      { "jarmex/neotest-ginkgo" },
     },
     opts = {
       adapters = {
-        ["neotest-go"] = {
+        ["neotest-ginkgo"] = {
           -- Here we can set options for neotest-go, e.g.
           -- args = { "-tags=integration" }
           --   args = { "-count=1", "-timeout=60s", "-race", "-cover" },
           experimental = {
             test_table = true,
-          }
+          },
         },
       },
     },

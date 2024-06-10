@@ -4,7 +4,7 @@ return {
   dependencies = { "MunifTanjim/nui.nvim", "nvim-lua/plenary.nvim" },
   keys = {
     { "<leader>hd", "<cmd>Hardtime disable<cr>", desc = "HardTime Disable" },
-    { "<leader>he", "<cmd>Hardtime enable<cr>",  desc = "HardTime Enable" },
+    { "<leader>he", "<cmd>Hardtime enable<cr>", desc = "HardTime Enable" },
   },
   opts = {
     allow_different_key = true,
@@ -22,6 +22,7 @@ return {
       "lazy",
       "lspinfo",
       "mason",
+      "guihua",
       "neotest-summary",
       "netrw",
       "netrw",
@@ -32,7 +33,7 @@ return {
       "qf",
       "undotree",
       "trouble",
-      "Outline"
+      "Outline",
     },
     hints = {
       ["[dcyvV][ia]%("] = {
