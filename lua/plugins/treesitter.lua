@@ -2,7 +2,7 @@ return {
   {
     "windwp/nvim-ts-autotag",
     event = "VeryLazy",
-    opts = {}
+    opts = {},
   },
   -- comments
   {
@@ -18,7 +18,32 @@ return {
     enabled = true,
     opts = { mode = "cursor", max_lines = 3 },
   },
-
+  {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+    event = "VeryLazy",
+    config = function()
+      -- When in diff mode, we want to use the default
+      -- vim text objects c & C instead of the treesitter ones.
+      local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
+      local configs = require("nvim-treesitter.configs")
+      for name, fn in pairs(move) do
+        if name:find("goto") == 1 then
+          move[name] = function(q, ...)
+            if vim.wo.diff then
+              local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
+              for key, query in pairs(config or {}) do
+                if q == query and key:find("[%]%[][cC]") then
+                  vim.cmd("normal! " .. key)
+                  return
+                end
+              end
+            end
+            return fn(q, ...)
+          end
+        end
+      end
+    end,
+  },
   {
     --- Treesitter
     "nvim-treesitter/nvim-treesitter",
@@ -26,10 +51,17 @@ return {
     build = ":TSUpdate",
     event = { "BufNewFile", "BufReadPost", "BufWritePre", "VeryLazy" },
     cmd = {
-      "TSInstall", "TSUninstall", "TSUpdate", "TSUpdateSync", "TSInstallInfo", "TSInstallSync", "TSInstallFromGrammar" },
+      "TSInstall",
+      "TSUninstall",
+      "TSUpdate",
+      "TSUpdateSync",
+      "TSInstallInfo",
+      "TSInstallSync",
+      "TSInstallFromGrammar",
+    },
     keys = {
       { "<c-space>", desc = "Increment selection" },
-      { "<bs>",      desc = "Decrement selection", mode = "x" },
+      { "<bs>", desc = "Decrement selection", mode = "x" },
     },
     init = function(plugin)
       -- CODE FROM LazyVim (thanks folke!) https://github.com/LazyVim/LazyVim/commit/1e1b68d633d4bd4faa912ba5f49ab6b8601dc0c9
@@ -38,32 +70,6 @@ return {
     end,
     dependencies = {
       "windwp/nvim-ts-autotag",
-      "mfussenegger/nvim-ts-hint-textobject",
-      {
-        "nvim-treesitter/nvim-treesitter-textobjects",
-        config = function()
-          -- When in diff mode, we want to use the default
-          -- vim text objects c & C instead of the treesitter ones.
-          local move = require("nvim-treesitter.textobjects.move") ---@type table<string,fun(...)>
-          local configs = require("nvim-treesitter.configs")
-          for name, fn in pairs(move) do
-            if name:find("goto") == 1 then
-              move[name] = function(q, ...)
-                if vim.wo.diff then
-                  local config = configs.get_module("textobjects.move")[name] ---@type table<string,string>
-                  for key, query in pairs(config or {}) do
-                    if q == query and key:find("[%]%[][cC]") then
-                      vim.cmd("normal! " .. key)
-                      return
-                    end
-                  end
-                end
-                return fn(q, ...)
-              end
-            end
-          end
-        end,
-      },
     },
     opts = function()
       local function is_disable(_, bufnr)
@@ -97,7 +103,7 @@ return {
           "json5",
           "ledger",
           "lua",
-          "luap",   -- lua patterns
+          "luap", -- lua patterns
           "luadoc", -- lua annotations
           "make",
           "markdown",
@@ -159,7 +165,9 @@ return {
       if type(opts.ensure_installed) == "table" then
         local added = {}
         opts.ensure_installed = vim.tbl_filter(function(parser)
-          if added[parser] then return false end
+          if added[parser] then
+            return false
+          end
           added[parser] = true
           return true
         end, opts.ensure_installed)
