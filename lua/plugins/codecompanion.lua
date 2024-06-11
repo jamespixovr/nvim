@@ -1,6 +1,7 @@
 -- Lazy.nvim
 return {
   "olimorris/codecompanion.nvim",
+  event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
   },
@@ -27,23 +28,8 @@ return {
     vim.cmd([[cab cc CodeCompanion]])
   end,
   keys = {
-    {
-      "<leader>ic",
-      "<cmd>CodeCompanionToggle<CR>",
-      desc = "A[I] [C]hat",
-      mode = { "n", "v" },
-    },
-    {
-      "<leader>ia",
-      "<cmd>CodeCompanion<CR>",
-      desc = "A[I] [A]sk",
-      mode = { "n", "v" },
-    },
-    {
-      "<leader>il",
-      "<cmd>CodeCompanionActions<CR>",
-      desc = "A[I] [L]ist of actions",
-      mode = { "n", "v" },
-    },
+    { "<leader>iz", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
+    { "<leader>ib", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
+    { "<leader>il", "<cmd>CodeCompanionActions<CR>", desc = "A[I] [L]ist of actions", mode = { "n", "v" } },
   },
 }

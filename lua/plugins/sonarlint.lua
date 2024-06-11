@@ -1,16 +1,16 @@
 return {
   url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
   -- enabled = false,
-  ft = { "python", "javascript", "go" },
+  ft = { "python", "javascript", "go", "typescript", "javascriptreact", "typescriptreact" },
   dependencies = {
-    "neovim/nvim-lspconfig"
+    "neovim/nvim-lspconfig",
   },
   config = function()
     -- local mason = vim.fn.stdpath "data" .. "/mason"
-    require("sonarlint").setup {
+    require("sonarlint").setup({
       server = {
         cmd = {
-          'sonarlint-language-server',
+          "sonarlint-language-server",
           -- mason .. "/bin/sonarlint-language-server",
           -- Ensure that sonarlint-language-server uses stdio channel
           "-stdio",
@@ -28,7 +28,9 @@ return {
         "go",
         "javascript",
         "typescript",
+        "javascriptreact",
+        "typescriptreact",
       },
-    }
+    })
   end,
 }

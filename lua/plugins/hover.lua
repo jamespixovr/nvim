@@ -1,6 +1,7 @@
 return {
   {
     "lewis6991/hover.nvim",
+    event = "VeryLazy",
     config = function()
       require("hover").setup({
         init = function()
@@ -11,7 +12,7 @@ return {
           -- require('hover.providers.jira')
           -- require('hover.providers.dap')
           -- require('hover.providers.man')
-          -- require('hover.providers.dictionary')
+          require("hover.providers.dictionary")
         end,
         preview_opts = {
           border = "single",
