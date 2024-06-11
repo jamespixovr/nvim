@@ -9,6 +9,7 @@ return {
       { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
       { "<leader>qd", function() require("persistence").stop() end,                desc = "Don't Save Current Session" }
     }
+,
   },
   -- Flash enhances the built-in search functionality by showing labels
   -- at the end of each match, letting you quickly jump to a specific
@@ -53,12 +54,12 @@ return {
       },
     },
     keys = {
-      { "<leader>A",  "<cmd>HurlRunner<CR>",        desc = "Run All requests" },
-      { "<leader>a",  "<cmd>HurlRunnerAt<CR>",      desc = "Run Api request" },
+      { "<leader>A", "<cmd>HurlRunner<CR>", desc = "Run All requests" },
+      { "<leader>a", "<cmd>HurlRunnerAt<CR>", desc = "Run Api request" },
       { "<leader>te", "<cmd>HurlRunnerToEntry<CR>", desc = "Run Api request to entry" },
-      { "<leader>tm", "<cmd>HurlToggleMode<CR>",    desc = "Hurl Toggle Mode" },
-      { "<leader>tv", "<cmd>HurlVerbose<CR>",       desc = "Run Api in verbose mode" },
-      { "<leader>h",  ":HurlRunner<CR>",            desc = "Hurl Runner",             mode = "v" },
+      { "<leader>tm", "<cmd>HurlToggleMode<CR>", desc = "Hurl Toggle Mode" },
+      { "<leader>tv", "<cmd>HurlVerbose<CR>", desc = "Run Api in verbose mode" },
+      { "<leader>h", ":HurlRunner<CR>", desc = "Hurl Runner", mode = "v" },
     },
   },
   -----------------------------------
@@ -102,19 +103,19 @@ return {
     event = "VeryLazy",
     cmd = { "DiffviewOpen", "DiffviewClose", "DiffviewFileHistory" },
     keys = {
-      { "<leader>gd", "<cmd>DiffviewOpen<cr>",          desc = "Diff View" },
-      { "<leader>gc", "<cmd>DiffviewClose<cr>",         desc = "Close Diff View" },
+      { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff View" },
+      { "<leader>gc", "<cmd>DiffviewClose<cr>", desc = "Close Diff View" },
       { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff View File History" },
     },
     -- adopted from https://github.com/rafi/vim-config/blob/master/lua/rafi/plugins/git.lua
     opts = function()
-      local actions = require('diffview.actions')
-      vim.api.nvim_create_autocmd({ 'WinEnter', 'BufEnter' }, {
-        group = vim.api.nvim_create_augroup('rafi_diffview', {}),
-        pattern = 'diffview:///panels/*',
+      local actions = require("diffview.actions")
+      vim.api.nvim_create_autocmd({ "WinEnter", "BufEnter" }, {
+        group = vim.api.nvim_create_augroup("rafi_diffview", {}),
+        pattern = "diffview:///panels/*",
         callback = function()
           vim.opt_local.cursorline = true
-          vim.opt_local.winhighlight = 'CursorLine:WildMenu'
+          vim.opt_local.winhighlight = "CursorLine:WildMenu"
         end,
       })
 
@@ -122,26 +123,26 @@ return {
         enhanced_diff_hl = true, -- See ':h diffview-config-enhanced_diff_hl'
         keymaps = {
           view = {
-            { 'n', 'q',              '<cmd>DiffviewClose<CR>' },
-            { 'n', '<Tab>',          actions.select_next_entry },
-            { 'n', '<S-Tab>',        actions.select_prev_entry },
-            { 'n', '<LocalLeader>a', actions.focus_files },
-            { 'n', '<LocalLeader>e', actions.toggle_files },
+            { "n", "q", "<cmd>DiffviewClose<CR>" },
+            { "n", "<Tab>", actions.select_next_entry },
+            { "n", "<S-Tab>", actions.select_prev_entry },
+            { "n", "<LocalLeader>a", actions.focus_files },
+            { "n", "<LocalLeader>e", actions.toggle_files },
           },
           file_panel = {
-            { 'n', 'q',     '<cmd>DiffviewClose<CR>' },
-            { 'n', 'h',     actions.prev_entry },
-            { 'n', 'o',     actions.focus_entry },
-            { 'n', 'gf',    actions.goto_file },
-            { 'n', 'sg',    actions.goto_file_split },
-            { 'n', 'st',    actions.goto_file_tab },
-            { 'n', '<C-r>', actions.refresh_files },
-            { 'n', ';e',    actions.toggle_files },
+            { "n", "q", "<cmd>DiffviewClose<CR>" },
+            { "n", "h", actions.prev_entry },
+            { "n", "o", actions.focus_entry },
+            { "n", "gf", actions.goto_file },
+            { "n", "sg", actions.goto_file_split },
+            { "n", "st", actions.goto_file_tab },
+            { "n", "<C-r>", actions.refresh_files },
+            { "n", ";e", actions.toggle_files },
           },
           file_history_panel = {
-            { 'n', 'q', '<cmd>DiffviewClose<CR>' },
-            { 'n', 'o', actions.focus_entry },
-            { 'n', 'O', actions.options },
+            { "n", "q", "<cmd>DiffviewClose<CR>" },
+            { "n", "o", actions.focus_entry },
+            { "n", "O", actions.options },
           },
         },
       }
@@ -172,13 +173,13 @@ return {
     },
     keys = {
       { "<leader>gb", "<cmd>Gitsigns toggle_current_line_blame<cr>", desc = "Toggle Git Blame" },
-      { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>",              desc = "Preview Hunk" },
-      { "]g",         "<cmd>Gitsigns next_hunk<cr>",                 desc = "Next Hunk" },
-      { "[g",         "<cmd>Gitsigns prev_hunk<cr>",                 desc = "Prev Hunk" },
-      { "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>",                desc = "Stage Hunk" },
-      { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>",           desc = "Undo Stage Hunk" },
-      { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>",                desc = "Reset Hunk" },
-      { "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>",              desc = "Reset Buffer" },
+      { "<leader>gp", "<cmd>Gitsigns preview_hunk<cr>", desc = "Preview Hunk" },
+      { "]g", "<cmd>Gitsigns next_hunk<cr>", desc = "Next Hunk" },
+      { "[g", "<cmd>Gitsigns prev_hunk<cr>", desc = "Prev Hunk" },
+      { "<leader>gs", "<cmd>Gitsigns stage_hunk<cr>", desc = "Stage Hunk" },
+      { "<leader>gu", "<cmd>Gitsigns undo_stage_hunk<cr>", desc = "Undo Stage Hunk" },
+      { "<leader>gr", "<cmd>Gitsigns reset_hunk<cr>", desc = "Reset Hunk" },
+      { "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", desc = "Reset Buffer" },
     },
     opts = {
       signs = {
@@ -202,18 +203,18 @@ return {
       diff_opts = { internal = true },
       current_line_blame_opts = {
         virt_text = true,
-        virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+        virt_text_pos = "eol", -- 'eol' | 'overlay' | 'right_align'
         delay = 500,
         ignore_whitespace = false,
         virt_text_priority = 100,
       },
-      current_line_blame_formatter = '<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>',
-    }
+      current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>",
+    },
   },
   {
     "NeogitOrg/neogit",
     dependencies = {
-      "nvim-lua/plenary.nvim",  -- required
+      "nvim-lua/plenary.nvim", -- required
       "sindrets/diffview.nvim", -- optional - Diff integration
 
       -- Only one of these is needed, not both.
@@ -222,22 +223,25 @@ return {
     cmd = "Neogit",
     opts = {
       integrations = {
-        diffview = true
-      }
+        diffview = true,
+      },
     },
     keys = {
       { "<leader>gn", "<cmd>Neogit<cr>", desc = "Neogit" },
     },
-    config = true
+    config = true,
   },
   {
     "ibhagwan/fzf-lua",
-    -- optional for icon support
+    event = "VeryLazy",
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+      { "<leader>fn", ":FzfLua<cr>", desc = "Fzf Lua" },
+    },
     config = function()
       -- calling `setup` is optional for customization
       require("fzf-lua").setup({})
-    end
+    end,
   },
   ---- pixo related plugins ----
   {
@@ -247,11 +251,11 @@ return {
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>p",  "<cmd>Pixovr<cr>",           desc = "Pixovr" },
-      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
-      { "<leader>tc", "<cmd>Pixovr local<cr>",     desc = "System [T]est Lo[c]al" },
+      { "<leader>p", "<cmd>Pixovr<cr>", desc = "Pixovr" },
+      { "<leader>tc", "<cmd>Pixovr local<cr>", desc = "System [T]est Lo[c]al" },
+      { "<leader>tc", "<cmd>Pixovr local<cr>", desc = "System [T]est Lo[c]al" },
       { "<leader>ty", "<cmd>Pixovr lifecycle<cr>", desc = "System [T]est [L]ifecycle" },
     },
-    config = true
+    config = true,
   },
 }
