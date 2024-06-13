@@ -1,8 +1,15 @@
 local settings = require("settings")
 local indent_exclude_fts = {
-  "help", "alpha", "dashboard",
-  "notify", "toggleterm", "lazyterm", "Trouble", "lazy",
-  "mason", "NvimTree"
+  "help",
+  "alpha",
+  "dashboard",
+  "notify",
+  "toggleterm",
+  "lazyterm",
+  "Trouble",
+  "lazy",
+  "mason",
+  "NvimTree",
 }
 -- local highlight = {
 --   "CursorColumn",
@@ -40,7 +47,6 @@ return {
         DEBUG = "",
         TRACE = "✎",
       },
-
     },
   },
   --------------------------------------------------------------------------
@@ -61,10 +67,10 @@ return {
       end
     end,
     keys = {
-      { "<Tab>",   "j", ft = "DressingSelect" },
+      { "<Tab>", "j", ft = "DressingSelect" },
       { "<S-Tab>", "k", ft = "DressingSelect" },
     },
-    --[[ 
+    --[[
     opts = {                 -- adapted from https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/appearance.lua
       input = {
         insert_only = false, -- = enable normal mode
@@ -136,7 +142,7 @@ return {
         diagnostics_indicator = function(_, _, diag)
           local icons = settings.icons.diagnostics
           local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-              .. (diag.warning and icons.Warn .. diag.warning or "")
+            .. (diag.warning and icons.Warn .. diag.warning or "")
           return vim.trim(ret)
         end,
         offsets = {
@@ -266,7 +272,7 @@ return {
         },
         hover = {
           enabled = false,
-        }
+        },
       },
       presets = {
         bottom_search = false,
@@ -289,7 +295,14 @@ return {
           view = "mini",
         },
         {
-          filter = { event = 'msg_show', find = '^%d+ lines yanked$' },
+          filter = { event = "msg_show", find = "^%d+ lines yanked$" },
+          opts = { skip = true },
+        },
+        {
+          filter = {
+            event = "msg_show",
+            find = "vim.lsp.get_active_clients()",
+          },
           opts = { skip = true },
         },
       },
@@ -387,9 +400,9 @@ return {
       return {
         open_fold_hl_timeout = 0,
         close_fold_kinds_for_ft = {
-          default = { 'imports', 'comment' },
-          json = { 'array' },
-          c = { 'comment', 'region' }
+          default = { "imports", "comment" },
+          json = { "array" },
+          c = { "comment", "region" },
         },
         preview = {
           win_config = {
