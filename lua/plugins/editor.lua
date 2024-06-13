@@ -14,10 +14,10 @@ return {
 
   -----------------------------------------------------------------------------
   {
-    'mbbill/undotree',
-    cmd = 'UndotreeToggle',
+    "mbbill/undotree",
+    cmd = "UndotreeToggle",
     keys = {
-      { '<Leader>gu', '<cmd>UndotreeToggle<CR>', desc = 'Undo Tree' },
+      { "<Leader>uu", "<cmd>UndotreeToggle<CR>", desc = "Undo Tree" },
     },
   },
 
@@ -37,12 +37,20 @@ return {
       },
     },
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",                        desc = "Diagnostics (Trouble)" },
-      { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",           desc = "Buffer Diagnostics (Trouble)" },
-      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>",                desc = "Symbols (Trouble)" },
-      { "<leader>xl", "<cmd>Trouble lsp toggle focus=false win.position=right<cr>", desc = "LSP Definitions / references / ... (Trouble)", },
-      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>",                            desc = "Location List (Trouble)", },
-      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>",                             desc = "Quickfix List (Trouble)" },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
+      {
+        "<leader>xX",
+        "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+        desc = "Buffer Diagnostics (Trouble)",
+      },
+      { "<leader>xs", "<cmd>Trouble symbols toggle focus=false<cr>", desc = "Symbols (Trouble)" },
+      {
+        "<leader>xl",
+        "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+        desc = "LSP Definitions / references / ... (Trouble)",
+      },
+      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
     },
   },
 
@@ -61,8 +69,8 @@ return {
       { "<leader>xF", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
     },
     config = function()
-      require("todo-comments").setup {}
-    end
+      require("todo-comments").setup({})
+    end,
   },
 
   -- buffer remove
@@ -129,10 +137,10 @@ return {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",
     keys = {
-      { "<c-w>", "<c-\\><c-n>",          desc = "Normal in Terminal", mode = "t" },
-      { "<a-1>", "<cmd>1ToggleTerm<cr>", desc = "Toggle Term 1",      mode = { "n", "t" } },
-      { "<a-2>", "<cmd>2ToggleTerm<cr>", desc = "Toggle Term 2",      mode = { "n", "t" } },
-      { "<a-3>", "<cmd>3ToggleTerm<cr>", desc = "Toggle Term 3",      mode = { "n", "t" } },
+      { "<c-w>", "<c-\\><c-n>", desc = "Normal in Terminal", mode = "t" },
+      { "<a-1>", "<cmd>1ToggleTerm<cr>", desc = "Toggle Term 1", mode = { "n", "t" } },
+      { "<a-2>", "<cmd>2ToggleTerm<cr>", desc = "Toggle Term 2", mode = { "n", "t" } },
+      { "<a-3>", "<cmd>3ToggleTerm<cr>", desc = "Toggle Term 3", mode = { "n", "t" } },
     },
     opts = {
       open_mapping = [[<c-\>]],
@@ -181,9 +189,8 @@ return {
         ["<leader>c"] = { name = "+code" },
         ["<leader>d"] = { name = "+debugger" },
         ["<leader>f"] = { name = "+file/find/telescope" },
-        ["<leader>g"] = { name = "+git" },
+        ["<leader>g"] = { name = "+git/hunks" },
         ["<leader>h"] = { name = "+hardtime" },
-        -- ["<leader>gh"] = { name = "+hunks" },
         ["<leader>o"] = { name = "+task runner" },
         ["<leader>q"] = { name = "+quit/session" },
         ["<leader>s"] = { name = "+search" },
@@ -202,21 +209,39 @@ return {
     opts = {
       user_default_options = {
         names = false,
-      }
-    }
+      },
+    },
   },
   {
     -- display line numbers while going to a line with `:`
     "nacro90/numb.nvim",
     keys = ":",
-    config = function() require("numb").setup() end,
+    config = function()
+      require("numb").setup()
+    end,
   },
 
   {
     "stevearc/oil.nvim",
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+    },
     keys = {
       { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
     },
-    opts = {},
-  }
+    opts = {
+      default_file_explorer = true,
+      delete_to_trash = true,
+      skip_confirm_for_simple_edits = true,
+      view_options = {
+        show_hidden = true,
+        is_always_hidden = function(name)
+          return name == ".." or name == ".git"
+        end,
+      },
+      win_options = {
+        wrap = true,
+      },
+    },
+  },
 }

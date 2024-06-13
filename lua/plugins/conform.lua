@@ -1,3 +1,5 @@
+local linterConfig = vim.fn.stdpath("config") .. ".linter_configs"
+
 return {
   "stevearc/conform.nvim",
   event = { "BufWritePre" },
@@ -36,6 +38,7 @@ return {
       lua = { "stylua" },
       go = { "goimports", "gofmt" },
       markdown = { { "prettied", "prettier" } },
+      -- markdown = { "markdownlint" }
       python = { "isort", "black" },
       sql = { "sql-formatter" },
       svelte = { { "prettied", "prettier" } },
@@ -45,6 +48,11 @@ return {
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {
+      markdownlint = {
+        command = "markdownlint",
+        stdin = false,
+        args = { "--fix", "--config", linterConfig .. "/markdownlint.yaml", "$FILENAME" },
+      },
       sqlfluff = {
         args = { "format", "--dialect=ansi", "-" },
       },

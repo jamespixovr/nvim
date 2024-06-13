@@ -20,10 +20,7 @@ return {
         "codelldb",
         "css-lsp",
         "emmet-ls",
-        "eslint-lsp",
-        "eslint_d",
         "gopls",
-        "graphql-language-service-cli",
         "html-lsp",
         "js-debug-adapter",
         "json-lsp",
@@ -34,7 +31,6 @@ return {
         "rust-analyzer",
         "shellcheck",
         "shfmt",
-        "stylelint-lsp", --CSS
         "stylua",
         "selene",
         "luacheck",
