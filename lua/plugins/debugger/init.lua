@@ -6,13 +6,22 @@ local function dapConfig()
   vim.fn.sign_define("DapStopped", { text = icons.Stopped, texthl = "DiagnosticHint", linehl = "DapPause" })
   vim.fn.sign_define("DapBreakpoint", { text = icons.Breakpoint, texthl = "DiagnosticInfo", linehl = "DapBreak" })
   vim.fn.sign_define("DapBreakpointRejected", { text = icons.BreakpointRejected, texthl = "DiagnosticError" })
+  require("dap.ext.vscode").load_launchjs("launch.json")
 
   -- AUTO-OPEN/CLOSE THE DAP-UI
   local listener = require("dap").listeners.before
-  listener.attach.dapui_config = function() require("dapui").open() end
-  listener.launch.dapui_config = function() require("dapui").open() end
-  listener.event_terminated.dapui_config = function() require("dapui").close() end
-  listener.event_exited.dapui_config = function() require("dapui").close() end
+  listener.attach.dapui_config = function()
+    require("dapui").open()
+  end
+  listener.launch.dapui_config = function()
+    require("dapui").open()
+  end
+  listener.event_terminated.dapui_config = function()
+    require("dapui").close()
+  end
+  listener.event_exited.dapui_config = function()
+    require("dapui").close()
+  end
 
   require("plugins.debugger.typescript")
 end
@@ -82,12 +91,11 @@ return {
     },
 
     dependencies = {
-      { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = 'eol' }, },
+      { "theHamsta/nvim-dap-virtual-text", opts = { virt_text_pos = "eol" } },
     },
 
     config = dapConfig,
   },
-
 
   { -- fancy UI for the debugger
     "rcarriga/nvim-dap-ui",
@@ -120,20 +128,20 @@ return {
           elements = {
             -- { id = 'stacks',      size = 0.30 },
             -- { id = 'breakpoints', size = 0.20 },
-            { id = 'scopes',  size = 0.50 },
-            { id = 'watches', size = 0.50 },
+            { id = "scopes", size = 0.50 },
+            { id = "watches", size = 0.50 },
           },
-          position = 'right',
+          position = "right",
           size = 40,
         },
         {
           elements = {
-            { id = "repl",    size = 0.5 },
-            { id = "console", size = 0.5 }
+            { id = "repl", size = 0.5 },
+            { id = "console", size = 0.5 },
           },
           position = "bottom",
-          size = 10
-        }
+          size = 10,
+        },
       },
       floating = {
         border = vim.g.borderStyle,
@@ -179,14 +187,13 @@ return {
             name = "Debug (Main) Package",
             request = "launch",
             program = "main.go",
-            cwd = '${workspaceFolder}',
+            cwd = "${workspaceFolder}",
           },
         },
       })
-    end
+    end,
   },
 }
-
 
 -- credit
 -- check this out https://github.com/mawkler/nvim/blob/master/lua/configs/dap.lua
