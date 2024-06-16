@@ -9,7 +9,7 @@ function M.setup(opts)
   -- options for vim.diagnostic.config()
   local diagnostics = {
     underline = true,
-    signs = { active = settings.icons.diagnostics },
+    -- signs = { active = settings.icons.diagnostics },
     update_in_insert = false,
     virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
     severity_sort = true,
@@ -18,26 +18,22 @@ function M.setup(opts)
       focusable = true,
       style = "minimal",
       border = "rounded",
-      source = "always",
+      source = "if_many",
       prefix = "",
     },
+    signs = {
+      text = {
+        [vim.diagnostic.severity.ERROR] = settings.icons.diagnostics.Error,
+        [vim.diagnostic.severity.WARN] = settings.icons.diagnostics.Warn,
+        [vim.diagnostic.severity.HINT] = settings.icons.diagnostics.Hint,
+        [vim.diagnostic.severity.INFO] = settings.icons.diagnostics.Info,
+      },
+    },
   }
-
+  -- diagnostics signs
   for name, icon in pairs(settings.icons.diagnostics) do
     name = "DiagnosticSign" .. name
     vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-  end
-
-  if type(diagnostics.virtual_text) == "table" and diagnostics.virtual_text.prefix == "icons" then
-    diagnostics.virtual_text.prefix = vim.fn.has("nvim-0.10.0") == 0 and "●"
-      or function(diagnostic)
-        local icons = settings.icons.diagnostics
-        for d, icon in pairs(icons) do
-          if diagnostic.severity == vim.diagnostic.severity[d:upper()] then
-            return icon
-          end
-        end
-      end
   end
 
   vim.diagnostic.config(vim.deepcopy(diagnostics))
