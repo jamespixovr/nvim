@@ -1,11 +1,16 @@
--- Lazy.nvim
 return {
   "olimorris/codecompanion.nvim",
   event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-telescope/telescope.nvim",
+    "stevearc/dressing.nvim",
   },
-  init = function()
+  config = function()
+    -- Expand `cc` into CodeCompanion in the command line
+    vim.cmd([[cab cc CodeCompanion]])
+
     require("codecompanion").setup({
       strategies = {
         chat = "ollama",
@@ -22,10 +27,6 @@ return {
         }),
       },
     })
-  end,
-  config = function()
-    -- Expand `cc` into CodeCompanion in the command line
-    vim.cmd([[cab cc CodeCompanion]])
   end,
   keys = {
     { "<leader>iz", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },

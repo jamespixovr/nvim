@@ -36,7 +36,7 @@ return {
       handlebars = { "prettier" },
       -- json = { { "prettied", "prettier" } },
       lua = { "stylua" },
-      go = { "goimports", "gofmt" },
+      -- go = { "goimports", "gofmt" },
       markdown = { { "prettied", "prettier" } },
       -- markdown = { "markdownlint" }
       python = { "isort", "black" },
