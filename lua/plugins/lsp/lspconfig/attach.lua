@@ -21,6 +21,7 @@ local function rename()
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ctx)
     local bufnr = ctx.buf
 
