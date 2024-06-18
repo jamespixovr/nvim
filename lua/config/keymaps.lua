@@ -4,8 +4,12 @@
 ---@param rhs string|function
 ---@param opts? { unique: boolean, desc: string, buffer: boolean, nowait: boolean, remap: boolean }
 local function keymap(modes, lhs, rhs, opts)
-  if not opts then opts = {} end
-  if opts.unique == nil then opts.unique = true end
+  if not opts then
+    opts = {}
+  end
+  if opts.unique == nil then
+    opts.unique = true
+  end
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
@@ -42,7 +46,6 @@ keymap("i", "<C-Down>", "<C-\\><C-N><C-w>j")
 keymap("i", "<C-Left>", "<C-\\><C-N><C-w>h")
 keymap("i", "<C-Right>", "<C-\\><C-N><C-w>l")
 
-
 -- Terminal Mappings
 keymap("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Enter Normal Mode" })
 keymap("t", "<C-h>", "<cmd>wincmd h<cr>", { desc = "Go to left window" })
@@ -64,7 +67,6 @@ keymap("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
 keymap("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
 keymap("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
 keymap("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
-
 
 -- QuickFix
 keymap("n", "]q", ":cnext<CR>")
@@ -112,19 +114,18 @@ keymap("x", "J", ":m '>+1<CR>gv-gv")
 -- QUICKFIX
 keymap("n", "gq", vim.cmd.cnext, { desc = " Next Quickfix" })
 keymap("n", "gQ", vim.cmd.cprevious, { desc = " Prev Quickfix" })
-keymap("n", "dQ", function() vim.cmd.cexpr("[]") end, { desc = " Delete Quickfix List" })
+keymap("n", "dQ", function()
+  vim.cmd.cexpr("[]")
+end, { desc = " Delete Quickfix List" })
 
 -- OPTION TOGGLING
 -- toggle inlay hints
 if vim.lsp.inlay_hint then
-  vim.keymap.set("n", "<leader>uh",
-    function() vim.lsp.inlay_hint.enable(0, false) end, { desc = "Toggle inlay hints" }
-  )
+  vim.keymap.set("n", "<leader>uh", function()
+    vim.lsp.inlay_hint.enable(0, false)
+  end, { desc = "Toggle inlay hints" })
 end
 
-keymap(
-  "n",
-  "<leader>cu",
-  function() vim.cmd("silent later " .. tostring(vim.opt.undolevels:get())) end,
-  { desc = "󰛒 Redo All" }
-)
+keymap("n", "<leader>cu", function()
+  vim.cmd("silent later " .. tostring(vim.opt.undolevels:get()))
+end, { desc = "󰛒 Redo All" })
