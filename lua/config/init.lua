@@ -3,13 +3,15 @@
 ---@param module string module to load
 local function safeRequire(module)
   local success, _ = pcall(require, module)
-  if success then return end
+  if success then
+    return
+  end
   vim.cmd.echomsg(("'Error loading %s'"):format(module))
 end
 
 local disable_providers = function()
   local default_providers = {
-    "node",
+    -- "node",
     "perl",
     "python3",
     "ruby",
