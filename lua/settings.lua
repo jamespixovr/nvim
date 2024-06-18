@@ -55,6 +55,7 @@ local settings = {
       GitUntracked = "★",
     },
     kinds = {
+      Codeium = "",
       Array = " ",
       Boolean = " ",
       Class = " ",
@@ -221,7 +222,7 @@ local settings = {
       -- Running = "省",
       Skipped = "",
       Running = "",
-    }
+    },
   },
 }
 
