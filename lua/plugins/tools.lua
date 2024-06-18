@@ -97,18 +97,6 @@ return {
     },
   },
 
-  -- Git
-  -- check this also https://github.com/FabijanZulj/blame.nvim
-  -- {
-  --   "f-person/git-blame.nvim",
-  --   event = "BufReadPre",
-  --   config = function()
-  --     require('gitblame').setup {
-  --       enabled = false,
-  --     }
-  --   end
-  -- },
-
   {
     "tpope/vim-fugitive",
   },
