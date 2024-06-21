@@ -5,11 +5,13 @@ local settings = require("settings")
 local M = {}
 
 function M.setup(opts)
-  -- diagnostics
-  -- options for vim.diagnostic.config()
-  local diagnostics = {
+  -- for name, icon in pairs(settings.icons.diagnostics) do
+  --   name = "DiagnosticSign" .. name
+  --   vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
+  -- end
+
+  vim.diagnostic.config({
     underline = true,
-    -- signs = { active = settings.icons.diagnostics },
     update_in_insert = false,
     virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
     severity_sort = true,
@@ -29,14 +31,7 @@ function M.setup(opts)
         [vim.diagnostic.severity.INFO] = settings.icons.diagnostics.Info,
       },
     },
-  }
-  -- diagnostics signs
-  for name, icon in pairs(settings.icons.diagnostics) do
-    name = "DiagnosticSign" .. name
-    vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-  end
-
-  vim.diagnostic.config(vim.deepcopy(diagnostics))
+  })
 
   local servers = opts.servers
 
