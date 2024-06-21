@@ -7,7 +7,7 @@ return {
       "b0o/SchemaStore.nvim",
       "williamboman/mason-lspconfig.nvim",
       "hrsh7th/cmp-nvim-lsp",
-      { 'antosha417/nvim-lsp-file-operations', config = true },
+      { "antosha417/nvim-lsp-file-operations", config = true },
     },
     ---@class PluginLspOpts
     opts = {
@@ -51,8 +51,10 @@ return {
     event = "BufReadPre",
     keys = {
       {
-        "<D-g>",
-        function() require("lsp_signature").toggle_float_win() end,
+        "<C-k>",
+        function()
+          require("lsp_signature").toggle_float_win()
+        end,
         mode = { "n", "v", "i" },
         desc = "󰒕 LSP signature",
       },

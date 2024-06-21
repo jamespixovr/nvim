@@ -78,3 +78,11 @@ vim.o.foldlevelstart = 99
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+vim.filetype.add({
+  pattern = {
+    ["*.jsonc"] = "jsonc",
+    ["tsconfig.json"] = "jsonc",
+    ["tsconfig*.json"] = "jsonc",
+  },
+})
