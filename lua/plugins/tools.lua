@@ -119,11 +119,19 @@ return {
       { "<leader>gR", "<cmd>Gitsigns reset_buffer<cr>", desc = "Reset Buffer" },
     },
     opts = {
+      signs = {
+        add = { text = "▎" },
+        change = { text = "▎" },
+        delete = { text = "契" },
+        topdelete = { text = "契" },
+        changedelete = { text = "▎" },
+      },
       watch_gitdir = {
         interval = 1000,
         follow_files = true,
       },
       diff_opts = { internal = true },
+      current_line_blame_opts = { delay = 500 },
       current_line_blame_formatter = "<author>, <author_time:%Y-%m-%d> - <abbrev_sha> - <summary>",
     },
   },
