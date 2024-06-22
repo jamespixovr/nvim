@@ -31,16 +31,6 @@ return {
         end,
       },
 
-      {
-        "folke/neoconf.nvim",
-        dependencies = { "nvim-lspconfig" },
-        cmd = "Neoconf",
-        config = function()
-          local plugin = require("lazy.core.config").spec.plugins["neoconf.nvim"]
-          require("neoconf").setup(require("lazy.core.plugin").values(plugin, "opts", false))
-        end,
-      },
-
       { -- optional completion source for require statements and module annotations
         "hrsh7th/nvim-cmp",
         opts = function(_, opts)

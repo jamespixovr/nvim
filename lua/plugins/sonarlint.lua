@@ -1,6 +1,6 @@
 return {
   url = "https://gitlab.com/schrieveslaach/sonarlint.nvim",
-  -- enabled = false,
+  enabled = false,
   ft = { "python", "javascript", "go", "typescript", "javascriptreact", "typescriptreact" },
   dependencies = {
     "neovim/nvim-lspconfig",

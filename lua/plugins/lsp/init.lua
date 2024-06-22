@@ -18,6 +18,12 @@ return {
             lineFoldingOnly = true,
           },
         },
+        workspace = {
+          fileOperations = {
+            didRename = true,
+            willRename = true,
+          },
+        },
       },
 
       -- but can be also overridden when specified
@@ -25,7 +31,7 @@ return {
         formatting_options = nil,
         timeout_ms = nil,
       },
-
+      -- add any global capabilities here
       ---@type lspconfig.options
       servers = {},
       -- you can do any additional lsp server setup here

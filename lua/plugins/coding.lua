@@ -1,5 +1,4 @@
 return {
-
   -- auto pairs
   {
     "windwp/nvim-autopairs",
