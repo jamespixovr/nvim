@@ -5,8 +5,7 @@ local settings = require("settings")
 local M = {}
 
 function M.setup(opts)
-  -- diagnostics
-  -- options for vim.diagnostic.config()
+  ---@type vim.diagnostic.Opts
   local diagnostics = {
     underline = true,
     -- signs = { active = settings.icons.diagnostics },
@@ -30,11 +29,6 @@ function M.setup(opts)
       },
     },
   }
-  -- diagnostics signs
-  for name, icon in pairs(settings.icons.diagnostics) do
-    name = "DiagnosticSign" .. name
-    vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-  end
 
   vim.diagnostic.config(vim.deepcopy(diagnostics))
 
