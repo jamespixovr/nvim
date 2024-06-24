@@ -10,6 +10,7 @@ return {
   config = function()
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd([[cab ccb CodeCompanionWithBuffers]])
 
     require("codecompanion").setup({
       strategies = {
@@ -29,8 +30,8 @@ return {
     })
   end,
   keys = {
-    { "<leader>iz", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
-    { "<leader>ib", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
-    { "<leader>il", "<cmd>CodeCompanionActions<CR>", desc = "A[I] [L]ist of actions", mode = { "n", "v" } },
+    { "<leader>az", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
+    { "<leader>ac", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
+    { "<leader>ai", "<cmd>CodeCompanionActions<CR>", desc = "[A][I] List of actions", mode = { "n", "v" } },
   },
 }

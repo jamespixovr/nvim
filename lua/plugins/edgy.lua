@@ -41,6 +41,7 @@ return {
     right = {
       { ft = "codecompanion", title = "Code Companion Chat", size = { width = 0.45 } },
       -- { ft = "aerial", title = "Symbols", size = { width = 0.2 } },
+      { ft = "oil", title = "File Explorer", size = { width = 0.3 } },
     },
   },
 }
