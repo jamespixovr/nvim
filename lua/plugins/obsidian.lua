@@ -1,6 +1,8 @@
 return {
   "epwalsh/obsidian.nvim",
-  enabled = false,
+  enabled = true,
+  version = "*",
+  ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "hrsh7th/nvim-cmp",
@@ -27,33 +29,19 @@ return {
   },
 
   opts = {
-    dir = "~/c/second-brain", -- no need to call 'vim.fn.expand' here
+    workspaces = {
+      {
+        name = "personal",
+        path = "~/vaults/jamesamo",
+      },
+      {
+        name = "work",
+        path = "~/vaults/work",
+      },
+    },
     completion = { nvim_cmp = true },
 
-    daily_notes = {
-      folder = "Periodic 🌄/Days 🌄",
-      -- Optional, if you want to change the date format for the ID of daily notes.
-      -- date_format = "%Y-%m-%d",
-      -- Optional, if you want to change the date format of the default alias of daily notes.
-      -- alias_format = "%B %-d, %Y",
-    },
-
     disable_frontmatter = true,
-
-    -- TODO: configure to my liking
-    -- Optional, alternatively you can customize the frontmatter data.
-    note_frontmatter_func = function(note)
-      -- This is equivalent to the default frontmatter function.
-      -- local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-      -- -- `note.metadata` contains any manually added fields in the frontmatter.
-      -- -- So here we just make sure those fields are kept in the frontmatter.
-      -- if note.metadata ~= nil and require("obsidian").util.table_length(note.metadata) > 0 then
-      --   for k, v in pairs(note.metadata) do
-      --     out[k] = v
-      --   end
-      -- end
-      -- return out
-    end,
 
     -- Optional, for templates (see below).
     templates = {
@@ -107,10 +95,6 @@ return {
       },
     },
   },
-
-  -- mappings = {
-  --   ["gf"] = require("obsidian.mapping").gf_passthrough(),
-  -- },
 
   config = function(_, opts)
     require("obsidian").setup(opts)
