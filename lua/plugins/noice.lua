@@ -217,6 +217,13 @@ return {
         desc = "Scroll backward",
         mode = { "i", "n", "s" },
       },
+      {
+        filter = {
+          event = "msg_show",
+          find = "sign-define or sign_define()",
+        },
+        opts = { skip = true },
+      },
     },
   },
   {

@@ -36,6 +36,18 @@ return {
             tabline = 1000,
             winbar = 1000,
           },
+          ignore_focus = {
+            "DressingInput",
+            "DressingSelect",
+            "lspinfo",
+            "ccc-ui",
+            "TelescopePrompt",
+            "checkhealth",
+            "noice",
+            "mason",
+            "qf",
+            "lazy",
+          },
         },
         tabline = {},
         sections = {

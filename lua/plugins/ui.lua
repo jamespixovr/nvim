@@ -196,7 +196,7 @@ return {
     "kevinhwang91/nvim-ufo",
     dependencies = { "kevinhwang91/promise-async" },
     event = "BufReadPost",
-    --stylua: ignore
+		-- stylua: ignore start
     keys = {
       { "zR", function() require("ufo").openFoldsExceptKinds {} end, desc = "󱃄 Open All Folds" },
       { "zM", function() require("ufo").closeAllFolds() end, },
