@@ -68,4 +68,58 @@ return {
       auto_close_after = 3000,
     },
   },
+  { -- CodeLens, but also for languages not supporting it
+    "Wansmer/symbol-usage.nvim",
+    event = "LspAttach",
+    opts = {
+      request_pending_text = false, -- remove "loading…"
+      references = { enabled = true, include_declaration = false },
+      definition = { enabled = false },
+      implementation = { enabled = false },
+      vt_position = "signcolumn",
+      vt_priority = 5, -- below the gitsigns default of 6
+      hl = { link = "Comment" },
+      text_format = function(symbol)
+        if not symbol.references or symbol.references == 0 then
+          return
+        end
+        if symbol.references < 2 and vim.bo.filetype == "css" then
+          return
+        end
+        if symbol.references > 100 then
+          return "++"
+        end
+
+        local refs = tostring(symbol.references)
+        local altDigits = -- there is no numeric `0` nerdfont icon, so using dot
+          { "", "󰬺", "󰬻", "󰬼", "󰬽", "󰬾", "󰬿", "󰭀", "󰭁", "󰭂" }
+        for i = 0, #altDigits - 1 do
+          refs = refs:gsub(tostring(i), altDigits[i + 1])
+        end
+        return refs
+      end,
+      -- available kinds: https://microsoft.github.io/language-server-protocol/specifications/lsp/3.17/specification/#symbolKind
+      kinds = {
+        vim.lsp.protocol.SymbolKind.Module,
+        vim.lsp.protocol.SymbolKind.Package,
+        vim.lsp.protocol.SymbolKind.Function,
+        vim.lsp.protocol.SymbolKind.Method,
+        vim.lsp.protocol.SymbolKind.Class,
+        vim.lsp.protocol.SymbolKind.Interface,
+        vim.lsp.protocol.SymbolKind.Constructor,
+      },
+    },
+  },
+  -- { -- lsp definitions & references count in the status line
+  --   "chrisgrieser/nvim-dr-lsp",
+  --   event = "LspAttach",
+  --   config = function()
+  --     vim.g.lualine_add("sections", "lualine_c", {
+  --       require("dr-lsp").lspCount,
+  --       fmt = function(str)
+  --         return str:gsub("R", ""):gsub("D", " 󰄾"):gsub("LSP:", "󰈿")
+  --       end,
+  --     })
+  --   end,
+  -- },
 }

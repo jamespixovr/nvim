@@ -80,6 +80,13 @@ return {
         },
         opts = { skip = true },
       },
+      {
+        filter = {
+          event = "msg_show",
+          find = "sign-define or sign_define()",
+        },
+        opts = { skip = true },
+      },
     },
   },
   keys = {

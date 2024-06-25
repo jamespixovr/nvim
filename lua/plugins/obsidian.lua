@@ -1,6 +1,8 @@
 return {
   "epwalsh/obsidian.nvim",
-  enabled = false,
+  enabled = true,
+  version = "*",
+  ft = "markdown",
   dependencies = {
     "nvim-lua/plenary.nvim",
     "hrsh7th/nvim-cmp",
@@ -27,7 +29,16 @@ return {
   },
 
   opts = {
-    dir = "~/c/second-brain", -- no need to call 'vim.fn.expand' here
+    workspaces = {
+      {
+        name = "work",
+        path = "~/vaults",
+        -- Optional, override certain settings.
+        overrides = {
+          notes_subdir = "notes",
+        },
+      },
+    },
     completion = { nvim_cmp = true },
 
     daily_notes = {
