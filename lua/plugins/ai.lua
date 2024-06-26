@@ -66,6 +66,7 @@ return {
 
   {
     "jarmex/wtf.nvim",
+    event = "VeryLazy",
     branch = "ollama-zephyr",
     dependencies = {
       "MunifTanjim/nui.nvim",
