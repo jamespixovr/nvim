@@ -32,7 +32,6 @@ M.nmap_buf = function(...)
   M.buf_map("n", ...)
 end
 
-
 ---@param plugin string
 function M.has(plugin)
   return require("lazy.core.config").plugins[plugin] ~= nil
@@ -51,6 +50,7 @@ end
 
 ---@param cmd string command to execute
 ---@param warn? string|boolean if vim.fn.executable <= 0 then warn with warn
+---@return boolean
 function M.executable(cmd, warn)
   if vim.fn.executable(cmd) > 0 then
     return true
@@ -81,8 +81,8 @@ function M.get_root()
           and vim.tbl_map(function(ws)
             return vim.uri_to_fname(ws.uri)
           end, workspace)
-          or client.config.root_dir and { client.config.root_dir }
-          or {}
+        or client.config.root_dir and { client.config.root_dir }
+        or {}
       for _, p in ipairs(paths) do
         local r = vim.loop.fs_realpath(p)
         if path:find(r, 1, true) then
@@ -107,7 +107,7 @@ function M.get_root()
 end
 
 -- this will return a function that calls telescope.
--- cwd will defautlt to util.get_root
+-- cwd will default to util.get_root
 -- for `files`, git_files or find_files will be chosen depending on .git
 function M.telescope(builtin, opts)
   local params = { builtin = builtin, opts = opts }
@@ -125,50 +125,6 @@ function M.telescope(builtin, opts)
     end
     require("telescope.builtin")[builtin](opts)
   end
-end
-
----@param option string
----@param silent boolean?
----@param values? {[1]:any, [2]:any}
-function M.toggle(option, silent, values)
-  return function()
-    if values then
-      if vim.opt_local[option]:get() == values[1] then
-        vim.opt_local[option] = values[2]
-      else
-        vim.opt_local[option] = values[1]
-      end
-      vim.notify(
-        "Set " .. option .. " to " .. vim.opt_local[option]:get(),
-        vim.log.levels.INFO,
-        { title = "Option" }
-      )
-    else
-      vim.opt_local[option] = not vim.opt_local[option]:get()
-      if not silent then
-        vim.notify(
-          (vim.opt_local[option]:get() and "Enabled" or "Disabled") .. " " .. option,
-          vim.log.levels.INFO,
-          { title = "Option" }
-        )
-      end
-    end
-  end
-end
-
-local diagnostics_enabled = true
-
-function M.toggle_diagnostics()
-  diagnostics_enabled = not diagnostics_enabled
-  local msg
-  if diagnostics_enabled then
-    vim.diagnostic.enable()
-    msg = "Enabled diagnostics"
-  else
-    vim.diagnostic.disable()
-    msg = "Disabled diagnostics"
-  end
-  vim.notify(msg, vim.log.levels.INFO, { title = "Diagnostics" })
 end
 
 M.str_isempty = function(s)
@@ -230,7 +186,9 @@ end
 ---@param bufnr table|integer a buffer number to check the condition for, a table with bufnr property, or nil to get the current buffer
 ---@return boolean # whether or not the current file is in a git repo
 function M.is_git_repo(bufnr)
-  if type(bufnr) == "table" then bufnr = bufnr.bufnr end
+  if type(bufnr) == "table" then
+    bufnr = bufnr.bufnr
+  end
   return vim.b[bufnr or 0].gitsigns_head or vim.b[bufnr or 0].gitsigns_status_dict
 end
 
@@ -249,7 +207,9 @@ end
 ---@param title string
 ---@param level? "info"|"trace"|"debug"|"warn"|"error"
 function M.notify(title, msg, level)
-  if not level then level = "info" end
+  if not level then
+    level = "info"
+  end
   vim.notify(msg, vim.log.levels[level:upper()], { title = title })
 end
 

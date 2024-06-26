@@ -46,6 +46,47 @@ return {
       require("plugins.lsp.lspconfig.setup").setup(opts)
     end,
   },
+  { -- display inlay hints from at EoL, not in the text
+    "lvimuser/lsp-inlayhints.nvim",
+    keys = {
+      {
+        "<leader>oh",
+        function()
+          require("lsp-inlayhints").toggle()
+        end,
+        desc = "󰒕 Inlay Hints",
+      },
+    },
+    opts = {
+      inlay_hints = {
+        labels_separator = "",
+        parameter_hints = {
+          prefix = " 󰏪 ",
+          remove_colon_start = true,
+          remove_colon_end = true,
+        },
+        type_hints = {
+          prefix = " 󰜁 ",
+          remove_colon_start = true,
+          remove_colon_end = true,
+        },
+      },
+    },
+    init = function()
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          if not (args.data and args.data.client_id) then
+            return
+          end
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client then
+            return
+          end
+          require("lsp-inlayhints").on_attach(client, args.buf)
+        end,
+      })
+    end,
+  },
   { -- signature hints
     "ray-x/lsp_signature.nvim",
     event = "BufReadPre",
@@ -110,16 +151,4 @@ return {
       },
     },
   },
-  -- { -- lsp definitions & references count in the status line
-  --   "chrisgrieser/nvim-dr-lsp",
-  --   event = "LspAttach",
-  --   config = function()
-  --     vim.g.lualine_add("sections", "lualine_c", {
-  --       require("dr-lsp").lspCount,
-  --       fmt = function(str)
-  --         return str:gsub("R", ""):gsub("D", " 󰄾"):gsub("LSP:", "󰈿")
-  --       end,
-  --     })
-  --   end,
-  -- },
 }

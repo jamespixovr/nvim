@@ -17,30 +17,6 @@ local indent_exclude_fts = {
 -- }
 
 return {
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 3000,
-      background_colour = "#000000",
-      -- stages = "slide",
-      -- level = 0,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      -- Icons for the different levels
-      icons = {
-        ERROR = "",
-        WARN = "",
-        INFO = "",
-        DEBUG = "",
-        TRACE = "✎",
-      },
-    },
-  },
-  --------------------------------------------------------------------------
 
   -- better vim.ui
   {
@@ -222,7 +198,7 @@ return {
     event = "BufReadPost",
 		-- stylua: ignore start
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, },
+      { "zR", function() require("ufo").openFoldsExceptKinds {} end, desc = "󱃄 Open All Folds" },
       { "zM", function() require("ufo").closeAllFolds() end, },
       { "zr", function(...) require("ufo").openFoldsExceptKinds(...) end, },
 		{ "zm", function() require("ufo").closeAllFolds() end, desc = "󱃄 Close All Folds" },
@@ -280,10 +256,9 @@ return {
         return newVirtText
       end
       return {
-			open_fold_hl_timeout = 800,
-        -- open_fold_hl_timeout = 0,
-			-- when opening the buffer, close these fold kinds
-			-- use `:UfoInspect` to get available fold kinds from the LSP
+        open_fold_hl_timeout = 800,
+        -- when opening the buffer, close these fold kinds
+        -- use `:UfoInspect` to get available fold kinds from the LSP
         close_fold_kinds_for_ft = {
           default = { "imports", "comment" },
           json = { "array" },
@@ -300,13 +275,15 @@ return {
             scrollD = "<C-d>",
           },
         },
-        provider_selector = function(_, filetype, _)
-				-- INFO some filetypes only allow indent, some only LSP, some only
-				-- treesitter. However, ufo only accepts two kinds as priority,
-				-- therefore making this function necessary :/
-				local lspWithOutFolding = { "markdown", "sh", "css", "html", "python", "json" }
-				if vim.tbl_contains(lspWithOutFolding, filetype) then return { "treesitter", "indent" } end
-				return { "lsp", "indent" }
+        provider_selector = function(_, ft, _)
+          -- INFO some filetypes only allow indent, some only LSP, some only
+          -- treesitter. However, ufo only accepts two kinds as priority,
+          -- therefore making this function necessary :/
+          local lspWithOutFolding = { "markdown", "sh", "css", "html", "python", "json" }
+          if vim.tbl_contains(lspWithOutFolding, ft) then
+            return { "treesitter", "indent" }
+          end
+          return { "lsp", "indent" }
         end,
         fold_virt_text_handler = handler,
       }

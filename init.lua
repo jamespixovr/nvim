@@ -1,4 +1,4 @@
 require("config")
 
 -- CONFIG
-vim.g.borderStyle = "single" ---@type "single"|"double"|"rounded"|"solid"|"none"
+vim.g.borderStyle = "rounded" ---@type "single"|"double"|"rounded"|"solid"|"none"

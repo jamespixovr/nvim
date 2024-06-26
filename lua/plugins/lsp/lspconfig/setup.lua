@@ -1,43 +1,6 @@
----@diagnostic disable: need-check-nil
-
-local settings = require("settings")
-
 local M = {}
 
 function M.setup(opts)
-  -- diagnostics
-  -- options for vim.diagnostic.config()
-  local diagnostics = {
-    underline = true,
-    -- signs = { active = settings.icons.diagnostics },
-    update_in_insert = false,
-    virtual_text = { spacing = 4, prefix = "●", source = "if_many" },
-    severity_sort = true,
-    float = {
-      show_header = true,
-      focusable = true,
-      style = "minimal",
-      border = "rounded",
-      source = "if_many",
-      prefix = "",
-    },
-    signs = {
-      text = {
-        [vim.diagnostic.severity.ERROR] = settings.icons.diagnostics.Error,
-        [vim.diagnostic.severity.WARN] = settings.icons.diagnostics.Warn,
-        [vim.diagnostic.severity.HINT] = settings.icons.diagnostics.Hint,
-        [vim.diagnostic.severity.INFO] = settings.icons.diagnostics.Info,
-      },
-    },
-  }
-  -- diagnostics signs
-  for name, icon in pairs(settings.icons.diagnostics) do
-    name = "DiagnosticSign" .. name
-    vim.fn.sign_define(name, { text = icon, texthl = name, numhl = "" })
-  end
-
-  vim.diagnostic.config(vim.deepcopy(diagnostics))
-
   local servers = opts.servers
 
   local capabilities = vim.tbl_deep_extend(

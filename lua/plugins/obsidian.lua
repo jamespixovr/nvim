@@ -49,6 +49,8 @@ return {
       -- alias_format = "%B %-d, %Y",
     },
 
+    notes_subdir = "inbox",
+    new_notes_location = "notes_subdir",
     disable_frontmatter = true,
 
     -- TODO: configure to my liking
@@ -119,9 +121,11 @@ return {
     },
   },
 
-  -- mappings = {
-  --   ["gf"] = require("obsidian.mapping").gf_passthrough(),
-  -- },
+  keys = {
+    { "<leader>oo", ":cd /Users/jamesamo/vaults<cr>", desc = "Open parent directory" },
+    { "<leader>on", ":ObsidianTemplate note<cr> :lua vim.cmd([[1,/^\\S/s/^\\n\\{1,}//]])<cr>", desc = "New Note" },
+    { "<leader>of", ":s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>", desc = "Fix Headers" },
+  },
 
   config = function(_, opts)
     require("obsidian").setup(opts)
