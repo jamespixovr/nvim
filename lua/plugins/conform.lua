@@ -33,7 +33,7 @@ return {
       json = { "jq" },
       handlebars = { "prettier" },
       lua = { "stylua" },
-      markdown = { { "prettierd", "prettier" } },
+      markdown = { "markdownlint" },
       python = { "isort", "black" },
       sql = { "sql-formatter" },
       svelte = { { "prettierd", "prettier" } },
