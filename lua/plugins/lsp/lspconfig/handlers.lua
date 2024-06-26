@@ -8,6 +8,7 @@ vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
 vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
   border = vim.g.borderStyle,
 })
+
 ---@param diag vim.Diagnostic
 ---@return string displayedText
 local function addCodeAndSourceAsSuffix(diag)

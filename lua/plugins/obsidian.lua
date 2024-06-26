@@ -41,6 +41,16 @@ return {
     },
     completion = { nvim_cmp = true },
 
+    daily_notes = {
+      folder = "Periodic 🌄/Days 🌄",
+      -- Optional, if you want to change the date format for the ID of daily notes.
+      -- date_format = "%Y-%m-%d",
+      -- Optional, if you want to change the date format of the default alias of daily notes.
+      -- alias_format = "%B %-d, %Y",
+    },
+
+    notes_subdir = "inbox",
+    new_notes_location = "notes_subdir",
     disable_frontmatter = true,
 
     -- Optional, for templates (see below).
@@ -94,6 +104,12 @@ return {
         ObsidianHighlightText = { bg = "#75662e" },
       },
     },
+  },
+
+  keys = {
+    { "<leader>oo", ":cd /Users/jamesamo/vaults<cr>", desc = "Open parent directory" },
+    { "<leader>on", ":ObsidianTemplate note<cr> :lua vim.cmd([[1,/^\\S/s/^\\n\\{1,}//]])<cr>", desc = "New Note" },
+    { "<leader>of", ":s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>", desc = "Fix Headers" },
   },
 
   config = function(_, opts)

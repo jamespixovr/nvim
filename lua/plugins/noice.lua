@@ -75,6 +75,44 @@ return {
       "MunifTanjim/nui.nvim",
       "rcarriga/nvim-notify",
     },
+    },
+    view = "mini",
+  },
+
+  -- nvim-treesitter
+  { filter = { event = "msg_show", find = "^%[nvim%-treesitter%]" }, view = "mini" },
+  { filter = { event = "notify", find = "All parsers are up%-to%-date" }, view = "mini" },
+
+  -----------------------------------------------------------------------------
+  -- SKIP
+
+  -- FIX LSP bugs?
+  { filter = { event = "msg_show", find = "lsp_signature? handler RPC" }, skip = true },
+  {
+    filter = { event = "msg_show", find = "^%s*at process.processTicksAndRejections" },
+    skip = true,
+  },
+
+  -- code actions
+  { filter = { event = "notify", find = "No code actions available" }, skip = true },
+
+  -- unneeded info on search patterns
+  { filter = { event = "msg_show", find = "^[/?]." }, skip = true },
+
+  -- E211 no longer needed, since auto-closing deleted buffers
+  { filter = { event = "msg_show", find = "E211: File .* no longer available" }, skip = true },
+}
+
+--------------------------------------------------------------------------------
+return {
+  {
+    "folke/noice.nvim",
+    event = "VimEnter", -- earlier to catch notifications on startup
+    enabled = true,
+    dependencies = {
+      "MunifTanjim/nui.nvim",
+      "rcarriga/nvim-notify",
+    },
     opts = {
       routes = routes,
       cmdline = {
@@ -218,11 +256,42 @@ return {
         mode = { "i", "n", "s" },
       },
       {
-        filter = {
-          event = "msg_show",
-          find = "sign-define or sign_define()",
-        },
-        opts = { skip = true },
+        "<leader>na",
+        function()
+          require("noice").cmd("all")
+        end,
+        desc = "Noice All",
+      },
+      {
+        "<leader>nd",
+        function()
+          require("noice").cmd("dismiss")
+        end,
+        desc = "Dismiss All",
+      },
+      {
+        "<c-f>",
+        function()
+          if not require("noice.lsp").scroll(4) then
+            return "<c-f>"
+          end
+        end,
+        silent = true,
+        expr = true,
+        desc = "Scroll forward",
+        mode = { "i", "n", "s" },
+      },
+      {
+        "<c-b>",
+        function()
+          if not require("noice.lsp").scroll(-4) then
+            return "<c-b>"
+          end
+        end,
+        silent = true,
+        expr = true,
+        desc = "Scroll backward",
+        mode = { "i", "n", "s" },
       },
     },
   },
