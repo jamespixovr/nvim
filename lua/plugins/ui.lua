@@ -17,30 +17,6 @@ local indent_exclude_fts = {
 -- }
 
 return {
-  {
-    "rcarriga/nvim-notify",
-    opts = {
-      timeout = 3000,
-      background_colour = "#000000",
-      -- stages = "slide",
-      -- level = 0,
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      -- Icons for the different levels
-      icons = {
-        ERROR = "",
-        WARN = "",
-        INFO = "",
-        DEBUG = "",
-        TRACE = "✎",
-      },
-    },
-  },
-  --------------------------------------------------------------------------
 
   -- better vim.ui
   {
@@ -222,10 +198,10 @@ return {
     event = "BufReadPost",
     --stylua: ignore
     keys = {
-      { "zR", function() require("ufo").openAllFolds() end, },
+      { "zR", function() require("ufo").openFoldsExceptKinds {} end, desc = "󱃄 Open All Folds" },
       { "zM", function() require("ufo").closeAllFolds() end, },
       { "zr", function(...) require("ufo").openFoldsExceptKinds(...) end, },
-      { "zm", function(...) require("ufo").closeFoldsWith(...) end, },
+      { "zm", function() require("ufo").closeAllFolds() end, desc = "󱃄 Close All Folds" },
       {
         'zK',
         function()
@@ -235,16 +211,23 @@ return {
           end
         end,
         desc = "Preview fold or hover"
-      }
+      },
+      { "z1", function() require("ufo").closeFoldsWith(1) end, desc = "󱃄 Close L1 Folds" },
+			{ "z2", function() require("ufo").closeFoldsWith(2) end, desc = "󱃄 Close L2 Folds" },
+			{ "z3", function() require("ufo").closeFoldsWith(3) end, desc = "󱃄 Close L3 Folds" },
+			{ "z4", function() require("ufo").closeFoldsWith(4) end, desc = "󱃄 Close L4 Folds" },
     },
+    -- stylua: ignore end
+    init = function()
+      -- INFO fold commands usually change the foldlevel, which fixes folds, e.g.
+      -- auto-closing them after leaving insert mode, however ufo does not seem to
+      -- have equivalents for zr and zm because there is no saved fold level.
+      -- Consequently, the vim-internal fold levels need to be disabled by setting
+      -- them to 99.
+      vim.opt.foldlevel = 99
+      vim.opt.foldlevelstart = 99
+    end,
     opts = function()
-      local ts_indent = { "treesitter", "indent" }
-      local ft_map = {
-        vim = "indent",
-        python = "indent",
-        git = "",
-        markdown = ts_indent,
-      }
       local handler = function(virtText, lnum, endLnum, width, truncate)
         local newVirtText = {}
         local suffix = ("  %d "):format(endLnum - lnum)
@@ -273,7 +256,9 @@ return {
         return newVirtText
       end
       return {
-        open_fold_hl_timeout = 0,
+        open_fold_hl_timeout = 800,
+        -- when opening the buffer, close these fold kinds
+        -- use `:UfoInspect` to get available fold kinds from the LSP
         close_fold_kinds_for_ft = {
           default = { "imports", "comment" },
           json = { "array" },
@@ -290,8 +275,15 @@ return {
             scrollD = "<C-d>",
           },
         },
-        provider_selector = function(_, filetype, _)
-          return ft_map[filetype] or { "lsp", "indent" }
+        provider_selector = function(_, ft, _)
+          -- INFO some filetypes only allow indent, some only LSP, some only
+          -- treesitter. However, ufo only accepts two kinds as priority,
+          -- therefore making this function necessary :/
+          local lspWithOutFolding = { "markdown", "sh", "css", "html", "python", "json" }
+          if vim.tbl_contains(lspWithOutFolding, ft) then
+            return { "treesitter", "indent" }
+          end
+          return { "lsp", "indent" }
         end,
         fold_virt_text_handler = handler,
       }

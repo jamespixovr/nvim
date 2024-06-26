@@ -46,7 +46,6 @@ return {
       "hrsh7th/cmp-cmdline",
       "saadparwaiz1/cmp_luasnip",
       "hrsh7th/cmp-nvim-lua",
-      "hrsh7th/cmp-nvim-lsp-signature-help",
       "onsails/lspkind-nvim",
     },
     opts = function()
@@ -132,17 +131,15 @@ return {
         },
         sources = {
           { name = "nvim_lsp", group_index = 1 },
-          { name = "nvim_lsp_signature_help", group_index = 1 },
           { name = "nvim_lua", group_index = 1 },
           { name = "codeium" },
           { name = "luasnip", group_index = 1 },
           { name = "path", group_index = 1 },
           { name = "buffer", group_index = 2, keyword_length = 5 },
-          -- { name = "cmp_tabnine",             group_index = 2 }
         },
         window = {
-          completion = cmp.config.window.bordered(),
-          documentation = cmp.config.window.bordered(),
+          completion = { border = vim.g.borderStyle, scrolloff = 2 },
+          documentation = { border = vim.g.borderStyle, scrolloff = 2 },
         },
         formatting = {
           fields = { "kind", "abbr", "menu" },
