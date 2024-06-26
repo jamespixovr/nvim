@@ -36,9 +36,7 @@ return {
       handlebars = { "prettier" },
       -- json = { { "prettierd", "prettier" } },
       lua = { "stylua" },
-      go = { "goimports", "gofmt" },
-      markdown = { { "prettierd", "prettier" } },
-      -- markdown = { "markdownlint" }
+      markdown = { "markdownlint" },
       python = { "isort", "black" },
       sql = { "sql-formatter" },
       svelte = { { "prettierd", "prettier" } },
