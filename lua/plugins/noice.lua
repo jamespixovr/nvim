@@ -80,6 +80,10 @@ return {
       cmdline = {
         format = {
           search_down = { icon = "  " },
+          search_up = { icon = "  " },
+          filter = { icon = "  " },
+          lua = { icon = "  " },
+          cmdline = { pattern = "^:", icon = "|>", lang = "vim", title = "" },
         },
       },
       views = {
@@ -89,7 +93,7 @@ return {
             col = "50%",
           },
           size = {
-            width = 75,
+            width = "75%",
             height = "auto",
           },
           border = { style = vim.g.borderStyle },
@@ -97,7 +101,7 @@ return {
         popupmenu = {
           relative = "editor",
           position = {
-            row = 8,
+            row = "50%",
             col = "50%",
           },
           size = {
@@ -105,7 +109,7 @@ return {
             height = 10,
           },
           border = {
-            style = "rounded",
+            style = vim.g.borderStyle,
             padding = { 0, 1 },
           },
           -- win_options = {

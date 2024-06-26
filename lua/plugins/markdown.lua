@@ -1,6 +1,7 @@
 return {
   { -- emphasized headers & code blocks in markdown
     "lukas-reineke/headlines.nvim",
+    event = "VeryLazy",
     ft = { "markdown", "yaml" },
     dependencies = "nvim-treesitter/nvim-treesitter",
     opts = {

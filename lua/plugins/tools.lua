@@ -25,12 +25,9 @@ return {
       { "<leader>hS", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flas[h] Tree[s]itter" },
       { "<leader>hr", mode = "o",               function() require("flash").remote() end,            desc = "[R]emote Flas[h]" },
       { "<leader>hT", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Flas[h] [T]reesitter Search" },
-      -- { "<leader>hf", mode = { "c" },           function() require("flash").toggle() end,            desc = "Toggle [F]las[h] Search" },
     },
   },
 
-  -- A library for asynchronous IO in Neovim
-  { "nvim-neotest/nvim-nio" },
   -- - HTTP client
   {
     "jellydn/hurl.nvim",
@@ -97,18 +94,6 @@ return {
     },
   },
 
-  {
-    "ibhagwan/fzf-lua",
-    event = "VeryLazy",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    keys = {
-      { "<leader>fn", ":FzfLua<cr>", desc = "Fzf Lua" },
-    },
-    config = function()
-      -- calling `setup` is optional for customization
-      require("fzf-lua").setup({})
-    end,
-  },
   ---- pixo related plugins ----
   {
     "jamespixovr/pixovr.nvim",
