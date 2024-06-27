@@ -157,6 +157,13 @@ return {
                 end
                 item.kind = " "
               end
+              --TODO: remove this after the bug is fixed.
+              --https://github.com/hrsh7th/nvim-cmp/issues/1939
+
+              -- if kind is nil then it will be replaced by '?'
+              if kind == nil then
+                kind = "?"
+              end
 
               item.menu = " (" .. kind .. ") "
               return item

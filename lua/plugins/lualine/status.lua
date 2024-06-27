@@ -1,6 +1,7 @@
 local settings = require("settings")
 local helper = require("helper")
 local symbols = settings.icons
+local companion_lualine = require("plugins.lualine.helper")
 local lazy_status = require("lazy.status")
 local colors = require("catppuccin.palettes").get_palette("macchiato")
 
@@ -260,6 +261,14 @@ function M.git_diff(opts)
       removed = { fg = colors.red },
     },
     -- cond = helper.is_git_repo
+  }, opts)
+end
+
+function M.codecompanion(opts)
+  return helper.extend_tbl({
+    companion_lualine,
+    separator = { left = "", right = "" },
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 

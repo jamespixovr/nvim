@@ -28,8 +28,8 @@ return {
     vim.cmd([[cab cc CodeCompanion]])
   end,
   keys = {
-    { "<leader>iz", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
-    { "<leader>ib", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
-    { "<leader>il", "<cmd>CodeCompanionActions<CR>", desc = "A[I] [L]ist of actions", mode = { "n", "v" } },
+    { "<leader>at", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
+    { "<leader>ab", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
+    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "[A]I List of [A]ctions", mode = { "n", "v" } },
   },
 }

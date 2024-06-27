@@ -1,4 +1,4 @@
-local linterConfig = vim.fn.stdpath("config") .. ".linter_configs"
+local linterConfig = vim.fn.stdpath("config") .. "/.linter_configs"
 
 return {
   "stevearc/conform.nvim",

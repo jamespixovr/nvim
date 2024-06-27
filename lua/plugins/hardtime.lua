@@ -16,6 +16,7 @@ return {
       "ToggleTerm",
       "alpha",
       "checkhealth",
+      "codecompanion",
       "dapui*",
       "help",
       "httpResult",
