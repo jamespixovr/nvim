@@ -91,6 +91,9 @@ return {
         luasnip = true,
         dap_debug_keymap = false,
         lsp_codelens = false,
+        lsp_keymaps = false,
+        diagnostic = false,
+        lsp_document_formatting = false,
       })
     end,
     event = { "CmdlineEnter" },
