@@ -29,7 +29,7 @@ return {
   end,
   keys = {
     { "<leader>at", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
-    { "<leader>ab", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
-    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "[A]I List of [A]ctions", mode = { "n", "v" } },
+    { "<leader>ac", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
+    { "<leader>ai", "<cmd>CodeCompanionActions<CR>", desc = "[A][I] List of actions", mode = { "n", "v" } },
   },
 }
