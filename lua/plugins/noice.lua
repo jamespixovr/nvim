@@ -16,7 +16,17 @@ local routes = {
   },
   -- output from `:Inspect`
   { filter = { event = "msg_show", find = "Treesitter.*- @" }, view = "popup" },
-
+  {
+    filter = {
+      any = {
+        { find = "No active Snippet" },
+        { find = "No signature help available" },
+        { find = "^<$" },
+        { kind = "wmsg" },
+      },
+    },
+    opts = { skip = true },
+  },
   -----------------------------------------------------------------------------
   -- REDIRECT TO MINI
 

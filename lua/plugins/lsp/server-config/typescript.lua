@@ -33,21 +33,20 @@ return {
       "dmmulroy/ts-error-translator.nvim",
     },
     keys = {
-      { "<leader>li", "<cmd>TSToolsOrganizeImports<cr>",     desc = "[L]SP Organize [I]mports" },
-      { "<leader>la", "<cmd>TSToolsAddMissingImports<cr>",   desc = "[L]SP Add [A]dd Missing Imports" },
+      { "<leader>li", "<cmd>TSToolsOrganizeImports<cr>", desc = "[L]SP Organize [I]mports" },
+      { "<leader>la", "<cmd>TSToolsAddMissingImports<cr>", desc = "[L]SP Add [A]dd Missing Imports" },
       { "<leader>lu", "<cmd>TSToolsRemoveUnusedImports<cr>", desc = "[L]SP Remove [U]nused Imports" },
-      { "<leader>lx", "<cmd>TSToolsFixAll<cr>",              desc = "Fi[x] fixable errors" },
+      { "<leader>lx", "<cmd>TSToolsFixAll<cr>", desc = "Fi[x] fixable errors" },
     },
-    ft = { 'javascriptreact', 'typescriptreact', 'javascript.jsx', 'typescript.tsx', 'javascript', 'typescript' },
+    ft = { "javascriptreact", "typescriptreact", "javascript.jsx", "typescript.tsx", "javascript", "typescript" },
     config = function()
       local api = require("typescript-tools.api")
-      require("typescript-tools").setup {
+      require("typescript-tools").setup({
         handlers = {
           ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
             require("ts-error-translator").translate_diagnostics(err, result, ctx, config)
             api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
           end,
-
         },
         settings = {
           tsserver_file_preferences = {
@@ -64,13 +63,13 @@ return {
           tsserver_plugins = {
             -- https://github.com/styled-components/typescript-styled-plugin
             -- for TypeScript v4.9+
-            '@styled/typescript-styled-plugin',
+            "@styled/typescript-styled-plugin",
             -- or for older TypeScript versions
             -- "typescript-styled-plugin",
           },
           separate_diagnostic_server = true,
         },
-      }
+      })
     end,
   },
 
@@ -83,14 +82,14 @@ return {
     opts = {
       adapters = {
         ["neotest-jest"] = {
-          jestCommand = "pnpm exec jest",
+          jestCommand = "pnpm jest",
           -- jestConfigFile = "jest.config.js",
           env = { CI = true },
-          cwd = function(_path)
-            return vim.fn.getcwd()
+          cwd = function(path)
+            return require("lspconfig.util").root_pattern("package.json", "jest.config.js")(path)
           end,
         },
       },
     },
-  }
+  },
 }

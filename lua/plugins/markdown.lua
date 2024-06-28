@@ -25,7 +25,33 @@ return {
 							(#offset! @codeblock 1 1 1 0)))
 				]]
       )
-      require("headlines").setup(opts)
+      -- PERF: schedule to prevent headlines slowing down opening a file
+      vim.schedule(function()
+        local hl = require("headlines")
+        hl.setup(opts)
+        local md = hl.config.markdown
+        hl.refresh()
+
+        -- Toggle markdown headlines on insert enter/leave
+        vim.api.nvim_create_autocmd({ "InsertEnter", "InsertLeave" }, {
+          callback = function(data)
+            if vim.bo.filetype == "markdown" then
+              hl.config.markdown = data.event == "InsertLeave" and md or nil
+              hl.refresh()
+            end
+          end,
+        })
+      end)
+      -- require("headlines").setup(opts)
+    end,
+  },
+  {
+    "MeanderingProgrammer/markdown.nvim",
+    -- name = "render-markdown", -- Only needed if you have another plugin named markdown.nvim
+    dependencies = { "nvim-treesitter/nvim-treesitter" },
+    ft = { "markdown", "norg", "rmd", "org" },
+    config = function()
+      require("render-markdown").setup({})
     end,
   },
 }

@@ -126,9 +126,9 @@ return {
           follow = true,
           mappings = {
             attach = "a",
-            expand = { "<CR>", "<2-LeftMouse>" },
+            expand = { "<Space>", "<2-LeftMouse>" },
             expand_all = "L",
-            jumpto = "gf",
+            jumpto = "<CR>",
             output = "o",
             run = "r",
             short = "p",
@@ -141,6 +141,13 @@ return {
           running = "",
           failed = settings.icons.testing.Failed,
           unknown = "",
+          expanded = "",
+          child_prefix = "",
+          child_indent = "",
+          final_child_prefix = "",
+          non_collapsible = "",
+          collapsed = "",
+
           running_animated = vim.tbl_map(function(s)
             return s .. " "
           end, { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }),
