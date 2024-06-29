@@ -33,11 +33,12 @@ return {
       json = { "jq" },
       handlebars = { "prettier" },
       lua = { "stylua" },
-      markdown = { "markdownlint" },
+      ["markdown"] = { { "prettierd", "prettier" }, "markdownlint", "markdown-toc" },
       python = { "isort", "black" },
       sql = { "sql-formatter" },
       svelte = { { "prettierd", "prettier" } },
       yaml = { "prettier" },
+      ["*"] = { "trim_whitespace" },
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {

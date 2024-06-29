@@ -48,7 +48,15 @@ return {
             api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
           end,
         },
+        on_attach = function(client, bufnr)
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+        end,
         settings = {
+          jsx_close_tag = {
+            enable = true,
+            filetypes = { "javascriptreact", "typescriptreact" },
+          },
           tsserver_file_preferences = {
             includeInlayEnumMemberValueHints = false,
             includeInlayFunctionLikeReturnTypeHints = false,
