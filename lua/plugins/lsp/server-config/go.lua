@@ -16,7 +16,9 @@ return {
 
   {
     "neovim/nvim-lspconfig",
+    ---@class PluginLspOpts
     opts = {
+      ---@type lspconfig.options
       servers = {
         golangci_lint_ls = {
           cmd = { "golangci-lint-langserver" },
@@ -35,16 +37,16 @@ return {
             gopls = {
               experimentalPostfixCompletions = true,
               gofumpt = true,
-              -- codelenses = {
-              --   gc_details = false,
-              --   generate = false,
-              --   regenerate_cgo = true,
-              --   run_govulncheck = true,
-              --   test = true,
-              --   tidy = true,
-              --   upgrade_dependency = true,
-              --   vendor = true,
-              -- },
+              codelenses = {
+                gc_details = false,
+                generate = true,
+                regenerate_cgo = true,
+                run_govulncheck = true,
+                test = true,
+                tidy = true,
+                upgrade_dependency = true,
+                vendor = true,
+              },
               hints = { -- https://github.com/golang/tools/blob/master/gopls/doc/analyzers.md
                 assignVariableTypes = true,
                 compositeLiteralFields = true,
@@ -55,7 +57,7 @@ return {
                 rangeVariableTypes = true,
               },
               analyses = {
-                -- fieldalignment = true,
+                fieldalignment = false,
                 nilness = true,
                 unusedparams = true,
                 unusedwrite = true,
@@ -85,8 +87,11 @@ return {
     },
     config = function()
       require("go").setup({
-        dap_debug = true,
-        dap_debug_gui = true,
+        lsp_inlay_hints = {
+          enable = false,
+        },
+        dap_debug = false,
+        dap_debug_gui = false,
         run_in_floaterm = true,
         luasnip = true,
         dap_debug_keymap = false,
