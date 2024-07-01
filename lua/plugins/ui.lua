@@ -203,7 +203,7 @@ return {
       { "zr", function(...) require("ufo").openFoldsExceptKinds(...) end, },
 		{ "zm", function() require("ufo").closeAllFolds() end, desc = "󱃄 Close All Folds" },
       {
-        'zK',
+        'zk',
         function()
           local winid = require('ufo').peekFoldedLinesUnderCursor()
           if not winid then

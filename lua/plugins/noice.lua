@@ -134,7 +134,7 @@ return {
         },
         hover = {
           border = { style = vim.g.borderStyle },
-          size = { max_width = 80 },
+          size = { max_width = 0 },
           win_options = { scrolloff = 4, wrap = true },
         },
         popup = {
