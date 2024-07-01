@@ -4,7 +4,7 @@ return {
     "nvim-tree/nvim-web-devicons",
   },
   keys = {
-    { "-", "<cmd>Oil<cr>", desc = "Open parent directory" },
+    { "<leader>of", "<cmd>Oil<cr>", desc = "Open parent directory" },
   },
   opts = {
     default_file_explorer = true,

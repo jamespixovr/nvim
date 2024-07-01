@@ -246,6 +246,9 @@ function M.git_diff(opts)
         }
       end
     end,
+    on_click = function()
+      vim.cmd("DiffviewOpen")
+    end,
     symbols = {
       added = symbols.git.added,
       modified = symbols.git.modified,
@@ -277,10 +280,17 @@ function M.lsp(opts)
     function()
       return getLspName()
     end,
-    -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
-    -- icon = settings.icons.lsp.ActiveLSP,
+    on_click = function()
+      vim.api.nvim_command("LspInfo")
+    end,
     separator = { left = "", right = "" },
-    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
+    color = function()
+      local _, color = require("nvim-web-devicons").get_icon_cterm_color_by_filetype(
+        vim.api.nvim_get_option_value("filetype", { buf = 0 })
+      )
+      return { fg = color }
+    end,
+    -- color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 

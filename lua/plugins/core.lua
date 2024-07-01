@@ -1,6 +1,13 @@
 return {
-  { "folke/lazy.nvim",      version = "*" },
-  -- Required dependency for many plugins. Super useful Lua functions
-  { "nvim-lua/plenary.nvim" },
+  {
+    "nvim-lua/plenary.nvim",
+    lazy = false,
+  },
+  {
+    "MunifTanjim/nui.nvim",
+    lazy = false,
+  },
 
+  -- icons
+  { "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
 }

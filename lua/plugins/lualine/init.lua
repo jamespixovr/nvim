@@ -80,7 +80,7 @@ return {
             -- status.scrollbar(),
           },
         },
-        extensions = { "nvim-tree", "trouble", "quickfix" },
+        extensions = { "nvim-tree", "trouble", "quickfix", "toggleterm", "neo-tree", "lazy", "mason" },
       }
     end,
     config = function(_, opts)
