@@ -4,11 +4,27 @@ local settings = require("settings")
 return {
   {
     "goolord/alpha-nvim",
-    enabled = true,
-    lazy = false,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
     event = "VimEnter",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
+      local function footer()
+        local stats = require("lazy").stats()
+        local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
+        local date = os.date("%d-%m-%Y")
+        local time = os.date("%H:%M:%S")
+        return "[  Loaded "
+          .. stats.loaded
+          .. "/"
+          .. stats.count
+          .. " plugins in "
+          .. stats.startuptime
+          .. "ms] [ "
+          .. date
+          .. "] [ "
+          .. time
+          .. "]"
+      end
+
       local dashboard = require("alpha.themes.dashboard")
       local logo = {
         "                                                                   ",
@@ -26,7 +42,7 @@ return {
         header_logo[i] = {
           type = "text",
           val = line,
-          opts = { hl = "StartLogo" .. i, position = "center" }
+          opts = { hl = "StartLogo" .. i, position = "center" },
         }
       end
 
@@ -34,17 +50,13 @@ return {
       dashboard.section.header.val = header_logo
       -- dashboard.section.header.val = require("util.logo")["random"]
       dashboard.section.buttons.val = {
-        dashboard.button("f", settings.icons.ui.Search2 .. " Find file",
-          "<cmd>Telescope find_files<cr>"),
+        dashboard.button("f", settings.icons.ui.Search2 .. " Find file", "<cmd>Telescope find_files<cr>"),
         dashboard.button("n", " " .. " New file", "<cmd>ene <bar> startinsert <cr>"),
-        dashboard.button("r", " " .. " Recent files",
-          "<cmd>Telescope frecency workspace=CWD <cr>"),
+        dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),
-        dashboard.button("p", " " .. " Open project",
-          "<cmd>Telescope project display_type=full<cr>"),
+        dashboard.button("p", " " .. " Open project", "<cmd>Telescope project display_type=full<cr>"),
         dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC<cr>"),
-        dashboard.button("s", "勒" .. " Restore Session",
-          ":lua require('persistence').load()<cr>"),
+        dashboard.button("s", "勒" .. " Restore Session", ":lua require('persistence').load()<cr>"),
         dashboard.button("l", "鈴" .. " Lazy", "<cmd>Lazy<cr>"),
         dashboard.button("u", " " .. " Update plugins", ":Lazy sync<CR>"),
         dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
@@ -68,19 +80,25 @@ return {
           end,
         })
       end
+      dashboard.section.footer.val = footer()
 
       require("alpha").setup(dashboard.opts)
 
-      vim.api.nvim_create_autocmd("User", {
-        pattern = "LazyVimStarted",
-        callback = function()
-          local stats = require("lazy").stats()
-          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-          dashboard.section.footer.val = "⚡ Neovim loaded " ..
-              stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms"
-          pcall(vim.cmd.AlphaRedraw)
-        end,
-      })
+      --   vim.api.nvim_create_autocmd("User", {
+      --     pattern = "LazyVimStarted",
+      --     callback = function()
+      --       local stats = require("lazy").stats()
+      --       local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+      --       dashboard.section.footer.val = "⚡ Neovim loaded "
+      --         .. stats.loaded
+      --         .. "/"
+      --         .. stats.count
+      --         .. " plugins in "
+      --         .. ms
+      --         .. "ms"
+      --       pcall(vim.cmd.AlphaRedraw)
+      --     end,
+      --   })
     end,
-  }
+  },
 }
