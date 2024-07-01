@@ -61,9 +61,8 @@ return {
   -- search/replace in multiple files
   {
     "nvim-pack/nvim-spectre",
-    build = false,
+    event = "VeryLazy",
     cmd = "Spectre",
-    opts = { open_cmd = "noswapfile vnew" },
     -- stylua: ignore
     keys = {
       { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
@@ -165,8 +164,12 @@ return {
   {
     -- display line numbers while going to a line with `:`
     "nacro90/numb.nvim",
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      require("numb").setup()
+      require("numb").setup({
+        show_numbers = true, -- Enable 'number' for the window while peeking
+        show_cursorline = true, -- Enable 'cursorline' for the window while peeking
+      })
     end,
   },
 }

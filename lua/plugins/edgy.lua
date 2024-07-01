@@ -26,6 +26,20 @@ return {
         end,
       },
       { ft = "neotest-output-panel", title = "Neotest OutputPanel", size = { height = 0.3 } },
+      {
+        ft = "Trouble",
+        title = "TROUBLE",
+        filter = function(buf, win)
+          return vim.api.nvim_win_get_config(win).relative == ""
+        end,
+      },
+      {
+        ft = "noice",
+        size = { height = 0.4 },
+        filter = function(buf, win)
+          return vim.api.nvim_win_get_config(win).relative == ""
+        end,
+      },
     },
     left = {
       { ft = "neotest-summary", title = "Neotest Summary", size = { width = 0.4 } },

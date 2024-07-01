@@ -47,6 +47,13 @@ return {
       { "<leader>fa", "<cmd>Telescope autocommands<cr>", desc = "Auto Commands" },
       { "<leader>fb", "<cmd>Telescope current_buffer_fuzzy_find<cr>", desc = "Buffer" },
       {
+        "<leader>fl",
+        ":lua require('telescope.builtin').grep_string({ search = vim.fn.input('GREP -> ') })<CR>",
+        noremap = true,
+        silent = true,
+        desc = "Grep string",
+      },
+      {
         "<leader>fF",
         helper.telescope("find_files", { cwd = false }),
         desc = "Find Files (cwd)",
