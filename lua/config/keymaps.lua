@@ -32,9 +32,10 @@ keymap("v", ">", ">gv")
 -- Paste over currently selected text without yanking it
 keymap("v", "p", '"_dP')
 
+--[[-- jk is mapped to escape by better-escape.nvim plugin]]
 -- 'jk' for quitting insert mode
-keymap("i", "jk", "<ESC>")
-keymap("i", "kj", "<ESC>")
+-- keymap("i", "jk", "<ESC>")
+-- keymap("i", "kj", "<ESC>")
 
 -- COMMAND & INSERT MODE
 keymap({ "i", "c" }, "<C-a>", "<Home>")
