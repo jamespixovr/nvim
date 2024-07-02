@@ -43,7 +43,8 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-local ignore_filetypes = { "OverseerList", "NvimTree", "Outline", "Diffview*", "Dressing*", "Neogit*" }
+local ignore_filetypes =
+  { "OverseerList", "NvimTree", "Outline", "Diffview*", "Dressing*", "Neogit*", "alpha", "dapui*" }
 local augroup = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
@@ -55,4 +56,12 @@ vim.api.nvim_create_autocmd("FileType", {
     end
   end,
   desc = "Disable focus autoresize for FileType",
+})
+
+vim.api.nvim_create_autocmd({ "BufNewFile", "BufRead" }, {
+  pattern = "*.graphql,*.graphqls,*.gql",
+  callback = function()
+    vim.bo.filetype = "graphql"
+  end,
+  once = false,
 })
