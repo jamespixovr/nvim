@@ -17,7 +17,7 @@ return {
       "alpha",
       "checkhealth",
       "codecompanion",
-      "dapui*",
+      "dap*",
       "help",
       "httpResult",
       "lazy",
