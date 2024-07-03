@@ -39,7 +39,11 @@ return {
         path = "~/vaults/work",
       },
     },
-    completion = { nvim_cmp = true },
+    completion = {
+      nvim_cmp = true,
+      -- Trigger completion at 2 chars.
+      min_chars = 2,
+    },
 
     daily_notes = {
       folder = "Periodic 🌄/Days 🌄",
