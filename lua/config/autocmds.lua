@@ -43,8 +43,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   end,
 })
 
-local ignore_filetypes =
-  { "OverseerList", "NvimTree", "Outline", "Diffview*", "Dressing*", "Neogit*", "alpha", "dapui*" }
+local ignore_filetypes = { "OverseerList", "NvimTree", "Outline", "Diffview*", "Dressing*", "Neogit*", "alpha", "dap*" }
 local augroup = vim.api.nvim_create_augroup("FocusDisable", { clear = true })
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup,
