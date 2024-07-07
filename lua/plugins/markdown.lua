@@ -27,4 +27,28 @@ return {
       end)
     end,
   },
+  {
+    "OXY2DEV/markview.nvim",
+    dependencies = {
+      "nvim-treesitter/nvim-treesitter",
+      "nvim-tree/nvim-web-devicons",
+    },
+    opts = {
+      block_quotes = {
+        enable = true,
+        callouts = {
+          {
+            match_string = "SUCCESS",
+            aliases = { "CHECK", "DONE" },
+            border = "▋",
+            border_hl = "rainbow4",
+            callout_preview = "✓ Success",
+            callout_preview_hl = "rainbow4",
+            custom_title = true,
+            custom_icon = "✓ ",
+          },
+        },
+      },
+    },
+  },
 }
