@@ -23,6 +23,7 @@ return {
       "lazy",
       "lspinfo",
       "mason",
+      "markdown",
       "guihua",
       "neotest-summary",
       "netrw",
