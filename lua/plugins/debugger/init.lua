@@ -1,4 +1,4 @@
-local icons = require("settings").icons.diagnostics
+local icons = require("settings").icons.dap
 
 --------------------------------------------------------------------------------------
 
