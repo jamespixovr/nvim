@@ -121,11 +121,9 @@ end, { desc = " Delete Quickfix List" })
 
 -- OPTION TOGGLING
 -- toggle inlay hints
-if vim.lsp.inlay_hint then
-  vim.keymap.set("n", "<leader>uh", function()
-    vim.lsp.inlay_hint.enable(0, false)
-  end, { desc = "Toggle inlay hints" })
-end
+keymap("n", "<leader>uh", function()
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+end)
 
 keymap("n", "<leader>cu", function()
   vim.cmd("silent later " .. tostring(vim.opt.undolevels:get()))
