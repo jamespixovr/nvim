@@ -20,6 +20,7 @@ return {
       "help",
       "httpResult",
       "lazy",
+      "lazygit",
       "lspinfo",
       "mason",
       "markdown",
