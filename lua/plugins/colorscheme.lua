@@ -1,11 +1,17 @@
 local M = {
   {
+    "folke/tokyonight.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = { style = "storm" },
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,
     priority = 1000,
     opts = {
-      flavour = 'macchiato',
+      flavour = "macchiato",
       transparent_background = true,
       term_colors = true,
       compile = {
@@ -76,18 +82,17 @@ local M = {
       custom_highlights = function(colors)
         return {
           PmenuThumb = { bg = colors.blue },
-          DapUIFloatBorder = { link = 'FloatBorder' },
+          DapUIFloatBorder = { link = "FloatBorder" },
         }
       end,
     },
     config = function(plugin, opt)
-      vim.opt.background = 'dark'
+      vim.opt.background = "dark"
       require(plugin.name).setup(opt)
       -- vim.api.nvim_command 'colorscheme catppuccin'
       vim.cmd.colorscheme("catppuccin")
     end,
   },
-
 }
 
 return M

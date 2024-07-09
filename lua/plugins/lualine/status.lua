@@ -3,7 +3,8 @@ local helper = require("helper")
 local symbols = settings.icons
 local companion_lualine = require("plugins.lualine.helper")
 local lazy_status = require("lazy.status")
-local colors = require("catppuccin.palettes").get_palette("macchiato")
+local colors = require("tokyonight.colors").setup()
+-- local colors = require("catppuccin.palettes").get_palette("macchiato")
 
 local M = {}
 
@@ -27,7 +28,7 @@ local modecolor = {
   rm = colors.cyan,
   ["r?"] = colors.cyan,
   ["!"] = colors.red,
-  t = colors.bright_red,
+  t = colors.red1,
 }
 
 local function show_macro_recording()
@@ -190,7 +191,7 @@ function M.diagnostics(opts)
       hint = symbols.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
-    color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
+    -- color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
     separator = { left = "", right = "" },
     -- color = { bg = "None" },
   }, opts)
@@ -202,7 +203,7 @@ function M.filetype(opts)
     icon_only = true,
     separator = "",
     padding = { left = 1, right = 0 },
-    color = { bg = colors.gray2, fg = colors.bg_dark, gui = "italic,bold" },
+    color = { fg = colors.cyan, gui = "italic,bold" },
     -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
@@ -214,7 +215,7 @@ function M.filename(opts)
     shorting_target = 40,
     symbols = { modified = " ", readonly = " ", unnamed = " " },
     -- color = { fg = "#bcbcbc", gui = "bold" },
-    color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+    color = { fg = colors.blue5, gui = "bold" },
     separator = { left = "", right = "" },
   }, opts)
 end
@@ -255,7 +256,7 @@ function M.git_diff(opts)
       removed = symbols.git.removed,
     }, -- changes diff symbols
     -- color = { bg = "None" },
-    color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+    -- color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
     separator = { left = "", right = "" },
 
     diff_color = {

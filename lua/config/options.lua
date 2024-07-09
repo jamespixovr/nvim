@@ -88,3 +88,5 @@ vim.filetype.add({
     ["tsconfig*.json"] = "jsonc",
   },
 })
+
+vim.cmd([[colorscheme tokyonight]])
