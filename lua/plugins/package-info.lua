@@ -6,7 +6,7 @@ return {
     colors = {
       -- TODO: add to catppuccin
       up_to_date = "#B1D99C", -- Text color for up to date dependency virtual text
-      outdated = "#EAAC86",   -- Text color for outdated dependency virtual text
+      outdated = "#EAAC86", -- Text color for outdated dependency virtual text
     },
     autostart = true,
     hide_up_to_date = true,
@@ -14,9 +14,9 @@ return {
     package_manager = "pnpm",
   },
   keys = function()
-    require("which-key").register({ n = { name = "+PackageInfo" } }, { prefix = "<leader>" })
+    require("which-key").register({ p = { name = "+PackageInfo" } }, { prefix = "<leader>" })
     local function map(key, cmd, desc)
-      vim.keymap.set({ "n" }, "<LEADER>n" .. key, cmd, { desc = desc, silent = true, noremap = true })
+      vim.keymap.set({ "n" }, "<leader>p" .. key, cmd, { desc = desc, silent = true, noremap = true })
     end
     local pi = require("package-info")
     map("s", pi.show, "Show package info")
