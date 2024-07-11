@@ -8,7 +8,6 @@ return {
     { "<leader>gd", "<cmd>DiffviewOpen<cr>", desc = "Diff View" },
     { "<leader>gc", "<cmd>DiffviewClose<cr>", desc = "Close Diff View" },
     { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "Diff View File History" },
-    { "<leader>gh", "<cmd>DiffviewFileHistory<cr>", desc = "Diff View File History", mode = "v" },
   },
   -- adopted from https://github.com/rafi/vim-config/blob/master/lua/rafi/plugins/git.lua
   opts = function()

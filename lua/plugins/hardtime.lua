@@ -12,6 +12,7 @@ return {
       "Diffview*",
       "Dressing*",
       "Neogit*",
+      "Diffview*",
       "NvimTree",
       "ToggleTerm",
       "alpha",
