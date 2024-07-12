@@ -135,17 +135,4 @@ return {
     cmd = "IncRename",
     config = true,
   },
-  {
-    "cshuaimin/ssr.nvim",
-    keys = {
-      {
-        "<leader>sR",
-        function()
-          require("ssr").open()
-        end,
-        mode = { "n", "x" },
-        desc = "Structural Replace",
-      },
-    },
-  },
 }
