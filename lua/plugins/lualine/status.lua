@@ -1,4 +1,5 @@
 local settings = require("settings")
+local companion_lualine = require("plugins.lualine.helper")
 local helper = require("helper")
 local symbols = settings.icons
 local lazy_status = require("lazy.status")
@@ -339,6 +340,14 @@ function M.LintStatus(opts)
       return "󱉶 " .. table.concat(linters, ", ")
     end,
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
+
+function M.codecompanion(opts)
+  return helper.extend_tbl({
+    companion_lualine,
+    separator = { left = "", right = "" },
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 

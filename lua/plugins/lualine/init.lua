@@ -71,6 +71,7 @@ return {
             -- status.treesitter(),
           },
           lualine_y = {
+            status.codecompanion(),
             status.lsp(),
           },
           lualine_z = {
