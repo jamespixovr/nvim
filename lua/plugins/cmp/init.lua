@@ -184,7 +184,8 @@ return {
           if vim.api.nvim_get_mode().mode == "c" then
             return true
           else
-            local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+            local buftype = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+            -- local buftype = vim.api.nvim_buf_get_option(0, "buftype")
             if buftype == "prompt" then
               return false
             end

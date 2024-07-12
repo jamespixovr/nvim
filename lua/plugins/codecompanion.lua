@@ -4,12 +4,26 @@ return {
   event = "VeryLazy",
   dependencies = {
     "nvim-lua/plenary.nvim",
+    "nvim-treesitter/nvim-treesitter",
+    "nvim-telescope/telescope.nvim", -- Optional
+    {
+      "grapp-dev/nui-components.nvim",
+      dependencies = {
+        "MunifTanjim/nui.nvim",
+      },
+    },
+    "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
   },
-  init = function()
+  config = function()
+    -- Expand `cc` into CodeCompanion in the command line
+    vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd([[cab ccb CodeCompanionWithBuffers]])
+
     require("codecompanion").setup({
       strategies = {
         chat = "ollama",
         inline = "ollama",
+        agent = "ollama",
       },
 
       adapters = {
@@ -23,14 +37,11 @@ return {
       },
     })
   end,
-  config = function()
-    -- Expand `cc` into CodeCompanion in the command line
-    vim.cmd([[cab cc CodeCompanion]])
-  end,
   keys = {
-    { "ga", "<cmd>CodeCompanionAdd<cr>", mode = { "v" }, desc = "Add Visual" },
-    { "<leader>at", "<cmd>CodeCompanionToggle<CR>", desc = "AI Chat", mode = { "n", "v" } },
-    { "<leader>ai", "<cmd>CodeCompanion<CR>", desc = "AI Ask", mode = { "n", "v" } },
-    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "[A][I] List of actions", mode = { "n", "v" } },
+    { "<leader>av", "<cmd>CodeCompanionAdd<cr>", mode = { "v" }, desc = "Add Visual" },
+    { "<leader>ai", "<cmd>CodeCompanion<cr>", mode = { "n", "v" }, desc = "InlineCode" },
+    { "<leader>at", "<cmd>CodeCompanionToggle<CR>", desc = "AI Toggle", mode = { "n", "v" } },
+    { "<leader>ac", "<cmd>CodeCompanionChat<CR>", desc = "AI Chat", mode = { "n", "v" } },
+    { "<leader>aa", "<cmd>CodeCompanionActions<CR>", desc = "[A]I [A]ctions", mode = { "n", "v" } },
   },
 }

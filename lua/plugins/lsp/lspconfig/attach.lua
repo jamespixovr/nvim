@@ -21,13 +21,13 @@ local function rename()
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
-  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  group = vim.api.nvim_create_augroup("UserLspConfig", { clear = true }),
   callback = function(ctx)
     local bufnr = ctx.buf
 
     local function map(lhs, rhs, desc, mode)
       mode = mode or "n"
-      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+      vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = "[LSP] " .. desc })
     end
 
     local client = vim.lsp.get_client_by_id(ctx.data.client_id)
@@ -56,21 +56,28 @@ vim.api.nvim_create_autocmd("LspAttach", {
       client.server_capabilities.hoverProvider = false
     end
 
-    map("gi", "<cmd>lua vim.lsp.buf.implementation()<CR>", "[LSP] Go implementation")
-
-    if client.supports_method(methods.textDocument_definition) then
-      -- map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
-      map("gD", "<cmd>FzfLua lsp_definitions<cr>", "Peek definition")
-      map("gd", function()
+    local go_to_definition = function()
+      local ft = vim.api.nvim_get_option_value("filetype", { buf = 0 })
+      if ft == "man" then
+        vim.api.nvim_command(":Man " .. vim.fn.expand("<cWORD>"))
+      elseif ft == "help" then
+        vim.api.nvim_command(":help " .. vim.fn.expand("<cword>"))
+      else
         require("fzf-lua").lsp_definitions({ jump_to_single_result = true })
-      end, "Go to definition")
+      end
     end
 
-    map("gr", "<cmd>Glance references<CR>", "[LSP] Go references")
-    map("gI", "<cmd>Glance implementations<CR>", "[LSP] Go implementation")
+    map("gd", go_to_definition, "Go to definition")
+    if client.supports_method(methods.textDocument_definition) then
+      -- map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
+      map("gD", vim.lsp.buf.declaration, "[G]o [D]eclaration")
+    end
+
+    map("gr", "<cmd>Glance references<CR>", "[G]o [R]eferences")
+    map("gi", "<cmd>Glance implementations<CR>", "[G]o [I]mplementation")
     map("gt", "<cmd>Glance type_definitions<cr>", "Goto Type Definition")
 
-    map("K", "<cmd>lua vim.lsp.buf.hover()<CR>", "[LSP] Hover")
+    map("K", "<cmd>lua vim.lsp.buf.hover()<CR>", "Hover Documentation")
 
     if client.supports_method(methods.textDocument_signatureHelp) then
       map("<C-k>", function()
@@ -84,12 +91,12 @@ vim.api.nvim_create_autocmd("LspAttach", {
       end, "Signature help", "i")
     end
 
-    map("gl", "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", "[LSP] Show diagnostics")
+    map("gl", "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", "Show diagnostics")
 
     map("[d", diagnostic_goto(true), "Next Diagnostic")
     map("]d", diagnostic_goto(false), "Next Diagnostic")
 
-    map("<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", "[LSP] Set loclist")
+    map("<leader>q", "<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>", "Set loclist")
 
     map("<leader>wa", "<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>", "[W]orkspace [A]dd Folder")
     map("<leader>wr", "<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>", "[W]orkspace [R]emove Folder")
@@ -101,8 +108,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     -- map("gy", vim.lsp.buf.declaration, "[LSP] Go declaration")
     map("gy", "<cmd>FzfLua lsp_typedefs<cr>", "Go to type definition")
 
-    map("<leader>fs", "<cmd>FzfLua lsp_document_symbols<cr>", "Document symbols")
-    map("<leader>fS", function()
+    map("<leader>ws", "<cmd>FzfLua lsp_document_symbols<cr>", "Document symbols")
+    map("<leader>wS", function()
       -- Disable the grep switch header.
       require("fzf-lua").lsp_live_workspace_symbols({ no_header_i = true })
     end, "Workspace symbols")
