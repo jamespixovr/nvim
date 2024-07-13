@@ -20,20 +20,26 @@ return {
     vim.cmd([[cab ccb CodeCompanionWithBuffers]])
 
     require("codecompanion").setup({
-      strategies = {
-        chat = "ollama",
-        inline = "ollama",
-        agent = "ollama",
-      },
-
       adapters = {
-        ollama = require("codecompanion.adapters").use("ollama", {
+        codeqwen = require("codecompanion.adapters").use("ollama", {
           schema = {
             model = {
               default = "codeqwen",
             },
+            num_ctx = {
+              default = 16384,
+            },
+            num_predict = {
+              default = -1,
+            },
           },
         }),
+      },
+
+      strategies = {
+        chat = "codeqwen",
+        inline = "codeqwen",
+        agent = "codeqwen",
       },
     })
   end,
