@@ -1,6 +1,6 @@
 return {
   "nvim-focus/focus.nvim",
   event = "VeryLazy",
-  enabled = false,
+  enabled = true,
   config = true,
 }
