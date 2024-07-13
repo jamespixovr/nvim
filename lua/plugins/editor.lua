@@ -100,46 +100,6 @@ return {
       require("neoscroll").setup()
     end,
   },
-  -- which-key
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      window = {
-        border = "single", -- none, single, double, shadow
-      },
-      disable = {
-        buftypes = {},
-        filetypes = { "TelescopePrompt" },
-      },
-    },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.register({
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        -- ["<leader><tab>"] = { name = "+tabs" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>d"] = { name = "+debugger" },
-        ["<leader>f"] = { name = "+file/find/telescope" },
-        ["<leader>g"] = { name = "+git/hunks" },
-        ["<leader>h"] = { name = "+hardtime" },
-        ["<leader>o"] = { name = "+task runner" },
-        ["<leader>q"] = { name = "+quit/session" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>n"] = { name = "+noice" },
-        ["<leader>u"] = { name = "+ui" },
-        ["<leader>t"] = { name = "+test runner" },
-        ["<leader>v"] = { name = "+venv" },
-        ["<leader>w"] = { name = "+windows" },
-        ["<leader>x"] = { name = "+diagnostics/quickfix" },
-      })
-    end,
-  },
   {
     "NvChad/nvim-colorizer.lua",
     event = "BufReadPost",
