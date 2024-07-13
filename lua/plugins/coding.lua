@@ -104,7 +104,7 @@ return {
       require("mini.ai").setup(opts)
     end,
   },
-
+  { "echasnovski/mini.icons", version = false },
   -- Generate Docs
   {
     "danymat/neogen",
