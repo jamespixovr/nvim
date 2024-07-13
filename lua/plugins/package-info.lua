@@ -14,7 +14,7 @@ return {
     package_manager = "pnpm",
   },
   keys = function()
-    require("which-key").register({ p = { name = "+PackageInfo" } }, { prefix = "<leader>" })
+    require("which-key").add({ { "<leader>p", group = "+PackageInfo" } })
     local function map(key, cmd, desc)
       vim.keymap.set({ "n" }, "<leader>p" .. key, cmd, { desc = desc, silent = true, noremap = true })
     end
