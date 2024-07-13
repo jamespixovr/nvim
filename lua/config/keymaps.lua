@@ -63,37 +63,16 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = tr
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
--- Resize window using <ctrl> arrow keys
-keymap("n", "<C-Up>", "<cmd>resize +2<cr>", { desc = "Increase window height" })
-keymap("n", "<C-Down>", "<cmd>resize -2<cr>", { desc = "Decrease window height" })
-keymap("n", "<C-Left>", "<cmd>vertical resize -2<cr>", { desc = "Decrease window width" })
-keymap("n", "<C-Right>", "<cmd>vertical resize +2<cr>", { desc = "Increase window width" })
-
 -- QuickFix
 keymap("n", "]q", ":cnext<CR>")
 keymap("n", "[q", ":cprev<CR>")
 keymap("n", "<C-q>", ":call QuickFixToggle()<CR>")
-
--- Disable arrow keys
-keymap("n", "<Up>", "<Nop>")
-keymap("n", "<Down>", "<Nop>")
-keymap("n", "<Left>", "<Nop>")
-keymap("n", "<Right>", "<Nop>")
 
 -- Clear search with <esc>
 keymap({ "i", "n" }, "<esc>", "<cmd>noh<cr><esc>", { desc = "Escape and clear hlsearch" })
 keymap("n", "<leader><space>", ":nohlsearch<CR>")
 
 keymap("n", "<leader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
-keymap(
-  "n",
-  "<leader>ur",
-  "<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
-  { desc = "Redraw / clear hlsearch / diff update" }
-)
 
 -- save file
 -- keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
@@ -124,7 +103,3 @@ end, { desc = " Delete Quickfix List" })
 keymap("n", "<leader>uh", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end)
-
-keymap("n", "<leader>cu", function()
-  vim.cmd("silent later " .. tostring(vim.opt.undolevels:get()))
-end, { desc = "󰛒 Redo All" })

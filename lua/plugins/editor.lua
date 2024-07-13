@@ -100,6 +100,7 @@ return {
       },
       filetypes = {
         "css",
+        "scss",
         eruby = { mode = "foreground" },
         html = { mode = "foreground" },
         "lua",
