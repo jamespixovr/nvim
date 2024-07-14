@@ -35,11 +35,16 @@ return {
           },
         }),
       },
-
       strategies = {
-        chat = "codeqwen",
-        inline = "codeqwen",
-        agent = "codeqwen",
+        chat = {
+          adapter = "ollama",
+        },
+        inline = {
+          adapter = "ollama",
+        },
+        agent = {
+          adapter = "anthropic",
+        },
       },
     })
   end,
