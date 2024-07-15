@@ -36,10 +36,10 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "ollama",
+          adapter = "codeqwen",
         },
         inline = {
-          adapter = "ollama",
+          adapter = "codeqwen",
         },
         agent = {
           adapter = "anthropic",
