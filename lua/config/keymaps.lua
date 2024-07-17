@@ -103,3 +103,40 @@ end, { desc = " Delete Quickfix List" })
 keymap("n", "<leader>uh", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end)
+
+vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+
+M = {}
+
+function M.codeium_keymaps()
+  local function local_map(key, func, desc)
+    return { key, func, mode = "i", expr = true, silent = true, desc = desc }
+  end
+  return {
+		-- stylua: ignore start
+    local_map("<C-cr>", function() return vim.fn["codeium#Accept"]() end, "󰚩 Accept Suggestion"),
+    local_map("<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, "󰚩 Cycle Suggestion"),
+    local_map("<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, "󰚩 Cycle Suggestion"),
+    local_map("<c-x>", function() return vim.fn["codeium#Clear"]() end, "󰚩 Clear Suggestion"),
+    local_map("<leader>cd", function() return vim.fn["codeium#Chat"]() end, "󰚩 Chat"),
+    -- stylua: ignore end
+  }
+end
+
+function M.gen_ai_keymaps()
+  return {
+    { "<leader>ia", mode = { "n", "v" }, "<cmd>Gen Ask<cr>", desc = "A[I] [A]sk" },
+    { "<leader>ig", mode = { "n", "v" }, "<cmd>Gen<cr>", desc = "A[I] [G]en" },
+    { "<leader>ic", mode = { "n", "v" }, "<cmd>Gen Change<cr>", desc = "A[I] [C]hange" },
+    { "<leader>io", mode = { "n", "v" }, "<cmd>Gen Change_Code<cr>", desc = "A[I] Change C[o]de" },
+    { "<leader>ih", mode = { "n", "v" }, "<cmd>Gen Chat<cr>", desc = "A[I] C[h]at" },
+    { "<leader>ie", mode = { "n", "v" }, "<cmd>Gen Enhance_Code<cr>", desc = "A[I] [E]nhance code" },
+    { "<leader>iw", mode = { "n", "v" }, "<cmd>Gen Enhance_Wording<cr>", desc = "A[I] Enhance [W]ording" },
+    { "<leader>is", mode = { "n", "v" }, "<cmd>Gen Enhance_Grammar_Spelling<cr>", desc = "A[I] Enhance [G]rammar" },
+    { "<leader>it", mode = { "n", "v" }, "<cmd>Gen Generate<cr>", desc = "A[I] Genera[t]e" },
+    { "<leader>ir", mode = { "n", "v" }, "<cmd>Gen Review_Code<cr>", desc = "A[I] [R]eview Code" },
+    { "<leader>iz", mode = { "n", "v" }, "<cmd>Gen Summarize<cr>", desc = "A[I] Summari[z]e" },
+  }
+end
+
+return M
