@@ -68,7 +68,7 @@ return {
               staticcheck = true,
               usePlaceholders = true,
               completeUnimported = true,
-              directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+              directoryFilters = { "-**/node_modules", "-**/.git", "-.vscode", "-.idea", "-.vscode-test" },
               semanticTokens = true,
             },
           },
