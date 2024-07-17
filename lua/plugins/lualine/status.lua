@@ -326,7 +326,10 @@ function M.DapStatus(opts)
       end
       return "  " .. dapStatus
     end,
-    -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    cond = function()
+      return package.loaded["dap"] and require("dap").status() ~= ""
+    end,
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 
