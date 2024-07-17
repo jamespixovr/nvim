@@ -15,7 +15,7 @@ return {
   -- references
   {
     "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = "VeryLazy",
     opts = {
       delay = 200,
       large_file_cutoff = 2000,
@@ -25,28 +25,8 @@ return {
     },
     config = function(_, opts)
       require("illuminate").configure(opts)
-      local function map(key, dir, buffer)
-        vim.keymap.set("n", key, function()
-          require("illuminate")["goto_" .. dir .. "_reference"](false)
-        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-      end
-
-      map("]]", "next")
-      map("[[", "prev")
-
-      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          local buffer = vim.api.nvim_get_current_buf()
-          map("]]", "next", buffer)
-          map("[[", "prev", buffer)
-        end,
-      })
     end,
-    keys = {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
-    },
+    keys = require("config.keymaps").illuminate_keymaps(),
   },
 
   -- search/replace in multiple files
@@ -64,12 +44,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",
-    keys = {
-      { "<c-w>", "<c-\\><c-n>", desc = "Normal in Terminal", mode = "t" },
-      { "<a-1>", "<cmd>1ToggleTerm<cr>", desc = "Toggle Term 1", mode = { "n", "t" } },
-      { "<a-2>", "<cmd>2ToggleTerm<cr>", desc = "Toggle Term 2", mode = { "n", "t" } },
-      { "<a-3>", "<cmd>3ToggleTerm<cr>", desc = "Toggle Term 3", mode = { "n", "t" } },
-    },
+    keys = require("config.keymaps").terminal_keymaps(),
     opts = {
       open_mapping = [[<c-\>]],
       shading_factor = 2,
