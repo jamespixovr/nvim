@@ -109,8 +109,11 @@ vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diag
 M = {}
 
 function M.codeium_keymaps()
-  local function local_map(key, func, desc)
-    return { key, func, mode = "i", expr = true, silent = true, desc = desc }
+  local function local_map(key, func, desc, mode)
+    if not mode then
+      mode = "i"
+    end
+    return { key, func, mode = mode, expr = true, silent = true, desc = desc }
   end
   return {
 		-- stylua: ignore start
