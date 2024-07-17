@@ -84,17 +84,13 @@ return {
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    keys = {
-      { "<leader>cc", ":Neogen<cr>", "Generate Annotation" },
-    },
+    keys = require("config.keymaps").generate_docs_keymaps(),
     opts = { snippet_engine = "luasnip" },
   },
 
   {
     "simrat39/symbols-outline.nvim",
-    keys = {
-      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-    },
+    keys = require("config.keymaps").symbols_outline_keymaps(),
     opts = {
       width = 30,
       autofold_depth = 0,
