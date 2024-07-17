@@ -1,7 +1,15 @@
 return {
   {
+    "MeanderingProgrammer/markdown.nvim",
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
+    config = function()
+      require("render-markdown").setup({})
+    end,
+  },
+  {
     "lukas-reineke/headlines.nvim",
     event = "VeryLazy",
+    enabled = false,
     opts = function()
       local opts = {}
       for _, ft in ipairs({ "markdown", "norg", "rmd", "org" }) do
