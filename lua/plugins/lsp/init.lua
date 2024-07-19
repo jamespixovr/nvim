@@ -92,11 +92,11 @@ return {
     event = "BufReadPre",
     keys = {
       {
-        "<C-i>",
+        "<leader>oh",
         function()
           require("lsp_signature").toggle_float_win()
         end,
-        mode = { "n", "v", "i" },
+        mode = { "n", "v" },
         desc = "󰒕 LSP signature",
       },
     },

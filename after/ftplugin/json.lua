@@ -13,7 +13,7 @@ function JsonFolds()
   end
 end
 
-vim.opt_local.conceallevel = 0
+-- vim.opt_local.conceallevel = 0
 vim.opt_local.foldnestmax = 5
 vim.opt_local.foldmethod = "marker"
 vim.opt_local.foldmarker = "{,}"

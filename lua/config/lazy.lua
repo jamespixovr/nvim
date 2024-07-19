@@ -15,7 +15,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   { import = "plugins" },
   { import = "plugins.lsp" },
-  { import = "plugins.lsp.server-config" },
+  { import = "plugins.lsp.langs" },
 }, {
   defaults = { lazy = false },
   install = { colorscheme = { "tokyonight", "habamax" } },
@@ -29,6 +29,28 @@ require("lazy").setup({
   },
   ui = {
     border = "rounded",
+    size = {
+      width = 0.9,
+      height = 0.9,
+    },
+    title = "💤 Lazy.nvim",
+    wrap = false,
+    icons = {
+      cmd = "  ",
+      config = "  ",
+      event = "  ",
+      ft = "  ",
+      init = "  ",
+      imports = "  ",
+      keys = "  ",
+      not_loaded = " ",
+      plugin = "  ",
+      runtime = "  ",
+      require = "  ",
+      source = " ",
+      start = "",
+      task = "  ",
+    },
   },
   dev = {
     path = "~/Projects/lua",

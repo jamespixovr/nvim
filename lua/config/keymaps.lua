@@ -121,7 +121,7 @@ function M.codeium_keymaps()
     local_map("<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, "󰚩 Cycle Suggestion"),
     local_map("<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, "󰚩 Cycle Suggestion"),
     local_map("<c-x>", function() return vim.fn["codeium#Clear"]() end, "󰚩 Clear Suggestion"),
-    local_map("<leader>cd", function() return vim.fn["codeium#Chat"]() end, "󰚩 Chat"),
+    local_map("<leader>cd", function() return vim.fn["codeium#Chat"]() end, "󰚩 Chat", "n"),
     -- stylua: ignore end
   }
 end
@@ -170,7 +170,6 @@ function M.dap_keymaps()
     { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
     { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
     { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-    { "<leader>ds", function() require("dap").continue() end, desc = "Start" },
     { "<leader>dg", function() require("dap").goto_() end, desc = "Go to line (no execute)" },
     { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Breakpoint Condition" },
     { "<leader>dj", function() require("dap").down() end, desc = "Down", },
@@ -190,7 +189,6 @@ function M.dap_keymaps()
     { "<leader>dp", "<cmd>lua require('dap').pause()<cr>", desc = "Pause" },
     { "<leader>dq", function() require("dap").close() end, desc = "Quit" },
     { "<leader>dr", "<cmd>lua require('dap').repl.open()<cr>", desc = "Toggle REPL" },
-    { "<leader>dt", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
     { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>", desc = "Preview" },
     { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>", desc = "Terminate" },
   }
