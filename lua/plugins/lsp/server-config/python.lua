@@ -8,10 +8,27 @@ return {
     end,
   },
   {
+    "stevearc/conform.nvim",
+    opts = {
+      formatters_by_ft = {
+        ["python"] = { "black" },
+      },
+    },
+  },
+  {
+    "williamboman/mason.nvim",
+    opts = function(_, opts)
+      vim.list_extend(opts.ensure_installed, { "debugpy", "black" })
+    end,
+  },
+  {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
         pyright = {},
+        basedpyright = {
+          enabled = true,
+        },
         ruff_lsp = {
           keys = {
             {
@@ -30,6 +47,7 @@ return {
           },
         },
       },
+      setup = {},
     },
   },
   -- {
