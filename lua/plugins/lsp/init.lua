@@ -46,47 +46,47 @@ return {
       require("plugins.lsp.lspconfig.setup").setup(opts)
     end,
   },
-  { -- display inlay hints from at EoL, not in the text
-    "lvimuser/lsp-inlayhints.nvim",
-    keys = {
-      {
-        "<leader>oh",
-        function()
-          require("lsp-inlayhints").toggle()
-        end,
-        desc = "󰒕 Inlay Hints",
-      },
-    },
-    opts = {
-      inlay_hints = {
-        labels_separator = "",
-        parameter_hints = {
-          prefix = " 󰏪 ",
-          remove_colon_start = true,
-          remove_colon_end = true,
-        },
-        type_hints = {
-          prefix = " 󰜁 ",
-          remove_colon_start = true,
-          remove_colon_end = true,
-        },
-      },
-    },
-    init = function()
-      vim.api.nvim_create_autocmd("LspAttach", {
-        callback = function(args)
-          if not (args.data and args.data.client_id) then
-            return
-          end
-          local client = vim.lsp.get_client_by_id(args.data.client_id)
-          if not client then
-            return
-          end
-          require("lsp-inlayhints").on_attach(client, args.buf)
-        end,
-      })
-    end,
-  },
+  -- { -- display inlay hints from at EoL, not in the text
+  --   "lvimuser/lsp-inlayhints.nvim",
+  --   keys = {
+  --     {
+  --       "<leader>oh",
+  --       function()
+  --         require("lsp-inlayhints").toggle()
+  --       end,
+  --       desc = "󰒕 Inlay Hints",
+  --     },
+  --   },
+  --   opts = {
+  --     inlay_hints = {
+  --       labels_separator = "",
+  --       parameter_hints = {
+  --         prefix = " 󰏪 ",
+  --         remove_colon_start = true,
+  --         remove_colon_end = true,
+  --       },
+  --       type_hints = {
+  --         prefix = " 󰜁 ",
+  --         remove_colon_start = true,
+  --         remove_colon_end = true,
+  --       },
+  --     },
+  --   },
+  --   init = function()
+  --     vim.api.nvim_create_autocmd("LspAttach", {
+  --       callback = function(args)
+  --         if not (args.data and args.data.client_id) then
+  --           return
+  --         end
+  --         local client = vim.lsp.get_client_by_id(args.data.client_id)
+  --         if not client then
+  --           return
+  --         end
+  --         require("lsp-inlayhints").on_attach(client, args.buf)
+  --       end,
+  --     })
+  --   end,
+  -- },
   { -- signature hints
     "ray-x/lsp_signature.nvim",
     event = "BufReadPre",
@@ -108,6 +108,11 @@ return {
       handler_opts = { border = vim.g.borderStyle },
       auto_close_after = 3000,
     },
+  },
+  { -- display type hints at eol, not in the middle of a line
+    "chrisgrieser/nvim-lsp-endhints",
+    event = "LspAttach",
+    opts = true,
   },
   { -- CodeLens, but also for languages not supporting it
     "Wansmer/symbol-usage.nvim",
