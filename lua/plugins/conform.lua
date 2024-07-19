@@ -11,7 +11,6 @@ return {
       function()
         require("conform").format({ async = true, lsp_fallback = true })
       end,
-      mode = "",
       desc = "Format buffer",
     },
   },
@@ -24,6 +23,7 @@ return {
     },
     formatters_by_ft = {
       css = { { "prettierd", "prettier" } },
+      scss = { { "prettierd", "prettier" } },
       graphql = { { "prettierd", "prettier" } },
       html = { { "prettierd", "prettier" } },
       javascript = { "biome" },
@@ -38,7 +38,7 @@ return {
       sql = { "sql-formatter" },
       svelte = { { "prettierd", "prettier" } },
       yaml = { "prettier" },
-      ["*"] = { "trim_whitespace" },
+      -- ["*"] = { "trim_whitespace" },
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {

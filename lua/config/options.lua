@@ -39,7 +39,8 @@ local default_options = {
   relativenumber = true, -- set relative numbered lines
   numberwidth = 2, -- set number column width to 2 {default 4}
   signcolumn = "yes", -- always show the sign column, otherwise it would shift the text each time
-  wrap = false, -- display lines as one long line
+  wrap = true, -- display lines as one long line
+  linebreak = true,
   spell = false,
   confirm = true, -- Confirm to save changes before exiting modified buffer
   spelllang = "en",
@@ -47,6 +48,7 @@ local default_options = {
   sidescrolloff = 4,
   encoding = "UTF-8", -- Set the encoding type
   incsearch = true, -- Shows the match while typing
+  inccommand = "split",
   shiftround = true, -- Round indent
   undofile = true,
   undolevels = 10000,
@@ -86,3 +88,5 @@ vim.filetype.add({
     ["tsconfig*.json"] = "jsonc",
   },
 })
+
+vim.cmd([[colorscheme tokyonight]])

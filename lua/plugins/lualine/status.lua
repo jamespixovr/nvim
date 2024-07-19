@@ -1,8 +1,10 @@
 local settings = require("settings")
+local companion_lualine = require("plugins.lualine.helper")
 local helper = require("helper")
 local symbols = settings.icons
 local lazy_status = require("lazy.status")
-local colors = require("catppuccin.palettes").get_palette("macchiato")
+local colors = require("tokyonight.colors").setup()
+-- local colors = require("catppuccin.palettes").get_palette("macchiato")
 
 local M = {}
 
@@ -26,16 +28,45 @@ local modecolor = {
   rm = colors.cyan,
   ["r?"] = colors.cyan,
   ["!"] = colors.red,
-  t = colors.bright_red,
+  t = colors.red1,
 }
 
-local function show_macro_recording()
-  local recording_register = vim.fn.reg_recording()
-  if recording_register == "" then
+local function quickfixCounter()
+  local qf = vim.fn.getqflist({ idx = 0, title = true, items = true })
+  if #qf.items == 0 then
     return ""
-  else
-    return "recording @" .. recording_register
   end
+
+  local qfBuffers = vim.tbl_map(function(item)
+    return item.bufnr
+  end, qf.items)
+  local fileCount = #vim.fn.uniq(qfBuffers) -- qf-Buffers are already sorted
+  local fileStr = fileCount > 1 and (" 「%s  」"):format(fileCount) or ""
+
+  qf.title = qf -- prettify telescope's title output
+    .title
+    :gsub("^Live Grep: .-%((.+)%)", "%1") -- remove telescope prefixes
+    :gsub("^Find Files: .-%((.+)%)", "%1")
+    :gsub("^Find Word %((.-)%) %b()", "%1")
+    :gsub(" %(%)", "") -- empty brackets
+    :gsub("%-%-[%w-_]+ ?", "") -- remove flags from `makeprg`
+  return (' %s/%s "%s"'):format(qf.idx, #qf.items, qf.title) .. fileStr
+end
+
+local function filenameAndIcon()
+  local maxLength = 25 --CONFIG
+  local name = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+  local display = #name < maxLength and name or vim.trim(name:sub(1, maxLength)) .. "…"
+  local ok, devicons = pcall(require, "nvim-web-devicons")
+  if not ok then
+    return display
+  end
+  local extension = name:match("%w+$")
+  local icon = devicons.get_icon(display, extension) or devicons.get_icon(display, vim.bo.ft)
+  if not icon then
+    return display
+  end
+  return icon .. " " .. display
 end
 
 local function getLspName()
@@ -121,8 +152,12 @@ end
 
 function M.showMacroRecording(opts)
   return helper.extend_tbl({
-    "macro-recording",
-    fmt = show_macro_recording,
+    function()
+      return "雷Recording…"
+    end,
+    cond = function()
+      return vim.fn.reg_recording() ~= ""
+    end,
     separator = { left = "", right = "" },
     color = { bg = colors.purple, fg = colors.red, gui = "bold" },
   }, opts)
@@ -189,7 +224,7 @@ function M.diagnostics(opts)
       hint = symbols.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
-    color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
+    -- color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
     separator = { left = "", right = "" },
     -- color = { bg = "None" },
   }, opts)
@@ -201,19 +236,20 @@ function M.filetype(opts)
     icon_only = true,
     separator = "",
     padding = { left = 1, right = 0 },
-    color = { bg = colors.gray2, fg = colors.bg_dark, gui = "italic,bold" },
+    color = { fg = colors.cyan, gui = "italic,bold" },
     -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
 
 function M.filename(opts)
   return helper.extend_tbl({
-    "filename",
-    path = 1,
-    shorting_target = 40,
-    symbols = { modified = " ", readonly = " ", unnamed = " " },
+    filenameAndIcon,
+    -- "filename",
+    -- path = 1,
+    -- shorting_target = 40,
+    -- symbols = { modified = " ", readonly = " ", unnamed = " " },
     -- color = { fg = "#bcbcbc", gui = "bold" },
-    color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+    color = { fg = colors.blue5, gui = "bold" },
     separator = { left = "", right = "" },
   }, opts)
 end
@@ -254,7 +290,7 @@ function M.git_diff(opts)
       removed = symbols.git.removed,
     }, -- changes diff symbols
     -- color = { bg = "None" },
-    color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+    -- color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
     separator = { left = "", right = "" },
 
     diff_color = {
@@ -324,7 +360,10 @@ function M.DapStatus(opts)
       end
       return "  " .. dapStatus
     end,
-    -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    cond = function()
+      return package.loaded["dap"] and require("dap").status() ~= ""
+    end,
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 
@@ -338,6 +377,34 @@ function M.LintStatus(opts)
       return "󱉶 " .. table.concat(linters, ", ")
     end,
     color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+  }, opts)
+end
+
+function M.codecompanion(opts)
+  return helper.extend_tbl({
+    companion_lualine,
+    separator = { left = "", right = "" },
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
+  }, opts)
+end
+
+function M.quickfixCounter(opts)
+  return helper.extend_tbl({
+    quickfixCounter,
+    separator = { left = "", right = "" },
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
+  }, opts)
+end
+
+function M.pythonEnv(opts)
+  return helper.extend_tbl({
+    function()
+      return "󱥒"
+    end,
+    cond = function()
+      return vim.env.VIRTUAL_ENV and vim.bo.ft == "python"
+    end,
+    padding = { left = 1, right = 0 },
   }, opts)
 end
 

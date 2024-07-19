@@ -81,45 +81,17 @@ return {
       },
     },
   },
-  -- better text-objects
-  {
-    "echasnovski/mini.ai",
-    event = "VeryLazy",
-    opts = function()
-      local ai = require("mini.ai")
-      return {
-        n_lines = 500,
-        custom_textobjects = {
-          o = ai.gen_spec.treesitter({
-            a = { "@block.outer", "@conditional.outer", "@loop.outer" },
-            i = { "@block.inner", "@conditional.inner", "@loop.inner" },
-          }, {}),
-          f = ai.gen_spec.treesitter({ a = "@function.outer", i = "@function.inner" }, {}),
-          c = ai.gen_spec.treesitter({ a = "@class.outer", i = "@class.inner" }, {}),
-          t = { "<([%p%w]-)%f[^<%w][^<>]->.-</%1>", "^<.->().*()</[^/]->$" },
-        },
-      }
-    end,
-    config = function(_, opts)
-      require("mini.ai").setup(opts)
-    end,
-  },
-
   -- Generate Docs
   {
     "danymat/neogen",
     dependencies = "nvim-treesitter/nvim-treesitter",
-    keys = {
-      { "<leader>cc", ":Neogen<cr>", "Generate Annotation" },
-    },
+    keys = require("config.keymaps").generate_docs_keymaps(),
     opts = { snippet_engine = "luasnip" },
   },
 
   {
     "simrat39/symbols-outline.nvim",
-    keys = {
-      { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
-    },
+    keys = require("config.keymaps").symbols_outline_keymaps(),
     opts = {
       width = 30,
       autofold_depth = 0,
@@ -134,18 +106,5 @@ return {
     "smjonas/inc-rename.nvim",
     cmd = "IncRename",
     config = true,
-  },
-  {
-    "cshuaimin/ssr.nvim",
-    keys = {
-      {
-        "<leader>sR",
-        function()
-          require("ssr").open()
-        end,
-        mode = { "n", "x" },
-        desc = "Structural Replace",
-      },
-    },
   },
 }

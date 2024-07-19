@@ -10,29 +10,9 @@ return {
       {
         "rafamadriz/friendly-snippets",
         config = function()
-          local luasnip = require("luasnip")
-          luasnip.filetype_extend("javascriptreact", { "html" })
-          luasnip.filetype_extend("typescriptreact", { "html" })
-          luasnip.filetype_extend("svelte", { "html" })
-          luasnip.filetype_extend("vue", { "html" })
-
           require("luasnip.loaders.from_vscode").lazy_load()
         end,
       },
-    },
-    -- stylua: ignore
-    keys = {
-      {
-        "<tab>",
-        function()
-          return require("luasnip").jumpable(1) and "<Plug>luasnip-jump-next" or "<tab>"
-        end,
-        expr = true,
-        silent = true,
-        mode = "i",
-      },
-      { "<tab>",   function() require("luasnip").jump(1) end,  mode = "s", },
-      { "<s-tab>", function() require("luasnip").jump(-1) end, mode = { "i", "s" }, },
     },
   },
   {
@@ -177,7 +157,8 @@ return {
           if vim.api.nvim_get_mode().mode == "c" then
             return true
           else
-            local buftype = vim.api.nvim_buf_get_option(0, "buftype")
+            local buftype = vim.api.nvim_get_option_value("buftype", { buf = 0 })
+            -- local buftype = vim.api.nvim_buf_get_option(0, "buftype")
             if buftype == "prompt" then
               return false
             end

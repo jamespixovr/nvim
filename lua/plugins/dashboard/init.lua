@@ -5,7 +5,19 @@ return {
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    dependencies = {
+      "nvim-tree/nvim-web-devicons",
+      {
+        "echasnovski/mini.indentscope",
+        opts = function()
+          -- disable indentation scope for the current ("alpha" filetype) buffer
+          vim.cmd([[
+        autocmd Filetype alpha lua vim.b.miniindentscope_disable = true
+      ]])
+        end,
+      },
+    },
+
     config = function()
       local function footer()
         local stats = require("lazy").stats()
@@ -55,10 +67,10 @@ return {
         dashboard.button("r", " " .. " Recent files", "<cmd>Telescope frecency workspace=CWD <cr>"),
         dashboard.button("g", " " .. " Find text", "<cmd>Telescope live_grep<cr>"),
         dashboard.button("p", " " .. " Open project", "<cmd>Telescope project display_type=full<cr>"),
-        dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC<cr>"),
+        -- dashboard.button("c", " " .. " Config", "<cmd>e $MYVIMRC<cr>"),
         dashboard.button("s", "勒" .. " Restore Session", ":lua require('persistence').load()<cr>"),
         dashboard.button("l", "鈴" .. " Lazy", "<cmd>Lazy<cr>"),
-        dashboard.button("u", " " .. " Update plugins", ":Lazy sync<CR>"),
+        -- dashboard.button("u", " " .. " Update plugins", ":Lazy sync<CR>"),
         dashboard.button("q", " " .. " Quit", "<cmd>qa<cr>"),
       }
       for _, button in ipairs(dashboard.section.buttons.val) do

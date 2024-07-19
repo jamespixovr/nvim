@@ -11,20 +11,11 @@ return {
   },
 
   -----------------------------------------------------------------------------
-  -- buffer remove
-  {
-    "echasnovski/mini.bufremove",
-    -- stylua: ignore
-    keys = {
-      { "<leader>bc", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
-      { "<leader>bB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
-    },
-  },
 
   -- references
   {
     "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = "VeryLazy",
     opts = {
       delay = 200,
       large_file_cutoff = 2000,
@@ -34,28 +25,8 @@ return {
     },
     config = function(_, opts)
       require("illuminate").configure(opts)
-      local function map(key, dir, buffer)
-        vim.keymap.set("n", key, function()
-          require("illuminate")["goto_" .. dir .. "_reference"](false)
-        end, { desc = dir:sub(1, 1):upper() .. dir:sub(2) .. " Reference", buffer = buffer })
-      end
-
-      map("]]", "next")
-      map("[[", "prev")
-
-      -- also set it after loading ftplugins, since a lot overwrite [[ and ]]
-      vim.api.nvim_create_autocmd("FileType", {
-        callback = function()
-          local buffer = vim.api.nvim_get_current_buf()
-          map("]]", "next", buffer)
-          map("[[", "prev", buffer)
-        end,
-      })
     end,
-    keys = {
-      { "]]", desc = "Next Reference" },
-      { "[[", desc = "Prev Reference" },
-    },
+    keys = require("config.keymaps").illuminate_keymaps(),
   },
 
   -- search/replace in multiple files
@@ -73,12 +44,7 @@ return {
   {
     "akinsho/toggleterm.nvim",
     event = "VeryLazy",
-    keys = {
-      { "<c-w>", "<c-\\><c-n>", desc = "Normal in Terminal", mode = "t" },
-      { "<a-1>", "<cmd>1ToggleTerm<cr>", desc = "Toggle Term 1", mode = { "n", "t" } },
-      { "<a-2>", "<cmd>2ToggleTerm<cr>", desc = "Toggle Term 2", mode = { "n", "t" } },
-      { "<a-3>", "<cmd>3ToggleTerm<cr>", desc = "Toggle Term 3", mode = { "n", "t" } },
-    },
+    keys = require("config.keymaps").terminal_keymaps(),
     opts = {
       open_mapping = [[<c-\>]],
       shading_factor = 2,
@@ -100,46 +66,6 @@ return {
       require("neoscroll").setup()
     end,
   },
-  -- which-key
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    opts = {
-      window = {
-        border = "single", -- none, single, double, shadow
-      },
-      disable = {
-        buftypes = {},
-        filetypes = { "TelescopePrompt" },
-      },
-    },
-    config = function(_, opts)
-      local wk = require("which-key")
-      wk.setup(opts)
-      wk.register({
-        mode = { "n", "v" },
-        ["g"] = { name = "+goto" },
-        ["]"] = { name = "+next" },
-        ["["] = { name = "+prev" },
-        -- ["<leader><tab>"] = { name = "+tabs" },
-        ["<leader>b"] = { name = "+buffer" },
-        ["<leader>c"] = { name = "+code" },
-        ["<leader>d"] = { name = "+debugger" },
-        ["<leader>f"] = { name = "+file/find/telescope" },
-        ["<leader>g"] = { name = "+git/hunks" },
-        ["<leader>h"] = { name = "+hardtime" },
-        ["<leader>o"] = { name = "+task runner" },
-        ["<leader>q"] = { name = "+quit/session" },
-        ["<leader>s"] = { name = "+search" },
-        ["<leader>n"] = { name = "+noice" },
-        ["<leader>u"] = { name = "+ui" },
-        ["<leader>t"] = { name = "+test runner" },
-        ["<leader>v"] = { name = "+venv" },
-        ["<leader>w"] = { name = "+windows" },
-        ["<leader>x"] = { name = "+diagnostics/quickfix" },
-      })
-    end,
-  },
   {
     "NvChad/nvim-colorizer.lua",
     event = "BufReadPost",
@@ -149,6 +75,7 @@ return {
       },
       filetypes = {
         "css",
+        "scss",
         eruby = { mode = "foreground" },
         html = { mode = "foreground" },
         "lua",
