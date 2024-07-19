@@ -31,13 +31,42 @@ local modecolor = {
   t = colors.red1,
 }
 
-local function show_macro_recording()
-  local recording_register = vim.fn.reg_recording()
-  if recording_register == "" then
+local function quickfixCounter()
+  local qf = vim.fn.getqflist({ idx = 0, title = true, items = true })
+  if #qf.items == 0 then
     return ""
-  else
-    return "recording @" .. recording_register
   end
+
+  local qfBuffers = vim.tbl_map(function(item)
+    return item.bufnr
+  end, qf.items)
+  local fileCount = #vim.fn.uniq(qfBuffers) -- qf-Buffers are already sorted
+  local fileStr = fileCount > 1 and (" 「%s  」"):format(fileCount) or ""
+
+  qf.title = qf -- prettify telescope's title output
+    .title
+    :gsub("^Live Grep: .-%((.+)%)", "%1") -- remove telescope prefixes
+    :gsub("^Find Files: .-%((.+)%)", "%1")
+    :gsub("^Find Word %((.-)%) %b()", "%1")
+    :gsub(" %(%)", "") -- empty brackets
+    :gsub("%-%-[%w-_]+ ?", "") -- remove flags from `makeprg`
+  return (' %s/%s "%s"'):format(qf.idx, #qf.items, qf.title) .. fileStr
+end
+
+local function filenameAndIcon()
+  local maxLength = 25 --CONFIG
+  local name = vim.fs.basename(vim.api.nvim_buf_get_name(0))
+  local display = #name < maxLength and name or vim.trim(name:sub(1, maxLength)) .. "…"
+  local ok, devicons = pcall(require, "nvim-web-devicons")
+  if not ok then
+    return display
+  end
+  local extension = name:match("%w+$")
+  local icon = devicons.get_icon(display, extension) or devicons.get_icon(display, vim.bo.ft)
+  if not icon then
+    return display
+  end
+  return icon .. " " .. display
 end
 
 local function getLspName()
@@ -123,8 +152,12 @@ end
 
 function M.showMacroRecording(opts)
   return helper.extend_tbl({
-    "macro-recording",
-    fmt = show_macro_recording,
+    function()
+      return "雷Recording…"
+    end,
+    cond = function()
+      return vim.fn.reg_recording() ~= ""
+    end,
     separator = { left = "", right = "" },
     color = { bg = colors.purple, fg = colors.red, gui = "bold" },
   }, opts)
@@ -210,10 +243,11 @@ end
 
 function M.filename(opts)
   return helper.extend_tbl({
-    "filename",
-    path = 1,
-    shorting_target = 40,
-    symbols = { modified = " ", readonly = " ", unnamed = " " },
+    filenameAndIcon,
+    -- "filename",
+    -- path = 1,
+    -- shorting_target = 40,
+    -- symbols = { modified = " ", readonly = " ", unnamed = " " },
     -- color = { fg = "#bcbcbc", gui = "bold" },
     color = { fg = colors.blue5, gui = "bold" },
     separator = { left = "", right = "" },
@@ -351,6 +385,26 @@ function M.codecompanion(opts)
     companion_lualine,
     separator = { left = "", right = "" },
     color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
+  }, opts)
+end
+
+function M.quickfixCounter(opts)
+  return helper.extend_tbl({
+    quickfixCounter,
+    separator = { left = "", right = "" },
+    color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
+  }, opts)
+end
+
+function M.pythonEnv(opts)
+  return helper.extend_tbl({
+    function()
+      return "󱥒"
+    end,
+    cond = function()
+      return vim.env.VIRTUAL_ENV and vim.bo.ft == "python"
+    end,
+    padding = { left = 1, right = 0 },
   }, opts)
 end
 
