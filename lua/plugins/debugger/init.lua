@@ -8,8 +8,7 @@ local function dapConfig()
   vim.fn.sign_define("DapBreakpointRejected", { text = icons.BreakpointRejected, texthl = "DiagnosticError" })
 
   -- use overseer for running preLaunchTask and postDebugTask
-  require("overseer").patch_dap(true)
-  require("dap.ext.vscode").json_decode = require("overseer.json").decode
+  require("overseer").enable_dap()
 
   require("dap.ext.vscode").load_launchjs("launch.json")
 
