@@ -126,7 +126,7 @@ function M.showMacroRecording(opts)
     "macro-recording",
     fmt = show_macro_recording,
     separator = { left = "", right = "" },
-    color = { bg = colors.purple, fg = colors.red, gui = "bold" },
+    color = { bg = colors.red, fg = colors.bg_dark, gui = "bold" },
   }, opts)
 end
 
