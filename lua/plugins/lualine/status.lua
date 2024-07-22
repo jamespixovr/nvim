@@ -54,7 +54,7 @@ local function quickfixCounter()
 end
 
 local function filenameAndIcon()
-  local maxLength = 25 --CONFIG
+  local maxLength = 35 --CONFIG
   local name = vim.fs.basename(vim.api.nvim_buf_get_name(0))
   local display = #name < maxLength and name or vim.trim(name:sub(1, maxLength)) .. "…"
   local ok, devicons = pcall(require, "nvim-web-devicons")

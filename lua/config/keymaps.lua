@@ -121,7 +121,7 @@ function M.codeium_keymaps()
     local_map("<c-;>", function() return vim.fn["codeium#CycleCompletions"](1) end, "󰚩 Cycle Suggestion"),
     local_map("<c-,>", function() return vim.fn["codeium#CycleCompletions"](-1) end, "󰚩 Cycle Suggestion"),
     local_map("<c-x>", function() return vim.fn["codeium#Clear"]() end, "󰚩 Clear Suggestion"),
-    local_map("<leader>cd", function() return vim.fn["codeium#Chat"]() end, "󰚩 Chat"),
+    local_map("<leader>cd", function() return vim.fn["codeium#Chat"]() end, "󰚩 Chat", "n"),
     -- stylua: ignore end
   }
 end
