@@ -2,14 +2,14 @@
 
 local M = {}
 
-M.root_patterns = { ".git", "/lua" }
+M.root_patterns = { '.git', '/lua' }
 
 function M.command(name, fn)
-  vim.cmd(string.format("command! %s %s", name, fn))
+  vim.cmd(string.format('command! %s %s', name, fn))
 end
 
 function M.lua_command(name, fn)
-  M.command(name, "lua " .. fn)
+  M.command(name, 'lua ' .. fn)
 end
 
 function M.is_directory()
@@ -19,7 +19,7 @@ end
 local get_map_options = function(custom_options)
   local options = { noremap = true, silent = true }
   if custom_options then
-    options = vim.tbl_extend("force", options, custom_options)
+    options = vim.tbl_extend('force', options, custom_options)
   end
   return options
 end
@@ -29,12 +29,12 @@ M.buf_map = function(mode, target, source, opts, bufnr)
 end
 
 M.nmap_buf = function(...)
-  M.buf_map("n", ...)
+  M.buf_map('n', ...)
 end
 
 ---@param plugin string
 function M.has(plugin)
-  return require("lazy.core.config").plugins[plugin] ~= nil
+  return require('lazy.core.config').plugins[plugin] ~= nil
 end
 
 ---get fg from vim
@@ -44,7 +44,7 @@ function M.get_fg(name)
   return function()
     ---@type {foreground?:number}?
     local hl = vim.api.nvim_get_hl_by_name(name, true)
-    return hl and hl.foreground and { fg = string.format("#%06x", hl.foreground) }
+    return hl and hl.foreground and { fg = string.format('#%06x', hl.foreground) }
   end
 end
 
@@ -56,8 +56,8 @@ function M.executable(cmd, warn)
     return true
   end
   if warn then
-    local message = type(warn) == "string" and warn or ("Command `%s` was not executable"):format(cmd)
-    vim.notify(message, vim.log.levels.WARN, { title = "Executable not found" })
+    local message = type(warn) == 'string' and warn or ('Command `%s` was not executable'):format(cmd)
+    vim.notify(message, vim.log.levels.WARN, { title = 'Executable not found' })
   end
   return false
 end
@@ -71,7 +71,7 @@ end
 function M.get_root()
   ---@type string?
   local path = vim.api.nvim_buf_get_name(0)
-  path = path ~= "" and vim.loop.fs_realpath(path) or nil
+  path = path ~= '' and vim.loop.fs_realpath(path) or nil
   ---@type string[]
   local roots = {}
   if path then
@@ -114,21 +114,21 @@ function M.telescope(builtin, opts)
   return function()
     builtin = params.builtin
     opts = params.opts
-    opts = vim.tbl_deep_extend("force", { cwd = M.get_root() }, opts or {})
-    if builtin == "files" then
-      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. "/.git") then
+    opts = vim.tbl_deep_extend('force', { cwd = M.get_root() }, opts or {})
+    if builtin == 'files' then
+      if vim.loop.fs_stat((opts.cwd or vim.loop.cwd()) .. '/.git') then
         opts.show_untracked = true
-        builtin = "git_files"
+        builtin = 'git_files'
       else
-        builtin = "find_files"
+        builtin = 'find_files'
       end
     end
-    require("telescope.builtin")[builtin](opts)
+    require('telescope.builtin')[builtin](opts)
   end
 end
 
 M.str_isempty = function(s)
-  return s == nil or s == ""
+  return s == nil or s == ''
 end
 
 -- Create a FileType autocommand event handler.
@@ -146,10 +146,10 @@ end
 M.on_ft = function(ft, cb, group)
   local opts = { pattern = ft, callback = cb }
   if not M.str_isempty(group) then
-    opts["group"] = group
-    vim.api.nvim_create_augroup(opts["group"], { clear = false })
+    opts['group'] = group
+    vim.api.nvim_create_augroup(opts['group'], { clear = false })
   end
-  vim.api.nvim_create_autocmd("FileType", opts)
+  vim.api.nvim_create_autocmd('FileType', opts)
 end
 
 -- credit: https://github.com/ueaner/nvimrc/blob/main/lua/utils/init.lua
@@ -163,7 +163,7 @@ end
 ---@param finish? number Final index on src. Defaults to `#src`
 ---@return table dst
 M.list_extend = function(dst, src, start, finish)
-  if type(dst) ~= "table" or type(src) ~= "table" then
+  if type(dst) ~= 'table' or type(src) ~= 'table' then
     return dst
   end
 
@@ -179,14 +179,14 @@ end
 ---@return table # The merged table
 function M.extend_tbl(default, opts)
   opts = opts or {}
-  return default and vim.tbl_deep_extend("force", default, opts) or opts
+  return default and vim.tbl_deep_extend('force', default, opts) or opts
 end
 
 --- A condition function if the current file is in a git repo
 ---@param bufnr table|integer a buffer number to check the condition for, a table with bufnr property, or nil to get the current buffer
 ---@return boolean # whether or not the current file is in a git repo
 function M.is_git_repo(bufnr)
-  if type(bufnr) == "table" then
+  if type(bufnr) == 'table' then
     bufnr = bufnr.bufnr
   end
   return vim.b[bufnr or 0].gitsigns_head or vim.b[bufnr or 0].gitsigns_status_dict
@@ -194,12 +194,12 @@ end
 
 ---@param name string
 function M.opts(name)
-  local plugin = require("lazy.core.config").plugins[name]
+  local plugin = require('lazy.core.config').plugins[name]
   if not plugin then
     return {}
   end
-  local Plugin = require("lazy.core.plugin")
-  return Plugin.values(plugin, "opts", false)
+  local Plugin = require('lazy.core.plugin')
+  return Plugin.values(plugin, 'opts', false)
 end
 
 ---send notification
@@ -208,9 +208,15 @@ end
 ---@param level? "info"|"trace"|"debug"|"warn"|"error"
 function M.notify(title, msg, level)
   if not level then
-    level = "info"
+    level = 'info'
   end
   vim.notify(msg, vim.log.levels[level:upper()], { title = title })
+end
+
+---@param file string
+---@return string
+function M.lint_config(file)
+  return vim.fn.stdpath('config') .. '/.lint_configs/' .. file
 end
 
 return M
