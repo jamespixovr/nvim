@@ -1,6 +1,7 @@
 return {
   {
     "MeanderingProgrammer/markdown.nvim",
+    enabled = false,
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" }, -- if you prefer nvim-web-devicons
     config = function()
       require("render-markdown").setup({})
@@ -37,27 +38,11 @@ return {
   },
   {
     "OXY2DEV/markview.nvim",
-    enabled = false,
+    enabled = true,
+    ft = "markdown",
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
       "nvim-tree/nvim-web-devicons",
-    },
-    opts = {
-      block_quotes = {
-        enable = true,
-        callouts = {
-          {
-            match_string = "SUCCESS",
-            aliases = { "CHECK", "DONE" },
-            border = "▋",
-            border_hl = "rainbow4",
-            callout_preview = "✓ Success",
-            callout_preview_hl = "rainbow4",
-            custom_title = true,
-            custom_icon = "✓ ",
-          },
-        },
-      },
     },
   },
 }
