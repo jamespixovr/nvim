@@ -29,6 +29,28 @@ require("lazy").setup({
   },
   ui = {
     border = "rounded",
+    size = {
+      width = 0.9,
+      height = 0.9,
+    },
+    title = "💤 Lazy.nvim",
+    wrap = false,
+    icons = {
+      cmd = "  ",
+      config = "  ",
+      event = "  ",
+      ft = "  ",
+      init = "  ",
+      imports = "  ",
+      keys = "  ",
+      not_loaded = " ",
+      plugin = "  ",
+      runtime = "  ",
+      require = "  ",
+      source = " ",
+      start = "",
+      task = "  ",
+    },
   },
   dev = {
     path = "~/Projects/lua",
