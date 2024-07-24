@@ -3,6 +3,8 @@ return {
     "folke/which-key.nvim",
     event = "VeryLazy",
     opts = {
+      timeoutlen = 500,
+      delay = 500,
       disable = {
         bt = {},
         ft = { "TelescopePrompt" },

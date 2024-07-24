@@ -21,10 +21,10 @@ return {
 
     require("codecompanion").setup({
       adapters = {
-        codeqwen = require("codecompanion.adapters").use("ollama", {
+        ollama = require("codecompanion.adapters").use("ollama", {
           schema = {
             model = {
-              default = "codeqwen",
+              default = "llama3.1",
             },
             num_ctx = {
               default = 16384,
@@ -37,13 +37,13 @@ return {
       },
       strategies = {
         chat = {
-          adapter = "codeqwen",
+          adapter = "ollama",
         },
         inline = {
-          adapter = "codeqwen",
+          adapter = "ollama",
         },
         agent = {
-          adapter = "anthropic",
+          adapter = "ollama",
         },
       },
     })
