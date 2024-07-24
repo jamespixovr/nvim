@@ -5,6 +5,7 @@ return {
   {
     "goolord/alpha-nvim",
     event = "VimEnter",
+    init = false,
     dependencies = {
       "nvim-tree/nvim-web-devicons",
       {
@@ -19,24 +20,6 @@ return {
     },
 
     config = function()
-      local function footer()
-        local stats = require("lazy").stats()
-        local ms = math.floor(stats.startuptime * 100 + 0.5) / 100
-        local date = os.date("%d-%m-%Y")
-        local time = os.date("%H:%M:%S")
-        return "[  Loaded "
-          .. stats.loaded
-          .. "/"
-          .. stats.count
-          .. " plugins in "
-          .. stats.startuptime
-          .. "ms] [ "
-          .. date
-          .. "] [ "
-          .. time
-          .. "]"
-      end
-
       local dashboard = require("alpha.themes.dashboard")
       local logo = {
         "                                                                   ",
@@ -92,25 +75,30 @@ return {
           end,
         })
       end
-      dashboard.section.footer.val = footer()
 
       require("alpha").setup(dashboard.opts)
 
-      --   vim.api.nvim_create_autocmd("User", {
-      --     pattern = "LazyVimStarted",
-      --     callback = function()
-      --       local stats = require("lazy").stats()
-      --       local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-      --       dashboard.section.footer.val = "⚡ Neovim loaded "
-      --         .. stats.loaded
-      --         .. "/"
-      --         .. stats.count
-      --         .. " plugins in "
-      --         .. ms
-      --         .. "ms"
-      --       pcall(vim.cmd.AlphaRedraw)
-      --     end,
-      --   })
+      vim.api.nvim_create_autocmd("User", {
+        pattern = "LazyVimStarted",
+        callback = function()
+          local stats = require("lazy").stats()
+          local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
+          local date = os.date("%d-%m-%Y")
+          local time = os.date("%H:%M:%S")
+          dashboard.section.footer.val = "[  Loaded "
+            .. stats.loaded
+            .. "/"
+            .. stats.count
+            .. " plugins in "
+            .. ms
+            .. "ms] [ "
+            .. date
+            .. "] [ "
+            .. time
+            .. "]"
+          pcall(vim.cmd.AlphaRedraw)
+        end,
+      })
     end,
   },
 }
