@@ -51,6 +51,7 @@ return {
 
   { -- fancy UI for the debugger
     "rcarriga/nvim-dap-ui",
+    event = "VeryLazy",
     dependencies = { "nvim-neotest/nvim-nio" },
     -- stylua: ignore
     keys = require("config.keymaps").dap_ui_keymaps(),
@@ -94,6 +95,7 @@ return {
 
   { -- mason.nvim integration
     "jay-babu/mason-nvim-dap.nvim",
+    event = "VeryLazy",
     dependencies = "mason.nvim",
     cmd = { "DapInstall", "DapUninstall" },
     opts = {
@@ -113,6 +115,7 @@ return {
   --  Debugging with go debugger
   {
     "leoluz/nvim-dap-go",
+    event = "VeryLazy",
     config = function()
       require("dap-go").setup({
         dap_configurations = {
