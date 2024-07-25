@@ -14,6 +14,7 @@ return {
         -- javascriptreact = { "biomejs", "eslint_d", "eslint" },
         -- svelte = { "eslint_d" },
         sql = { "sqlfluff" },
+        yaml = { "yamllint" },
       }
 
       vim.api.nvim_create_autocmd({ "InsertLeave", "BufWritePost", "BufReadPost" }, {
