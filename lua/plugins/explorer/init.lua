@@ -3,7 +3,8 @@ return {
   -- file explorer
   {
     "nvim-tree/nvim-tree.lua",
-    event = "User DirOpened",
+    -- event = "User DirOpened",
+    lazy = false,
     keys = {
       { "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Nvim Tree" },
     },
@@ -40,5 +41,5 @@ return {
         special_files = { "Cargo.toml", "Makefile", "README.md", "go.mod" },
       },
     },
-  }
+  },
 }
