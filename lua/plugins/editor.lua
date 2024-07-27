@@ -12,34 +12,6 @@ return {
 
   -----------------------------------------------------------------------------
 
-  -- references
-  {
-    "RRethy/vim-illuminate",
-    event = "VeryLazy",
-    opts = {
-      delay = 200,
-      large_file_cutoff = 2000,
-      large_file_overrides = {
-        providers = { "lsp" },
-      },
-    },
-    config = function(_, opts)
-      require("illuminate").configure(opts)
-    end,
-    keys = require("config.keymaps").illuminate_keymaps(),
-  },
-
-  -- search/replace in multiple files
-  {
-    "nvim-pack/nvim-spectre",
-    event = "VeryLazy",
-    cmd = "Spectre",
-    -- stylua: ignore
-    keys = {
-      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
-    },
-  },
-
   -- toggle terminal
   {
     "akinsho/toggleterm.nvim",
