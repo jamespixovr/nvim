@@ -28,7 +28,6 @@ return {
         "luacheck",
         "prettier",
         "prettierd",
-        "rust-analyzer",
         "shellcheck",
         "shfmt",
         "stylua",
