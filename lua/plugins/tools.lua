@@ -86,12 +86,6 @@ return {
         filterr = "N",
       },
     },
-    dependencies = {
-      "junegunn/fzf",
-      build = function()
-        vim.fn["fzf#install"]()
-      end,
-    },
   },
 
   ---- pixo related plugins ----

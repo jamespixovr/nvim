@@ -1,15 +1,12 @@
 return {
+  -- search/replace in multiple files
   {
-    "cshuaimin/ssr.nvim",
+    "nvim-pack/nvim-spectre",
+    event = "VeryLazy",
+    cmd = "Spectre",
+    -- stylua: ignore
     keys = {
-      {
-        "<leader>sR",
-        function()
-          require("ssr").open()
-        end,
-        mode = { "n", "x" },
-        desc = "Structural Replace",
-      },
+      { "<leader>sr", function() require("spectre").open() end, desc = "Replace in files (Spectre)" },
     },
   },
 }

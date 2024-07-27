@@ -27,6 +27,7 @@ return {
         { "<leader>u", group = "ui" },
         { "<leader>w", group = "windows" },
         { "<leader>x", group = "diagnostics/quickfix" },
+        { "z", group = "fold" },
         { "[", group = "prev" },
         { "]", group = "next" },
       },
