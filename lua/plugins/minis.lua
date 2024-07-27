@@ -1,6 +1,17 @@
 return {
 
-  { "echasnovski/mini.icons", version = false },
+  {
+    "echasnovski/mini.icons",
+    version = false,
+    opts = {
+      file = {
+        [".go-version"] = { glyph = "", hl = "MiniIconsBlue" },
+      },
+      filetype = {
+        gotmpl = { glyph = "󰟓", hl = "MiniIconsGrey" },
+      },
+    },
+  },
   -- better text-objects
   {
     "echasnovski/mini.ai",

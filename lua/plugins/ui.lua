@@ -11,10 +11,6 @@ local indent_exclude_fts = {
   "mason",
   "NvimTree",
 }
--- local highlight = {
---   "CursorColumn",
---   "Whitespace",
--- }
 
 return {
 
