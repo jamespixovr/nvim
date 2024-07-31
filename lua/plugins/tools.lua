@@ -99,7 +99,6 @@ return {
     },
     keys = {
       { "<leader>pg", "<cmd>Pixovr generate<cr>", desc = "System [P]ixovr [G]enerate Ginkgo" },
-      { "<leader>tc", "<cmd>Pixovr local<cr>", desc = "System [T]est Lo[c]al" },
       { "<leader>ty", "<cmd>Pixovr lifecycle<cr>", desc = "System [T]est [L]ifecycle" },
       { "<leader>pb", "<cmd>Pixovr bootstrap<cr>", desc = "Pixovr [B]ootstrap Ginkgo" },
     },

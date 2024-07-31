@@ -13,6 +13,13 @@ local function keymap(modes, lhs, rhs, opts)
   vim.keymap.set(modes, lhs, rhs, opts)
 end
 
+-- Better window movement
+-- Move to window using the <ctrl> hjkl keys
+vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", noremap = true })
+vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", noremap = true })
+vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", noremap = true })
+vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", noremap = true })
+
 -- local keymap = vim.keymap.set
 
 -- Remap for dealing with word wrap
@@ -55,14 +62,6 @@ keymap("t", "<C-k>", "<cmd>wincmd k<cr>", { desc = "Go to upper window" })
 keymap("t", "<C-l>", "<cmd>wincmd l<cr>", { desc = "Go to right window" })
 keymap("t", "<C-/>", "<cmd>close<cr>", { desc = "Hide Terminal" })
 keymap("t", "<c-_>", "<cmd>close<cr>", { desc = "which_key_ignore" })
-
--- Better window movement
--- Move to window using the <ctrl> hjkl keys
-vim.keymap.set("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
-vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
-vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
-
 -- QuickFix
 keymap("n", "]q", ":cnext<CR>")
 keymap("n", "[q", ":cprev<CR>")
@@ -104,7 +103,15 @@ keymap("n", "<leader>uh", function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
 end)
 
-vim.keymap.set("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+-- Resize windows using <ctrl> arrow keys
+keymap("n", "<C-Up>", ":resize +2<CR>", { desc = "Increase window height", silent = true })
+keymap("n", "<C-Down>", ":resize -2<CR>", { desc = "Decrease window height", silent = true })
+keymap("n", "<C-Left>", ":vertical resize -2<CR>", { desc = "Decrease window width", silent = true })
+keymap("n", "<C-Right>", ":vertical resize +2<CR>", { desc = "Increase window width", silent = true })
+
+keymap("n", "<leader>cd", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
+keymap("n", "[<tab>", "<cmd>tabprevious<cr>", { desc = "Previous Tab", silent = true })
+keymap("n", "]<tab>", "<cmd>tabnext<cr>", { desc = "Next Tab", silent = true })
 
 M = {}
 
@@ -253,4 +260,15 @@ function M.neogit_keymaps()
   }
 end
 
+---@param keys string
+---@param func function|string
+---@param desc string
+local function map_normal_mode(keys, func, desc)
+  keymap("n", keys, func, { desc = desc, noremap = false, silent = true })
+end
+
+function M.setup_coverage_keymaps()
+  map_normal_mode("<leader>tc", ":Coverage<CR>", "[t]est [c]overage in gutter")
+  map_normal_mode("<leader>tC", ":CoverageLoad<CR>:CoverageSummary<CR>", "[t]est [C]overage summary")
+end
 return M

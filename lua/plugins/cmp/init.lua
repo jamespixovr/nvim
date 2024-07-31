@@ -39,6 +39,7 @@ return {
         local col = vim.fn.col(".") - 1
         return col == 0 or vim.fn.getline("."):sub(col, col):match("%s")
       end
+
       local function toggle_cmp()
         if cmp.visible() then
           cmp.close()
@@ -46,6 +47,7 @@ return {
           cmp.complete()
         end
       end
+
       return {
         preselect = cmp.PreselectMode.None,
         completion = {
