@@ -53,7 +53,7 @@ return {
         },
       },
       form = {
-        border = "solid",
+        border = vim.g.borderStyle,
         win_opts = {
           winblend = 0,
           winhl = "FloatBorder:NormalFloat",
