@@ -260,15 +260,11 @@ function M.neogit_keymaps()
   }
 end
 
----@param keys string
----@param func function|string
----@param desc string
-local function map_normal_mode(keys, func, desc)
-  keymap("n", keys, func, { desc = desc, noremap = false, silent = true })
+function M.setup_coverage_keymaps()
+  return {
+    { "<leader>tcc", ":Coverage<CR>", desc = "[t]est [c]overage in gutter" },
+    { "<leader>tcs", ":CoverageLoad<CR>:CoverageSummary<CR>", desc = "[t]est [C]overage summary" },
+  }
 end
 
-function M.setup_coverage_keymaps()
-  map_normal_mode("<leader>tc", ":Coverage<CR>", "[t]est [c]overage in gutter")
-  map_normal_mode("<leader>tC", ":CoverageLoad<CR>:CoverageSummary<CR>", "[t]est [C]overage summary")
-end
 return M
