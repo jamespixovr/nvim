@@ -24,13 +24,28 @@ return {
       },
     },
   },
-
+  {
+    "dmmulroy/tsc.nvim",
+    opts = {
+      auto_start_watch_mode = false,
+      use_trouble_qflist = true,
+      flags = {
+        watch = false,
+      },
+    },
+    keys = {
+      { "<leader>ct", ft = { "typescript", "typescriptreact" }, "<cmd>TSC<cr>", desc = "Type Check" },
+      { "<leader>xy", ft = { "typescript", "typescriptreact" }, "<cmd>TSCOpen<cr>", desc = "Type Check Quickfix" },
+    },
+    ft = { "typescript", "typescriptreact" },
+    cmd = { "TSC", "TSCOpen", "TSCClose", "TSStop" },
+  },
   {
     "pmizio/typescript-tools.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "neovim/nvim-lspconfig",
-      "dmmulroy/ts-error-translator.nvim",
+      { "dmmulroy/ts-error-translator.nvim", config = true },
     },
     keys = {
       { "<leader>li", "<cmd>TSToolsOrganizeImports<cr>", desc = "[L]SP Organize [I]mports" },
@@ -40,12 +55,13 @@ return {
     },
     ft = { "javascriptreact", "typescriptreact", "javascript.jsx", "typescript.tsx", "javascript", "typescript" },
     config = function()
-      local api = require("typescript-tools.api")
+      -- local api = require("typescript-tools.api")
       require("typescript-tools").setup({
         handlers = {
           ["textDocument/publishDiagnostics"] = function(err, result, ctx, config)
             require("ts-error-translator").translate_diagnostics(err, result, ctx, config)
-            api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
+            -- api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
+            vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
           end,
         },
         on_attach = function(client, bufnr)
@@ -53,6 +69,7 @@ return {
           client.server_capabilities.documentRangeFormattingProvider = false
         end,
         settings = {
+          expose_as_code_action = "all",
           jsx_close_tag = {
             enable = true,
             filetypes = { "javascriptreact", "typescriptreact" },

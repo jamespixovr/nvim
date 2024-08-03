@@ -51,20 +51,21 @@ return {
       },
     },
     keys = {
-      { "<leader>A", "<cmd>HurlRunner<CR>", desc = "Run All requests" },
-      { "<leader>ah", "<cmd>HurlRunnerAt<CR>", desc = "Run Api request" },
-      { "<leader>te", "<cmd>HurlRunnerToEntry<CR>", desc = "Run Api request to entry" },
-      { "<leader>tm", "<cmd>HurlToggleMode<CR>", desc = "Hurl Toggle Mode" },
-      { "<leader>tv", "<cmd>HurlVerbose<CR>", desc = "Run Api in verbose mode" },
-      { "<leader>h", ":HurlRunner<CR>", desc = "Hurl Runner", mode = "v" },
+      { "<leader>hA", "<cmd>HurlRunner<CR>", desc = "Run All requests" },
+      { "<leader>ha", "<cmd>HurlRunnerAt<CR>", desc = "Run Api request" },
+      { "<leader>hh", ":HurlRunner<CR>", desc = "Hurl Runner", mode = "v" },
     },
   },
   -----------------------------------
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {
     "chrisgrieser/nvim-early-retirement",
-    config = true,
-    event = "VeryLazy",
+    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+      minimumBufferNum = 4,
+      -- if a buffer has been inactive for this many minutes, close it
+      retirementAgeMins = 30,
+    },
   },
 
   {
