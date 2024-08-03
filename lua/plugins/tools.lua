@@ -28,34 +28,6 @@ return {
     },
   },
 
-  -- - HTTP client
-  {
-    "jellydn/hurl.nvim",
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      "nvim-lua/plenary.nvim",
-      "nvim-treesitter/nvim-treesitter",
-    },
-    ft = { "hurl" },
-    opts = {
-      debug = false,
-      show_notification = false,
-      mode = "split",
-      formatters = {
-        json = { "jq" },
-        html = {
-          "prettier",
-          "--parser",
-          "html",
-        },
-      },
-    },
-    keys = {
-      { "<leader>hA", "<cmd>HurlRunner<CR>", desc = "Run All requests" },
-      { "<leader>ha", "<cmd>HurlRunnerAt<CR>", desc = "Run Api request" },
-      { "<leader>hh", ":HurlRunner<CR>", desc = "Hurl Runner", mode = "v" },
-    },
-  },
   -----------------------------------
   -- Send buffers into early retirement by automatically closing them after x minutes of inactivity.
   {
