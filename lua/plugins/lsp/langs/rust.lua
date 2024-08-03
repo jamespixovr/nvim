@@ -22,6 +22,15 @@ return {
     version = "^5", -- Recommended
     ft = { "rust" },
     opts = {
+      tools = {
+        inlay_hints = {
+          auto = true,
+          show_parameter_hints = false,
+          parameter_hints_prefix = "  󰮹 ",
+          only_current_line = true,
+          other_hints_prefix = "  󰮺 ",
+        },
+      },
       server = {
         on_attach = function(_, bufnr)
           vim.keymap.set("n", "<leader>ca", function()
@@ -30,6 +39,10 @@ return {
           vim.keymap.set("n", "<leader>dr", function()
             vim.cmd.RustLsp("debuggables")
           end, { desc = "Rust Debuggables", buffer = bufnr })
+
+          vim.keymap.set("n", "<leader>rr", function()
+            vim.cmd.RustLsp("run")
+          end, { desc = "Run", buffer = bufnr })
         end,
         default_settings = {
           -- rust-analyzer language server configuration
@@ -49,6 +62,12 @@ return {
                 ["async-trait"] = { "async_trait" },
                 ["napi-derive"] = { "napi" },
                 ["async-recursion"] = { "async_recursion" },
+              },
+            },
+            inlayHints = {
+              lifetimeElisionHints = {
+                enable = true,
+                useParameterNames = true,
               },
             },
           },

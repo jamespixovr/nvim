@@ -7,6 +7,7 @@ return {
         -- html
         html = {},
         -- Emmet
+        emmet_language_server = {},
         emmet_ls = {
           init_options = {
             html = {
