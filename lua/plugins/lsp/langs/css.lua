@@ -3,6 +3,8 @@ return {
     "neovim/nvim-lspconfig",
     opts = {
       servers = {
+        cssmodules_ls = {},
+        css_variables = {},
         cssls = {
           -- using `biome` instead (this key overrides `settings.format.enable = true`)
           init_options = { provideFormatter = false },
@@ -13,16 +15,17 @@ return {
                 vendorPrefix = "ignore", -- needed for scrollbars
                 duplicateProperties = "warning",
                 zeroUnits = "warning",
+                emptyRules = "warning",
+                importStatement = "warning",
+                fontFaceProperties = "warning",
+                hexColorLength = "warning",
+                argumentsInColorFunction = "warning",
+                unknownAtRules = "warning",
+                ieHack = "warning",
+                propertyIgnoredDueToDisplay = "warning",
               },
             },
           },
-        },
-        css_variables = {
-          root_dir = function()
-            -- Add custom root markers for Obsidian snippet folders.
-            local markers = { ".project-root", ".git" }
-            return vim.fs.root(0, markers)
-          end,
         },
       },
     },

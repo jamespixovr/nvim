@@ -1,38 +1,45 @@
-local filetypes = { 'json', 'jsonc', 'json5' }
+local filetypes = { "json", "jsonc", "json5" }
 
 return {
   {
-    'stevearc/conform.nvim',
+    "stevearc/conform.nvim",
     dependencies = {
       {
-        'williamboman/mason.nvim',
+        "williamboman/mason.nvim",
         opts = function(_, opts)
           opts.ensure_installed = opts.ensure_installed or {}
-          vim.list_extend(opts.ensure_installed, { 'biome' })
+          vim.list_extend(opts.ensure_installed, { "biome" })
         end,
       },
     },
     ft = filetypes,
     opts = {
       formatters_by_ft = {
-        json = { 'biome' },
-        jsonc = { 'biome' },
-        json5 = { 'biome' },
+        json = { "biome" },
+        jsonc = { "biome" },
+        json5 = { "biome" },
       },
       formatters = {
         biome = {
           -- https://biomejs.dev/formatter/
-          args = { 'format', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
+          args = { "format", "--indent-style", "space", "--stdin-file-path", "$FILENAME" },
         },
       },
     },
   },
-
+  {
+    "gennaro-tedesco/nvim-jqx",
+    ft = { "json", "yaml" },
+    cmd = { "JqxList", "JqxQuery" },
+    keys = {
+      { "<leader>cj", ft = { "json", "yaml" }, "<cmd>JqxList<cr>", desc = "Jqx List" },
+    },
+  },
   --  DOCS https://github.com/Microsoft/vscode/tree/main/extensions/json-language-features/server#configuration
   {
-    'neovim/nvim-lspconfig',
+    "neovim/nvim-lspconfig",
     dependencies = {
-      'b0o/SchemaStore.nvim',
+      "b0o/SchemaStore.nvim",
     },
     ft = filetypes,
     opts = {
@@ -45,7 +52,7 @@ return {
           },
           on_new_config = function(new_config)
             new_config.settings.json.schemas = new_config.settings.json.schemas or {}
-            vim.list_extend(new_config.settings.json.schemas, require('schemastore').json.schemas())
+            vim.list_extend(new_config.settings.json.schemas, require("schemastore").json.schemas())
           end,
           settings = {
             json = {
