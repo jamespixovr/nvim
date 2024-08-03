@@ -23,7 +23,7 @@ return {
         ollama = require('codecompanion.adapters').use('ollama', {
           schema = {
             model = {
-              default = 'llama3.1',
+              default = "codegeex4",
             },
             num_ctx = {
               default = 16384,
