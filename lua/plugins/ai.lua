@@ -18,7 +18,7 @@ return {
     event = "VeryLazy",
     keys = require("config.keymaps").gen_ai_keymaps(),
     opts = {
-      model = "codeqwen", -- The default model to use.
+      model = "codegeex4", -- The default model to use.
       display_mode = "split", -- The display mode. Can be "float" or "split".
       debug = false, -- Prints errors and the command which is run.
       show_prompt = true, -- Shows the Prompt submitted to Ollama.
