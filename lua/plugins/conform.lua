@@ -33,7 +33,7 @@ return {
       lua = { "stylua" },
       markdown = { "markdownlint", "prettierd", "prettier", "markdown-toc", stop_after_first = true },
       python = { "isort", "black", stop_after_first = true },
-      sql = { "sql-formatter" },
+      -- sql = { "sql-formatter" },
       svelte = { "prettierd", "prettier" },
       typescript = { "biome" },
       typescriptreact = { "biome" },
