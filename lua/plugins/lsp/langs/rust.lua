@@ -40,7 +40,7 @@ return {
             vim.cmd.RustLsp("debuggables")
           end, { desc = "Rust Debuggables", buffer = bufnr })
 
-          vim.keymap.set("n", "<leader>rr", function()
+          vim.keymap.set("n", "<leader>rn", function()
             vim.cmd.RustLsp("run")
           end, { desc = "Run", buffer = bufnr })
         end,
