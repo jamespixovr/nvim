@@ -3,8 +3,8 @@ local companion_lualine = require("plugins.lualine.helper")
 local helper = require("helper")
 local symbols = settings.icons
 local lazy_status = require("lazy.status")
-local colors = require("tokyonight.colors").setup()
--- local colors = require("catppuccin.palettes").get_palette("macchiato")
+-- local colors = require("tokyonight.colors").setup()
+local colors = require("catppuccin.palettes").get_palette("macchiato")
 
 local M = {}
 

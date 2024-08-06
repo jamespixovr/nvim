@@ -6,10 +6,10 @@ local default_options = {
   backup = false, -- creates a backup file
   clipboard = 'unnamedplus', -- allows neovim to access the system clipboard
   cmdheight = 0, -- more space in the neovim command line for displaying messages
-  colorcolumn = '99999', -- fixes indentline for now
-  completeopt = { 'menuone', 'noselect' },
+  colorcolumn = "99999", -- fixes indentline for now
+  completeopt = { "menuone", "noselect" },
   conceallevel = 2, -- Hide * markup for bold and italic
-  fileencoding = 'utf-8', -- the encoding written to a file
+  fileencoding = "utf-8", -- the encoding written to a file
   foldenable = true, -- Enable folding
   foldmethod = 'expr', -- folding, set to "expr" for treesitter based folding
   foldexpr = '', -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
@@ -89,4 +89,4 @@ vim.filetype.add({
   },
 })
 
-vim.cmd.colorscheme('tokyonight')
+vim.cmd.colorscheme("catppuccin")
