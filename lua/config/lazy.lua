@@ -18,7 +18,7 @@ require("lazy").setup({
   { import = "plugins.lsp.langs" },
 }, {
   defaults = { lazy = false },
-  install = { colorscheme = { "tokyonight", "habamax" } },
+  install = { colorscheme = { "catppuccin", "habamax" } },
   checker = {
     enabled = true, -- automatically check for plugin updates
     notify = false, -- done on my own to use minimum condition for less noise
