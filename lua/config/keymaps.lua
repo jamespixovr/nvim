@@ -167,7 +167,7 @@ end
 
 function M.symbols_outline_keymaps()
   return {
-    { "<leader>ss", "<cmd>SymbolsOutline<cr>", desc = "SymbolsOutline" },
+    { "<leader>ss", "<cmd>Outline<cr>", desc = "Toggle Outline" },
   }
 end
 

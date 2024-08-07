@@ -89,18 +89,6 @@ return {
     opts = { snippet_engine = "luasnip" },
   },
 
-  {
-    "simrat39/symbols-outline.nvim",
-    keys = require("config.keymaps").symbols_outline_keymaps(),
-    opts = {
-      width = 30,
-      autofold_depth = 0,
-      keymaps = {
-        hover_symbol = "K",
-        toggle_preview = "p",
-      },
-    },
-  },
   -- rename
   {
     "smjonas/inc-rename.nvim",
