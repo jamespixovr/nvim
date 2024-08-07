@@ -19,6 +19,7 @@ return {
       },
       diagnostics = {
         enable = true,
+        show_on_dirs = true,
         icons = { hint = "", info = "", warning = "", error = "" },
       },
       actions = { open_file = { quit_on_open = true } },
@@ -30,7 +31,7 @@ return {
       on_attach = tree_map.on_attach,
       renderer = {
         indent_markers = {
-          enable = true,
+          enable = false,
         },
         group_empty = true,
         highlight_git = true,
