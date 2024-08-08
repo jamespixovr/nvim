@@ -70,11 +70,6 @@ return {
       'stevearc/overseer.nvim',
       'MunifTanjim/nui.nvim',
     },
-    keys = {
-      { '<leader>pg', '<cmd>Pixovr generate<cr>', desc = 'System [P]ixovr [G]enerate Ginkgo' },
-      { '<leader>ty', '<cmd>Pixovr lifecycle<cr>', desc = 'System [T]est [L]ifecycle' },
-      { '<leader>pb', '<cmd>Pixovr bootstrap<cr>', desc = 'Pixovr [B]ootstrap Ginkgo' },
-    },
     config = true,
   },
   -- e.g. for go.mod and swagger yaml
