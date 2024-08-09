@@ -1,5 +1,7 @@
 return {
   "vuki656/package-info.nvim",
+  enabled = true,
+  event = "VeryLazy",
   dependencies = { "folke/which-key.nvim", "MunifTanjim/nui.nvim" },
   ft = { "json" },
   opts = {
@@ -13,18 +15,5 @@ return {
     hide_unstable_versions = false,
     package_manager = "pnpm",
   },
-  keys = function()
-    require("which-key").add({ { "<leader>p", group = "+PackageInfo" } })
-    local function map(key, cmd, desc)
-      vim.keymap.set({ "n" }, "<leader>p" .. key, cmd, { desc = desc, silent = true, noremap = true })
-    end
-    local pi = require("package-info")
-    map("s", pi.show, "Show package info")
-    map("h", pi.hide, "Hide package info")
-    map("n", pi.toggle, "Toggle package info")
-    map("u", pi.update, "Update package")
-    map("d", pi.delete, "Delete package")
-    map("i", pi.install, "Install package")
-    map("v", pi.change_version, "Change package version")
-  end,
+  keys = require("config.keymaps").package_info_keymaps(),
 }
