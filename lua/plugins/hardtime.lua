@@ -16,7 +16,6 @@ return {
       'ToggleTerm',
       'alpha',
       'checkhealth',
-      'dap*',
       'help',
       'httpResult',
       'lazy',
@@ -37,6 +36,13 @@ return {
       'undotree',
       'trouble',
       'Outline',
+      'dapui_scopes',
+      'dapui_stacks',
+      'dapui_console',
+      'dapui-repl',
+      'dapui_watches',
+      'dapui_breakpoints',
+      'dapui*',
     },
     hints = {
       ['[dcyvV][ia]%('] = {
