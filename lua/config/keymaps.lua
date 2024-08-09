@@ -269,4 +269,15 @@ function M.setup_coverage_keymaps()
   }
 end
 
+function M.package_info_keymaps()
+  return {
+    { "<leader>pi", "<cmd>lua require('package-info').show()<cr>", desc = "Package Info" },
+    { "<leader>pd", "<cmd>lua require('package-info').delete()<cr>", desc = "Delete Package" },
+    { "<leader>pu", "<cmd>lua require('package-info').update()<cr>", desc = "Update Package" },
+    { "<leader>pU", "<cmd>lua require('package-info').update_all()<cr>", desc = "Update All Packages" },
+    { "<leader>pc", "<cmd>lua require('package-info').change_version()<cr>", desc = "Change Package Version" },
+    { "<leader>pi", "<cmd>lua require('package-info').install()<cr>", desc = "Install Package" },
+  }
+end
+
 return M

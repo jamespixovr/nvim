@@ -13,6 +13,10 @@ return {
       "OverseerRun",
       "OverseerRunCmd",
       "OverseerToggle",
+      "OverseerBuild",
+      "OverseerQuickAction",
+      "OverseerTaskAction",
+      "OverseerClearCache",
       "CompilerOpen",
       "CompilerToggleResults",
     },
@@ -28,6 +32,7 @@ return {
       { "<leader>or", "<cmd>OverseerRun<cr>", desc = "Run" },
       { "<leader>os", "<cmd>OverseerSaveBundle<cr>", desc = "Save Bundle" },
       { "<leader>ot", "<cmd>OverseerToggle<cr>", desc = "Toggle" },
+      { "<leader>oh", "<cmd>OverseerClearCache<cr>", desc = "Clear cache" },
     },
     opts = {
       dap = false,
