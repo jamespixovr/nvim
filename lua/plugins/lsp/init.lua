@@ -1,4 +1,11 @@
 return {
+  -- workspace/willRename
+  {
+    "antosha417/nvim-lsp-file-operations",
+    event = "LspAttach",
+    dependencies = { "nvim-tree/nvim-tree.lua", "nvim-lua/plenary.nvim" },
+    config = true,
+  },
   {
     "neovim/nvim-lspconfig",
     event = { "BufReadPost", "BufNewFile", "BufWritePre" }, -- "BufReadPre",
