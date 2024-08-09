@@ -23,11 +23,12 @@ return {
     ft = { "rust" },
     opts = {
       tools = {
+        float_win_config = { border = vim.g.borderStyle },
         inlay_hints = {
           auto = true,
           show_parameter_hints = false,
           parameter_hints_prefix = "  󰮹 ",
-          only_current_line = true,
+          -- only_current_line = true,
           other_hints_prefix = "  󰮺 ",
         },
       },

@@ -1,7 +1,7 @@
 return {
   {
     "RRethy/vim-illuminate",
-    event = { "BufReadPost", "BufNewFile", "BufWritePre" },
+    event = "LspAttach",
     opts = {
       delay = 200,
       large_file_cutoff = 2000,

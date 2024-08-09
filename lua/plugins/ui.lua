@@ -137,14 +137,9 @@ return {
   -- indent guides for Neovim
   {
     "lukas-reineke/indent-blankline.nvim",
-    event = { "BufReadPost", "BufNewFile" },
+    event = "VeryLazy",
     opts = {
       indent = { char = "│" },
-      -- indent = { highlight = highlight, char = "" },
-      -- whitespace = {
-      --   highlight = highlight,
-      --   remove_blankline_trail = false,
-      -- },
       scope = { enabled = false },
       exclude = {
         filetypes = indent_exclude_fts,
