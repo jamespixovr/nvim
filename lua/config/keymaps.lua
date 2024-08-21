@@ -97,11 +97,11 @@ keymap('n', 'dQ', function()
   vim.cmd.cexpr('[]')
 end, { desc = ' Delete Quickfix List' })
 
--- OPTION TOGGLING
--- toggle inlay hints
-keymap('n', '<leader>uh', function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
-end)
+-- -- OPTION TOGGLING
+-- -- toggle inlay hints
+-- keymap('n', '<leader>uh', function()
+--   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+-- end)
 
 -- Resize windows using <ctrl> arrow keys
 keymap('n', '<C-Up>', ':resize +2<CR>', { desc = 'Increase window height', silent = true })
