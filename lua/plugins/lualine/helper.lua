@@ -1,19 +1,19 @@
-local M = require("lualine.component"):extend()
+local M = require('lualine.component'):extend()
 
 M.processing = false
 M.spinner_index = 1
 
 local spinner_symbols = {
-  "⠋",
-  "⠙",
-  "⠹",
-  "⠸",
-  "⠼",
-  "⠴",
-  "⠦",
-  "⠧",
-  "⠇",
-  "⠏",
+  '⠋',
+  '⠙',
+  '⠹',
+  '⠸',
+  '⠼',
+  '⠴',
+  '⠦',
+  '⠧',
+  '⠇',
+  '⠏',
 }
 local spinner_symbols_len = 10
 
@@ -21,13 +21,17 @@ local spinner_symbols_len = 10
 function M:init(options)
   M.super.init(self, options)
 
-  local group = vim.api.nvim_create_augroup("CodeCompanionHooks", {})
+  local group = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
 
-  vim.api.nvim_create_autocmd({ "User" }, {
-    pattern = "CodeCompanionRequest",
+  vim.api.nvim_create_autocmd({ 'User' }, {
+    pattern = 'CodeCompanionRequest*',
     group = group,
     callback = function(request)
-      self.processing = (request.data.status == "started")
+      if request.match == 'CodeCompanionRequestStarted' then
+        self.processing = true
+      elseif request.match == 'CodeCompanionRequestFinished' then
+        self.processing = false
+      end
     end,
   })
 end
