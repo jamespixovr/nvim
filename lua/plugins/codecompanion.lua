@@ -5,12 +5,6 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
     'nvim-telescope/telescope.nvim', -- Optional
-    {
-      'grapp-dev/nui-components.nvim',
-      dependencies = {
-        'MunifTanjim/nui.nvim',
-      },
-    },
     'stevearc/dressing.nvim', -- Optional: Improves the default Neovim UI
   },
   config = function()
@@ -19,11 +13,12 @@ return {
     vim.cmd([[cab ccb CodeCompanionWithBuffers]])
 
     require('codecompanion').setup({
+      use_default_prompts = true,
       adapters = {
         ollama = require('codecompanion.adapters').use('ollama', {
           schema = {
             model = {
-              default = "codegeex4",
+              default = 'codegeex4',
             },
             num_ctx = {
               default = 16384,
