@@ -7,12 +7,6 @@ return {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
     'nvim-telescope/telescope.nvim', -- Optional
-    {
-      'grapp-dev/nui-components.nvim',
-      dependencies = {
-        'MunifTanjim/nui.nvim',
-      },
-    },
     'stevearc/dressing.nvim', -- Optional: Improves the default Neovim UI
   },
   config = function()
@@ -25,7 +19,7 @@ return {
         ollama = require('codecompanion.adapters').use('ollama', {
           schema = {
             model = {
-              default = 'codegeex4',
+              default = 'codeqwen',
             },
             num_ctx = {
               default = 16384,
@@ -48,7 +42,7 @@ return {
         },
       },
       default_prompts = {
-        codeexpert(),
+        codeexpert,
       },
     })
   end,
