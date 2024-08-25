@@ -1,4 +1,4 @@
-local codeexpert = require('plugins.codecompanion.codeexpert')
+local prompts = require('plugins.codecompanion.codeexpert')
 
 return {
   'olimorris/codecompanion.nvim',
@@ -16,7 +16,7 @@ return {
 
     require('codecompanion').setup({
       adapters = {
-        ollama = require('codecompanion.adapters').use('ollama', {
+        ollama = require('codecompanion.adapters').extend('ollama', {
           schema = {
             model = {
               default = 'codeqwen',
@@ -41,9 +41,7 @@ return {
           adapter = 'ollama',
         },
       },
-      default_prompts = {
-        codeexpert,
-      },
+      default_prompts = prompts.default_prompts,
     })
   end,
   keys = require('config.keymaps').codecompanion_keymaps(),
