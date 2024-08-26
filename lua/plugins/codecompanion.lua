@@ -15,7 +15,7 @@ return {
     require('codecompanion').setup({
       use_default_prompts = true,
       adapters = {
-        ollama = require('codecompanion.adapters').use('ollama', {
+        ollama = require('codecompanion.adapters').extend('ollama', {
           schema = {
             model = {
               default = 'codeqwen',
@@ -28,7 +28,7 @@ return {
             },
           },
         }),
-        codegemma = require('codecompanion.adapters').use('ollama', {
+        codegemma = require('codecompanion.adapters').extend('ollama', {
           schema = {
             model = {
               default = 'codegemma',
