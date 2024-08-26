@@ -18,7 +18,20 @@ return {
         ollama = require('codecompanion.adapters').use('ollama', {
           schema = {
             model = {
-              default = 'codegeex4',
+              default = 'codeqwen',
+            },
+            num_ctx = {
+              default = 16384,
+            },
+            num_predict = {
+              default = -1,
+            },
+          },
+        }),
+        codegemma = require('codecompanion.adapters').use('ollama', {
+          schema = {
+            model = {
+              default = 'codegemma',
             },
             num_ctx = {
               default = 16384,
@@ -34,7 +47,7 @@ return {
           adapter = 'ollama',
         },
         inline = {
-          adapter = 'ollama',
+          adapter = 'codegemma',
         },
         agent = {
           adapter = 'ollama',
