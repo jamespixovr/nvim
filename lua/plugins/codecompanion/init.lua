@@ -16,29 +16,32 @@ return {
 
     require('codecompanion').setup({
       adapters = {
-        ollama = require('codecompanion.adapters').extend('ollama', {
-          schema = {
-            model = {
-              default = 'codeqwen',
+        localllm = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'localllm',
+            schema = {
+              model = {
+                default = 'codeqwen',
+              },
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
             },
-            num_ctx = {
-              default = 16384,
-            },
-            num_predict = {
-              default = -1,
-            },
-          },
-        }),
+          })
+        end,
       },
       strategies = {
         chat = {
-          adapter = 'ollama',
+          adapter = 'localllm',
         },
         inline = {
-          adapter = 'ollama',
+          adapter = 'localllm',
         },
         agent = {
-          adapter = 'ollama',
+          adapter = 'localllm',
         },
       },
       default_prompts = prompts.default_prompts,
