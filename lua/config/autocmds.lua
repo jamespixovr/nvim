@@ -109,3 +109,16 @@ vim.api.nvim_create_autocmd("FileType", {
   pattern = "gitcommit",
   callback = write_commit_prefix,
 })
+
+vim.api.nvim_create_autocmd('BufWritePre', {
+  group = vim.api.nvim_create_augroup('ts_fix_imports', { clear = true }),
+  desc = 'Add missing imports and remove unused imports for TS',
+  pattern = { '*.ts', '*.tsx', '*.js', '*.jsx' },
+  callback = function(args)
+    vim.cmd('TSToolsAddMissingImports sync')
+    vim.cmd('TSToolsRemoveUnusedImports sync')
+    if package.loaded['conform'] then
+      require('conform').format({ bufnr = args.buf })
+    end
+  end,
+})
