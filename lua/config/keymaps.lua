@@ -110,6 +110,14 @@ keymap('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Decrease window wid
 keymap('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Increase window width', silent = true })
 
 keymap('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
+
+-- Tabs
+keymap('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
+keymap('n', '<leader><tab>f', '<cmd>tabfirst<cr>', { desc = 'First Tab' })
+keymap('n', '<leader><tab><tab>', '<cmd>tabnew<cr>', { desc = 'New Tab' })
+keymap('n', '<leader><tab>]', '<cmd>tabnext<cr>', { desc = 'Next Tab' })
+keymap('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
+keymap('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 keymap('n', '[<tab>', '<cmd>tabprevious<cr>', { desc = 'Previous Tab', silent = true })
 keymap('n', ']<tab>', '<cmd>tabnext<cr>', { desc = 'Next Tab', silent = true })
 

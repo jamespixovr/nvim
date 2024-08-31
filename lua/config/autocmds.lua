@@ -2,6 +2,60 @@ local function augroup(name)
   return vim.api.nvim_create_augroup('jarmex_neovim_' .. name, { clear = true })
 end
 
+vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
+  group = augroup('general_settings'),
+  pattern = '*',
+  desc = 'Highlight text on yank',
+  callback = function()
+    vim.highlight.on_yank({ higroup = 'Visual', timeout = 200 })
+    vim.highlight.on_yank({ higroup = 'Search', timeout = 100 })
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  group = augroup('filetype_settings'),
+  pattern = { 'lua' },
+  desc = 'fix gf functionality inside .lua files',
+  callback = function()
+    ---@diagnostic disable: assign-type-mismatch
+    -- credit: https://github.com/sam4llis/nvim-lua-gf
+    vim.opt_local.include = [[\v<((do|load)file|require|reload)[^''"]*[''"]\zs[^''"]+]]
+    vim.opt_local.includeexpr = "substitute(v:fname,'\\.','/','g')"
+    vim.opt_local.suffixesadd:prepend('.lua')
+    vim.opt_local.suffixesadd:prepend('init.lua')
+
+    for _, path in pairs(vim.api.nvim_list_runtime_paths()) do
+      vim.opt_local.path:append(path .. '/lua')
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd({ 'FileType' }, {
+  group = augroup('buffer_mappings'),
+  pattern = {
+    'spectre_panel',
+    'qf',
+    'help',
+    'man',
+    'floaterm',
+    'lspinfo',
+    'lir',
+    'lsp-installer',
+    'null-ls-info',
+    'tsplayground',
+    'DressingSelect',
+    'Jaq',
+    'neotest-output',
+    'neotest-summary',
+    'OverseerList',
+    'dropbar_menu',
+  },
+  callback = function()
+    vim.keymap.set('n', 'q', '<cmd>close<cr>', { buffer = true })
+    vim.opt_local.buflisted = false
+  end,
+})
+
 local function write_commit_prefix()
   -- Run the Git command to get the current branch name
   local handle = io.popen('git branch --show-current')
@@ -15,9 +69,9 @@ local function write_commit_prefix()
   branch = string.gsub(branch, '^%s*(.-)%s*$', '%1')
 
   -- Check if the branch name contains 'UT-XXXX'
-  local ut_number = string.match(branch, 'PLATFORM%-%d%d%d%d')
+  local ut_number = string.match(branch, 'UT%-%d%d%d%d')
   if ut_number then
-    -- Insert 'PLATFORM-XXXX: ' at the beginning of the buffer
+    -- Insert 'UT-XXXX: ' at the beginning of the buffer
     local insert_text = ut_number .. ': '
     vim.api.nvim_buf_set_lines(0, 0, 1, false, { insert_text })
 
@@ -25,22 +79,6 @@ local function write_commit_prefix()
   end
   vim.api.nvim_feedkeys('A', 'n', true)
 end
-
-vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
-  callback = function()
-    vim.highlight.on_yank({ higroup = 'Visual', timeout = 200 })
-  end,
-})
-
-vim.api.nvim_create_autocmd({ 'FileType' }, {
-  pattern = { 'qf', 'help', 'man', 'lspinfo', 'spectre_panel' },
-  callback = function()
-    vim.cmd([[
-      nnoremap <silent> <buffer> q :close<CR>
-      set nobuflisted
-    ]])
-  end,
-})
 
 local group = vim.api.nvim_create_augroup('__env', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
@@ -71,6 +109,7 @@ autocmd('FileType', {
     'markdown',
     'text',
   },
+  desc = 'setlocal wrap and spell',
   callback = function()
     local opts = { noremap = true, silent = true }
     vim.opt_local.spell = true
