@@ -76,6 +76,7 @@ return {
   -- https://github.com/icholy/lsplinks.nvim
   {
     'icholy/lsplinks.nvim',
+    enabled = false,
     config = function()
       require('lsplinks').setup({
         highlight = true,
@@ -105,6 +106,7 @@ return {
   },
   {
     'lukas-reineke/headlines.nvim',
+    enabled = false,
     dependencies = 'nvim-treesitter/nvim-treesitter',
     opts = {
       markdown = {
