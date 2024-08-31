@@ -1,5 +1,3 @@
-local prompts = require('plugins.codecompanion.codeexpert')
-
 return {
   'olimorris/codecompanion.nvim',
   event = 'VeryLazy',
@@ -15,13 +13,31 @@ return {
     vim.cmd([[cab ccb CodeCompanionWithBuffers]])
 
     require('codecompanion').setup({
+      use_default_prompts = true,
       adapters = {
-        localllm = function()
+        defaultllm = function()
           return require('codecompanion.adapters').extend('ollama', {
-            name = 'localllm',
+            name = 'defaultllm',
             schema = {
               model = {
-                default = 'codeqwen',
+                default = 'codeqwen:v1.5-chat',
+                choices = { 'codeqwen:v1.5-chat', 'codeqwen', 'codegemma', 'mistral' },
+              },
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
+            },
+          })
+        end,
+        codegemma = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'codegemma',
+            schema = {
+              model = {
+                default = 'codegemma',
               },
               num_ctx = {
                 default = 16384,
@@ -35,16 +51,30 @@ return {
       },
       strategies = {
         chat = {
-          adapter = 'localllm',
+          adapter = 'defaultllm',
         },
         inline = {
-          adapter = 'localllm',
+          adapter = 'codegemma',
         },
         agent = {
-          adapter = 'localllm',
+          adapter = 'defaultllm',
         },
       },
-      default_prompts = prompts.default_prompts,
+      -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
+      actions = {
+        require('plugins.codecompanion.actions').translate,
+        require('plugins.codecompanion.actions').write,
+      },
+      display = {
+        inline = {
+          diff = {
+            enabled = true,
+          },
+        },
+        chat = {
+          show_settings = true,
+        },
+      },
     })
   end,
   keys = require('config.keymaps').codecompanion_keymaps(),
