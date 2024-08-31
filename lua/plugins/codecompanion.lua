@@ -15,42 +15,48 @@ return {
     require('codecompanion').setup({
       use_default_prompts = true,
       adapters = {
-        ollama = require('codecompanion.adapters').extend('ollama', {
-          schema = {
-            model = {
-              default = 'codeqwen',
+        defaultllm = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'defaultllm',
+            schema = {
+              model = {
+                default = 'codeqwen:v1.5-chat',
+              },
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
             },
-            num_ctx = {
-              default = 16384,
+          })
+        end,
+        codegemma = function()
+          return require('codecompanion.adapters').extend('ollama', {
+            name = 'codegemma',
+            schema = {
+              model = {
+                default = 'codegemma',
+              },
+              num_ctx = {
+                default = 16384,
+              },
+              num_predict = {
+                default = -1,
+              },
             },
-            num_predict = {
-              default = -1,
-            },
-          },
-        }),
-        codegemma = require('codecompanion.adapters').extend('ollama', {
-          schema = {
-            model = {
-              default = 'codegemma',
-            },
-            num_ctx = {
-              default = 16384,
-            },
-            num_predict = {
-              default = -1,
-            },
-          },
-        }),
+          })
+        end,
       },
       strategies = {
         chat = {
-          adapter = 'ollama',
+          adapter = 'defaultllm',
         },
         inline = {
           adapter = 'codegemma',
         },
         agent = {
-          adapter = 'ollama',
+          adapter = 'defaultllm',
         },
       },
     })
