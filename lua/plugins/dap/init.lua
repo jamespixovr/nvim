@@ -27,7 +27,7 @@ local function dapConfig()
     require('dapui').close()
   end
 
-  require('plugins.debugger.typescript')
+  require('plugins.dap.typescript')
 end
 
 return {
