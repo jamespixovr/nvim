@@ -6,11 +6,11 @@ local function dapConfig()
   vim.fn.sign_define('DapStopped', { text = icons.Stopped, texthl = 'DiagnosticHint', linehl = 'DapPause' })
   vim.fn.sign_define('DapBreakpoint', { text = icons.Breakpoint, texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
   vim.fn.sign_define('DapBreakpointRejected', { text = icons.BreakpointRejected, texthl = 'DiagnosticError' })
-
   -- use overseer for running preLaunchTask and postDebugTask
-  require('overseer').enable_dap()
+  require('overseer').enable_dap(true)
 
-  require('dap.ext.vscode').load_launchjs('launch.json')
+  -- require('dap.ext.vscode').load_launchjs('launch.json')
+  require('dap.ext.vscode').load_launchjs(nil, { node = { 'typescript', 'javascript' } })
 
   -- AUTO-OPEN/CLOSE THE DAP-UI
   local listener = require('dap').listeners.before

@@ -34,6 +34,14 @@ return {
             -- { "<leader>td", "<cmd>lua require('dap-go').debug_test()<CR>", desc = "Debug Nearest (Go)" },
           },
           settings = {
+            -- main readme: https://github.com/golang/tools/blob/master/gopls/doc/features/README.md
+            --
+            -- for all options, see:
+            -- https://github.com/golang/tools/blob/master/gopls/doc/vim.md
+            -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md
+            -- for more details, also see:
+            -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+            -- https://github.com/golang/tools/blob/master/gopls/README.md
             gopls = {
               gofumpt = true,
               codelenses = {
@@ -74,6 +82,12 @@ return {
         },
       },
     },
+  },
+
+  {
+    'maxandron/goplements.nvim',
+    ft = 'go',
+    opts = {},
   },
 
   {

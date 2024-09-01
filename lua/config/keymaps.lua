@@ -164,6 +164,7 @@ function M.codecompanion_keymaps()
     { '<leader>at', '<cmd>CodeCompanionToggle<CR>', desc = 'AI Toggle', mode = { 'n', 'v' } },
     { '<leader>ac', '<cmd>CodeCompanionChat<CR>', desc = 'AI Chat', mode = { 'n', 'v' } },
     { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
+    { '<leader>ao', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion: Ollama' },
   }
 end
 
