@@ -10,22 +10,28 @@ return {
   --  If you use other framework or language, refer to nvim-coverage docs:
   --  https://github.com/andythigpen/nvim-coverage/blob/main/doc/nvim-coverage.txt
   {
-    "andythigpen/nvim-coverage",
-    event = "VeryLazy",
+    'andythigpen/nvim-coverage',
+    dependencies = { 'nvim-lua/plenary.nvim' },
+    event = 'VeryLazy',
     cmd = {
-      "Coverage",
-      "CoverageLoad",
-      "CoverageLoadLcov",
-      "CoverageShow",
-      "CoverageHide",
-      "CoverageToggle",
-      "CoverageClear",
-      "CoverageSummary",
+      'Coverage',
+      'CoverageLoad',
+      'CoverageLoadLcov',
+      'CoverageShow',
+      'CoverageHide',
+      'CoverageToggle',
+      'CoverageClear',
+      'CoverageSummary',
     },
-    config = function()
-      require("coverage").setup()
-    end,
-    dependencies = { "nvim-lua/plenary.nvim" },
-    keys = require("config.keymaps").setup_coverage_keymaps(),
+    opts = {
+      auto_reload = true,
+      lang = {
+        go = {
+          coverage_file = vim.fn.getcwd() .. '/coverage.out',
+        },
+      },
+    },
+
+    keys = require('config.keymaps').setup_coverage_keymaps(),
   },
 }
