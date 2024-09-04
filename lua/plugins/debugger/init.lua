@@ -3,9 +3,12 @@ local icons = require('settings').icons.dap
 --------------------------------------------------------------------------------------
 
 local function dapConfig()
-  vim.fn.sign_define('DapStopped', { text = icons.Stopped, texthl = 'DiagnosticHint', linehl = 'DapPause' })
-  vim.fn.sign_define('DapBreakpoint', { text = icons.Breakpoint, texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
+  vim.fn.sign_define('DapStopped', { text = icons.Stopped, texthl = 'DiagnosticInfo', linehl = '' })
+  vim.fn.sign_define('DapBreakpoint', { text = icons.Breakpoint, texthl = 'DiagnosticError', linehl = '' })
+  vim.fn.sign_define('DapBreakpointCondition', { text = icons.BpCondition, texthl = 'DiagnosticError', linehl = '' })
   vim.fn.sign_define('DapBreakpointRejected', { text = icons.BreakpointRejected, texthl = 'DiagnosticError' })
+  vim.fn.sign_define('DapLogPoint', { text = icons.LogPoint, texthl = '', linehl = '', numhl = '' })
+
   -- use overseer for running preLaunchTask and postDebugTask
   require('overseer').enable_dap(true)
 
