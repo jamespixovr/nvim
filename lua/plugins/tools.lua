@@ -114,4 +114,10 @@ return {
       },
     }, -- or `opts = {}`
   },
+  { --Fuzzy search nerd glyphs, by name and unicode
+    '2kabhishek/nerdy.nvim',
+    enabled = false,
+    dependencies = { 'echasnovski/mini.pick' },
+    cmd = 'Nerdy',
+  },
 }
