@@ -1,9 +1,9 @@
 return {
   {
-    "hedyhli/outline.nvim",
+    'hedyhli/outline.nvim',
     lazy = true,
-    cmd = { "Outline", "OutlineOpen" },
-    keys = require("config.keymaps").symbols_outline_keymaps(),
+    cmd = { 'Outline', 'OutlineOpen' },
+    keys = require('config.keymaps').symbols_outline_keymaps(),
     opts = {},
   },
 }
