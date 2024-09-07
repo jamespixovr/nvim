@@ -20,8 +20,8 @@ return {
             name = 'defaultllm',
             schema = {
               model = {
-                default = 'codeqwen:v1.5-chat',
-                choices = { 'codeqwen:v1.5-chat', 'codeqwen', 'codegemma', 'mistral' },
+                default = 'yi-coder',
+                choices = { 'yi-coder', 'codeqwen:v1.5-chat', 'codeqwen', 'codegemma', 'mistral' },
               },
               num_ctx = {
                 default = 16384,
