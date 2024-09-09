@@ -15,30 +15,14 @@ return {
     opts = {
       -- make sure mason installs the server
       servers = {
-        tsserver = {},
+        ts_ls = {},
       },
       setup = {
-        tsserver = function()
+        ts_ls = function()
           return true -- avoid duplicate servers
         end,
       },
     },
-  },
-  {
-    'dmmulroy/tsc.nvim',
-    opts = {
-      auto_start_watch_mode = false,
-      use_trouble_qflist = true,
-      flags = {
-        watch = false,
-      },
-    },
-    keys = {
-      { '<leader>ct', ft = { 'typescript', 'typescriptreact' }, '<cmd>TSC<cr>', desc = 'Type Check' },
-      { '<leader>xy', ft = { 'typescript', 'typescriptreact' }, '<cmd>TSCOpen<cr>', desc = 'Type Check Quickfix' },
-    },
-    ft = { 'typescript', 'typescriptreact' },
-    cmd = { 'TSC', 'TSCOpen', 'TSCClose', 'TSStop' },
   },
   {
     'pmizio/typescript-tools.nvim',
@@ -64,7 +48,7 @@ return {
         end,
         settings = {
           expose_as_code_action = 'all',
-          code_lens = 'references_only', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+          code_lens = 'implementations_only', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
           jsx_close_tag = {
             enable = true,
             filetypes = { 'javascriptreact', 'typescriptreact' },
