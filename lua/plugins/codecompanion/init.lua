@@ -54,7 +54,7 @@ return {
           adapter = 'defaultllm',
         },
         inline = {
-          adapter = 'codegemma',
+          adapter = 'defaultllm',
         },
         agent = {
           adapter = 'defaultllm',
