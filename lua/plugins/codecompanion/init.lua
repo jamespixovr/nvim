@@ -15,6 +15,15 @@ return {
     require('codecompanion').setup({
       use_default_prompts = true,
       adapters = {
+        anthropic = function()
+          return require('codecompanion.adapters').extend('anthropic', {
+            schema = {
+              model = {
+                default = 'claude-3-5-sonnet-20240620',
+              },
+            },
+          })
+        end,
         defaultllm = function()
           return require('codecompanion.adapters').extend('ollama', {
             name = 'defaultllm',
@@ -59,10 +68,10 @@ return {
           adapter = 'defaultllm',
         },
         inline = {
-          adapter = 'codegemma',
+          adapter = 'anthropic',
         },
         agent = {
-          adapter = 'defaultllm',
+          adapter = 'anthropic',
         },
       },
       -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
