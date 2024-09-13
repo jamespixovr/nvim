@@ -20,11 +20,13 @@ return {
             name = 'defaultllm',
             schema = {
               model = {
-                default = 'yi-coder',
-                choices = { 'yi-coder', 'codeqwen:v1.5-chat', 'codeqwen', 'codegemma', 'mistral' },
+                default = 'codeqwen:v1.5-chat',
               },
               num_ctx = {
                 default = 16384,
+              },
+              temperature = {
+                default = 0.5,
               },
               num_predict = {
                 default = -1,
@@ -41,6 +43,9 @@ return {
               },
               num_ctx = {
                 default = 16384,
+              },
+              stop = {
+                default = { '<end_of_turn>' },
               },
               num_predict = {
                 default = -1,
