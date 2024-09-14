@@ -13,18 +13,28 @@ return {
     vim.cmd([[cab ccb CodeCompanionWithBuffers]])
 
     require('codecompanion').setup({
-      use_default_prompts = true,
       adapters = {
+        anthropic = function()
+          return require('codecompanion.adapters').extend('anthropic', {
+            schema = {
+              model = {
+                default = 'claude-3-5-sonnet-20240620',
+              },
+            },
+          })
+        end,
         defaultllm = function()
           return require('codecompanion.adapters').extend('ollama', {
             name = 'defaultllm',
             schema = {
               model = {
-                default = 'yi-coder',
-                choices = { 'yi-coder', 'codeqwen:v1.5-chat', 'codeqwen', 'codegemma', 'mistral' },
+                default = 'codeqwen:v1.5-chat',
               },
               num_ctx = {
                 default = 16384,
+              },
+              temperature = {
+                default = 0.5,
               },
               num_predict = {
                 default = -1,
@@ -52,29 +62,31 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
+          roles = { llm = '  CodeCompanion', user = 'jarmex' },
         },
         inline = {
           adapter = 'defaultllm',
         },
         agent = {
-          adapter = 'defaultllm',
+          adapter = 'anthropic',
         },
-      },
-      -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
-      actions = {
-        require('plugins.codecompanion.actions').translate,
-        require('plugins.codecompanion.actions').write,
       },
       display = {
-        inline = {
-          diff = {
-            enabled = true,
+        chat = {
+          window = {
+            layout = 'vertical', -- float|vertical|horizontal|buffer
           },
         },
-        chat = {
-          show_settings = true,
-        },
       },
+      opts = {
+        log_level = 'DEBUG',
+      },
+      -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
+      -- actions = {
+      --   require('plugins.codecompanion.actions').translate,
+      --   require('plugins.codecompanion.actions').write,
+      -- },
+      --
     })
   end,
   keys = require('config.keymaps').codecompanion_keymaps(),

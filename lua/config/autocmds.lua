@@ -149,6 +149,18 @@ vim.api.nvim_create_autocmd('FileType', {
   callback = write_commit_prefix,
 })
 
+-- Set up the autocommand for NeotestOutput filetype
+-- Scroll to the bottom of the output panel
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = 'neotest-output-panel',
+  group = vim.api.nvim_create_augroup('neotest-scroll', { clear = true }),
+  callback = function()
+    vim.cmd('norm G')
+  end,
+})
+
+-- Set up the autocommand for TS filetype
+-- Add missing imports and remove unused imports
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('ts_fix_imports', { clear = true }),
   desc = 'Add missing imports and remove unused imports for TS',

@@ -81,16 +81,26 @@ return {
     'nvim-neotest/neotest',
     optional = true,
     dependencies = {
-      { 'haydenmeade/neotest-jest', version = false },
+      'nvim-neotest/neotest-jest',
     },
     opts = {
       adapters = {
         ['neotest-jest'] = {
           jestCommand = 'pnpm jest',
-          -- jestConfigFile = "jest.config.js",
+
+          jestConfigFile = function(file)
+            if string.find(file, '/packages/') then
+              return string.match(file, '(.-/[^/]+/)src') .. 'jest.config.ts'
+            end
+
+            return vim.fn.getcwd() .. '/jest.config.ts'
+          end,
           env = { CI = true },
-          cwd = function(path)
-            return require('lspconfig.util').root_pattern('package.json', 'jest.config.js')(path)
+          cwd = function(file)
+            if string.find(file, '/packages/') then
+              return string.match(file, '(.-/[^/]+/)src')
+            end
+            return vim.fn.getcwd()
           end,
         },
       },
