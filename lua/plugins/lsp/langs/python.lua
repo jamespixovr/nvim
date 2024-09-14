@@ -1,53 +1,37 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
+    'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, { "ninja", "python", "rst", "toml" })
+      if type(opts.ensure_installed) == 'table' then
+        vim.list_extend(opts.ensure_installed, { 'ninja', 'python', 'rst', 'toml' })
       end
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     opts = {
       servers = {
         pyright = {},
         ruff_lsp = {
           keys = {
             {
-              "<leader>co",
+              '<leader>co',
               function()
                 vim.lsp.buf.code_action({
                   apply = true,
                   context = {
-                    only = { "source.organizeImports" },
+                    only = { 'source.organizeImports' },
                     diagnostics = {},
                   },
                 })
               end,
-              desc = "Organize Imports",
+              desc = 'Organize Imports',
             },
           },
         },
       },
     },
   },
-  -- {
-  --   "nvim-neotest/neotest",
-  --   optional = true,
-  --   dependencies = {
-  --     "nvim-neotest/neotest-python",
-  --   },
-  --   opts = {
-  --     adapters = {
-  --       ["neotest-python"] = {
-  --         -- Here you can specify the settings for the adapter, i.e.
-  --         -- runner = "pytest",
-  --         -- python = ".venv/bin/python",
-  --       },
-  --     },
-  --   },
-  -- },
   -- {
   --   "mfussenegger/nvim-dap",
   --   optional = true,

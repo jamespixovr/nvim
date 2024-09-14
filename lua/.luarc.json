@@ -1,6 +1,7 @@
 {
     "diagnostics.disable": [
         "no-unknown",
-        "undefined-doc-name"
+        "undefined-doc-name",
+        "missing-fields"
     ]
 }

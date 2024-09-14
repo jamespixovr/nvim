@@ -78,35 +78,6 @@ return {
   },
 
   {
-    'nvim-neotest/neotest',
-    optional = true,
-    dependencies = {
-      'nvim-neotest/neotest-jest',
-    },
-    opts = {
-      adapters = {
-        ['neotest-jest'] = {
-          jestCommand = 'pnpm jest',
-
-          jestConfigFile = function(file)
-            if string.find(file, '/packages/') then
-              return string.match(file, '(.-/[^/]+/)src') .. 'jest.config.ts'
-            end
-
-            return vim.fn.getcwd() .. '/jest.config.ts'
-          end,
-          env = { CI = true },
-          cwd = function(file)
-            if string.find(file, '/packages/') then
-              return string.match(file, '(.-/[^/]+/)src')
-            end
-            return vim.fn.getcwd()
-          end,
-        },
-      },
-    },
-  },
-  {
     'mfussenegger/nvim-dap',
     opts = {
       setup = {
