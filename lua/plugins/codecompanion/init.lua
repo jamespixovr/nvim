@@ -29,32 +29,13 @@ return {
             name = 'defaultllm',
             schema = {
               model = {
-                default = 'codeqwen:v1.5-chat',
+                default = 'qwen2.5-coder',
               },
               num_ctx = {
                 default = 16384,
               },
               temperature = {
                 default = 0.5,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
-        codegemma = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'codegemma',
-            schema = {
-              model = {
-                default = 'codegemma',
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              stop = {
-                default = { '<end_of_turn>' },
               },
               num_predict = {
                 default = -1,
