@@ -72,38 +72,6 @@ return {
     },
     config = true,
   },
-  -- e.g. for go.mod and swagger yaml
-  -- https://github.com/icholy/lsplinks.nvim
-  {
-    'icholy/lsplinks.nvim',
-    enabled = false,
-    config = function()
-      require('lsplinks').setup({
-        highlight = true,
-        hl_group = 'Underlined',
-      })
-    end,
-  },
-  {
-    'rachartier/tiny-inline-diagnostic.nvim',
-    enabled = false,
-    event = 'VeryLazy',
-    config = function()
-      require('tiny-inline-diagnostic').setup({
-        blend = {
-          factor = 0.3,
-        },
-        options = {
-          break_line = {
-            enabled = true,
-            after = 80,
-          },
-          multiple_diag_under_cursor = true,
-          show_source = true,
-        },
-      })
-    end,
-  },
   {
     'lukas-reineke/headlines.nvim',
     enabled = false,
