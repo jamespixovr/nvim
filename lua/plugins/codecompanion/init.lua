@@ -42,22 +42,6 @@ return {
             },
           })
         end,
-        codegemma = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'codegemma',
-            schema = {
-              model = {
-                default = 'codegemma',
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
       },
       strategies = {
         chat = {
