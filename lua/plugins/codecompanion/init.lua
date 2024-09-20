@@ -28,7 +28,7 @@ return {
             name = 'defaultllm',
             schema = {
               model = {
-                default = 'codeqwen:v1.5-chat',
+                default = 'qwen2.5-coder',
               },
               num_ctx = {
                 default = 16384,
