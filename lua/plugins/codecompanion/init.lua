@@ -47,12 +47,18 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
+          roles = { llm = ' CodeCompanion', user = 'jarmex' },
         },
         inline = {
           adapter = 'anthropic',
         },
         agent = {
           adapter = 'anthropic',
+          tools = {
+            opts = {
+              auto_submit_errors = true,
+            },
+          },
         },
       },
       -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
@@ -61,6 +67,10 @@ return {
         require('plugins.codecompanion.actions').write,
       },
       display = {
+        diff = {
+          close_chat_at = 500,
+          provider = 'mini_diff',
+        },
         inline = {
           diff = {
             enabled = true,
