@@ -46,19 +46,28 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = '  CodeCompanion', user = 'jarmex' },
+          roles = { llm = ' CodeCompanion', user = 'jarmex' },
         },
         inline = {
           adapter = 'defaultllm',
         },
         agent = {
           adapter = 'anthropic',
+          tools = {
+            opts = {
+              auto_submit_errors = true,
+            },
+          },
         },
       },
       display = {
-        chat = {
-          window = {
-            layout = 'vertical', -- float|vertical|horizontal|buffer
+        diff = {
+          close_chat_at = 500,
+          provider = 'mini_diff',
+        },
+        inline = {
+          diff = {
+            enabled = true,
           },
         },
       },

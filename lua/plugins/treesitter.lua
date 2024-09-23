@@ -1,12 +1,31 @@
 return {
-  { -- Automatically add closing tags for HTML and JSX
-    'windwp/nvim-ts-autotag',
-    event = 'VeryLazy',
-    opts = {},
+  {
+    'windwp/nvim-autopairs', -- Autopair plugin
+    opts = {
+      close_triple_quotes = true,
+      check_ts = true,
+      enable_moveright = true,
+      fast_wrap = {
+        map = '<c-e>',
+      },
+    },
+    config = function(_, opts)
+      local autopairs = require('nvim-autopairs')
+
+      autopairs.setup(opts)
+
+      local Rule = require('nvim-autopairs.rule')
+      local ts_conds = require('nvim-autopairs.ts-conds')
+
+      autopairs.add_rules({
+        Rule('{{', '  }', 'vue'):set_end_pair_length(2):with_pair(ts_conds.is_ts_node('text')),
+      })
+    end,
   },
   -- comments
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
+    lazy = true,
     opts = {
       enable_autocmd = false,
     },
@@ -16,6 +35,18 @@ return {
     event = 'BufReadPre',
     enabled = true,
     opts = { mode = 'cursor', max_lines = 3 },
+  },
+  {
+    'PriceHiller/nvim-treesitter-endwise', -- Automatically add end keywords for Ruby, Lua, Python, and more
+    branch = 'fix/iter-matches',
+  },
+  {
+    'abecodes/tabout.nvim', -- Tab out from parenthesis, quotes, brackets...
+    opts = {
+      tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
+      backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
+      completion = true, -- We use tab for completion so set this to true
+    },
   },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -46,7 +77,7 @@ return {
   {
     --- Treesitter
     'nvim-treesitter/nvim-treesitter',
-    version = false, -- last release is way too old
+    version = false,
     build = ':TSUpdate',
     event = { 'BufNewFile', 'BufReadPost', 'BufWritePre', 'VeryLazy' },
     cmd = {
@@ -67,6 +98,9 @@ return {
       require('lazy.core.loader').add_to_rtp(plugin)
       require('nvim-treesitter.query_predicates')
     end,
+    dependencies = {
+      'windwp/nvim-ts-autotag',
+    },
     opts = function()
       local function is_disable(_, bufnr)
         return bufnr and vim.api.nvim_buf_line_count(bufnr) > 5000
@@ -141,13 +175,27 @@ return {
             node_decremental = '<bs>',
           },
         },
+        -- nvim-treesitter-endwise plugin
+        endwise = { enable = true, disable = is_disable },
+
         textobjects = {
           move = {
             enable = true,
-            goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer', [']a'] = '@parameter.inner' },
-            goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer', [']A'] = '@parameter.inner' },
-            goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer', ['[a'] = '@parameter.inner' },
-            goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer', ['[A'] = '@parameter.inner' },
+            goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },
+            goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer' },
+            goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer' },
+            goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer' },
+          },
+          select = {
+            enable = true,
+            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
+
+            keymaps = {
+              -- Use v[keymap], c[keymap], d[keymap] to perform any operation
+              ['af'] = '@function.outer',
+              ['if'] = '@function.inner',
+              ['ac'] = '@class.outer',
+            },
           },
         },
         query_linter = {
