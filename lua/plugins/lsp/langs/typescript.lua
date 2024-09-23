@@ -42,13 +42,13 @@ return {
             vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
           end,
         },
-        on_attach = function(client, bufnr)
+        on_attach = function(client)
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end,
         settings = {
           expose_as_code_action = 'all',
-          code_lens = 'implementations_only', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+          code_lens = 'off', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
           jsx_close_tag = {
             enable = true,
             filetypes = { 'javascriptreact', 'typescriptreact' },
