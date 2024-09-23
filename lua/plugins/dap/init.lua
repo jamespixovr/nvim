@@ -10,7 +10,9 @@ local function dapConfig()
   -- use overseer for running preLaunchTask and postDebugTask
   require('overseer').enable_dap()
 
-  require('dap.ext.vscode').load_launchjs('launch.json')
+  -- require('dap.ext.vscode').load_launchjs('launch.json')
+  require('dap.ext.vscode').load_launchjs(nil, { node = { 'typescript', 'javascript' } })
+  require('dap.ext.vscode').json_decode = require('overseer.json').decode
 
   -- AUTO-OPEN/CLOSE THE DAP-UI
   local listener = require('dap').listeners.before
