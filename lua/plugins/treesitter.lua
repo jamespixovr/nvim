@@ -5,6 +5,7 @@ return {
       close_triple_quotes = true,
       check_ts = true,
       enable_moveright = true,
+      disable_filetype = { 'TelescopePrompt', 'vim' },
       fast_wrap = {
         map = '<c-e>',
       },
