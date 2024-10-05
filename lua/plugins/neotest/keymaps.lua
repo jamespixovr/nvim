@@ -2,6 +2,7 @@ local M = {}
 
 function M.keymaps()
   return {
+    { '<leader>t', '', desc = '+test' },
     {
       '<leader>tn',
       "<cmd>lua require('neotest').run.run()<cr>",
@@ -10,26 +11,22 @@ function M.keymaps()
     {
       '<leader>tT',
       function()
-        require('neotest').run.run(vim.loop.cwd())
+        require('neotest').run.run(vim.uv.cwd())
       end,
       desc = 'Run All Test Files',
     },
     {
-      '<leader>tb',
-      function()
-        require('neotest').run.run(vim.api.nvim_buf_get_name(0))
-      end,
-      mode = 'n',
-      desc = 'Run test file',
-    },
-    {
       '<leader>tl',
-      "<cmd>lua require('neotest').run.run_last()<cr>",
+      function()
+        require('neotest').run.run_last()
+      end,
       desc = 'Run last test',
     },
     {
       '<leader>tf',
-      '<cmd>lua require("neotest").run.run(vim.fn.expand("%"))<cr>',
+      function()
+        require('neotest').run.run(vim.fn.expand('%'))
+      end,
       desc = 'Run test file',
     },
     {
@@ -63,12 +60,16 @@ function M.keymaps()
     },
     {
       '<leader>to',
-      "<cmd>lua require('neotest').output.open({enter = true, auto_close = true})<cr>",
+      function()
+        require('neotest').output.open({ enter = true, auto_close = true })
+      end,
       desc = 'Open output test',
     },
     {
-      '<leader>tp',
-      "<cmd>lua require('neotest').output_panel.toggle()<cr>",
+      '<leader>tO',
+      function()
+        require('neotest').output_panel.toggle()
+      end,
       desc = 'Output test panel',
     },
     {
@@ -78,6 +79,13 @@ function M.keymaps()
         require('neotest').run.run(vim.fn.expand('%'))
       end,
       desc = 'Neotest toggle',
+    },
+    {
+      '<leader>tw',
+      function()
+        require('neotest').watch.toggle(vim.fn.expand('%'))
+      end,
+      desc = 'Toggle Watch',
     },
   }
 end

@@ -76,7 +76,25 @@ return {
       })
     end,
   },
-
+  {
+    'nvim-neotest/neotest',
+    optional = true,
+    dependencies = {
+      { 'haydenmeade/neotest-jest', version = false },
+    },
+    opts = {
+      adapters = {
+        ['neotest-jest'] = {
+          jestCommand = 'pnpm jest',
+          -- jestConfigFile = "jest.config.js",
+          env = { CI = true },
+          cwd = function(path)
+            return require('lspconfig.util').root_pattern('package.json', 'jest.config.js')(path)
+          end,
+        },
+      },
+    },
+  },
   {
     'mfussenegger/nvim-dap',
     opts = {
