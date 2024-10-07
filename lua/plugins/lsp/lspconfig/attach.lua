@@ -69,17 +69,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('gd', go_to_definition, 'Go to definition')
     if client.supports_method(methods.textDocument_definition) then
-      -- map("n", "gd", "<cmd>Glance definitions<CR>", { buffer = bufnr, desc = "[LSP] Go definitions" })
       map('gD', vim.lsp.buf.declaration, '[G]o [D]eclaration')
     end
 
-    map('gr', '<cmd>Glance references<CR>', '[G]o [R]eferences')
-    map('gi', '<cmd>Glance implementations<CR>', '[G]o [I]mplementation')
-    map('gt', '<cmd>Glance type_definitions<cr>', 'Goto Type Definition')
+    map('gr', vim.lsp.buf.references, 'References', { nowait = true })
+    map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
+    map('gy', vim.lsp.buf.type_definition, 'Goto Type Definition')
 
-    map('K', '<cmd>lua vim.lsp.buf.hover()<CR>', 'Hover Documentation')
+    map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
     if client.supports_method(methods.textDocument_signatureHelp) then
+      map('gK', vim.lsp.buf.signature_help, 'Signature Help')
       map('<C-k>', function()
         -- Close the completion menu first (if open).
         local cmp = require('cmp')
@@ -119,7 +119,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     if client.supports_method(methods.textDocument_rename) then
-      -- map("<leader>cr", vim.lsp.buf.rename, "Rename")
       map('<leader>cr', rename, '[R]ename')
     end
 
