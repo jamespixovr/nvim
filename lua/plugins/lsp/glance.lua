@@ -1,9 +1,10 @@
 ---@diagnostic disable: missing-fields
 return {
   {
-    "dnlhc/glance.nvim",
-    event = "VeryLazy",
-    cmd = { "Glance" },
+    'dnlhc/glance.nvim',
+    enabled = false,
+    event = 'VeryLazy',
+    cmd = { 'Glance' },
     opts = {
       use_trouble_qf = true,
       height = 20,
@@ -28,13 +29,13 @@ return {
         end,
       },
       folds = {
-        fold_closed = "",
-        fold_open = "",
+        fold_closed = '',
+        fold_open = '',
         folded = true,
       },
       indent_lines = {
         enable = true,
-        icon = "│",
+        icon = '│',
       },
       winbar = {
         enable = true,
