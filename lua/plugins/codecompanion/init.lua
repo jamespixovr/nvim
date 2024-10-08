@@ -46,7 +46,7 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'jarmex' },
+          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
         },
         inline = {
           adapter = 'defaultllm',
@@ -69,6 +69,9 @@ return {
           diff = {
             enabled = true,
           },
+        },
+        chat = {
+          show_settings = false,
         },
       },
       opts = {
