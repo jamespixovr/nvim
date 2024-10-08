@@ -50,7 +50,7 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'jarmex' },
+          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
         },
         inline = {
           adapter = 'anthropic',
@@ -80,7 +80,7 @@ return {
           },
         },
         chat = {
-          show_settings = true,
+          show_settings = false,
         },
       },
     })
