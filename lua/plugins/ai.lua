@@ -14,6 +14,7 @@ return {
 
   {
     'David-Kunz/gen.nvim',
+    enabled = false,
     cmd = { 'Gen' },
     event = 'VeryLazy',
     keys = require('config.keymaps').gen_ai_keymaps(),

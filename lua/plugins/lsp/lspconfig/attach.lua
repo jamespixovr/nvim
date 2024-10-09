@@ -68,12 +68,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     end
 
     map('gd', go_to_definition, 'Go to definition')
+
     if client.supports_method(methods.textDocument_definition) then
       map('gD', vim.lsp.buf.declaration, '[G]o [D]eclaration')
     end
 
-    map('gr', vim.lsp.buf.references, 'References', { nowait = true })
-    map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
+    map('gr', 'FzfLua lsp_references', 'References', { nowait = true })
+    -- map('gr', vim.lsp.buf.references, 'References', { nowait = true })
+    -- map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
+
+    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = 'References', nowait = true })
+    map('gi', 'FzfLua lsp_implementations', 'Goto Implementation')
     map('gy', vim.lsp.buf.type_definition, 'Goto Type Definition')
 
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
