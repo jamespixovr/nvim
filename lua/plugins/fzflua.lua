@@ -102,6 +102,7 @@ end
 
 local keys = {
   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
+  { '<leader>sf', ':FzfLua grep_cword<cr>', desc = 'Search word under cursor' },
 }
 if vim.g.picker == 'fzf_lua' then
   keys = {
