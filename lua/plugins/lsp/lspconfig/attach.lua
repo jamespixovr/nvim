@@ -73,13 +73,14 @@ vim.api.nvim_create_autocmd('LspAttach', {
       map('gD', 'FzfLua lsp_definitions', '[G]o [D]eclaration')
     end
 
-    map('gr', 'FzfLua lsp_references', 'References', { nowait = true })
     -- map('gr', vim.lsp.buf.references, 'References', { nowait = true })
     -- map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
 
-    -- vim.keymap.set('n', 'gr', vim.lsp.buf.references, { buffer = bufnr, desc = 'References', nowait = true })
-    map('gi', 'FzfLua lsp_implementations', 'Goto Implementation')
-    map('gy', 'FzfLua lsp_type_definitions', 'Goto Type Definition')
+    vim.keymap.set('n', 'gr', ':FzfLua lsp_references<CR>', { buffer = bufnr, desc = 'References', nowait = true })
+    map('gi', function()
+      require('fzf-lua').lsp_implementations({ jump_to_single_result = true })
+    end, 'Goto Implementation')
+    map('gy', ':FzfLua lsp_typedefs<CR>', 'Goto Type Definition')
 
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
@@ -111,7 +112,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
       '[W]orkspace [L]ist Folders'
     )
     -- map("gy", vim.lsp.buf.declaration, "[LSP] Go declaration")
-    map('gy', '<cmd>FzfLua lsp_typedefs<cr>', 'Go to type definition')
 
     map('<leader>ws', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
     map('<leader>wS', function()

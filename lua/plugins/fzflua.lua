@@ -60,6 +60,82 @@ local function cursor_dropdown(opts)
   }, opts)
 end
 
+local function file_picker(opts_or_cwd)
+  if type(opts_or_cwd) == 'table' then
+    fzf_lua.files(ivy(opts_or_cwd))
+  else
+    fzf_lua.files(ivy({ cwd = opts_or_cwd }))
+  end
+end
+
+local function git_files_cwd_aware(opts)
+  opts = opts or {}
+  local fzf = require('fzf-lua')
+  -- git_root() will warn us if we're not inside a git repo
+  -- so we don't have to add another warning here, if
+  -- you want to avoid the error message change it to:
+  -- local git_root = fzf_lua.path.git_root(opts, true)
+  local git_root = fzf.path.git_root(opts)
+  if not git_root then
+    return fzf.files(ivy(opts))
+  end
+  local relative = fzf.path.relative(vim.loop.cwd(), git_root)
+  opts.fzf_opts = { ['--query'] = git_root ~= relative and relative or nil }
+  return fzf.git_files(ivy(opts))
+end
+
+local keys = {
+  { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
+  { '<leader>sf', ':FzfLua grep_cword<cr>', desc = 'Search word under cursor' },
+}
+if vim.g.picker == 'fzf_lua' then
+  keys = {
+    { '<c-p>', git_files_cwd_aware, desc = 'find files' },
+    { '<leader>fa', '<Cmd>FzfLua<CR>', desc = 'builtins' },
+    { '<leader>ff', file_picker, desc = 'find files' },
+    { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
+    { '<leader>fr', fzf_lua.resume, desc = 'resume picker' },
+    { '<leader>fh', fzf_lua.highlights, desc = 'highlights' },
+    { '<leader>fm', fzf_lua.marks, desc = 'marks' },
+    { '<leader>fk', fzf_lua.keymaps, desc = 'keymaps' },
+    { '<leader>flw', fzf_lua.diagnostics_workspace, desc = 'workspace diagnostics' },
+    { '<leader>fls', fzf_lua.lsp_document_symbols, desc = 'document symbols' },
+    { '<leader>flS', fzf_lua.lsp_live_workspace_symbols, desc = 'workspace symbols' },
+    { '<leader>f?', fzf_lua.help_tags, desc = 'help' },
+    { '<leader>fgb', fzf_lua.git_branches, desc = 'branches' },
+    { '<leader>fgc', fzf_lua.git_commits, desc = 'commits' },
+    { '<leader>fgB', fzf_lua.git_bcommits, desc = 'buffer commits' },
+    { '<leader>fb', fzf_lua.buffers, desc = 'buffers' },
+    { '<leader>a', fzf_lua.live_grep_glob, desc = 'live grep' },
+    { '<leader>A', fzf_lua.grep_cword, desc = 'grep (under cursor)' },
+    { '<leader>A', fzf_lua.grep_visual, desc = 'grep (visual selection)', mode = 'v' },
+    { '<leader>fva', fzf_lua.autocmds, desc = 'autocommands' },
+    { '<leader>fp', fzf_lua.registers, desc = 'registers' },
+    {
+      '<leader>fd',
+      function()
+        file_picker(vim.env.DOTFILES)
+      end,
+      desc = 'dotfiles',
+    },
+    {
+      '<leader>fc',
+      function()
+        file_picker(vim.g.vim_path)
+      end,
+      desc = 'nvim config',
+    },
+    {
+      '<leader>fn',
+      function()
+        file_picker(vim.g.neorg_path)
+      end,
+      desc = 'neorg files',
+    },
+    -- { "<leader>fN", function() file_picker(env.SYNC_DIR .. "/notes/neorg") end, desc = "norg files" },
+  }
+end
+
 return {
   {
     'ibhagwan/fzf-lua',
