@@ -76,11 +76,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
     -- map('gr', vim.lsp.buf.references, 'References', { nowait = true })
     -- map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
 
-    vim.keymap.set('n', 'gr', ':FzfLua lsp_references<CR>', { buffer = bufnr, desc = 'References', nowait = true })
+    vim.keymap.set('n', 'gr', function()
+      require('fzf-lua').lsp_references({ jump_to_single_result = true })
+    end, { buffer = bufnr, desc = 'References', nowait = true })
+
     map('gi', function()
       require('fzf-lua').lsp_implementations({ jump_to_single_result = true })
     end, 'Goto Implementation')
-    map('gy', ':FzfLua lsp_typedefs<CR>', 'Goto Type Definition')
+
+    map('gy', function()
+      require('fzf-lua').lsp_typedefs({ jump_to_single_result = true })
+    end, 'Goto Type Definition')
 
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
@@ -106,11 +112,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', '[W]orkspace [A]dd Folder')
     map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', '[W]orkspace [R]emove Folder')
-    map(
-      '<leader>wl',
-      '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>',
-      '[W]orkspace [L]ist Folders'
-    )
+    -- map('<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', 'Workspace List Folders')
     -- map("gy", vim.lsp.buf.declaration, "[LSP] Go declaration")
 
     map('<leader>ws', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
