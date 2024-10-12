@@ -1,4 +1,20 @@
-local prompt = ' '
+-- REF: https://github.com/megalithic/dotfiles/blob/main/config/nvim/lua/plugins/extended/fzf.lua
+
+---@param require_path string
+---@return table<string, fun(...): any>
+local function reqcall(require_path)
+  return setmetatable({}, {
+    __index = function(_, k)
+      return function(...)
+        return require(require_path)[k](...)
+      end
+    end,
+  })
+end
+
+local fzf_lua = reqcall('fzf-lua')
+
+local prompt = '~> '
 
 local function title(str, icon, icon_hl)
   return { { ' ' }, { (icon or ''), icon_hl or 'DevIconDefault' }, { ' ' }, { str, 'Bold' }, { ' ' } }
@@ -9,7 +25,7 @@ local function ivy(opts, ...)
   opts['winopts'] = opts.winopts or {}
 
   return vim.tbl_deep_extend('force', {
-    prompt = ' ',
+    prompt = prompt,
     fzf_opts = { ['--layout'] = 'reverse' },
     winopts = {
       title_pos = opts['winopts'].title and 'center' or nil,
@@ -17,7 +33,7 @@ local function ivy(opts, ...)
       width = 1.00,
       row = 0.98,
       col = 1,
-      border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
+      -- border = { ' ', ' ', ' ', ' ', ' ', ' ', ' ', ' ' },
       preview = {
         layout = 'flex',
         hidden = 'nohidden',
@@ -141,25 +157,20 @@ return {
     'ibhagwan/fzf-lua',
     event = 'VeryLazy',
     dependencies = { 'nvim-tree/nvim-web-devicons' },
-    keys = {
-      { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
-    },
+    -- keys = {
+    --   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
+    -- },
+    keys = keys,
     config = function()
       -- calling `setup` is optional for customization
       local actions = require('fzf-lua.actions')
+      local fzf = require('fzf-lua')
 
-      local fzf_lua = require('fzf-lua')
-      local function file_picker(opts_or_cwd)
-        if type(opts_or_cwd) == 'table' then
-          fzf_lua.files(ivy(opts_or_cwd))
-        else
-          fzf_lua.files(ivy({ cwd = opts_or_cwd }))
-        end
-      end
-
-      fzf_lua.setup({
+      fzf.setup({
         defaults = {
           file_icons = false,
+          git_icons = false,
+          color_icons = false,
         },
         winopts = {
           title_pos = nil,
@@ -223,7 +234,7 @@ return {
           -- action = { ["ctrl-r"] = fzf.actions.arg_add },
         },
         buffers = dropdown({
-          fzf_opts = { ['--delimiter'] = "' '", ['--with-nth'] = '-1..' },
+          fzf_opts = { ['--delimiter'] = ' ', ['--with-nth'] = '-1..' },
           winopts = { title = title('Buffers', '󰈙') },
         }),
         keymaps = dropdown({
@@ -240,7 +251,7 @@ return {
           rg_glob = true, -- enable glob parsing by default to all
           glob_flag = '--iglob', -- for case sensitive globs use '--glob'
           glob_separator = '%s%-%-', -- query separator pattern (lua): ' --'
-          actions = { ['ctrl-g'] = fzf_lua.actions.grep_lgrep },
+          actions = { ['ctrl-g'] = fzf.actions.grep_lgrep },
           rg_glob_fn = function(query, opts)
             -- this enables all `rg` arguments to be passed in after the `--` glob separator
             local search_query, glob_str = query:match('(.*)' .. opts.glob_separator .. '(.*)')
@@ -250,12 +261,12 @@ return {
           end,
         },
         lsp = {
-          cwd_only = true,
+          -- cwd_only = true,
           code_actions = cursor_dropdown({
             winopts = { title = title('Code Actions', '', '@type') },
           }),
         },
-        jumps = dropdown({
+        jumps = ivy({
           winopts = { title = title('Jumps', ''), preview = { hidden = 'nohidden' } },
         }),
         changes = dropdown({
@@ -266,9 +277,9 @@ return {
           winopts = { title = title('Diagnostics', '', 'DiagnosticError') },
         }),
       })
-      fzf_lua.register_ui_select(dropdown({
-        winopts = { title = title('Select one of:'), height = 0.33, row = 0.5 },
-      }))
+      -- fzf_lua.register_ui_select(dropdown({
+      --   winopts = { title = title('Select one of:'), height = 0.33, row = 0.5 },
+      -- }))
     end,
   },
 }

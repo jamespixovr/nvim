@@ -69,13 +69,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('gd', go_to_definition, 'Go to definition')
 
-    if client.supports_method(methods.textDocument_definition) then
-      map('gD', 'FzfLua lsp_definitions', '[G]o [D]eclaration')
-    end
-
-    -- map('gr', vim.lsp.buf.references, 'References', { nowait = true })
-    -- map('gi', vim.lsp.buf.implementation, 'Goto Implementation')
-
     vim.keymap.set('n', 'gr', function()
       require('fzf-lua').lsp_references({ jump_to_single_result = true })
     end, { buffer = bufnr, desc = 'References', nowait = true })
