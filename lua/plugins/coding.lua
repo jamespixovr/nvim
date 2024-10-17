@@ -70,7 +70,9 @@ return {
   {
     'danymat/neogen',
     dependencies = 'nvim-treesitter/nvim-treesitter',
-    keys = require('config.keymaps').generate_docs_keymaps(),
+    keys = {
+      { '<leader>cn', ':Neogen<cr>', 'Generate Annotation' },
+    },
     opts = { snippet_engine = 'luasnip' },
   },
 

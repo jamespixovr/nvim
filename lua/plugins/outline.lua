@@ -3,7 +3,9 @@ return {
     'hedyhli/outline.nvim',
     lazy = true,
     cmd = { 'Outline', 'OutlineOpen' },
-    keys = require('config.keymaps').symbols_outline_keymaps(),
+    keys = {
+      { '<leader>ss', '<cmd>Outline<cr>', desc = 'Toggle Outline' },
+    },
     opts = {},
   },
 }
