@@ -85,5 +85,11 @@ return {
       },
     })
   end,
-  keys = require('config.keymaps').codecompanion_keymaps(),
+  keys = {
+    { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },
+    { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
+    { '<leader>at', '<cmd>CodeCompanionChat Toggle<CR>', desc = 'AI Toggle', mode = { 'n', 'v' } },
+    { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
+    { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion: Ollama' },
+  },
 }

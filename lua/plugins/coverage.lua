@@ -32,6 +32,9 @@ return {
       },
     },
 
-    keys = require('config.keymaps').setup_coverage_keymaps(),
+    keys = {
+      { '<leader>tcc', ':Coverage<CR>', desc = '[t]est [c]overage in gutter' },
+      { '<leader>tcs', ':CoverageLoad<CR>:CoverageSummary<CR>', desc = '[t]est [C]overage summary' },
+    },
   },
 }
