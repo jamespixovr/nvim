@@ -136,9 +136,15 @@ return {
     'nvim-neotest/neotest',
     optional = true,
     dependencies = {
-      -- { "nvim-neotest/neotest-go", version = false },
-      -- { "jarmex/neotest-go", version = false, branch = "ginkgo" },
       { 'jarmex/neotest-ginkgo' },
+      {
+        'fredrikaverpil/neotest-golang',
+        enabled = false,
+        version = '*',
+        dependencies = {
+          'leoluz/nvim-dap-go',
+        },
+      },
     },
     opts = {
       adapters = {
@@ -150,6 +156,11 @@ return {
             test_table = true,
           },
         },
+        -- ['neotest-golang'] = {
+        --   experimental = {
+        --     test_table = true,
+        --   },
+        -- },
       },
     },
   },
