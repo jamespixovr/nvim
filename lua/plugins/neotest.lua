@@ -18,8 +18,8 @@ return {
     keys = {
       { "<leader>tn", "<cmd>lua require('neotest').run.run()<cr>", desc = "Run nearest test", },
       { "<leader>tN", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Run All Test Files", },
-      { "]t", function() require("neotest").jump.next() end,  desc = "Next Test", },
-      { "[t", function() require("neotest").jump.prev() end,  desc = "Previous Test", },
+      { "]e", function() require("neotest").jump.next() end,  desc = "Next Test", },
+      { "[e", function() require("neotest").jump.prev() end,  desc = "Previous Test", },
       { "<leader>tl", function() require('neotest').run.run_last() end , desc = "Run last test", },
       { "<leader>tf", function() require('neotest').run.run(vim.fn.expand("%")) end , desc = "Run test file", },
       { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug test", },

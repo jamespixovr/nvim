@@ -64,8 +64,8 @@ keymap('t', '<C-l>', '<cmd>wincmd l<cr>', { desc = 'Go to right window' })
 keymap('t', '<C-/>', '<cmd>close<cr>', { desc = 'Hide Terminal' })
 keymap('t', '<c-_>', '<cmd>close<cr>', { desc = 'which_key_ignore' })
 -- QuickFix
-keymap('n', ']q', ':cnext<CR>')
-keymap('n', '[q', ':cprev<CR>')
+-- keymap('n', ']q', ':cnext<CR>')
+-- keymap('n', '[q', ':cprev<CR>')
 keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 
 -- Clear search with <esc>
@@ -85,15 +85,15 @@ keymap('n', '<leader>ww', '<C-W>p', { desc = 'Other window', remap = true })
 keymap('n', '<leader>wd', '<C-W>c', { desc = 'Delete window', remap = true })
 keymap('n', '<leader>w-', '<C-W>s', { desc = 'Split window below', remap = true })
 keymap('n', '<leader>w|', '<C-W>v', { desc = 'Split window right', remap = true })
-keymap('n', '<leader>-', '<C-W>s', { desc = 'Split window below', remap = true })
-keymap('n', '<leader>|', '<C-W>v', { desc = 'Split window right', remap = true })
+-- keymap('n', '<leader>-', '<C-W>s', { desc = 'Split window below', remap = true })
+-- keymap('n', '<leader>|', '<C-W>v', { desc = 'Split window right', remap = true })
 
 keymap('x', 'K', ":m '<-2<CR>gv-gv")
 keymap('x', 'J', ":m '>+1<CR>gv-gv")
 
 -- QUICKFIX
-keymap('n', 'gq', vim.cmd.cnext, { desc = ' Next Quickfix' })
-keymap('n', 'gQ', vim.cmd.cprevious, { desc = ' Prev Quickfix' })
+-- keymap('n', 'gq', vim.cmd.cnext, { desc = ' Next Quickfix' })
+-- keymap('n', 'gQ', vim.cmd.cprevious, { desc = ' Prev Quickfix' })
 keymap('n', 'dQ', function()
   vim.cmd.cexpr('[]')
 end, { desc = ' Delete Quickfix List' })
@@ -110,7 +110,7 @@ keymap('n', '<C-Down>', ':resize -2<CR>', { desc = 'Decrease window height', sil
 keymap('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Decrease window width', silent = true })
 keymap('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Increase window width', silent = true })
 
-keymap('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
+-- keymap('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
 
 -- Tabs
 keymap('n', '<leader><tab>l', '<cmd>tablast<cr>', { desc = 'Last Tab' })
