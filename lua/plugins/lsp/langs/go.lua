@@ -45,8 +45,8 @@ return {
             gopls = {
               gofumpt = true,
               codelenses = {
-                gc_details = false,
-                generate = true,
+                gc_details = true, -- Show a code lens toggling the display of gc's choices.
+                generate = true, -- show the `go generate` lens.
                 regenerate_cgo = true,
                 run_govulncheck = true,
                 test = true,
@@ -71,12 +71,20 @@ return {
                 useany = true,
                 shadow = true,
                 unusedvariable = true,
+                fillreturns = true,
+                nonewvars = true,
+                undeclaredname = true,
+                unreachable = true,
               },
               staticcheck = true,
               usePlaceholders = true,
               completeUnimported = true,
               directoryFilters = { '-**/node_modules', '-**/.git', '-.vscode', '-.idea', '-.vscode-test' },
               semanticTokens = true,
+              symbolMatcher = 'fuzzy',
+              buildFlags = { '-tags', 'integration' },
+              diagnosticsDelay = '500ms',
+              matcher = 'Fuzzy',
             },
           },
         },
