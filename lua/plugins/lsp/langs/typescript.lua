@@ -72,6 +72,7 @@ return {
             -- "typescript-styled-plugin",
           },
           separate_diagnostic_server = true,
+          tsserver_max_memory = 3072,
         },
       })
     end,
