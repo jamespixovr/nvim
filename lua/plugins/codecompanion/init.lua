@@ -15,6 +15,9 @@ return {
     require('codecompanion').setup({
       use_default_prompts = true,
       adapters = {
+        openai = function()
+          return require('codecompanion.adapters').extend('openai', {})
+        end,
         anthropic = function()
           return require('codecompanion.adapters').extend('anthropic', {
             env = {
@@ -50,7 +53,7 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
+          roles = { llm = ' CodeCompanion', user = 'Me' },
         },
         inline = {
           adapter = 'anthropic',

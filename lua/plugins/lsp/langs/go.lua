@@ -139,7 +139,7 @@ return {
       { 'jarmex/neotest-ginkgo' },
       {
         'fredrikaverpil/neotest-golang',
-        enabled = false,
+        -- enabled = false,
         version = '*',
         dependencies = {
           'leoluz/nvim-dap-go',
