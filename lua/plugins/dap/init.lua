@@ -1,4 +1,5 @@
 local icons = require('settings').icons.dap
+
 local function dap_keymaps()
 		-- stylua: ignore start
   return {
@@ -85,6 +86,7 @@ end
 return {
   {
     'Weissle/persistent-breakpoints.nvim',
+    enabled = false,
     opts = {
       load_breakpoints_event = { 'BufReadPost' },
     },

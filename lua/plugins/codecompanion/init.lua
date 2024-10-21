@@ -14,6 +14,9 @@ return {
 
     require('codecompanion').setup({
       adapters = {
+        openai = function()
+          return require('codecompanion.adapters').extend('openai', {})
+        end,
         anthropic = function()
           return require('codecompanion.adapters').extend('anthropic', {
             schema = {
@@ -46,7 +49,7 @@ return {
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
+          roles = { llm = ' CodeCompanion', user = 'Me' },
         },
         inline = {
           adapter = 'defaultllm',

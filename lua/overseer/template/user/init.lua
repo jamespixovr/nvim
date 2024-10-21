@@ -3,4 +3,5 @@ return {
   'user.deno_test',
   'user.run_script',
   'user.run_src_test',
+  'user.docker-compose',
 }
