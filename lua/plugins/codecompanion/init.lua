@@ -15,13 +15,19 @@ return {
     require('codecompanion').setup({
       adapters = {
         openai = function()
-          return require('codecompanion.adapters').extend('openai', {})
+          return require('codecompanion.adapters').extend('openai', {
+            schema = {
+              model = {
+                default = 'gpt-4o',
+              },
+            },
+          })
         end,
         anthropic = function()
           return require('codecompanion.adapters').extend('anthropic', {
             schema = {
               model = {
-                default = 'claude-3-5-sonnet-20240620',
+                default = 'claude-3-5-sonnet-latest',
               },
             },
           })
@@ -37,7 +43,7 @@ return {
                 default = 16384,
               },
               temperature = {
-                default = 0.5,
+                default = 0.8,
               },
               num_predict = {
                 default = -1,
