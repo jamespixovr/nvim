@@ -167,7 +167,6 @@ return {
   --  Debugging with go debugger
   {
     'leoluz/nvim-dap-go',
-    lazy = true,
     event = 'VeryLazy',
     config = function()
       require('dap-go').setup({

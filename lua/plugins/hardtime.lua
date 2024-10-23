@@ -1,6 +1,6 @@
 return {
   'm4xshen/hardtime.nvim',
-  lazy = true,
+  event = 'VeryLazy',
   dependencies = { 'MunifTanjim/nui.nvim', 'nvim-lua/plenary.nvim' },
   keys = {
     { '<leader>hd', '<cmd>Hardtime disable<cr>', desc = 'HardTime Disable' },

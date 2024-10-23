@@ -1,13 +1,13 @@
 return {
   {
-    'nvim-lua/plenary.nvim',
+    "nvim-lua/plenary.nvim",
     lazy = false,
   },
   {
-    'MunifTanjim/nui.nvim',
+    "MunifTanjim/nui.nvim",
     lazy = false,
   },
 
   -- icons
-  { 'nvim-tree/nvim-web-devicons', lazy = true },
+  { "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
 }

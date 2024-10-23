@@ -23,7 +23,7 @@ return {
   -- toggle terminal
   {
     'akinsho/toggleterm.nvim',
-    lazy = true,
+    event = 'VeryLazy',
     keys = terminal_keymaps(),
     opts = {
       open_mapping = [[<c-\>]],

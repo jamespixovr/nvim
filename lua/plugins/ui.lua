@@ -78,7 +78,7 @@ return {
   -- Tabs
   {
     'akinsho/nvim-bufferline.lua',
-    lazy = true,
+    event = 'VeryLazy',
     -- stylua: ignore
     keys = {
       { "[b",         "<cmd>BufferLineCyclePrev<cr>",                              desc = "Previous" },
@@ -137,8 +137,8 @@ return {
   -- indent guides for Neovim
   {
     'lukas-reineke/indent-blankline.nvim',
-    enabled = true,
-    event = { 'BufReadPost', 'BufNewFile' },
+    enabled = false,
+    event = 'VeryLazy',
     opts = {
       indent = { char = '│' },
       scope = { enabled = false },

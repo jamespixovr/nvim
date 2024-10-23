@@ -2,7 +2,7 @@
 return {
   'kdheepak/lazygit.nvim',
   enabled = false,
-  lazy = true,
+  event = 'VeryLazy',
   cmd = {
     'LazyGit',
     'LazyGitConfig',

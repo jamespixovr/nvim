@@ -64,7 +64,7 @@ return {
   ---- pixo related plugins ----
   {
     'jamespixovr/pixovr.nvim',
-    lazy = true,
+    event = 'VeryLazy',
     cmd = { 'Pixovr' },
     dependencies = {
       'stevearc/overseer.nvim',

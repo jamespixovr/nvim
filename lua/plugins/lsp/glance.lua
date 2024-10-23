@@ -3,7 +3,7 @@ return {
   {
     'dnlhc/glance.nvim',
     enabled = false,
-    lazy = true,
+    event = 'VeryLazy',
     cmd = { 'Glance' },
     opts = {
       use_trouble_qf = true,
