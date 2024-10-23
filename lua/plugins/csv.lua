@@ -8,7 +8,7 @@ return {
     keys = {
       { '<leader>cv', '<cmd>Csvlens "|"<cr>', desc = "CSV Lens with '|' separator", mode = { 'n', 'v' } },
     },
-    event = 'VeryLazy',
+    lazy = true,
     config = true,
   },
 }

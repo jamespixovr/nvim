@@ -1,53 +1,53 @@
 return {
   -- extend auto completion
   {
-    "hrsh7th/nvim-cmp",
+    'hrsh7th/nvim-cmp',
     dependencies = {
       {
-        "Saecki/crates.nvim",
-        event = { "BufRead Cargo.toml" },
+        'Saecki/crates.nvim',
+        event = { 'BufRead Cargo.toml' },
         config = true,
       },
     },
     ---@param opts cmp.ConfigSchema
     opts = function(_, opts)
-      local cmp = require("cmp")
+      local cmp = require('cmp')
       opts.sources = cmp.config.sources(vim.list_extend(opts.sources, {
-        { name = "crates" },
+        { name = 'crates' },
       }))
     end,
   },
   {
-    "mrcjkb/rustaceanvim",
-    version = "^5", -- Recommended
-    ft = { "rust" },
+    'mrcjkb/rustaceanvim',
+    version = '^5', -- Recommended
+    ft = { 'rust' },
     opts = {
       tools = {
         float_win_config = { border = vim.g.borderStyle },
         inlay_hints = {
           auto = true,
           show_parameter_hints = false,
-          parameter_hints_prefix = "  󰮹 ",
+          parameter_hints_prefix = '  󰮹 ',
           -- only_current_line = true,
-          other_hints_prefix = "  󰮺 ",
+          other_hints_prefix = '  󰮺 ',
         },
       },
       server = {
         on_attach = function(_, bufnr)
-          vim.keymap.set("n", "<leader>ca", function()
-            vim.cmd.RustLsp("codeAction")
-          end, { desc = "Code Action", buffer = bufnr })
-          vim.keymap.set("n", "<leader>dr", function()
-            vim.cmd.RustLsp("debuggables")
-          end, { desc = "Rust Debuggables", buffer = bufnr })
+          vim.keymap.set('n', '<leader>ca', function()
+            vim.cmd.RustLsp('codeAction')
+          end, { desc = 'Code Action', buffer = bufnr })
+          vim.keymap.set('n', '<leader>dr', function()
+            vim.cmd.RustLsp('debuggables')
+          end, { desc = 'Rust Debuggables', buffer = bufnr })
 
-          vim.keymap.set("n", "<leader>rr", function()
-            vim.cmd.RustLsp("run")
-          end, { desc = "Run", buffer = bufnr })
+          vim.keymap.set('n', '<leader>rr', function()
+            vim.cmd.RustLsp('run')
+          end, { desc = 'Run', buffer = bufnr })
         end,
         default_settings = {
           -- rust-analyzer language server configuration
-          ["rust-analyzer"] = {
+          ['rust-analyzer'] = {
             cargo = {
               allFeatures = true,
               loadOutDirsFromCheck = true,
@@ -60,9 +60,9 @@ return {
             procMacro = {
               enable = true,
               ignored = {
-                ["async-trait"] = { "async_trait" },
-                ["napi-derive"] = { "napi" },
-                ["async-recursion"] = { "async_recursion" },
+                ['async-trait'] = { 'async_trait' },
+                ['napi-derive'] = { 'napi' },
+                ['async-recursion'] = { 'async_recursion' },
               },
             },
             inlayHints = {
@@ -76,27 +76,27 @@ return {
       },
     },
     config = function(_, opts)
-      vim.g.rustaceanvim = vim.tbl_deep_extend("keep", vim.g.rustaceanvim or {}, opts or {})
+      vim.g.rustaceanvim = vim.tbl_deep_extend('keep', vim.g.rustaceanvim or {}, opts or {})
     end,
   },
 
   -- Correctly setup lspconfig for Rust 🚀
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     opts = {
       servers = {
         taplo = {
           keys = {
             {
-              "K",
+              'K',
               function()
-                if vim.fn.expand("%:t") == "Cargo.toml" and require("crates").popup_available() then
-                  require("crates").show_popup()
+                if vim.fn.expand('%:t') == 'Cargo.toml' and require('crates').popup_available() then
+                  require('crates').show_popup()
                 else
                   vim.lsp.buf.hover()
                 end
               end,
-              desc = "Show Crate Documentation",
+              desc = 'Show Crate Documentation',
             },
           },
         },
@@ -109,7 +109,8 @@ return {
     },
   },
   {
-    "Saecki/crates.nvim",
+    'Saecki/crates.nvim',
+    event = { 'BufRead Cargo.toml' },
     -- stylua: ignore
     keys = {
        { "<leader>prR", function() require("crates").reload() end, desc = "Reload" },
@@ -133,20 +134,20 @@ return {
   },
 
   {
-    "folke/which-key.nvim",
+    'folke/which-key.nvim',
     opts = {
       spec = {
-        { "<leader>p", group = "packages/dependencies", icon = " " },
-        { "<leader>pr", group = "rust", icon = " " },
+        { '<leader>p', group = 'packages/dependencies', icon = ' ' },
+        { '<leader>pr', group = 'rust', icon = ' ' },
       },
     },
   },
   {
-    "nvim-neotest/neotest",
+    'nvim-neotest/neotest',
     optional = true,
     opts = {
       adapters = {
-        ["rustaceanvim.neotest"] = {},
+        ['rustaceanvim.neotest'] = {},
       },
     },
   },

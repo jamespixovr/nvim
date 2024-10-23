@@ -12,7 +12,7 @@ return {
   {
     'andythigpen/nvim-coverage',
     dependencies = { 'nvim-lua/plenary.nvim' },
-    event = 'VeryLazy',
+    lazy = true,
     cmd = {
       'Coverage',
       'CoverageLoad',

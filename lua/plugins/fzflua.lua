@@ -162,7 +162,7 @@ end
 return {
   {
     'ibhagwan/fzf-lua',
-    event = 'VeryLazy',
+    lazy = true,
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     -- keys = {
     --   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },

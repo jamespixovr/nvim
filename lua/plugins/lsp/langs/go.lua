@@ -100,6 +100,7 @@ return {
   },
   {
     'jack-rabe/impl.nvim',
+    lazy = true,
     dependencies = {
       'nvim-telescope/telescope.nvim',
     },
@@ -113,6 +114,7 @@ return {
 
   {
     'maxandron/goplements.nvim',
+    lazy = true,
     ft = 'go',
     opts = {},
   },

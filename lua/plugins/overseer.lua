@@ -3,7 +3,7 @@ return {
   --  https://github.com/stevearc/overseer.nvim
   {
     'stevearc/overseer.nvim',
-    event = 'VeryLazy',
+    lazy = true,
     cmd = {
       'Grep',
       'Make',
