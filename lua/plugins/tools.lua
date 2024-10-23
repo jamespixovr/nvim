@@ -84,6 +84,7 @@ return {
   },
   {
     'HakonHarnes/img-clip.nvim',
+    enabled = false,
     event = 'VeryLazy',
     opts = {
       default = {
@@ -106,6 +107,7 @@ return {
   -- link: https://github.com/LunarVim/bigfile.nvim
   {
     'LunarVim/bigfile.nvim',
+    enabled = false,
     branch = 'main',
     init = function()
       require('bigfile').setup({
