@@ -137,7 +137,7 @@ return {
   -- indent guides for Neovim
   {
     'lukas-reineke/indent-blankline.nvim',
-    enabled = false,
+    enabled = true,
     event = 'VeryLazy',
     opts = {
       indent = { char = '│' },
