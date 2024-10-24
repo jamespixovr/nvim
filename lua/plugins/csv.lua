@@ -1,6 +1,7 @@
 return {
   {
     'theKnightsOfRohan/csvlens.nvim',
+    lazy = true,
     dependencies = {
       'akinsho/toggleterm.nvim',
     },
@@ -8,7 +9,6 @@ return {
     keys = {
       { '<leader>cv', '<cmd>Csvlens "|"<cr>', desc = "CSV Lens with '|' separator", mode = { 'n', 'v' } },
     },
-    event = 'VeryLazy',
     config = true,
   },
 }

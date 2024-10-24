@@ -136,8 +136,9 @@ return {
   --------------------------------------------------------------------------
   -- indent guides for Neovim
   {
-    "lukas-reineke/indent-blankline.nvim",
-    event = "VeryLazy",
+    'lukas-reineke/indent-blankline.nvim',
+    enabled = true,
+    event = 'VeryLazy',
     opts = {
       indent = { char = "│" },
       scope = { enabled = false },
