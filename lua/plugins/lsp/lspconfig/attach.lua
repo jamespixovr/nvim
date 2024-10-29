@@ -63,22 +63,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
       elseif ft == 'help' then
         vim.api.nvim_command(':help ' .. vim.fn.expand('<cword>'))
       else
-        require('fzf-lua').lsp_definitions({ jump_to_single_result = true })
+        require('fzf-lua').lsp_definitions({ jump_to_single_result = true, ignore_current_line = true })
       end
     end
 
     map('gd', go_to_definition, 'Go to definition')
 
     vim.keymap.set('n', 'gr', function()
-      require('fzf-lua').lsp_references({ jump_to_single_result = true })
+      require('fzf-lua').lsp_references({ jump_to_single_result = true, ignore_current_line = true })
     end, { buffer = bufnr, desc = 'References', nowait = true })
 
     map('gi', function()
-      require('fzf-lua').lsp_implementations({ jump_to_single_result = true })
+      require('fzf-lua').lsp_implementations({ jump_to_single_result = true, ignore_current_line = true })
     end, 'Goto Implementation')
 
     map('gy', function()
-      require('fzf-lua').lsp_typedefs({ jump_to_single_result = true })
+      require('fzf-lua').lsp_typedefs({ jump_to_single_result = true, ignore_current_line = true })
     end, 'Goto Type Definition')
 
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
