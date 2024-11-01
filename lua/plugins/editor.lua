@@ -6,6 +6,7 @@ local function terminal_keymaps()
     { '<leader>wv', '<cmd>ToggleTerm size=80 direction=vertical<cr>', desc = 'Toggle Vertical Terminal' },
   }
 end
+
 return {
   'antoinemadec/FixCursorHold.nvim', -- This is needed to fix lsp doc highlight
 
@@ -46,6 +47,7 @@ return {
       require('neoscroll').setup()
     end,
   },
+
   {
     'NvChad/nvim-colorizer.lua',
     event = 'BufReadPost',
