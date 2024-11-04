@@ -4,8 +4,9 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
-    'nvim-telescope/telescope.nvim', -- Optional
-    'stevearc/dressing.nvim', -- Optional: Improves the default Neovim UI
+    'nvim-telescope/telescope.nvim',
+    'stevearc/dressing.nvim',
+    { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
   },
   config = function()
     -- Expand `cc` into CodeCompanion in the command line
@@ -90,6 +91,7 @@ return {
         },
         chat = {
           show_settings = false,
+          render_headers = false,
         },
       },
     })

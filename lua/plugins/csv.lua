@@ -1,7 +1,7 @@
 return {
   {
     'theKnightsOfRohan/csvlens.nvim',
-    lazy = true,
+    ft = { 'csv' },
     dependencies = {
       'akinsho/toggleterm.nvim',
     },
