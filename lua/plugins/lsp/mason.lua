@@ -26,7 +26,6 @@ return {
         'json-lsp',
         'lua-language-server',
         'luacheck',
-        'prettier',
         'prettierd',
         'shellcheck',
         'shfmt',
