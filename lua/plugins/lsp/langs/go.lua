@@ -138,7 +138,7 @@ return {
         lsp_codelens = false,
         lsp_keymaps = false,
         diagnostic = false,
-        lsp_document_formatting = false,
+        test_runner = 'ginkgo',
       })
     end,
     event = { 'CmdlineEnter' },
