@@ -1,48 +1,48 @@
 return {
   {
-    "nvim-treesitter/nvim-treesitter",
+    'nvim-treesitter/nvim-treesitter',
     opts = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        vim.list_extend(opts.ensure_installed, { "ninja", "python", "rst", "toml" })
+      if type(opts.ensure_installed) == 'table' then
+        vim.list_extend(opts.ensure_installed, { 'ninja', 'python', 'rst', 'toml' })
       end
     end,
   },
   {
-    "stevearc/conform.nvim",
+    'stevearc/conform.nvim',
     opts = {
       formatters_by_ft = {
-        ["python"] = { "black" },
+        ['python'] = { 'black' },
       },
     },
   },
   {
-    "williamboman/mason.nvim",
+    'williamboman/mason.nvim',
     opts = function(_, opts)
-      vim.list_extend(opts.ensure_installed, { "debugpy", "black" })
+      vim.list_extend(opts.ensure_installed, { 'debugpy', 'black' })
     end,
   },
   {
-    "neovim/nvim-lspconfig",
+    'neovim/nvim-lspconfig',
     opts = {
       servers = {
         pyright = {},
         basedpyright = {
           enabled = true,
         },
-        ruff_lsp = {
+        ruff = {
           keys = {
             {
-              "<leader>co",
+              '<leader>co',
               function()
                 vim.lsp.buf.code_action({
                   apply = true,
                   context = {
-                    only = { "source.organizeImports" },
+                    only = { 'source.organizeImports' },
                     diagnostics = {},
                   },
                 })
               end,
-              desc = "Organize Imports",
+              desc = 'Organize Imports',
             },
           },
         },
