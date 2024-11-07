@@ -22,10 +22,10 @@ return {
       lsp_fallback = true, -- not recommended to change
     },
     formatters_by_ft = {
-      css = { 'prettierd', 'prettier', stop_after_first = true },
-      graphql = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'prettierd', stop_after_first = true },
+      graphql = { 'prettierd', stop_after_first = true },
       handlebars = { 'prettierd' },
-      html = { 'prettierd', 'prettier', stop_after_first = true },
+      html = { 'prettierd', stop_after_first = true },
       json = { 'jq' },
       lua = { 'stylua' },
       markdown = { 'markdownlint', 'markdown-toc', stop_after_first = true },
