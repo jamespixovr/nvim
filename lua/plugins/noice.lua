@@ -73,6 +73,19 @@ local routes = {
 
   -- E211 no longer needed, since auto-closing deleted buffers
   { filter = { event = 'msg_show', find = 'E211: File .* no longer available' }, skip = true },
+  {
+    filter = {
+      event = 'msg_show',
+      any = {
+        { find = '%d+L, %d+B' },
+        { find = '; after #%d+' },
+        { find = '; before #%d+' },
+        { find = '%d fewer lines' },
+        { find = '%d more lines' },
+      },
+    },
+    opts = { skip = true },
+  },
 }
 
 --------------------------------------------------------------------------------
@@ -248,7 +261,7 @@ return {
       end,
       stages = 'fade_in_slide_out',
       top_down = true,
-      render = 'simple',
+      render = 'wrapped-compact',
       fps = 120,
       -- Icons for the different levels
       icons = {
