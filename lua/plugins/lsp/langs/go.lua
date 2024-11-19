@@ -92,13 +92,6 @@ return {
     },
   },
   {
-    'Jay-Madden/auto-fix-return.nvim',
-    config = function()
-      require('auto-fix-return').setup({})
-    end,
-    lazy = false,
-  },
-  {
     'jack-rabe/impl.nvim',
     dependencies = {
       'nvim-telescope/telescope.nvim',
@@ -139,6 +132,7 @@ return {
         lsp_keymaps = false,
         diagnostic = false,
         test_runner = 'ginkgo',
+        lsp_document_formatting = false,
       })
     end,
     event = { 'CmdlineEnter' },
