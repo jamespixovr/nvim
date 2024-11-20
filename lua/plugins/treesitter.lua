@@ -1,28 +1,19 @@
+local function should_disable(lang, bufnr)
+  local disable_max_size = 2000000 -- 2MB
+  local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr or 0))
+  -- size will be -2 if it doesn't fit into a number
+  if size > disable_max_size or size == -2 then
+    return true
+  end
+
+  if vim.tbl_contains({ 'ruby' }, lang) then
+    return true
+  end
+
+  return false
+end
+
 return {
-  {
-    'windwp/nvim-autopairs', -- Autopair plugin
-    opts = {
-      close_triple_quotes = true,
-      check_ts = true,
-      enable_moveright = true,
-      disable_filetype = { 'TelescopePrompt', 'vim' },
-      fast_wrap = {
-        map = '<c-e>',
-      },
-    },
-    config = function(_, opts)
-      local autopairs = require('nvim-autopairs')
-
-      autopairs.setup(opts)
-
-      local Rule = require('nvim-autopairs.rule')
-      local ts_conds = require('nvim-autopairs.ts-conds')
-
-      autopairs.add_rules({
-        Rule('{{', '  }', 'vue'):set_end_pair_length(2):with_pair(ts_conds.is_ts_node('text')),
-      })
-    end,
-  },
   -- comments
   {
     'JoosepAlviste/nvim-ts-context-commentstring',
@@ -160,11 +151,23 @@ return {
           'svelte',
         },
         auto_install = true, -- install missing parsers when entering a buffer
-        highlight = { enable = true, additional_vim_regex_highlighting = false },
+        highlight = {
+          enable = vim.g.vscode ~= 1,
+          disable = should_disable,
+          use_languagetree = true,
+          -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
+          --  If you are experiencing weird indenting issues, add the language to
+          --  the list of additional_vim_regex_highlighting and disabled languages for indent.
+          additional_vim_regex_highlighting = {
+            'ruby',
+            'python',
+            'vim',
+          },
+        },
         indent = { enable = true, disable = is_disable },
         context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
         autopairs = { enable = true, disable = is_disable },
-        playground = { enable = true, disable = is_disable },
+        -- playground = { enable = true, disable = is_disable },
         matchup = { enable = true, disable = is_disable },
         incremental_selection = {
           enable = true,
@@ -177,7 +180,7 @@ return {
           },
         },
         -- nvim-treesitter-endwise plugin
-        endwise = { enable = true, disable = is_disable },
+        endwise = { enable = true },
 
         textobjects = {
           move = {
