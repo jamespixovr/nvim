@@ -170,6 +170,7 @@ return {
           },
         },
         -- ['neotest-golang'] = {
+        --   args = { "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out" },
         --   experimental = {
         --     test_table = true,
         --   },

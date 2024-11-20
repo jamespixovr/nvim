@@ -22,7 +22,7 @@ return {
       { "[e", function() require("neotest").jump.prev() end,  desc = "Previous Test", },
       { "<leader>tl", function() require('neotest').run.run_last() end , desc = "Run last test", },
       { "<leader>tf", function() require('neotest').run.run(vim.fn.expand("%")) end , desc = "Run test file", },
-      { "<leader>td", function() require("neotest").run.run({ strategy = "dap" }) end, desc = "Debug test", },
+      { "<leader>td", function() require("neotest").run.run({ suite = false, strategy = "dap" }) end, desc = "Debug test", },
       { "<leader>tD", "w|lua require('neotest').run.run({vim.fn.expand('%'), strategy = 'dap'})<cr>", desc = "Debug File", },
       { "<leader>ta", "<cmd>lua require('neotest').run.attach()<cr>", desc = "Attach test", },
       { "<leader>ts", function() require("neotest").summary.toggle() end, desc = "Toggle Summary", },
