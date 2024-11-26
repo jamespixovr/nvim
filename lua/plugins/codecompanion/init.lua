@@ -4,7 +4,6 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
-    'nvim-telescope/telescope.nvim',
     'stevearc/dressing.nvim',
     { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
   },
@@ -61,6 +60,28 @@ return {
         chat = {
           adapter = 'defaultllm',
           roles = { llm = ' CodeCompanion', user = 'Me' },
+          slash_commands = {
+            ['buffer'] = {
+              opts = {
+                provider = 'fzf_lua',
+              },
+            },
+            ['help'] = {
+              opts = {
+                provider = 'fzf_lua',
+              },
+            },
+            ['file'] = {
+              opts = {
+                provider = 'fzf_lua',
+              },
+            },
+            ['symbols'] = {
+              opts = {
+                provider = 'fzf_lua',
+              },
+            },
+          },
         },
         inline = {
           adapter = 'anthropic',
