@@ -58,7 +58,7 @@ return {
       },
       strategies = {
         chat = {
-          adapter = 'defaultllm',
+          adapter = 'anthropic',
           roles = { llm = ' CodeCompanion', user = 'Me' },
           slash_commands = {
             ['buffer'] = {

@@ -1,6 +1,7 @@
 return {
   {
     'ThePrimeagen/refactoring.nvim', -- Refactor code like Martin Fowler
+    lazy = true,
     keys = {
       {
         '<Leader>re',
@@ -35,8 +36,6 @@ return {
         go = '%s := %s',
       },
     },
-    config = function()
-      require('telescope').load_extension('refactoring')
-    end,
+    config = true,
   },
 }

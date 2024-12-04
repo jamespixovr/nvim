@@ -11,7 +11,7 @@ return {
     opts = {
       debug = false,
       show_notification = false,
-      mode = 'popup', -- split or popup
+      mode = 'split', -- split or popup
       formatters = {
         json = { 'jq' },
         html = {
