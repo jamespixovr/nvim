@@ -31,12 +31,12 @@ return {
   opts = {
     workspaces = {
       {
-        name = "personal",
-        path = "~/vaults/jamesamo",
+        name = 'personal',
+        path = '~/vaults/jamesamo',
       },
       {
-        name = "work",
-        path = "~/vaults/work",
+        name = 'work',
+        path = '~/vaults/work',
       },
     },
     completion = {

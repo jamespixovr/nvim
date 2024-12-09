@@ -14,6 +14,7 @@ return {
       'Neogit*',
       'NvimTree',
       'ToggleTerm',
+      'snacks_terminal',
       'alpha',
       'checkhealth',
       'help',

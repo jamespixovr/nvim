@@ -246,31 +246,4 @@ return {
       },
     },
   },
-  {
-    'rcarriga/nvim-notify',
-    event = 'BufReadPre',
-    opts = {
-      timeout = 3000,
-      background_colour = '#000000',
-      max_height = function()
-        return math.floor(vim.o.lines * 0.75)
-      end,
-      minimum_width = 25, -- wider for title in border
-      max_width = function()
-        return math.floor(vim.o.columns * 0.75)
-      end,
-      stages = 'fade_in_slide_out',
-      top_down = true,
-      render = 'wrapped-compact',
-      fps = 120,
-      -- Icons for the different levels
-      icons = {
-        ERROR = '',
-        WARN = '',
-        INFO = '',
-        DEBUG = '',
-        TRACE = '✎',
-      },
-    },
-  },
 }
