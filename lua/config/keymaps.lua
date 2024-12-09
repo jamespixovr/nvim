@@ -71,7 +71,7 @@ keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
 keymap('n', '<leader><space>', ':nohlsearch<CR>')
 
-keymap('n', '<leader>bo', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
+-- keymap('n', '<leader>bo', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
 
 -- save file
 -- keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
