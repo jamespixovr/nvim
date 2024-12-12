@@ -10,7 +10,7 @@ return {
   config = function()
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
-    vim.cmd([[cab ccb CodeCompanionWithBuffers]])
+    vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('codecompanion').setup({
       adapters = {

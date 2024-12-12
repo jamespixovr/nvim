@@ -1,9 +1,3 @@
-local util = require('util.coding')
----ensures unique keymaps https://www.reddit.com/r/neovim/comments/16h2lla/can_you_make_neovim_warn_you_if_your_config_maps/
----@param modes "n"|"v"|"x"|"i"|"o"|"c"|"t"|"ia"|"ca"|"!a"|string[]
----@param lhs string
----@param rhs string|function
----@param opts? { unique: boolean, desc: string, buffer: boolean, nowait: boolean, remap: boolean }
 local function keymap(modes, lhs, rhs, opts)
   if not opts then
     opts = {}
@@ -21,8 +15,6 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', noremap = 
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', noremap = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', noremap = true })
 
--- local keymap = vim.keymap.set
-
 -- Remap for dealing with word wrap
 keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true })
@@ -39,11 +31,6 @@ keymap('v', '>', '>gv')
 
 -- Paste over currently selected text without yanking it
 keymap('v', 'p', '"_dP')
-
---[[-- jk is mapped to escape by better-escape.nvim plugin]]
--- 'jk' for quitting insert mode
--- keymap("i", "jk", "<ESC>")
--- keymap("i", "kj", "<ESC>")
 
 -- COMMAND & INSERT MODE
 keymap({ 'i', 'c' }, '<C-a>', '<Home>')
@@ -72,7 +59,7 @@ keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
 keymap('n', '<leader><space>', ':nohlsearch<CR>')
 
-keymap('n', '<leader>bo', '<cmd>e #<cr>', { desc = 'Switch to Other Buffer' })
+keymap('n', '<leader>bo', '<cmd>b#<cr>', { desc = 'Switch to Other Buffer' })
 
 -- save file
 -- keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })

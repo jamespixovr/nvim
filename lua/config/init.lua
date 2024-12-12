@@ -11,30 +11,30 @@ end
 
 local disable_providers = function()
   local default_providers = {
-    "node",
-    "perl",
-    "python3",
-    "ruby",
+    'node',
+    'perl',
+    'python3',
+    'ruby',
   }
 
   for _, provider in ipairs(default_providers) do
-    vim.g["loaded_" .. provider .. "_provider"] = 0
+    vim.g['loaded_' .. provider .. '_provider'] = 0
   end
 end
 
 local add_filetype = function()
   vim.filetype.add({
     extension = {
-      hurl = "hurl",
+      hurl = 'hurl',
     },
   })
 end
 
 local leader_map = function()
-  vim.api.nvim_set_keymap("n", "<Space>", "", { noremap = true })
-  vim.api.nvim_set_keymap("x", "<Space>", "", { noremap = true })
-  vim.g.maplocalleader = " "
-  vim.g.mapleader = " "
+  vim.api.nvim_set_keymap('n', '<Space>', '', { noremap = true })
+  vim.api.nvim_set_keymap('x', '<Space>', '', { noremap = true })
+  vim.g.maplocalleader = ' '
+  vim.g.mapleader = ' '
 end
 
 local load_core = function()
@@ -42,12 +42,12 @@ local load_core = function()
   leader_map()
   add_filetype()
 
-  safeRequire("config.lazy")
+  safeRequire('config.lazy')
 
-  safeRequire("config.keymaps")
-  safeRequire("config.autocmds")
-  safeRequire("config.options")
-  safeRequire("config.commands")
+  safeRequire('config.autocmds')
+  safeRequire('config.options')
+  safeRequire('config.commands')
+  safeRequire('config.keymaps')
 end
 
 load_core()

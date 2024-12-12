@@ -12,8 +12,6 @@ return {
 
   -----------------------------------------------------------------------------
 
-  -- toggle terminal
-
   {
     'karb94/neoscroll.nvim',
     config = function()
