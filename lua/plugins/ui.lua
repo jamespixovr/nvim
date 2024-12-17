@@ -134,23 +134,6 @@ return {
   --------------------------------------------------------------------------
 
   --------------------------------------------------------------------------
-  -- indent guides for Neovim
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    enabled = true,
-    event = 'VeryLazy',
-    opts = {
-      indent = { char = '│' },
-      scope = { enabled = false },
-      exclude = {
-        filetypes = indent_exclude_fts,
-      },
-    },
-    main = 'ibl',
-  },
-
-  --------------------------------------------------------------------------
-  --------------------------------------------------------------------------
   -- folding fold area
   {
     'kevinhwang91/nvim-ufo',

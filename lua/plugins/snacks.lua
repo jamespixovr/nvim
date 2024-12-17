@@ -5,17 +5,15 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-      -- your configuration comes here
-      -- or leave it empty to use the default settings
-      -- refer to the configuration section below
       bigfile = { enabled = true },
+      bufdelete = { enabled = true },
+      git = { enabled = true },
+      indent = { enabled = true },
+      lazygit = { enabled = true },
       notifier = { enabled = true, timeout = 3000 },
       quickfile = { enabled = true },
       statuscolumn = { enabled = true },
       words = { enabled = true },
-      lazygit = { enabled = true },
-      bufdelete = { enabled = true },
-      git = { enabled = true },
       styles = {
         notification = {
           wo = { wrap = true }, -- Wrap notifications
@@ -28,7 +26,6 @@ return {
       { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>ns",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
-      { "<leader>bo", ":b#<cr>", desc = "Switch to Other Buffer" },
       { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse" },
       { "<leader>gb", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
