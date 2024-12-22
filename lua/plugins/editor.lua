@@ -11,17 +11,9 @@ return {
   },
 
   -----------------------------------------------------------------------------
-
   {
-    'karb94/neoscroll.nvim',
-    config = function()
-      require('neoscroll').setup()
-    end,
-  },
-
-  {
-    'NvChad/nvim-colorizer.lua',
-    event = 'BufReadPost',
+    'catgoose/nvim-colorizer.lua',
+    event = 'BufReadPre',
     opts = {
       user_default_options = {
         names = false,

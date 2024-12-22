@@ -11,12 +11,6 @@ return {
         ['css'] = { 'stylelint' },
         ['scss'] = { 'stylelint' },
         ['less'] = { 'stylelint' },
-        -- lua = { "selene", "luacheck" },
-        -- typescript = { "biomejs", "eslint_d", "eslint" },
-        -- javascript = { "biomejs", "eslint_d", "eslint" },
-        -- typescriptreact = { "biomejs", "eslint_d", "eslint" },
-        -- javascriptreact = { "biomejs", "eslint_d", "eslint" },
-        -- svelte = { "eslint_d" },
         sql = { 'sqlfluff' },
         yaml = { 'yamllint' },
       }

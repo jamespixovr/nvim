@@ -1,16 +1,4 @@
 local settings = require('settings')
-local indent_exclude_fts = {
-  'help',
-  'alpha',
-  'dashboard',
-  'notify',
-  'toggleterm',
-  'lazyterm',
-  'Trouble',
-  'lazy',
-  'mason',
-  'NvimTree',
-}
 
 return {
 
@@ -33,46 +21,6 @@ return {
       { '<Tab>', 'j', ft = 'DressingSelect' },
       { '<S-Tab>', 'k', ft = 'DressingSelect' },
     },
-    --[[
-    opts = {                 -- adapted from https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/appearance.lua
-      input = {
-        insert_only = false, -- = enable normal mode
-        trim_prompt = true,
-        border = vim.g.borderStyle,
-        relative = "editor",
-        title_pos = "left",
-        prefer_width = 73, -- commit width + 1 for padding
-        min_width = 0.4,
-        max_width = 0.9,
-        mappings = { n = { ["q"] = "Close" } },
-      },
-      select = {
-        backend = { "telescope", "builtin" },
-        trim_prompt = true,
-        builtin = {
-          mappings = { ["q"] = "Close" },
-          show_numbers = false,
-          border = vim.g.borderStyle,
-          relative = "editor",
-          max_width = 80,
-          min_width = 20,
-          max_height = 12,
-          min_height = 3,
-        },
-        telescope = {
-          layout_config = {
-            horizontal = { width = { 0.7, max = 75 }, height = 0.6 },
-          },
-        },
-        get_config = function(opts)
-          local useBuiltin = { "just-recipes", "codeaction", "rule_selection" }
-          if vim.tbl_contains(useBuiltin, opts.kind) then
-            return { backend = { "builtin" }, builtin = { relative = "cursor" } }
-          end
-        end,
-      },
-    },
-    --]]
   },
   --------------------------------------------------------------------------
   -- Tabs
@@ -131,26 +79,6 @@ return {
       })
     end,
   },
-  --------------------------------------------------------------------------
-
-  --------------------------------------------------------------------------
-  -- indent guides for Neovim
-  {
-    'lukas-reineke/indent-blankline.nvim',
-    enabled = true,
-    event = 'VeryLazy',
-    ---@module "ibl"
-    ---@type ibl.config
-    opts = {
-      -- indent = { char = '│' },
-      scope = { enabled = false },
-      exclude = {
-        filetypes = indent_exclude_fts,
-      },
-    },
-    main = 'ibl',
-  },
-
   --------------------------------------------------------------------------
   --------------------------------------------------------------------------
   -- folding fold area

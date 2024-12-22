@@ -6,13 +6,14 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
+      animate = { enabled = false },
       bigfile = { enabled = true },
       bufdelete = { enabled = true },
       dashboard = { enabled = false, example = 'advanced' },
       git = { enabled = true },
       gitbrowse = { enabled = true },
       scope = { enabled = true },
-      indent = { enabled = true },
+      indent = { enabled = true, only_scope = true },
       input = { enabled = true },
       notifier = { enabled = true, timeout = 3000 },
       quickfile = { enabled = true },

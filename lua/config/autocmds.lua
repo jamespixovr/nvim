@@ -66,30 +66,6 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-local function write_commit_prefix()
-  -- Run the Git command to get the current branch name
-  local handle = io.popen('git branch --show-current')
-  if not handle then
-    return
-  end
-  local branch = handle:read('*a')
-  handle:close()
-
-  -- Trim whitespace from the branch name
-  branch = string.gsub(branch, '^%s*(.-)%s*$', '%1')
-
-  -- Check if the branch name contains 'UT-XXXX'
-  local ut_number = string.match(branch, 'UT%-%d%d%d%d')
-  if ut_number then
-    -- Insert 'UT-XXXX: ' at the beginning of the buffer
-    local insert_text = ut_number .. ': '
-    vim.api.nvim_buf_set_lines(0, 0, 1, false, { insert_text })
-
-    -- put the cursor in insert mode at the end of the line
-  end
-  vim.api.nvim_feedkeys('A', 'n', true)
-end
-
 local group = vim.api.nvim_create_augroup('__env', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '.env',
@@ -152,12 +128,6 @@ user_cmd('BiPolar', function(_)
 end, {
   desc = 'Switch Moody Words',
   force = true,
-})
-
--- Set up the autocommand for NeogitCommitMessage filetype
-vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'gitcommit',
-  callback = write_commit_prefix,
 })
 
 -- Set up the autocommand for NeotestOutput filetype

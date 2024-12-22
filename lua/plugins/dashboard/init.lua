@@ -9,15 +9,6 @@ return {
     init = false,
     dependencies = {
       'nvim-tree/nvim-web-devicons',
-      {
-        'echasnovski/mini.indentscope',
-        opts = function()
-          -- disable indentation scope for the current ("alpha" filetype) buffer
-          vim.cmd([[
-        autocmd Filetype alpha lua vim.b.miniindentscope_disable = true
-      ]])
-        end,
-      },
     },
 
     config = function()

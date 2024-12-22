@@ -13,8 +13,7 @@ return {
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
     },
-
-		-- stylua: ignore start
+    -- stylua: ignore start
     keys = {
       { "<leader>tn", "<cmd>lua require('neotest').run.run()<cr>", desc = "Run nearest test", },
       { "<leader>tN", function() require("neotest").run.run(vim.loop.cwd()) end, desc = "Run All Test Files", },
@@ -31,7 +30,6 @@ return {
       { "<leader>tO", function() require('neotest').output_panel.toggle() end, desc = "Output test panel", },
       { "<leader>tt", function() require("neotest").summary.open() require("neotest").run.run(vim.fn.expand("%")) end, desc = "Neotest toggle", },
     },
-
     -- stylua: ignore end
     opts = function()
       return {
