@@ -38,7 +38,7 @@ return {
         desc = 'Telescope Resume',
       },
       { '<leader>bb', '<cmd>Telescope buffers sort_mru=true ignore_current_buffer=true<cr>', desc = 'Switch Buffer' },
-      { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
+      -- { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
       { '<leader>fe', '<cmd>Telescope file_browser<cr>', desc = 'Browse Files' },
       { '<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find Git Files' },
       { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },

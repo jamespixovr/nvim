@@ -75,7 +75,7 @@ return {
     keys = {
       { '<leader>cn', ':Neogen<cr>', desc = 'Generate Annotation' },
     },
-    opts = { snippet_engine = 'luasnip' },
+    -- opts = { snippet_engine = 'luasnip' },
   },
 
   -- rename

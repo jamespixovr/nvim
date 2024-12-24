@@ -13,14 +13,53 @@ return {
       git = { enabled = true },
       gitbrowse = { enabled = true },
       scope = { enabled = true },
-      indent = { enabled = true, only_scope = true },
+      indent = {
+        enabled = true,
+        char = '▎',
+        animate = { enabled = false },
+        indent = {
+          only_current = true,
+          only_scope = true,
+        },
+        scope = {
+          enabled = true,
+          only_current = true,
+          only_scope = true,
+          underline = false,
+        },
+        chunk = {
+          enabled = true,
+          only_current = true,
+        },
+        -- filter for buffers, turn off the indents for markdown
+        filter = function(buf)
+          return vim.g.snacks_indent ~= false
+            and vim.b[buf].snacks_indent ~= false
+            and vim.bo[buf].buftype == ''
+            and vim.bo[buf].filetype ~= 'markdown'
+        end,
+      },
       input = { enabled = true },
       notifier = { enabled = true, timeout = 3000 },
-      quickfile = { enabled = true },
-      scroll = { enabled = true },
+      quickfile = { enabled = false },
+      scroll = { enabled = false },
       statuscolumn = { enabled = true },
       terminal = { enabled = true },
       words = { enabled = true },
+      toggle = {
+        which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
+        notify = true, -- show a notification when toggling
+        -- icons for enabled/disabled states
+        icon = {
+          enabled = ' ',
+          disabled = ' ',
+        },
+        -- colors for enabled/disabled states
+        color = {
+          enabled = 'green',
+          disabled = 'yellow',
+        },
+      },
       styles = {
         notification = {
           wo = { wrap = true }, -- Wrap notifications

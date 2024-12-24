@@ -81,7 +81,14 @@ return {
     'nvim-neotest/neotest',
     optional = true,
     dependencies = {
-      { 'haydenmeade/neotest-jest', version = false },
+      { 'nvim-neotest/neotest-jest' },
+    },
+    keys = {
+      {
+        '<leader>tw',
+        "<cmd>lua require('neotest').run.run({ jestCommand = 'jest --watch ' })<cr>",
+        desc = 'Neotest Watch',
+      },
     },
     opts = {
       adapters = {

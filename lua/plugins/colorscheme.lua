@@ -41,6 +41,7 @@ local M = {
         alpha = true,
         lsp_trouble = true,
         mini = true,
+        blink_cmp = true,
         native_lsp = {
           enabled = true,
           virtual_text = {

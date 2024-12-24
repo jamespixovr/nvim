@@ -94,6 +94,7 @@ autocmd('FileType', {
     'gitcommit',
     'markdown',
     'text',
+    'html',
     'plaintex',
   },
   desc = 'setlocal wrap and spell',
