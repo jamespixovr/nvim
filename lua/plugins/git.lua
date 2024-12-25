@@ -46,7 +46,7 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'sindrets/diffview.nvim', -- optional - Diff integration
-      'nvim-telescope/telescope.nvim', -- optional
+      'ibhagwan/fzf-lua',
     },
     cmd = 'Neogit',
     opts = {
@@ -55,8 +55,46 @@ return {
       },
     },
     keys = {
-      { '<leader>gn', '<cmd>Neogit<cr>', desc = 'Neogit' },
+      { '<leader>gn', '<cmd>Neogit kind=floating<cr>', desc = 'Neogit' },
     },
     config = true,
+  },
+  {
+    'FabijanZulj/blame.nvim',
+    lazy = true,
+    cmd = 'BlameToggle',
+    keys = {
+      { '<leader>ga', '<cmd>BlameToggle window<cr>', desc = 'Git Blame' },
+      {
+        '<leader>ge',
+        function()
+          local current_file = vim.loop.fs_realpath(vim.api.nvim_buf_get_name(0))
+          if current_file then
+            local result = vim
+              .system({ 'git', 'blame', '-L' .. vim.fn.line('.') .. ',' .. vim.fn.line('.'), current_file }, { text = true })
+              :wait()
+
+            local commit_sha, _ = result.stdout:gsub('%s.*$', '')
+            vim.cmd('DiffviewOpen ' .. commit_sha .. '^..' .. commit_sha)
+          end
+        end,
+        desc = 'Blame Commit',
+      },
+    },
+    opts = {
+      commit_detail_view = function(sha, _row, _path)
+        local NeogitCommitView = require('neogit.buffers.commit_view')
+        local view = NeogitCommitView.new(sha)
+        view:open('floating')
+
+        view.buffer:set_window_option('scrollbind', false)
+        view.buffer:set_window_option('cursorbind', false)
+      end,
+      merge_consecutive = true,
+      mappings = {
+        stack_push = ']]',
+        stack_pop = '[[',
+      },
+    },
   },
 }
