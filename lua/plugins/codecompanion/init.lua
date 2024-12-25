@@ -106,9 +106,6 @@ return {
           render_headers = false,
         },
       },
-      opts = {
-        log_level = 'DEBUG',
-      },
       -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
       -- actions = {
       --   require('plugins.codecompanion.actions').translate,
@@ -122,6 +119,7 @@ return {
     { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
     { '<leader>at', '<cmd>CodeCompanionChat Toggle<CR>', desc = 'AI Toggle', mode = { 'n', 'v' } },
     { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
-    { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion: Ollama' },
+    { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion Anthropic' },
+    { '<leader>ao', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion Ollama' },
   },
 }

@@ -47,12 +47,12 @@ return {
 
   {
     'David-Kunz/gen.nvim',
-    enabled = false,
+    enabled = true,
     cmd = { 'Gen' },
     event = 'VeryLazy',
     keys = gen_ai_keymaps(),
     opts = {
-      model = 'qwen2.5-coder', -- The default model to use.
+      model = 'qwen2.5-coder:14', -- The default model to use.
       display_mode = 'split', -- The display mode. Can be "float" or "split".
       debug = false, -- Prints errors and the command which is run.
       show_prompt = true, -- Shows the Prompt submitted to Ollama.
