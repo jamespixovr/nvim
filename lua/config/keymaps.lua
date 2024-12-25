@@ -37,10 +37,10 @@ keymap({ 'i', 'c' }, '<C-a>', '<Home>')
 keymap({ 'i', 'c' }, '<C-e>', '<End>')
 
 -- navigation
-keymap('i', '<C-Up>', '<C-\\><C-N><C-w>k')
-keymap('i', '<C-Down>', '<C-\\><C-N><C-w>j')
-keymap('i', '<C-Left>', '<C-\\><C-N><C-w>h')
-keymap('i', '<C-Right>', '<C-\\><C-N><C-w>l')
+keymap('i', '<M-Up>', '<C-\\><C-N><C-w>k')
+keymap('i', '<M-Down>', '<C-\\><C-N><C-w>j')
+keymap('i', '<M-Left>', '<C-\\><C-N><C-w>h')
+keymap('i', '<M-Right>', '<C-\\><C-N><C-w>l')
 
 -- Terminal Mappings
 keymap('t', '<esc><esc>', '<c-\\><c-n>', { desc = 'Enter Normal Mode' })
@@ -60,9 +60,6 @@ keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hl
 keymap('n', '<leader><space>', ':nohlsearch<CR>')
 
 keymap('n', '<leader>bo', '<cmd>b#<cr>', { desc = 'Switch to Other Buffer' })
-
--- save file
--- keymap({ "i", "x", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
 
 -- lazy
 keymap('n', '<leader>ll', '<cmd>Lazy<cr>', { desc = 'Lazy' })
@@ -92,10 +89,10 @@ keymap('n', '<leader>uh', function()
 end)
 
 -- Resize windows using <ctrl> arrow keys
-keymap('n', '<C-Up>', ':resize +2<CR>', { desc = 'Increase window height', silent = true })
-keymap('n', '<C-Down>', ':resize -2<CR>', { desc = 'Decrease window height', silent = true })
-keymap('n', '<C-Left>', ':vertical resize -2<CR>', { desc = 'Decrease window width', silent = true })
-keymap('n', '<C-Right>', ':vertical resize +2<CR>', { desc = 'Increase window width', silent = true })
+keymap('n', '<M-Up>', ':resize +2<CR>', { desc = 'Increase window height', silent = true })
+keymap('n', '<M-Down>', ':resize -2<CR>', { desc = 'Decrease window height', silent = true })
+keymap('n', '<M-Left>', ':vertical resize -2<CR>', { desc = 'Decrease window width', silent = true })
+keymap('n', '<M-Right>', ':vertical resize +2<CR>', { desc = 'Increase window width', silent = true })
 
 -- keymap('n', '<leader>cd', vim.diagnostic.open_float, { desc = 'Line Diagnostics' })
 
