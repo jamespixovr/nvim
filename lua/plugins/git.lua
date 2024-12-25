@@ -11,9 +11,9 @@ local function gitsigns_keymaps()
   }
 end
 return {
-  {
-    'tpope/vim-fugitive',
-  },
+  -- {
+  --   'tpope/vim-fugitive',
+  -- },
 
   -- git signs
   {

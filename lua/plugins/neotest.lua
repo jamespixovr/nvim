@@ -1,17 +1,14 @@
 local settings = require('settings')
 
 return {
-  -- A library for asynchronous IO in Neovim
-  { 'nvim-neotest/nvim-nio' },
-
   {
     'nvim-neotest/neotest',
-    version = false,
     lazy = true,
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-lua/plenary.nvim',
       'antoinemadec/FixCursorHold.nvim',
+      'nvim-neotest/nvim-nio',
     },
     -- stylua: ignore start
     keys = {

@@ -16,7 +16,17 @@ return {
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      keymap = { preset = 'default' }, --default, super-tab or enter
+      -- keymap = { preset = 'default' }, --default, super-tab or enter
+      keymap = {
+        preset = 'enter',
+        ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
+        ['<C-n>'] = { 'show', 'select_next', 'fallback' },
+        cmdline = {
+          preset = 'super-tab',
+          ['<Tab>'] = { 'select_prev', 'fallback' },
+          ['<S-Tab>'] = { 'select_next', 'fallback' },
+        },
+      },
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'mono' },
       completion = {
         accept = { auto_brackets = { enabled = true } },
