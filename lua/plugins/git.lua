@@ -50,12 +50,17 @@ return {
     },
     cmd = 'Neogit',
     opts = {
-      integrations = {
-        diffview = true,
-      },
+      integrations = { diffview = true, fzf_lua = true },
+      kind = 'tab',
+      auto_show_console = true,
+      status = { recent_commit_count = 10 },
+      commit_editor = { kind = 'split' },
+      commit_select_view = { kind = 'tab' },
+      log_view = { kind = 'tab' },
+      rebase_editor = { kind = 'split' },
     },
     keys = {
-      { '<leader>gn', '<cmd>Neogit kind=floating<cr>', desc = 'Neogit' },
+      { '<leader>gn', '<cmd>Neogit<cr>', desc = 'Neogit' },
     },
     config = true,
   },

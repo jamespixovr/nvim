@@ -21,6 +21,10 @@ return {
         preset = 'enter',
         ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
         ['<C-n>'] = { 'show', 'select_next', 'fallback' },
+        ['<C-e>'] = { 'hide', 'fallback' },
+        ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-k>'] = { 'scroll_documentation_up', 'fallback' },
+        ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
         cmdline = {
           preset = 'super-tab',
           ['<Tab>'] = { 'select_prev', 'fallback' },
