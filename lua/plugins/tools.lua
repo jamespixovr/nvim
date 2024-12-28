@@ -72,14 +72,4 @@ return {
     },
     config = true,
   },
-  {
-    'lukas-reineke/headlines.nvim',
-    enabled = false,
-    dependencies = 'nvim-treesitter/nvim-treesitter',
-    opts = {
-      markdown = {
-        bullets = {},
-      },
-    }, -- or `opts = {}`
-  },
 }

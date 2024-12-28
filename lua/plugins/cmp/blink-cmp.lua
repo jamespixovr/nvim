@@ -25,13 +25,21 @@ return {
         ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-k>'] = { 'scroll_documentation_up', 'fallback' },
         ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
+        ['<Tab>'] = { 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
         cmdline = {
           preset = 'super-tab',
-          ['<Tab>'] = { 'select_prev', 'fallback' },
-          ['<S-Tab>'] = { 'select_next', 'fallback' },
+          ['<Tab>'] = { 'select_next', 'fallback' },
+          ['<S-Tab>'] = { 'select_prev', 'fallback' },
         },
       },
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
+      enabled = function()
+        return not vim.tbl_contains({}, vim.bo.filetype)
+          and vim.bo.buftype ~= 'nofile'
+          and vim.bo.buftype ~= 'prompt'
+          and vim.b.completion ~= false
+      end,
       completion = {
         list = { selection = 'auto_insert' },
         accept = { auto_brackets = { enabled = false } },

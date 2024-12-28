@@ -5,7 +5,7 @@ return {
   ft = 'markdown',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'hrsh7th/nvim-cmp',
+    { 'hrsh7th/nvim-cmp', enabled = vim.g.cmploader == 'nvim-cmp' },
     'nvim-telescope/telescope.nvim',
     'nvim-treesitter/nvim-treesitter',
     -- "preservim/vim-markdown",

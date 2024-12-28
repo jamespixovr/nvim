@@ -2,6 +2,7 @@ return {
   -- extend auto completion
   {
     'hrsh7th/nvim-cmp',
+    enabled = vim.g.cmploader == 'nvim-cmp',
     dependencies = {
       {
         'Saecki/crates.nvim',
