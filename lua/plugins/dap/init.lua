@@ -83,14 +83,6 @@ local function dapConfig()
 end
 
 return {
-  {
-    'Weissle/persistent-breakpoints.nvim',
-    enabled = false,
-    opts = {
-      load_breakpoints_event = { 'BufReadPost' },
-    },
-    lazy = false,
-  },
   --  DEBUGGER ----------------------------------------------------------------
   --  Debugger alternative to vim-inspector [debugger]
   --  https://github.com/mfussenegger/nvim-dap
