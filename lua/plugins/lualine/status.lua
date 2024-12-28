@@ -1,10 +1,9 @@
-local helper = require('helper')
-local settings = require('settings')
-local symbols = settings.icons
+local color = require('lib.colors')
+local colors = require('catppuccin.palettes').get_palette('mocha')
 local companion_lualine = require('plugins.lualine.helper')
+local helper = require('helper')
+local icons = require('lib.icons')
 local lazy_status = require('lazy.status')
--- local colors = require("tokyonight.colors").setup()
-local colors = require('catppuccin.palettes').get_palette('macchiato')
 
 local M = {}
 
@@ -32,7 +31,6 @@ local modecolor = {
   n = colors.red,
   i = colors.cyan,
   v = colors.purple,
-  -- [""] = colors.purple,
   V = colors.red,
   c = colors.yellow,
   no = colors.red,
@@ -189,8 +187,6 @@ function M.branch(opts)
     -- icon = "",
     separator = { left = '', right = '' },
     color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
-    -- color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
-    -- cond = helper.is_git_repo
   }, opts)
 end
 
@@ -208,7 +204,7 @@ function M.datetime(opts)
       return ' ' .. os.date('%R')
     end,
     padding = { left = 0, right = 0 },
-    color = { bg = '#282c34', fg = settings.colors.blue, gui = 'bold' },
+    color = { bg = '#282c34', fg = color.blue, gui = 'bold' },
   }, opts)
 end
 
@@ -233,10 +229,10 @@ function M.diagnostics(opts)
     sources = { 'nvim_diagnostic' },
     draw_empty = false,
     symbols = {
-      error = symbols.diagnostics.Error,
-      warn = symbols.diagnostics.Warn,
-      info = symbols.diagnostics.Info,
-      hint = symbols.diagnostics.Hint,
+      error = icons.diagnostics.Error,
+      warn = icons.diagnostics.Warn,
+      info = icons.diagnostics.Info,
+      hint = icons.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
     -- color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
@@ -272,12 +268,12 @@ end
 function M.treesitter(opts)
   return helper.extend_tbl({
     function()
-      return settings.icons.ui.Tree
+      return icons.ui.Tree
     end,
     color = function()
       local buf = vim.api.nvim_get_current_buf()
       local ts = vim.treesitter.highlighter.active[buf]
-      return { fg = ts and not vim.tbl_isempty(ts) and settings.colors.green or settings.colors.red, bg = '#282c34' }
+      return { fg = ts and not vim.tbl_isempty(ts) and color.green or color.red, bg = '#282c34' }
     end,
   }, opts)
 end
@@ -300,12 +296,10 @@ function M.git_diff(opts)
       vim.cmd('DiffviewOpen')
     end,
     symbols = {
-      added = symbols.git.added,
-      modified = symbols.git.modified,
-      removed = symbols.git.removed,
-    }, -- changes diff symbols
-    -- color = { bg = "None" },
-    -- color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+      added = icons.git.added,
+      modified = icons.git.modified,
+      removed = icons.git.removed,
+    },
     separator = { left = '', right = '' },
 
     diff_color = {
@@ -335,12 +329,11 @@ function M.lsp(opts)
     end,
     separator = { left = '', right = '' },
     color = function()
-      local _, color = require('nvim-web-devicons').get_icon_cterm_color_by_filetype(
+      local _, ftcolor = require('nvim-web-devicons').get_icon_cterm_color_by_filetype(
         vim.api.nvim_get_option_value('filetype', { buf = 0 })
       )
-      return { fg = color }
+      return { fg = ftcolor }
     end,
-    -- color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 

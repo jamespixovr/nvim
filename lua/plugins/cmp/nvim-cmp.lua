@@ -1,4 +1,4 @@
-local settings = require('settings')
+local lib_icons = require('lib.icons')
 
 return {
   {
@@ -133,7 +133,7 @@ return {
             preset = 'default',
             before = function(entry, item)
               local kind = item.kind --> Class, Method, Variables...
-              local icons = settings.icons.kinds[kind]
+              local icons = lib_icons.kind[kind]
               item.kind = (icons or '?')
               if entry.source.name == 'cmp_tabnine' then
                 if entry.completion_item.data ~= nil and entry.completion_item.data.detail ~= nil then

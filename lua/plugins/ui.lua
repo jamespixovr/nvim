@@ -1,4 +1,4 @@
-local settings = require('settings')
+local icons = require('lib.icons')
 
 return {
 
@@ -51,9 +51,9 @@ return {
         always_show_bufferline = true,
         separator_style = 'thin',
         diagnostics_indicator = function(_, _, diag)
-          local icons = settings.icons.diagnostics
-          local ret = (diag.error and icons.Error .. diag.error .. ' ' or '')
-            .. (diag.warning and icons.Warn .. diag.warning or '')
+          local diagnostic_icons = icons.diagnostics
+          local ret = (diag.error and diagnostic_icons.Error .. diag.error .. ' ' or '')
+            .. (diag.warning and diagnostic_icons.Warning .. diag.warning or '')
           return vim.trim(ret)
         end,
         offsets = {

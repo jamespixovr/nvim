@@ -1,5 +1,5 @@
 local helper = require('helper')
-local settings = require('settings')
+local icons = require('lib.icons')
 
 local borderChars = { '─', '│', '─', '│', '┌', '┐', '┘', '└' }
 if vim.g.borderStyle == 'double' then
@@ -187,7 +187,7 @@ return {
             -- cwd = "%:p:h",
             prompt_title = 'Search in Folder',
             theme = 'ivy',
-            prompt_prefix = settings.icons.ui.SearchIcon,
+            prompt_prefix = icons.ui.SearchIcon,
             -- @usage don't include the filename in the search results
             only_sort_text = true,
           },

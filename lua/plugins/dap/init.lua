@@ -1,7 +1,7 @@
-local icons = require('settings').icons.dap
+local icons = require('lib.icons')
 
 local function dap_keymaps()
-		-- stylua: ignore start
+  -- stylua: ignore start
   return {
     { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
     { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
@@ -29,7 +29,6 @@ local function dap_keymaps()
     { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>", desc = "Terminate" },
   }
   -- stylua: ignore end
-  --
 end
 local function dap_ui_keymaps()
   return {
@@ -54,9 +53,9 @@ end
 --------------------------------------------------------------------------------------
 
 local function dapConfig()
-  vim.fn.sign_define('DapStopped', { text = icons.Stopped, texthl = 'DiagnosticHint', linehl = 'DapPause' })
-  vim.fn.sign_define('DapBreakpoint', { text = icons.Breakpoint, texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
-  vim.fn.sign_define('DapBreakpointRejected', { text = icons.BreakpointRejected, texthl = 'DiagnosticError' })
+  vim.fn.sign_define('DapStopped', { text = icons.dap.Stopped, texthl = 'DiagnosticHint', linehl = 'DapPause' })
+  vim.fn.sign_define('DapBreakpoint', { text = icons.dap.Breakpoint, texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
+  vim.fn.sign_define('DapBreakpointRejected', { text = icons.dap.BreakpointRejected, texthl = 'DiagnosticError' })
 
   -- use overseer for running preLaunchTask and postDebugTask
   require('overseer').enable_dap()
@@ -117,8 +116,7 @@ return {
     -- stylua: ignore
     keys = dap_ui_keymaps(),
     opts = {
-      icons = { expanded = '▾', collapsed = '▸' },
-      -- floating = { border = 'rounded' },
+      icons = { expanded = icons.ui.TriangleShortArrowDown, icons.ui.TriangleShortArrowRight },
       layouts = {
         {
           elements = {
@@ -131,9 +129,6 @@ return {
       },
       floating = {
         border = vim.g.borderStyle,
-        -- max_height = 0.5,
-        -- max_width = 0.9,
-        -- border = "rounded",
         mappings = {
           close = { 'q', '<Esc>' },
         },

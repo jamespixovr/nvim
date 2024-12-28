@@ -1,4 +1,4 @@
-local settings = require('settings')
+local icons = require('lib.icons')
 
 return {
   {
@@ -53,9 +53,9 @@ return {
       },
 
       icons = {
-        passed = settings.icons.testing.Success,
+        passed = icons.testing.Success,
         running = '',
-        failed = settings.icons.testing.Failed,
+        failed = icons.testing.Failed,
         unknown = '',
         expanded = '',
         child_prefix = '',

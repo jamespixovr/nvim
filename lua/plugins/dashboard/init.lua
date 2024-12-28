@@ -1,5 +1,5 @@
 -- local helper = require("helper")
-local settings = require('settings')
+local icons = require('lib.icons')
 
 return {
   {
@@ -37,7 +37,7 @@ return {
       dashboard.section.header.val = header_logo
       -- dashboard.section.header.val = require("util.logo")["random"]
       dashboard.section.buttons.val = {
-        dashboard.button('f', settings.icons.ui.Search2 .. ' Find file', '<cmd>Telescope find_files<cr>'),
+        dashboard.button('f', icons.ui.Search2 .. ' Find file', '<cmd>Telescope find_files<cr>'),
         dashboard.button('n', ' ' .. ' New file', '<cmd>ene <bar> startinsert <cr>'),
         dashboard.button('r', ' ' .. ' Recent files', '<cmd>Telescope frecency workspace=CWD <cr>'),
         dashboard.button('/', ' ' .. ' Find text', '<cmd>Telescope live_grep<cr>'),
