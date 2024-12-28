@@ -42,6 +42,9 @@ return {
             -- for more details, also see:
             -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
             -- https://github.com/golang/tools/blob/master/gopls/README.md
+            env = {
+              GOEXPERIMENT = 'rangefunc',
+            },
             gopls = {
               gofumpt = true,
               codelenses = {
@@ -88,18 +91,6 @@ return {
             },
           },
         },
-      },
-    },
-  },
-  {
-    'jack-rabe/impl.nvim',
-    dependencies = {
-      'nvim-telescope/telescope.nvim',
-    },
-    opts = {
-      layout_strategy = 'vertical',
-      layout_config = {
-        width = 0.5,
       },
     },
   },
