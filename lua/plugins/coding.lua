@@ -3,7 +3,7 @@ return {
   -- auto pairs
   {
     'windwp/nvim-autopairs',
-    dependencies = { 'hrsh7th/nvim-cmp' },
+    -- dependencies = { 'hrsh7th/nvim-cmp' },
     event = 'InsertEnter',
     opts = {
       check_ts = true,

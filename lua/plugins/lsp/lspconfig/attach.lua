@@ -85,15 +85,15 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     if client.supports_method(methods.textDocument_signatureHelp) then
       map('gK', vim.lsp.buf.signature_help, 'Signature Help')
-      map('<C-k>', function()
-        -- Close the completion menu first (if open).
-        local cmp = require('cmp')
-        if cmp.visible() then
-          cmp.close()
-        end
-
-        vim.lsp.buf.signature_help()
-      end, 'Signature help', 'i')
+      -- map('<C-k>', function()
+      --   -- Close the completion menu first (if open).
+      --   local cmp = require('cmp')
+      --   if cmp.visible() then
+      --     cmp.close()
+      --   end
+      --
+      --   vim.lsp.buf.signature_help()
+      -- end, 'Signature help', 'i')
     end
 
     map('gl', "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", 'Show diagnostics')

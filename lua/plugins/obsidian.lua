@@ -40,7 +40,7 @@ return {
       },
     },
     completion = {
-      nvim_cmp = true,
+      nvim_cmp = vim.g.cmploader == 'nvim-cmp',
       -- Trigger completion at 2 chars.
       min_chars = 2,
     },

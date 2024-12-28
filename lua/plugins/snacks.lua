@@ -1,3 +1,5 @@
+local icons = require('lib.icons')
+
 ---@diagnostic disable: undefined-global
 return {
   {
@@ -6,8 +8,12 @@ return {
     lazy = false,
     ---@type snacks.Config
     opts = {
-      animate = { enabled = false },
-      bigfile = { enabled = true },
+      animate = { enabled = true },
+      bigfile = {
+        enabled = true,
+        notify = true,
+        size = 100 * 1024, -- 100 KB
+      },
       bufdelete = { enabled = true },
       dashboard = { enabled = false, example = 'advanced' },
       git = { enabled = true },
@@ -39,12 +45,42 @@ return {
             and vim.bo[buf].filetype ~= 'markdown'
         end,
       },
-      input = { enabled = true },
-      notifier = { enabled = true, timeout = 3000 },
+      input = {
+        enabled = true,
+        icon = icons.ui.Edit,
+        icon_hl = 'SnacksInputIcon',
+        icon_pos = 'left',
+        prompt_pos = 'title',
+        win = { style = 'input' },
+        expand = true,
+      },
+      notifier = {
+        enabled = true,
+        timeout = 3000,
+        width = { min = 40, max = 0.4 },
+        height = { min = 1, max = 0.6 },
+        margin = { top = 0, right = 1, bottom = 0 },
+        padding = true,
+        sort = { 'level', 'added' },
+        level = vim.log.levels.TRACE,
+        icons = {
+          debug = icons.ui.Bug,
+          error = icons.diagnostics.Error,
+          info = icons.diagnostics.Information,
+          trace = icons.ui.Bookmark,
+          warn = icons.diagnostics.Warning,
+        },
+        style = 'compact',
+        top_down = true,
+        date_format = '%R',
+        more_format = ' ↓ %d lines ',
+        refresh = 50,
+      },
       quickfile = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       terminal = { enabled = true },
+      rename = { enabled = true },
       words = { enabled = true },
       toggle = {
         which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
@@ -63,6 +99,70 @@ return {
       styles = {
         notification = {
           wo = { wrap = true }, -- Wrap notifications
+        },
+      },
+      scratch = {
+        enabled = true,
+        name = 'SCRATCH',
+        ft = function()
+          if vim.bo.buftype == '' and vim.bo.filetype ~= '' then
+            return vim.bo.filetype
+          end
+          return 'markdown'
+        end,
+        icon = nil,
+        root = vim.fn.stdpath('data') .. '/scratch',
+        autowrite = true,
+        filekey = {
+          cwd = true,
+          branch = true,
+          count = true,
+        },
+        win = {
+          width = 120,
+          height = 40,
+          bo = { buftype = '', buflisted = false, bufhidden = 'hide', swapfile = false },
+          minimal = false,
+          noautocmd = false,
+          zindex = 20,
+          wo = { winhighlight = 'NormalFloat:Normal' },
+          border = 'rounded',
+          title_pos = 'center',
+          footer_pos = 'center',
+
+          keys = {
+            ['execute'] = {
+              '<cr>',
+              function(_)
+                vim.cmd('%SnipRun')
+              end,
+              desc = 'Execute buffer',
+              mode = { 'n', 'x' },
+            },
+          },
+        },
+        win_by_ft = {
+          lua = {
+            keys = {
+              ['source'] = {
+                '<cr>',
+                function(self)
+                  local name = 'scratch.' .. vim.fn.fnamemodify(vim.api.nvim_buf_get_name(self.buf), ':e')
+                  Snacks.debug.run({ buf = self.buf, name = name })
+                end,
+                desc = 'Source buffer',
+                mode = { 'n', 'x' },
+              },
+              ['execute'] = {
+                'e',
+                function(_)
+                  vim.cmd('%SnipRun')
+                end,
+                desc = 'Execute buffer',
+                mode = { 'n', 'x' },
+              },
+            },
+          },
         },
       },
     },

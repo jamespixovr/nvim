@@ -1,3 +1,5 @@
+local icons = require('lib.icons')
+
 return {
   {
     'saghen/blink.cmp',
@@ -11,12 +13,10 @@ return {
         version = '*',
       },
     },
-    event = { 'InsertEnter *', 'CmdlineEnter *' },
-    version = '*',
+    event = { 'InsertEnter' },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
-      -- keymap = { preset = 'default' }, --default, super-tab or enter
       keymap = {
         preset = 'enter',
         ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
@@ -31,28 +31,14 @@ return {
           ['<S-Tab>'] = { 'select_next', 'fallback' },
         },
       },
-      appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'mono' },
+      appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
       completion = {
-        accept = { auto_brackets = { enabled = true } },
+        list = { selection = 'auto_insert' },
+        accept = { auto_brackets = { enabled = false } },
         menu = {
           border = vim.g.borderStyle,
           draw = {
-            columns = { { 'kind_icon', gap = 2 }, { 'label', 'label_description', gap = 2 }, { 'kind', gap = 2 } },
-            treesitter = { 'lsp' },
-            components = {
-              kind_icon = {
-                ellipsis = true,
-                text = function(ctx)
-                  local kind_icon, _, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return kind_icon
-                end,
-                -- Optionally, you may also use the highlights from mini.icons
-                highlight = function(ctx)
-                  local _, hl, _ = require('mini.icons').get('lsp', ctx.kind)
-                  return hl
-                end,
-              },
-            },
+            columns = { { 'kind_icon', gap = 1 }, { 'label', 'label_description', gap = 1 }, { 'kind' } },
           },
         },
         documentation = {
@@ -86,23 +72,6 @@ return {
       'sources.default',
       'sources.completion.enabled_providers',
       'sources.compat',
-    },
-  },
-  -- lazydev
-  {
-    'saghen/blink.cmp',
-    opts = {
-      sources = {
-        -- add lazydev to your completion providers
-        default = { 'lazydev' },
-        providers = {
-          lazydev = {
-            name = 'LazyDev',
-            module = 'lazydev.integrations.blink',
-            score_offset = 100, -- show at a higher priority than lsp
-          },
-        },
-      },
     },
   },
 }

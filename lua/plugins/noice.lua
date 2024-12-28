@@ -166,18 +166,18 @@ return {
       lsp = {
         progress = { enabled = false },
         signature = { enabled = false },
-        hover = { enabled = false },
+        hover = { silent = true },
         -- ENABLE features
         override = {
           ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
           ['vim.lsp.util.stylize_markdown'] = true,
-          ['cmp.entry.get_documentation'] = true,
+          ['cmp.entry.get_documentation'] = vim.g.cmploader == 'nvim-cmp',
         },
       },
       presets = {
         bottom_search = false,
         command_palette = true,
-        -- long_message_to_split = false,
+        long_message_to_split = true,
         inc_rename = true,
         cmdline_output_to_split = false,
         lsp_doc_border = true,
