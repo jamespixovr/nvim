@@ -24,6 +24,7 @@ return {
     formatters_by_ft = {
       css = { 'prettierd', 'prettier', stop_after_first = true },
       graphql = { 'prettierd', 'prettier', stop_after_first = true },
+      go = { 'goimports', 'gci', 'gofumpt', 'golines' },
       handlebars = { 'prettier' },
       html = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'jq' },
@@ -43,6 +44,25 @@ return {
       },
       sqlfluff = {
         args = { 'format', '--dialect=ansi', '-' },
+      },
+      goimports = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/goimports.lua
+        args = { '-srcdir', '$FILENAME' },
+      },
+      gci = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/gci.lua
+        args = { 'write', '--skip-generated', '-s', 'standard', '-s', 'default', '--skip-vendor', '$FILENAME' },
+      },
+      gofumpt = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/gofumpt.lua
+        prepend_args = { '-extra', '-w', '$FILENAME' },
+        stdin = false,
+      },
+      golines = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/golines.lua
+        -- NOTE: golines will use goimports as base formatter by default which can be slow.
+        -- see https://github.com/segmentio/golines/issues/33
+        prepend_args = { '--base-formatter=gofumpt', '--ignore-generated', '--tab-len=1', '--max-len=120' },
       },
     },
   },

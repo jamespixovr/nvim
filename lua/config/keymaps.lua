@@ -56,9 +56,11 @@ keymap('t', '<c-_>', '<cmd>close<cr>', { desc = 'which_key_ignore' })
 keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 
 -- Clear search with <esc>
-keymap({ 'i', 'n' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
-keymap('n', '<leader><space>', ':nohlsearch<CR>')
+vim.keymap.set('n', '<leader><space>', ':nohlsearch<CR>', { desc = 'Clear hlsearch', nowait = true })
+vim.keymap.set({ 'n', 'i' }, '<esc>', '<cmd>noh<cr><esc>', { desc = 'Escape and clear hlsearch' })
 
+-- buffers
+vim.keymap.set('n', '<leader>`', '<C-^>', { noremap = true, desc = 'Alternate buffers' })
 keymap('n', '<leader>bo', '<cmd>b#<cr>', { desc = 'Switch to Other Buffer' })
 
 -- lazy

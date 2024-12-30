@@ -1,4 +1,5 @@
 local util = require('lspconfig.util')
+
 return {
   -- correctly setup mason lsp / dap extensions
   {
@@ -27,7 +28,7 @@ return {
         }, -- linter
         gopls = {
           cmd = { 'gopls' },
-          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl', 'gosum' },
           root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
           keys = {
             -- Workaround for the lack of a DAP strategy in neotest-go: https://github.com/nvim-neotest/neotest-go/issues/12
@@ -46,7 +47,8 @@ return {
               GOEXPERIMENT = 'rangefunc',
             },
             gopls = {
-              gofumpt = true,
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              gofumpt = false, -- handled by conform instead.
               codelenses = {
                 gc_details = true, -- Show a code lens toggling the display of gc's choices.
                 generate = true, -- show the `go generate` lens.
@@ -79,15 +81,21 @@ return {
                 undeclaredname = true,
                 unreachable = true,
               },
-              staticcheck = true,
               usePlaceholders = true,
               completeUnimported = true,
               directoryFilters = { '-**/node_modules', '-**/.git', '-.vscode', '-.idea', '-.vscode-test' },
-              semanticTokens = true,
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              semanticTokens = false, -- disabling this enables treesitter injections (for sql, json etc)
               symbolMatcher = 'fuzzy',
               buildFlags = { '-tags', 'integration' },
               diagnosticsDelay = '500ms',
               matcher = 'Fuzzy',
+
+              -- diagnostic options
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              staticcheck = true,
+              vulncheck = 'imports',
+              analysisProgressReporting = true,
             },
           },
         },
