@@ -10,7 +10,6 @@ return {
     'nvim-treesitter/nvim-treesitter',
     {
       'saghen/blink.cmp',
-      enabled = vim.g.cmploader == 'blink.cmp',
       dependencies = {
         { 'saghen/blink.compat', branch = 'main' },
       },
@@ -33,13 +32,11 @@ return {
           },
         },
       },
+      opts_extend = {
+        'sources.default',
+      },
     },
-    -- "preservim/vim-markdown",
   },
-  -- event = {
-  --   "BufReadPre " .. vim.fn.expand("~") .. "/c/second-brain/**.md",
-  --   "BufNewFile " .. vim.fn.expand("~") .. "/c/second-brain/**.md",
-  -- },
   cmd = {
     'ObsidianOpen',
     'ObsidianNew',

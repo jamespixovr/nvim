@@ -4,13 +4,14 @@ return {
   {
     'saghen/blink.cmp',
     build = 'cargo build --release',
+    version = '*',
     dependencies = {
       'rafamadriz/friendly-snippets',
       {
         'saghen/blink.compat',
         optional = true, -- make optional so it's only enabled if any extras need it
         opts = {},
-        version = '*',
+        version = not vim.g.lazyvim_blink_main and '*',
       },
     },
     event = { 'InsertEnter' },
@@ -36,7 +37,7 @@ return {
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
       enabled = function()
         return not vim.tbl_contains({}, vim.bo.filetype)
-          and vim.bo.buftype ~= 'nofile'
+          -- and vim.bo.buftype ~= 'nofile'
           and vim.bo.buftype ~= 'prompt'
           and vim.b.completion ~= false
       end,
@@ -58,13 +59,12 @@ return {
       },
       signature = { window = { border = vim.g.borderStyle } },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion', 'lazydev', 'dadbod' },
+        default = { 'lsp', 'buffer', 'path', 'snippets', 'codecompanion', 'lazydev', 'dadbod' },
         per_filetype = { codecompanion = { 'codecompanion' } },
         providers = {
           codecompanion = {
             name = 'CodeCompanion',
             module = 'codecompanion.providers.completion.blink',
-            enabled = true,
           },
           lazydev = {
             name = '[lazy]',
