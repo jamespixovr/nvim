@@ -169,6 +169,9 @@ return {
     keys = {
       -- stylua: ignore start
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>st", function()
+          Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = "TODO.md" })
+        end, desc = "Todo List" },
       { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>ns",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },

@@ -7,9 +7,7 @@ return {
     enabled = true,
     event = 'VimEnter',
     init = false,
-    dependencies = {
-      'nvim-tree/nvim-web-devicons',
-    },
+    -- dependencies = { 'nvim-tree/nvim-web-devicons', },
 
     config = function()
       local dashboard = require('alpha.themes.dashboard')

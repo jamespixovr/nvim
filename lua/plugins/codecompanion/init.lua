@@ -1,3 +1,5 @@
+local helper = require('plugins.codecompanion.helper')
+
 return {
   'olimorris/codecompanion.nvim',
   event = 'VeryLazy',
@@ -14,48 +16,15 @@ return {
 
     require('codecompanion').setup({
       adapters = {
-        openai = function()
-          return require('codecompanion.adapters').extend('openai', {
-            schema = {
-              model = {
-                default = 'gpt-4o',
-              },
-            },
-          })
-        end,
-        anthropic = function()
-          return require('codecompanion.adapters').extend('anthropic', {
-            schema = {
-              model = {
-                default = 'claude-3-5-sonnet-latest',
-              },
-            },
-          })
-        end,
-        defaultllm = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'defaultllm',
-            schema = {
-              model = {
-                default = 'qwen2.5-coder',
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              temperature = {
-                default = 0.8,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
+        openai = helper.openai_fn,
+        anthropic = helper.anthropic_fn,
+        defaultllm = helper.ollama_fn,
+        gemini = helper.gemini_fn,
       },
       strategies = {
         chat = {
           adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'Me' },
+          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
           slash_commands = {
             ['buffer'] = {
               opts = {

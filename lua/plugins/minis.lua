@@ -15,11 +15,19 @@ return {
         ['tsconfig.json'] = { glyph = '', hl = 'MiniIconsAzure' },
         ['tsconfig.build.json'] = { glyph = '', hl = 'MiniIconsAzure' },
         ['yarn.lock'] = { glyph = '', hl = 'MiniIconsBlue' },
+        ['devcontainer.json'] = { glyph = '', hl = 'MiniIconsAzure' },
       },
       filetype = {
         gotmpl = { glyph = '󰟓', hl = 'MiniIconsGrey' },
+        dotenv = { glyph = '', hl = 'MiniIconsYellow' },
       },
     },
+    init = function()
+      package.preload['nvim-web-devicons'] = function()
+        require('mini.icons').mock_nvim_web_devicons()
+        return package.loaded['nvim-web-devicons']
+      end
+    end,
   },
   -- better text-objects
   {
