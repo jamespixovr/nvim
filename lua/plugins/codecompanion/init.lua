@@ -89,6 +89,19 @@ return {
     { '<leader>at', '<cmd>CodeCompanionChat Toggle<CR>', desc = 'AI Toggle', mode = { 'n', 'v' } },
     { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
     { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion Anthropic' },
-    { '<leader>ao', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion Ollama' },
+    { '<leader>ag', ':CodeCompanionChat gemini<CR>', desc = 'Codecompanion: Gemini' },
+    { '<leader>al', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion OpenAI' },
+    { '<leader>ao', ':CodeCompanionChat openai<CR>', desc = 'Codecompanion Ollama' },
+    {
+      '<leader>aS',
+      function()
+        local name = vim.fn.input('Save as: ')
+        if name and name ~= '' then
+          vim.cmd('CodeCompanionSave ' .. name)
+        end
+      end,
+      desc = 'Codecompanion save',
+    },
+    { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
   },
 }

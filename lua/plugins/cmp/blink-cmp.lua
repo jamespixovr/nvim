@@ -5,6 +5,7 @@ return {
     'saghen/blink.cmp',
     build = 'cargo build --release',
     version = '*',
+    lazy = false, -- lazy loading handled internally
     dependencies = {
       'rafamadriz/friendly-snippets',
       {
@@ -42,7 +43,7 @@ return {
           and vim.b.completion ~= false
       end,
       completion = {
-        list = { selection = 'auto_insert' },
+        list = { selection = 'manual' },
         accept = { auto_brackets = { enabled = false } },
         menu = {
           border = vim.g.borderStyle,

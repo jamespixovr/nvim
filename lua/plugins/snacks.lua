@@ -46,7 +46,7 @@ return {
         end,
       },
       input = {
-        enabled = true,
+        enabled = false,
         icon = icons.ui.Edit,
         icon_hl = 'SnacksInputIcon',
         icon_pos = 'left',
