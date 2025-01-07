@@ -8,12 +8,6 @@ return {
     lazy = false, -- lazy loading handled internally
     dependencies = {
       'rafamadriz/friendly-snippets',
-      {
-        'saghen/blink.compat',
-        optional = true, -- make optional so it's only enabled if any extras need it
-        opts = {},
-        version = not vim.g.lazyvim_blink_main and '*',
-      },
     },
     event = { 'InsertEnter' },
     ---@module 'blink.cmp'
@@ -63,10 +57,6 @@ return {
         default = { 'lsp', 'buffer', 'path', 'snippets', 'codecompanion', 'lazydev', 'dadbod' },
         per_filetype = { codecompanion = { 'codecompanion' } },
         providers = {
-          codecompanion = {
-            name = 'CodeCompanion',
-            module = 'codecompanion.providers.completion.blink',
-          },
           lazydev = {
             name = '[lazy]',
             module = 'lazydev.integrations.blink',
@@ -79,8 +69,6 @@ return {
     },
     opts_extend = {
       'sources.default',
-      'sources.completion.enabled_providers',
-      'sources.compat',
     },
   },
 }
