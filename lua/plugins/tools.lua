@@ -72,4 +72,5 @@ return {
     },
     config = true,
   },
+  -- for dev-container checkout https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/plugins/extras/editor/dev-container.lua
 }

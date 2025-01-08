@@ -1,5 +1,6 @@
 local function terminal_keymaps()
   return {
+    { [[<c-\>]], '<cmd>ToggleTerm<cr>', mode = 'n', desc = 'Toggle Terminal' },
     { '<leader>wt', '<cmd>ToggleTerm<cr>', desc = 'Toggle Terminal' },
     { '<leader>wf', '<cmd>ToggleTerm direction=float<cr>', desc = 'Toggle Floating Terminal' },
     { '<leader>wh', '<cmd>ToggleTerm size=10 direction=horizontal<cr>', desc = 'Toggle Horizontal Terminal' },

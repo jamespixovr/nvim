@@ -1,4 +1,5 @@
 local helper = require('plugins.codecompanion.helper')
+local user = vim.env.USER or 'Jarmex'
 
 return {
   'olimorris/codecompanion.nvim',
@@ -8,8 +9,10 @@ return {
     'nvim-treesitter/nvim-treesitter',
     'stevearc/dressing.nvim',
     { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
+    { 'saghen/blink.cmp', enabled = vim.g.cmploader == 'blink.cmp' },
   },
   config = function()
+    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'anthropic'
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
     vim.cmd([[cab ccb CodeCompanionChat anthropic]])
@@ -18,13 +21,17 @@ return {
       adapters = {
         openai = helper.openai_fn,
         anthropic = helper.anthropic_fn,
-        defaultllm = helper.ollama_fn,
+        ollama = helper.ollama_fn,
         gemini = helper.gemini_fn,
       },
       strategies = {
         chat = {
-          adapter = 'defaultllm',
-          roles = { llm = ' CodeCompanion', user = 'Jarmex' },
+          adapter = adapter,
+          -- roles = { llm = ' CodeCompanion', user = 'Jarmex' },
+          roles = {
+            llm = '  CodeCompanion',
+            user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
+          },
           slash_commands = {
             ['buffer'] = {
               opts = {
@@ -49,10 +56,10 @@ return {
           },
         },
         inline = {
-          adapter = 'anthropic',
+          adapter = adapter,
         },
         agent = {
-          adapter = 'anthropic',
+          adapter = adapter,
           tools = {
             opts = {
               auto_submit_errors = true,
@@ -75,12 +82,7 @@ return {
           render_headers = false,
         },
       },
-      -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
-      -- actions = {
-      --   require('plugins.codecompanion.actions').translate,
-      --   require('plugins.codecompanion.actions').write,
-      -- },
-      --
+      prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
     })
   end,
   keys = {
