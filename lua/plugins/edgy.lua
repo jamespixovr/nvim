@@ -10,6 +10,14 @@ return {
     animate = { enabled = false },
     bottom = {
       {
+        ft = 'toggleterm',
+        size = { height = 0.4 },
+        -- exclude floating windows
+        filter = function(_, win)
+          return vim.api.nvim_win_get_config(win).relative == ''
+        end,
+      },
+      {
         ft = 'snacks_terminal',
         size = { height = 0.4 },
         title = '%{b:snacks_terminal.id}: %{b:term_title}',
