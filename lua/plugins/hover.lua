@@ -13,6 +13,8 @@ return {
     preview_opts = {
       border = 'rounded',
     },
+    preview_window = false,
+    title = true,
   },
   -- stylua: ignore
   keys = {
