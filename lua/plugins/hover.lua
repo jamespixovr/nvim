@@ -7,7 +7,9 @@ return {
     -- require('hover.providers.jira')
     require('hover.providers.dap')
     require('hover.providers.man')
-    require('hover.providers.dictionary')
+    require('hover.providers.fold_preview')
+    -- require('hover.providers.dictionary')
+    require('hover.providers.diagnostic')
   end,
   opts = {
     preview_opts = {

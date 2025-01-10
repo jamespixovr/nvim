@@ -1,3 +1,5 @@
+local glance = require('glance')
+
 local methods = vim.lsp.protocol.Methods
 
 ---@diagnostic disable: need-check-nil
@@ -63,39 +65,29 @@ vim.api.nvim_create_autocmd('LspAttach', {
       elseif ft == 'help' then
         vim.api.nvim_command(':help ' .. vim.fn.expand('<cword>'))
       else
-        require('fzf-lua').lsp_definitions({ jump_to_single_result = true, ignore_current_line = true })
+        glance.open('definitions')
       end
     end
 
     map('gd', go_to_definition, 'Go to definition')
 
+    map('gy', '<cmd>Glance type_definitions<cr>', 'Goto Type Definition')
+
     vim.keymap.set('n', 'gr', function()
-      require('fzf-lua').lsp_references({ jump_to_single_result = true, ignore_current_line = true })
+      glance.open('references')
     end, { buffer = bufnr, desc = 'References', nowait = true })
 
     map('gi', function()
-      require('fzf-lua').lsp_implementations({ jump_to_single_result = true, ignore_current_line = true })
+      glance.open('implementations')
     end, 'Goto Implementation')
 
     map('gy', function()
-      require('fzf-lua').lsp_typedefs({ jump_to_single_result = true, ignore_current_line = true })
+      glance.open('type_definitions')
     end, 'Goto Type Definition')
 
     map('K', vim.lsp.buf.hover, 'Hover Documentation')
 
     map('gK', vim.lsp.buf.signature_help, 'Signature Help')
-    -- if client.supports_method(methods.textDocument_signatureHelp) then
-    -- map('gK', vim.lsp.buf.signature_help, 'Signature Help')
-    -- map('<C-k>', function()
-    --   -- Close the completion menu first (if open).
-    --   local cmp = require('cmp')
-    --   if cmp.visible() then
-    --     cmp.close()
-    --   end
-    --
-    --   vim.lsp.buf.signature_help()
-    -- end, 'Signature help', 'i')
-    -- end
 
     map('gl', "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", 'Show diagnostics')
 
@@ -106,8 +98,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', '[W]orkspace [A]dd Folder')
     map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', '[W]orkspace [R]emove Folder')
-    -- map('<leader>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', 'Workspace List Folders')
-    -- map("gy", vim.lsp.buf.declaration, "[LSP] Go declaration")
 
     map('<leader>ws', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
     map('<leader>wS', function()
