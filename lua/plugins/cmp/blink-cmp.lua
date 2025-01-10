@@ -1,6 +1,5 @@
 local icons = require('lib.icons')
 -- https://www.lazyvim.org/extras/coding/blink
--- https://github.com/saghen/blink.cmp
 -- Documentation site: https://cmp.saghen.dev/
 
 -- NOTE: Specify the trigger character(s) used for luasnip
@@ -141,11 +140,6 @@ return {
         end,
       }
 
-      -- The default preset used by lazyvim accepts completions with enter
-      -- I don't like using enter because if on markdown and typing
-      -- something, but you want to go to the line below, if you press enter,
-      -- the completion will be accepted
-      -- https://cmp.saghen.dev/configuration/keymap.html#default
       opts.keymap = {
         preset = 'enter',
         ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
@@ -173,6 +167,7 @@ return {
       end
 
       opts.completion = {
+        list = { selection = { preselect = false, auto_insert = true } },
         menu = {
           border = vim.g.borderStyle,
           draw = {
