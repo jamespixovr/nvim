@@ -1,18 +1,3 @@
-local function should_disable(lang, bufnr)
-  local disable_max_size = 2000000 -- 2MB
-  local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr or 0))
-  -- size will be -2 if it doesn't fit into a number
-  if size > disable_max_size or size == -2 then
-    return true
-  end
-
-  if vim.tbl_contains({ 'ruby' }, lang) then
-    return true
-  end
-
-  return false
-end
-
 return {
   -- comments
   {
@@ -94,9 +79,6 @@ return {
       'windwp/nvim-ts-autotag',
     },
     opts = function()
-      local function is_disable(_, bufnr)
-        return bufnr and vim.api.nvim_buf_line_count(bufnr) > 5000
-      end
       return {
         ignore_install = { 'help' },
         ensure_installed = {
@@ -153,25 +135,22 @@ return {
         auto_install = true, -- install missing parsers when entering a buffer
         highlight = {
           enable = vim.g.vscode ~= 1,
-          disable = should_disable,
           use_languagetree = true,
           -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
           --  If you are experiencing weird indenting issues, add the language to
           --  the list of additional_vim_regex_highlighting and disabled languages for indent.
           additional_vim_regex_highlighting = {
-            'ruby',
             'python',
             'vim',
           },
         },
-        indent = { enable = true, disable = is_disable },
-        context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
-        autopairs = { enable = true, disable = is_disable },
-        -- playground = { enable = true, disable = is_disable },
-        matchup = { enable = true, disable = is_disable },
+        indent = { enable = true },
+        context_commentstring = { enable = true, enable_autocmd = false },
+        autopairs = { enable = true },
+        -- playground = { enable = true},
+        matchup = { enable = true },
         incremental_selection = {
           enable = true,
-          disable = is_disable,
           keymaps = {
             init_selection = '<C-space>',
             node_incremental = '<C-space>',
@@ -183,6 +162,7 @@ return {
         endwise = { enable = true },
 
         textobjects = {
+          enable = false,
           move = {
             enable = true,
             goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },

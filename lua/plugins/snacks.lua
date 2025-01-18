@@ -14,7 +14,7 @@ return {
         notify = true,
         size = 100 * 1024, -- 100 KB
       },
-      bufdelete = { enabled = true },
+      bufdelete = { enabled = false },
       dashboard = { enabled = false, example = 'advanced' },
       git = { enabled = true },
       gitbrowse = { enabled = true },
@@ -76,11 +76,21 @@ return {
         more_format = ' ↓ %d lines ',
         refresh = 50,
       },
+      picker = {
+        layout = {
+          reverse = true,
+          cycle = true,
+          --- Use the default layout or vertical if the window is too narrow
+          preset = function()
+            return vim.o.columns >= 120 and 'ivy' or 'vertical'
+          end,
+        },
+      },
       quickfile = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = true },
       terminal = { enabled = true },
-      rename = { enabled = true },
+      rename = { enabled = false },
       words = { enabled = true },
       toggle = {
         which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
@@ -185,6 +195,14 @@ return {
       { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+      { '<leader>jg', function() Snacks.picker.grep() end, desc = 'Grep' },
+      { '<leader>jb', function() Snacks.picker.grep_buffers() end, desc = 'Grep Open Buffers' },
+      { '<leader>jw', function() Snacks.picker.grep_word() end, desc = 'Visual selection or word', mode = { 'n', 'x' } },
+      { '<leader>jk', function() Snacks.picker.keymaps() end, desc = 'Keymaps', },
+      { '<leader>jr', function() Snacks.picker.resume() end, desc = 'Resume' },
+      { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
+      { '<leader>js', function() Snacks.picker.smart() end, desc = 'Find Files', },
+      { '<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers', },
       -- stylua: ignore end
     },
     init = function()

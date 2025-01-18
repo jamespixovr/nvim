@@ -46,7 +46,7 @@ return {
       { '<leader>fC', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
       { '<leader>fM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
       -- { '<leader>fa', '<cmd>Telescope autocommands<cr>', desc = 'Auto Commands' },
-      { '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer' },
+      -- { '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer' },
       {
         '<leader>fl',
         ":lua require('telescope.builtin').grep_string({ search = vim.fn.input('GREP -> ') })<CR>",

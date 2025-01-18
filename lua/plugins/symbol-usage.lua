@@ -1,5 +1,6 @@
 return {
-  { -- CodeLens, but also for languages not supporting it
+  {
+    -- Plugin to display references, definitions, and implementations of document symbols with a view like JetBrains Idea
     'Wansmer/symbol-usage.nvim',
     event = 'LspAttach',
     opts = {

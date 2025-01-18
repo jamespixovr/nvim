@@ -85,7 +85,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       glance.open('type_definitions')
     end, 'Goto Type Definition')
 
-    map('K', vim.lsp.buf.hover, 'Hover Documentation')
+    -- map('K', vim.lsp.buf.hover, 'Hover Documentation') -- use the hover nvim
 
     map('gK', vim.lsp.buf.signature_help, 'Signature Help')
 

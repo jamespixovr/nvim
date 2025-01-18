@@ -2,6 +2,7 @@ return {
 
   {
     'echasnovski/mini.icons',
+    lazy = false,
     version = false,
     opts = {
       file = {
@@ -29,10 +30,12 @@ return {
       end
     end,
   },
+
   -- better text-objects
   {
     'echasnovski/mini.ai',
-    event = 'VeryLazy',
+    lazy = false,
+    version = false,
     opts = function()
       local ai = require('mini.ai')
       return {
@@ -44,7 +47,7 @@ return {
           }, {}),
           f = ai.gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }, {}),
           c = ai.gen_spec.treesitter({ a = '@class.outer', i = '@class.inner' }, {}),
-          t = { '<([%p%w]-)%f[^<%w][^<>]->.-</%1>', '^<.->().*()</[^/]->$' },
+          -- t = { '<([%p%w]-)%f[^<%w][^<>]->.-</%1>', '^<.->().*()</[^/]->$' },
         },
       }
     end,
@@ -56,10 +59,34 @@ return {
   -- buffer remove
   {
     'echasnovski/mini.bufremove',
+    lazy = false,
+    version = false,
+
     -- stylua: ignore
     keys = {
       { "<leader>bc", function() require("mini.bufremove").delete(0, false) end, desc = "Delete Buffer" },
       { "<leader>bB", function() require("mini.bufremove").delete(0, true) end,  desc = "Delete Buffer (Force)" },
     },
+    config = function()
+      require('mini.bufremove').setup()
+    end,
+  },
+
+  {
+    'echasnovski/mini.surround',
+    lazy = false,
+    version = false,
+    config = function()
+      require('mini.surround').setup()
+    end,
+  },
+
+  {
+    'echasnovski/mini.pairs',
+    version = false,
+    lazy = false,
+    config = function()
+      require('mini.pairs').setup()
+    end,
   },
 }
