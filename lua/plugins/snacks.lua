@@ -77,19 +77,34 @@ return {
         refresh = 50,
       },
       picker = {
+        -- prompt = '> ',
+        ui_select = true,
+        formatters = {
+          file = {
+            filename_first = true,
+          },
+        },
         layout = {
-          reverse = true,
+          reverse = false,
           cycle = true,
           --- Use the default layout or vertical if the window is too narrow
           preset = function()
             return vim.o.columns >= 120 and 'ivy' or 'vertical'
           end,
+          border = 'rounded',
+        },
+        win = {
+          input = {
+            keys = {
+              ['<Esc>'] = { 'close', mode = { 'i', 'n' } },
+            },
+          },
         },
       },
       quickfile = { enabled = false },
       scroll = { enabled = false },
-      statuscolumn = { enabled = true },
-      terminal = { enabled = true },
+      statuscolumn = { enabled = false },
+      terminal = { enabled = false },
       rename = { enabled = false },
       words = { enabled = true },
       toggle = {
