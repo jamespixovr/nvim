@@ -103,7 +103,7 @@ end
 local keys = {
   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
   { '<leader>sf', ':FzfLua grep_cword<cr>', desc = 'Search word under cursor' },
-  { '<leader>ff', file_picker, desc = 'Find Files' },
+  -- { '<leader>ff', file_picker, desc = 'Find Files' },
   -- { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
   { '<leader>bb', fzf_lua.buffers, desc = 'buffers' },
   { '<leader>fm', fzf_lua.marks, desc = 'marks' },
@@ -116,7 +116,7 @@ if vim.g.picker == 'fzf_lua' then
   keys = {
     { '<c-p>', git_files_cwd_aware, desc = 'find files' },
     { '<leader>fa', '<Cmd>FzfLua<CR>', desc = 'builtins' },
-    { '<leader>ff', file_picker, desc = 'find files' },
+    -- { '<leader>ff', file_picker, desc = 'find files' },
     { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
     { '<leader>fr', fzf_lua.resume, desc = 'resume picker' },
     { '<leader>fh', fzf_lua.highlights, desc = 'highlights' },

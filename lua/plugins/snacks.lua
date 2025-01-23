@@ -216,7 +216,7 @@ return {
       { '<leader>jk', function() Snacks.picker.keymaps() end, desc = 'Keymaps', },
       { '<leader>jr', function() Snacks.picker.resume() end, desc = 'Resume' },
       { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
-      { '<leader>js', function() Snacks.picker.smart() end, desc = 'Find Files', },
+      { '<leader>ff', function() Snacks.picker.smart() end, desc = 'Find Files', },
       { '<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers', },
       -- stylua: ignore end
     },
