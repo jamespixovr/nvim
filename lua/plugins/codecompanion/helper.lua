@@ -139,7 +139,7 @@ M.ollama_fn = function()
     name = 'defaultllm',
     schema = {
       model = {
-        default = 'qwen2.5-coder',
+        default = 'deepseek-r1',
       },
       num_ctx = {
         default = 16384,
@@ -154,12 +154,12 @@ M.ollama_fn = function()
   })
 end
 
---- OpenAI config for CodeCompanion.
+--- Gemini config for CodeCompanion.
 M.gemini_fn = function()
   local gemini_config = {
     schema = {
       model = {
-        default = 'gemini-2.0-flash-exp',
+        default = 'gemini-2.0-flash-thinking-exp',
       },
     },
   }

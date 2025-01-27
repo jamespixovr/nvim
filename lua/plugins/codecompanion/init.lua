@@ -3,8 +3,7 @@ local user = vim.env.USER or 'Jarmex'
 
 return {
   'olimorris/codecompanion.nvim',
-  lazy = true,
-  event = 'VeryLazy',
+  lazy = false,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
