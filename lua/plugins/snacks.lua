@@ -218,6 +218,7 @@ return {
       { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
       { '<leader>ff', function() Snacks.picker.smart() end, desc = 'Find Files', },
       { '<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers', },
+      { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
       -- stylua: ignore end
     },
     init = function()

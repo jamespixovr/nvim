@@ -2,7 +2,7 @@ return {
   {
     'neovim/nvim-lspconfig',
     opts = {
-      -- make sure mason installs the server
+      -- Make sure mason installs the server
       servers = {
         harper_ls = {
           settings = {
