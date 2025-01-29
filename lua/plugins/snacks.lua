@@ -56,13 +56,14 @@ return {
       },
       notifier = {
         enabled = true,
+        style = 'fancy',
         timeout = 3000,
         width = { min = 40, max = 0.4 },
         height = { min = 1, max = 0.6 },
         margin = { top = 0, right = 1, bottom = 0 },
         padding = true,
-        sort = { 'level', 'added' },
-        level = vim.log.levels.TRACE,
+        -- sort = { 'level', 'added' },
+        -- level = vim.log.levels.TRACE,
         icons = {
           debug = icons.ui.Bug,
           error = icons.diagnostics.Error,
@@ -70,11 +71,11 @@ return {
           trace = icons.ui.Bookmark,
           warn = icons.diagnostics.Warning,
         },
-        style = 'compact',
-        top_down = true,
+        -- style = 'compact',
+        -- top_down = true,
         date_format = '%R',
         more_format = ' ↓ %d lines ',
-        refresh = 50,
+        -- refresh = 50,
       },
       picker = {
         -- prompt = '> ',
@@ -105,23 +106,20 @@ return {
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
       terminal = { enabled = false },
-      rename = { enabled = false },
+      rename = { enabled = true },
       words = { enabled = true },
-      toggle = {
-        which_key = true, -- integrate with which-key to show enabled/disabled icons and colors
-        notify = true, -- show a notification when toggling
-        -- icons for enabled/disabled states
-        icon = {
-          enabled = ' ',
-          disabled = ' ',
-        },
-        -- colors for enabled/disabled states
-        color = {
-          enabled = 'green',
-          disabled = 'yellow',
-        },
-      },
       styles = {
+        input = {
+          backdrop = true,
+          border = vim.g.borderStyle,
+          title_pos = 'left',
+          width = 50,
+          row = math.ceil(vim.o.lines / 2) - 3,
+          wo = { colorcolumn = '' },
+          keys = {
+            CR = { '<CR>', 'confirm', mode = 'n' },
+          },
+        },
         notification = {
           wo = { wrap = true }, -- Wrap notifications
         },
@@ -217,7 +215,7 @@ return {
       { '<leader>jr', function() Snacks.picker.resume() end, desc = 'Resume' },
       { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
       { '<leader>ff', function() Snacks.picker.smart() end, desc = 'Find Files', },
-      { '<leader>fb', function() Snacks.picker.buffers() end, desc = 'Buffers', },
+      { '<leader>bb', function() Snacks.picker.buffers({layout = { preset = 'select'}}) end, desc = 'Buffers', },
       { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
       -- stylua: ignore end
     },
