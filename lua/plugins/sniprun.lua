@@ -1,6 +1,7 @@
 return {
   {
     'michaelb/sniprun',
+    enabled = false,
     build = 'bash ./install.sh',
     cmd = 'SnipRun',
     config = function()

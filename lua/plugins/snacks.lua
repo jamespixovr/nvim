@@ -19,13 +19,13 @@ return {
         enabled = true,
         preset = {
           keys = {
-            { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
             {
               icon = ' ',
               key = 'f',
               desc = 'Find File',
               action = ':lua Snacks.picker.smart({filter = {cwd = true}})',
             },
+            { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
             {
               icon = ' ',
               key = 's',
@@ -47,8 +47,8 @@ return {
             section = 'terminal',
             cmd = 'lolcat --seed=24 ~/.config/nvim/static/neo2.cat',
             indent = -5,
-            height = 11,
-            width = 69,
+            height = 10,
+            width = 71,
             padding = 1,
           },
           {
@@ -91,7 +91,7 @@ return {
         end,
       },
       input = {
-        enabled = false,
+        enabled = true,
         icon = icons.ui.Edit,
         icon_hl = 'SnacksInputIcon',
         icon_pos = 'left',

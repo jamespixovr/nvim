@@ -27,7 +27,7 @@ return {
           section_separators = { left = '', right = '' },
           disabled_filetypes = {
             statusline = { 'lazy', 'alpha' },
-            winbar = { 'lazy', 'alpha', 'toggleterm', 'NvimTree', 'Trouble', 'neo-tree', 'codecompanion' },
+            winbar = { 'lazy', 'alpha', 'toggleterm', 'NvimTree', 'Trouble', 'neo-tree', 'codecompanion', 'snacks' },
           },
           globalstatus = true,
           always_divide_middle = true,

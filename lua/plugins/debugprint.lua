@@ -3,6 +3,7 @@ local prefix = '<leader>dd'
 return {
   {
     'andrewferrier/debugprint.nvim',
+    enabled = false,
     opts = {
       create_keymaps = false,
     },
