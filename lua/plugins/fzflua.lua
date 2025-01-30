@@ -105,7 +105,7 @@ local keys = {
   { '<leader>sf', ':FzfLua grep_cword<cr>', desc = 'Search word under cursor' },
   -- { '<leader>ff', file_picker, desc = 'Find Files' },
   -- { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
-  { '<leader>bb', fzf_lua.buffers, desc = 'buffers' },
+  -- { '<leader>bb', fzf_lua.buffers, desc = 'buffers' },
   { '<leader>fm', fzf_lua.marks, desc = 'marks' },
   { '<leader>A', fzf_lua.grep_cword, desc = 'grep (under cursor)' },
   { '<leader>A', fzf_lua.grep_visual, desc = 'grep (visual selection)', mode = 'v' },
@@ -129,7 +129,7 @@ if vim.g.picker == 'fzf_lua' then
     { '<leader>fgb', fzf_lua.git_branches, desc = 'branches' },
     { '<leader>fgc', fzf_lua.git_commits, desc = 'commits' },
     { '<leader>fgB', fzf_lua.git_bcommits, desc = 'buffer commits' },
-    { '<leader>fb', fzf_lua.buffers, desc = 'buffers' },
+    -- { '<leader>fb', fzf_lua.buffers, desc = 'buffers' },
     { '<leader>a', fzf_lua.live_grep_glob, desc = 'live grep' },
     { '<leader>A', fzf_lua.grep_cword, desc = 'grep (under cursor)' },
     { '<leader>A', fzf_lua.grep_visual, desc = 'grep (visual selection)', mode = 'v' },
@@ -163,6 +163,7 @@ end
 return {
   {
     'ibhagwan/fzf-lua',
+    enabled = false,
     event = 'VeryLazy',
     keys = keys,
     config = function()

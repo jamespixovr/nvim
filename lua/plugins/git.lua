@@ -46,11 +46,11 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'sindrets/diffview.nvim', -- optional - Diff integration
-      'ibhagwan/fzf-lua',
+      'nvim-telescope/telescope.nvim',
     },
     cmd = 'Neogit',
     opts = {
-      integrations = { diffview = true, fzf_lua = true },
+      integrations = { diffview = true },
       kind = 'tab',
       auto_show_console = true,
       status = { recent_commit_count = 10 },

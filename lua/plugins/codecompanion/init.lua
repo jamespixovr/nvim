@@ -18,6 +18,7 @@ return {
     vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('codecompanion').setup({
+      -- system_prompts = require('plugins.codecompanion.prompts').SystemPrompt,
       adapters = {
         openai = helper.openai_fn,
         anthropic = helper.anthropic_fn,
@@ -35,22 +36,22 @@ return {
           slash_commands = {
             ['buffer'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
             ['help'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
             ['file'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
             ['symbols'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
           },

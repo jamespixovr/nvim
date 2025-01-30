@@ -139,7 +139,7 @@ M.ollama_fn = function()
     name = 'defaultllm',
     schema = {
       model = {
-        default = 'deepseek-r1',
+        default = 'qwen2.5-coder:latest',
       },
       num_ctx = {
         default = 16384,

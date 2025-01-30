@@ -99,12 +99,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', '[W]orkspace [A]dd Folder')
     map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', '[W]orkspace [R]emove Folder')
 
-    map('<leader>ws', '<cmd>FzfLua lsp_document_symbols<cr>', 'Document symbols')
-    map('<leader>wS', function()
-      -- Disable the grep switch header.
-      require('fzf-lua').lsp_live_workspace_symbols({ no_header_i = true })
-    end, 'Workspace symbols')
-
     if client.supports_method(methods.textDocument_codeAction) then
       map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions', { 'n', 'v' })
     end
