@@ -60,7 +60,7 @@ return {
         update_focused_file = {
           enable = true,
           update_root = false,
-          ignore_list = { 'fzf', 'help', 'git' },
+          ignore_list = { 'fzf', 'help', 'git', 'snacks' },
         },
         diagnostics = {
           enable = true,

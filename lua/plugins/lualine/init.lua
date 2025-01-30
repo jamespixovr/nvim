@@ -47,6 +47,7 @@ return {
             'mason',
             'qf',
             'lazy',
+            'snacks',
           },
         },
         tabline = {},

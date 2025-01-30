@@ -15,7 +15,52 @@ return {
         size = 100 * 1024, -- 100 KB
       },
       bufdelete = { enabled = false },
-      dashboard = { enabled = false, example = 'advanced' },
+      dashboard = {
+        enabled = true,
+        preset = {
+          keys = {
+            { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+            {
+              icon = ' ',
+              key = 'f',
+              desc = 'Find File',
+              action = ':lua Snacks.picker.smart({filter = {cwd = true}})',
+            },
+            {
+              icon = ' ',
+              key = 's',
+              desc = 'Load Session',
+              action = function()
+                require('persistence').load()
+              end,
+            },
+            { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = '󱘣 ', key = '/', desc = 'Search Files', action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = ' ', key = 'm', desc = 'Show mark', action = ":lua Snacks.dashboard.pick('marks')" },
+            { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoTrouble' },
+            { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
+            { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
+          },
+        },
+        sections = {
+          {
+            section = 'terminal',
+            cmd = 'lolcat --seed=24 ~/.config/nvim/static/neo2.cat',
+            indent = -5,
+            height = 11,
+            width = 69,
+            padding = 1,
+          },
+          {
+            section = 'keys',
+            indent = 1,
+            gap = 1,
+            padding = 1,
+          },
+          -- { title = 'Recent Files', section = 'recent_files', indent = 2, padding = { 2, 2 } },
+          { section = 'startup' },
+        },
+      },
       git = { enabled = true },
       gitbrowse = { enabled = true },
       scope = { enabled = true },
@@ -56,7 +101,7 @@ return {
       },
       notifier = {
         enabled = true,
-        style = 'fancy',
+        -- style = 'fancy',
         timeout = 3000,
         width = { min = 40, max = 0.4 },
         height = { min = 1, max = 0.6 },
@@ -71,8 +116,8 @@ return {
           trace = icons.ui.Bookmark,
           warn = icons.diagnostics.Warning,
         },
-        -- style = 'compact',
-        -- top_down = true,
+        style = 'compact',
+        top_down = true,
         date_format = '%R',
         more_format = ' ↓ %d lines ',
         -- refresh = 50,
@@ -98,6 +143,7 @@ return {
           input = {
             keys = {
               ['<Esc>'] = { 'close', mode = { 'i', 'n' } },
+              ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
             },
           },
         },
@@ -105,7 +151,7 @@ return {
       quickfile = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
-      terminal = { enabled = false },
+      terminal = { enabled = false, win = { style = 'terminal', wo = { winbar = '' } } },
       rename = { enabled = true },
       words = { enabled = true },
       styles = {
@@ -214,7 +260,7 @@ return {
       { '<leader>jk', function() Snacks.picker.keymaps() end, desc = 'Keymaps', },
       { '<leader>jr', function() Snacks.picker.resume() end, desc = 'Resume' },
       { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
-      { '<leader>ff', function() Snacks.picker.smart() end, desc = 'Find Files', },
+      { '<leader>ff', function() Snacks.picker.smart({filter = {cwd = true}}) end, desc = 'Find Files', },
       { '<leader>bb', function() Snacks.picker.buffers({layout = { preset = 'select'}}) end, desc = 'Buffers', },
       { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
       -- stylua: ignore end
