@@ -151,7 +151,7 @@ return {
       quickfile = { enabled = false },
       scroll = { enabled = false },
       statuscolumn = { enabled = false },
-      terminal = { enabled = false, win = { style = 'terminal', wo = { winbar = '' } } },
+      terminal = { enabled = true, win = { style = 'terminal', wo = { winbar = '' } } },
       rename = { enabled = true },
       words = { enabled = true },
       styles = {

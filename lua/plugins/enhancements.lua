@@ -5,5 +5,5 @@ return {
       require('neoscroll').setup({ easing_function = 'quadratic' })
     end,
   },
-  { 'Aasim-A/scrollEOF.nvim', config = false },
+  { 'Aasim-A/scrollEOF.nvim', config = false, enabled = false },
 }
