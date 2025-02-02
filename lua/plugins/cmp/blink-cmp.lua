@@ -11,7 +11,7 @@ return {
     build = 'cargo build --release',
     dependencies = {
       'rafamadriz/friendly-snippets',
-      'moyiz/blink-emoji.nvim',
+      -- 'moyiz/blink-emoji.nvim',
     },
     event = { 'InsertEnter' },
     opts = function(_, opts)
@@ -97,12 +97,12 @@ return {
             score_offset = 85, -- the higher the number, the higher the priority
           },
           -- https://github.com/moyiz/blink-emoji.nvim
-          emoji = {
-            module = 'blink-emoji',
-            name = 'Emoji',
-            score_offset = 15, -- the higher the number, the higher the priority
-            opts = { insert = true }, -- Insert emoji (default) or complete its name
-          },
+          -- emoji = {
+          --   module = 'blink-emoji',
+          --   name = 'Emoji',
+          --   score_offset = 15, -- the higher the number, the higher the priority
+          --   opts = { insert = true }, -- Insert emoji (default) or complete its name
+          -- },
           codecompanion = {
             name = 'CodeCompanion',
             module = 'codecompanion.providers.completion.blink',
