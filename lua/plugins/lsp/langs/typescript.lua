@@ -31,6 +31,9 @@ return {
       'neovim/nvim-lspconfig',
       { 'dmmulroy/ts-error-translator.nvim', config = true },
     },
+    keys = {
+      { '<leader>og', '<cmd>TSToolsOrganizeImports<cr>', desc = 'Organize Imports' },
+    },
     ft = { 'javascriptreact', 'typescriptreact', 'javascript.jsx', 'typescript.tsx', 'javascript', 'typescript' },
     config = function()
       -- local api = require("typescript-tools.api")

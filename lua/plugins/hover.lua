@@ -1,5 +1,6 @@
 return {
   'lewis6991/hover.nvim',
+  enabled = false,
   init = function()
     require('hover.providers.lsp')
     -- require('hover.providers.gh')

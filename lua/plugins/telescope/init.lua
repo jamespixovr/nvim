@@ -82,7 +82,7 @@ return {
       { '<leader>ft', '<cmd>Telescope builtin include_extensions=true<cr>', desc = 'Telescope' },
       {
         '<leader>/',
-        '<leader>sg',
+        '<leader>jg',
         desc = 'Find in Files (Grep)',
         remap = true,
       },
