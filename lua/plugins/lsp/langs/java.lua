@@ -89,8 +89,24 @@ return {
     },
     config = function()
       require('java').setup({
+        -- NOTE: One of these files must be in your project root directory.
+        --       Otherwise the debugger will end in the wrong directory and fail.
+        root_markers = {
+          'settings.gradle',
+          'settings.gradle.kts',
+          'pom.xml',
+          'build.gradle',
+          'mvnw',
+          'gradlew',
+          'build.gradle',
+          'build.gradle.kts',
+          '.git',
+        },
         spring_boot_tools = {
           enable = false,
+        },
+        notifications = {
+          dap = false,
         },
         jdk = {
           auto_install = false,
