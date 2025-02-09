@@ -1,16 +1,5 @@
 local Util = require('helper')
 
-local java_filetypes = { 'java' }
-
-local function extend_or_override(config, custom, ...)
-  if type(custom) == 'function' then
-    config = custom(config, ...) or config
-  elseif custom then
-    config = vim.tbl_deep_extend('force', config, custom) --[[@as table]]
-  end
-  return config
-end
-
 return {
   {
     'nvim-treesitter/nvim-treesitter',
@@ -114,6 +103,7 @@ return {
       })
       require('lspconfig').jdtls.setup({
         capabilities = require('blink.cmp').get_lsp_capabilities(),
+        flags = { allow_incremental_sync = true },
         -- on_attach = function(client, bufnr)
         --   set_keymap(client, bufnr)
         --   set_inlay_hint(client, bufnr)
@@ -127,6 +117,31 @@ return {
             saveActions = {
               organizeImports = true,
             },
+            maven = {
+              downloadSources = true,
+            },
+            implementationsCodeLens = {
+              enabled = true,
+            },
+            referencesCodeLens = {
+              enabled = true,
+            },
+            references = {
+              includeDecompiledSources = true,
+            },
+            format = {
+              enabled = true,
+              -- Formatting works by default, but you can refer to a specific file/URL if you choose
+              -- settings = {
+              --   url = "https://github.com/google/styleguide/blob/gh-pages/intellij-java-google-style.xml",
+              --   profile = "GoogleStyle",
+              -- },
+              --
+              -- settings = {
+              --   profile = 'nvim gestion',
+              --   url = 'file:///Users/jamesamo/.config/nvim/.linter_configs/GoogleStyle.xml',
+              -- },
+            },
             configuration = {
               runtimes = {
                 {
@@ -138,6 +153,23 @@ return {
                   name = 'JavaSE-23',
                   path = '/opt/homebrew/opt/openjdk@23',
                 },
+              },
+            },
+            completion = {
+              favoriteStaticMembers = {
+                'org.hamcrest.MatcherAssert.assertThat',
+                'org.hamcrest.Matchers.*',
+                'org.hamcrest.CoreMatchers.*',
+                'org.junit.jupiter.api.Assertions.*',
+                'java.util.Objects.requireNonNull',
+                'java.util.Objects.requireNonNullElse',
+                'org.mockito.Mockito.*',
+              },
+              importOrder = {
+                'java',
+                'javax',
+                'com',
+                'org',
               },
             },
           },
