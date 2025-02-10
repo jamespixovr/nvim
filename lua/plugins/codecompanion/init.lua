@@ -37,11 +37,17 @@ return {
             ['buffer'] = {
               opts = {
                 provider = 'snacks',
+                keymaps = {
+                  modes = {
+                    i = '<C-b>',
+                  },
+                },
               },
             },
             ['help'] = {
               opts = {
                 provider = 'snacks',
+                max_lines = 1000,
               },
             },
             ['file'] = {

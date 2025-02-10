@@ -15,6 +15,7 @@ vim.keymap.set('n', '<C-j>', '<C-w>j', { desc = 'Go to lower window', noremap = 
 vim.keymap.set('n', '<C-k>', '<C-w>k', { desc = 'Go to upper window', noremap = true })
 vim.keymap.set('n', '<C-l>', '<C-w>l', { desc = 'Go to right window', noremap = true })
 
+vim.keymap.set('n', 'Y', 'y$', { remap = true })
 -- Remap for dealing with word wrap
 keymap('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true })
 keymap('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true })
