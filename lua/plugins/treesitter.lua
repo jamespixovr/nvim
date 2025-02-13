@@ -26,32 +26,6 @@ return {
     },
   },
   {
-    'nvim-treesitter/nvim-treesitter-textobjects',
-    event = 'VeryLazy',
-    config = function()
-      -- When in diff mode, we want to use the default
-      -- vim text objects c & C instead of the treesitter ones.
-      local move = require('nvim-treesitter.textobjects.move') ---@type table<string,fun(...)>
-      local configs = require('nvim-treesitter.configs')
-      for name, fn in pairs(move) do
-        if name:find('goto') == 1 then
-          move[name] = function(q, ...)
-            if vim.wo.diff then
-              local config = configs.get_module('textobjects.move')[name] ---@type table<string,string>
-              for key, query in pairs(config or {}) do
-                if q == query and key:find('[%]%[][cC]') then
-                  vim.cmd('normal! ' .. key)
-                  return
-                end
-              end
-            end
-            return fn(q, ...)
-          end
-        end
-      end
-    end,
-  },
-  {
     --- Treesitter
     'nvim-treesitter/nvim-treesitter',
     version = false,
@@ -161,27 +135,6 @@ return {
         -- nvim-treesitter-endwise plugin
         endwise = { enable = true },
 
-        textobjects = {
-          enable = false,
-          move = {
-            enable = true,
-            goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },
-            goto_next_end = { [']F'] = '@function.outer', [']C'] = '@class.outer' },
-            goto_previous_start = { ['[f'] = '@function.outer', ['[c'] = '@class.outer' },
-            goto_previous_end = { ['[F'] = '@function.outer', ['[C'] = '@class.outer' },
-          },
-          select = {
-            enable = true,
-            lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-
-            keymaps = {
-              -- Use v[keymap], c[keymap], d[keymap] to perform any operation
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-            },
-          },
-        },
         query_linter = {
           enable = true,
           use_virtual_text = true,
