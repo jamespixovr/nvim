@@ -143,7 +143,7 @@ return {
         },
       },
       quickfile = { enabled = false },
-      scroll = { enabled = false },
+      scroll = { enabled = true },
       statuscolumn = { enabled = false },
       terminal = { enabled = true, win = { style = 'terminal', wo = { winbar = '' } } },
       rename = { enabled = true },
