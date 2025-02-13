@@ -15,7 +15,7 @@ return {
         notify = true,
         size = 100 * 1024, -- 100 KB
       },
-      bufdelete = { enabled = false },
+      bufdelete = { enabled = true },
       dashboard = {
         enabled = true,
         preset = {
@@ -31,7 +31,7 @@ return {
             { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = '󱘣 ', key = '/', desc = 'Search Files', action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = ' ', key = 'm', desc = 'Show mark', action = ":lua Snacks.dashboard.pick('marks')" },
-            { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoTrouble' },
+            -- { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoTrouble' },
             { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
             { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
           },
@@ -41,7 +41,7 @@ return {
             section = 'terminal',
             cmd = 'lolcat --seed=24 ~/.config/nvim/static/neo2.cat',
             indent = -5,
-            height = 9,
+            height = 10,
             width = 71,
             padding = 1,
           },
@@ -51,7 +51,6 @@ return {
             gap = 1,
             padding = 1,
           },
-          -- { title = 'Recent Files', section = 'recent_files', indent = 2, padding = { 2, 2 } },
           { section = 'startup' },
         },
       },

@@ -1,5 +1,3 @@
-local glance = require('glance')
-
 local methods = vim.lsp.protocol.Methods
 
 ---@diagnostic disable: need-check-nil
@@ -65,24 +63,22 @@ vim.api.nvim_create_autocmd('LspAttach', {
       elseif ft == 'help' then
         vim.api.nvim_command(':help ' .. vim.fn.expand('<cword>'))
       else
-        glance.open('definitions')
+        Snacks.picker.lsp_definitions()
       end
     end
 
     map('gd', go_to_definition, 'Go to definition')
 
-    map('gy', '<cmd>Glance type_definitions<cr>', 'Goto Type Definition')
-
     vim.keymap.set('n', 'gr', function()
-      glance.open('references')
+      Snacks.picker.lsp_references()
     end, { buffer = bufnr, desc = 'References', nowait = true })
 
     map('gi', function()
-      glance.open('implementations')
+      Snacks.picker.lsp_implementations()
     end, 'Goto Implementation')
 
     map('gy', function()
-      glance.open('type_definitions')
+      Snacks.picker.lsp_type_definitions()
     end, 'Goto Type Definition')
 
     -- map('K', vim.lsp.buf.hover, 'Hover Documentation') -- use the hover nvim

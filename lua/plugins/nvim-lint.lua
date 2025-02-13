@@ -7,6 +7,7 @@ return {
         -- python = { "ruff" },
         htmldjango = { 'djlint' },
         lua = { 'selene' },
+        sh = { 'shellcheck' },
         markdown = { 'markdownlint' },
         ['css'] = { 'stylelint' },
         ['scss'] = { 'stylelint' },
