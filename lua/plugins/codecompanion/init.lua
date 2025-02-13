@@ -7,7 +7,6 @@ return {
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
-    'stevearc/dressing.nvim',
     { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
     { 'saghen/blink.cmp', enabled = vim.g.cmploader == 'blink.cmp' },
   },
@@ -30,7 +29,10 @@ return {
           adapter = adapter,
           -- roles = { llm = ' CodeCompanion', user = 'Jarmex' },
           roles = {
-            llm = '  CodeCompanion',
+            ---@type string|fun(adapter: CodeCompanion.Adapter): string
+            llm = function(adapterllm)
+              return '  CodeCompanion' .. '(' .. adapterllm.formatted_name .. ')'
+            end,
             user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
           },
           slash_commands = {

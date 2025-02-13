@@ -1,6 +1,4 @@
 return {
-  'antoinemadec/FixCursorHold.nvim', -- This is needed to fix lsp doc highlight
-
   -----------------------------------------------------------------------------
   {
     'mbbill/undotree',
@@ -13,6 +11,7 @@ return {
   -----------------------------------------------------------------------------
   {
     'catgoose/nvim-colorizer.lua',
+    enabled = false,
     event = 'BufReadPre',
     opts = {
       user_default_options = {
@@ -36,6 +35,7 @@ return {
   {
     -- display line numbers while going to a line with `:`
     'nacro90/numb.nvim',
+    enabled = false,
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       require('numb').setup({

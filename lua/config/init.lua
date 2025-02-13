@@ -46,6 +46,11 @@ end
 
 local add_filetype = function()
   vim.filetype.add({
+    pattern = {
+      ['*.jsonc'] = 'jsonc',
+      ['tsconfig.json'] = 'jsonc',
+      ['tsconfig*.json'] = 'jsonc',
+    },
     extension = {
       hurl = 'hurl',
     },

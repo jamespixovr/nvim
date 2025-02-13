@@ -6,6 +6,7 @@ return {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
+    ---@module 'snacks'
     ---@type snacks.Config
     opts = {
       animate = { enabled = true },
@@ -26,14 +27,7 @@ return {
               action = ':lua Snacks.picker.smart({filter = {cwd = true}})',
             },
             { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
-            {
-              icon = ' ',
-              key = 's',
-              desc = 'Load Session',
-              action = function()
-                require('persistence').load()
-              end,
-            },
+            { icon = ' ', key = 's', desc = 'Load Session', section = 'session' },
             { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = '󱘣 ', key = '/', desc = 'Search Files', action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = ' ', key = 'm', desc = 'Show mark', action = ":lua Snacks.dashboard.pick('marks')" },
@@ -47,7 +41,7 @@ return {
             section = 'terminal',
             cmd = 'lolcat --seed=24 ~/.config/nvim/static/neo2.cat',
             indent = -5,
-            height = 10,
+            height = 9,
             width = 71,
             padding = 1,
           },

@@ -92,8 +92,7 @@ local routes = {
 return {
   {
     'folke/noice.nvim',
-    event = 'VimEnter', -- earlier to catch notifications on startup
-    enabled = true,
+    event = 'VeryLazy',
     dependencies = {
       'MunifTanjim/nui.nvim',
       'rcarriga/nvim-notify',
@@ -245,5 +244,14 @@ return {
         mode = { 'i', 'n', 's' },
       },
     },
+    config = function(_, opts)
+      -- HACK: noice shows messages from before it was enabled,
+      -- but this is not ideal when Lazy is installing plugins,
+      -- so clear the messages in this case.
+      if vim.o.filetype == 'lazy' then
+        vim.cmd([[messages clear]])
+      end
+      require('noice').setup(opts)
+    end,
   },
 }

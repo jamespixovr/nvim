@@ -1,9 +1,9 @@
 return {
   {
     'karb94/neoscroll.nvim',
+    enabled = true,
     config = function()
       require('neoscroll').setup({ easing_function = 'quadratic' })
     end,
   },
-  { 'Aasim-A/scrollEOF.nvim', config = false, enabled = false },
 }

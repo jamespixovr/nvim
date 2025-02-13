@@ -1,6 +1,7 @@
 return {
   {
     'ThePrimeagen/refactoring.nvim', -- Refactor code like Martin Fowler
+    enabled = false,
     lazy = false,
     keys = {
       {

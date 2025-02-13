@@ -249,7 +249,7 @@ return {
       telescope.load_extension('project')
       telescope.load_extension('file_browser')
       telescope.load_extension('frecency')
-      telescope.load_extension('refactoring')
+      -- telescope.load_extension('refactoring')
       telescope.load_extension('ui-select')
       vim.keymap.set('n', '<space>fg', require('plugins.telescope.multi-ripgrep'))
     end,

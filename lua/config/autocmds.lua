@@ -12,15 +12,15 @@ vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
   end,
 })
 
--- resize splits if window got resized
-vim.api.nvim_create_autocmd({ 'VimResized' }, {
-  group = augroup('resize_splits'),
-  callback = function()
-    local current_tab = vim.fn.tabpagenr()
-    vim.cmd('tabdo wincmd =')
-    vim.cmd('tabnext ' .. current_tab)
-  end,
-})
+-- -- resize splits if window got resized
+-- vim.api.nvim_create_autocmd({ 'VimResized' }, {
+--   group = augroup('resize_splits'),
+--   callback = function()
+--     local current_tab = vim.fn.tabpagenr()
+--     vim.cmd('tabdo wincmd =')
+--     vim.cmd('tabnext ' .. current_tab)
+--   end,
+-- })
 
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   group = augroup('filetype_settings'),
@@ -66,26 +66,24 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-local group = vim.api.nvim_create_augroup('__env', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '.env',
-  group = group,
+  group = augroup('__env'),
   callback = function(args)
     vim.diagnostic.enable(false, { bufnr = args.buf })
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '*.graphql,*.graphqls,*.gql',
-  callback = function()
-    vim.bo.filetype = 'graphql'
-  end,
-  once = false,
-})
+-- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+--   pattern = '*.graphql,*.graphqls,*.gql',
+--   callback = function()
+--     vim.bo.filetype = 'graphql'
+--   end,
+--   once = false,
+-- })
 
 -- Define local variables
 local autocmd = vim.api.nvim_create_autocmd
-local user_cmd = vim.api.nvim_create_user_command
 
 -- Check for spelling in text filetypes and enable wrapping, and set gj and gk keymaps
 autocmd('FileType', {
@@ -107,29 +105,6 @@ autocmd('FileType', {
   end,
 })
 -- local mapfile = " "
-user_cmd('BiPolar', function(_)
-  local moods_table = {
-    ['true'] = 'false',
-    ['false'] = 'true',
-    ['on'] = 'off',
-    ['off'] = 'on',
-    ['Up'] = 'Down',
-    ['Down'] = 'Up',
-    ['up'] = 'down',
-    ['down'] = 'up',
-    ['enable'] = 'disable',
-    ['disable'] = 'enable',
-    ['no'] = 'yes',
-    ['yes'] = 'no',
-  }
-  local cursor_word = vim.api.nvim_eval("expand('<cword>')")
-  if moods_table[cursor_word] then
-    vim.cmd('normal ciw' .. moods_table[cursor_word] .. '')
-  end
-end, {
-  desc = 'Switch Moody Words',
-  force = true,
-})
 
 -- Set up the autocommand for NeotestOutput filetype
 -- Scroll to the bottom of the output panel
