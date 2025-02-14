@@ -5,6 +5,7 @@
 
 return {
   'ghostty',
+  enabled = false,
   dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
   lazy = false,
 }
