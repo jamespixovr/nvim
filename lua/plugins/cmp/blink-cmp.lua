@@ -9,10 +9,7 @@ return {
   {
     'saghen/blink.cmp',
     build = 'cargo build --release',
-    dependencies = {
-      'rafamadriz/friendly-snippets',
-      -- 'moyiz/blink-emoji.nvim',
-    },
+    dependencies = { 'L3MON4D3/LuaSnip', version = 'v2.*' },
     event = { 'InsertEnter' },
     opts = function(_, opts)
       opts.sources = vim.tbl_deep_extend('force', opts.sources or {}, {
@@ -121,24 +118,7 @@ return {
         end,
       })
 
-      opts.snippets = {
-        preset = 'luasnip',
-        -- This comes from the luasnip extra, if you don't add it, won't be able to
-        -- jump forward or backward in luasnip snippets
-        -- https://www.lazyvim.org/extras/coding/luasnip#blinkcmp-optional
-        expand = function(snippet)
-          require('luasnip').lsp_expand(snippet)
-        end,
-        active = function(filter)
-          if filter and filter.direction then
-            return require('luasnip').jumpable(filter.direction)
-          end
-          return require('luasnip').in_snippet()
-        end,
-        jump = function(direction)
-          require('luasnip').jump(direction)
-        end,
-      }
+      opts.snippets = { preset = 'luasnip' }
 
       opts.keymap = {
         preset = 'enter',

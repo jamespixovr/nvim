@@ -50,6 +50,7 @@ local add_filetype = function()
       ['*.jsonc'] = 'jsonc',
       ['tsconfig.json'] = 'jsonc',
       ['tsconfig*.json'] = 'jsonc',
+      ['%.env%.[%w_.-]+'] = 'sh',
     },
     extension = {
       hurl = 'hurl',
