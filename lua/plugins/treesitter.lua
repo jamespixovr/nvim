@@ -74,6 +74,12 @@ return {
       -- CODE FROM LazyVim (thanks folke!) https://github.com/LazyVim/LazyVim/commit/1e1b68d633d4bd4faa912ba5f49ab6b8601dc0c9
       require('lazy.core.loader').add_to_rtp(plugin)
       require('nvim-treesitter.query_predicates')
+      -- add mise integration -- https://mise.jdx.dev/mise-cookbook/neovim.html
+      require('vim.treesitter.query').add_predicate('is-mise?', function(_, _, bufnr, _)
+        local filepath = vim.api.nvim_buf_get_name(tonumber(bufnr) or 0)
+        local filename = vim.fn.fnamemodify(filepath, ':t')
+        return string.match(filename, '.*mise.*%.toml$')
+      end, { force = true, all = false })
     end,
     dependencies = {
       'windwp/nvim-ts-autotag',
