@@ -11,9 +11,6 @@ return {
     },
     keys = require('plugins.neotest.keymaps').keymaps(),
     opts = {
-      -- consumers = {
-      --   overseer = require('neotest.consumers.overseer'),
-      -- },
       log_level = vim.log.levels.ERROR,
       status = { virtual_text = true, signs = true },
       output = { open_on_run = false },
@@ -23,7 +20,7 @@ return {
         max_width = 0.90,
       },
       quickfix = {
-        enabled = true,
+        enabled = false,
         open = false,
       },
       output_panel = {
@@ -34,6 +31,9 @@ return {
           width = 180,
         },
       },
+      discovery = {
+        enabled = false,
+      },
       summary = {
         open = 'botright vsplit | vertical resize 60',
         enabled = true,
@@ -42,12 +42,21 @@ return {
         mappings = {
           attach = 'a',
           expand = { '<Space>', '<2-LeftMouse>' },
-          expand_all = 'L',
-          jumpto = '<CR>',
+          expand_all = '<tab>',
+          jumpto = { 'i', '<cr>' },
+          mark = 'm',
+          next_failed = 'J',
           output = 'o',
+          prev_failed = 'K',
           run = 'r',
-          short = 'p',
-          stop = 'u',
+          debug = 'd',
+          run_marked = 'R',
+          debug_marked = 'D',
+          short = 'O',
+          stop = 's',
+          target = 't',
+          clear_marked = 'M',
+          clear_target = 'T',
         },
       },
 

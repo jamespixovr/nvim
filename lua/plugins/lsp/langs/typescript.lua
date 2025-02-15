@@ -56,21 +56,24 @@ return {
             enable = true,
             filetypes = { 'javascriptreact', 'typescriptreact' },
           },
+          publish_diagnostic_on = 'insert_leave',
           tsserver_file_preferences = {
             includeInlayEnumMemberValueHints = false,
             includeInlayFunctionLikeReturnTypeHints = false,
             includeInlayFunctionParameterTypeHints = false,
             includeInlayParameterNameHints = 'all', -- none | literals | all
             includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
             includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
             includeCompletionsForModuleExports = true,
+            importModuleSpecifierPreference = 'non-relative',
           },
           tsserver_plugins = {
             -- https://github.com/styled-components/typescript-styled-plugin
             -- for TypeScript v4.9+
-            '@styled/typescript-styled-plugin',
+            'typescript-plugin-css-modules',
+            -- '@styled/typescript-styled-plugin',
             -- or for older TypeScript versions
             -- "typescript-styled-plugin",
           },
