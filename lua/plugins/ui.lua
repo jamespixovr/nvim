@@ -2,30 +2,12 @@ local icons = require('lib.icons')
 
 return {
 
-  -- better vim.ui
-  -- {
-  --   'stevearc/dressing.nvim',
-  --   init = function()
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.select = function(...)
-  --       require('lazy').load({ plugins = { 'dressing.nvim' } })
-  --       return vim.ui.select(...)
-  --     end
-  --     ---@diagnostic disable-next-line: duplicate-set-field
-  --     vim.ui.input = function(...)
-  --       require('lazy').load({ plugins = { 'dressing.nvim' } })
-  --       return vim.ui.input(...)
-  --     end
-  --   end,
-  --   keys = {
-  --     { '<Tab>', 'j', ft = 'DressingSelect' },
-  --     { '<S-Tab>', 'k', ft = 'DressingSelect' },
-  --   },
-  -- },
   --------------------------------------------------------------------------
   -- Tabs
   {
     'akinsho/nvim-bufferline.lua',
+    enabled = true,
+    version = '*',
     event = 'VeryLazy',
     -- stylua: ignore
     keys = {
@@ -42,13 +24,15 @@ return {
     opts = {
       options = {
         -- stylua: ignore
-        close_command = function(n) require("mini.bufremove").delete(n, false) end,
+        close_command = function(n) Snacks.bufdelete(n) end,
+        -- stylua: ignore
+        right_mouse_command = function(n) Snacks.bufdelete(n) end,
         numbers = 'none', -- | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
         show_close_icon = false,
+        always_show_bufferline = false,
         show_buffer_close_icons = false,
-        show_buffer_icons = false,
+        show_buffer_icons = true,
         diagnostics = 'nvim_lsp',
-        always_show_bufferline = true,
         separator_style = 'thin',
         diagnostics_indicator = function(_, _, diag)
           local diagnostic_icons = icons.diagnostics
@@ -64,13 +48,16 @@ return {
             text_align = 'left',
             padding = 1,
           },
+          {
+            filetype = 'snacks_layout_box',
+          },
         },
       },
     },
     config = function(_, opts)
       require('bufferline').setup(opts)
       -- Fix bufferline when restoring a session
-      vim.api.nvim_create_autocmd('BufAdd', {
+      vim.api.nvim_create_autocmd({ 'BufAdd', 'BufDelete' }, {
         callback = function()
           vim.schedule(function()
             pcall(nvim_bufferline)
@@ -84,6 +71,7 @@ return {
   -- folding fold area
   {
     'kevinhwang91/nvim-ufo',
+    enabled = true,
     dependencies = { 'kevinhwang91/promise-async' },
     event = 'BufReadPost',
 		-- stylua: ignore start
@@ -180,6 +168,4 @@ return {
     end,
   },
   --------------------------------------------------------------------------
-
-  -- ui components
 }
