@@ -17,7 +17,7 @@ return {
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-project.nvim',
+      -- 'nvim-telescope/telescope-project.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-frecency.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
@@ -30,7 +30,7 @@ return {
       },
     },
     keys = {
-      { '<leader>fp', '<CMD>Telescope project display_type=full<CR>', desc = 'Find project' },
+      -- { '<leader>fp', '<CMD>Telescope project display_type=full<CR>', desc = 'Find project' },
       -- { '<leader>T', '<cmd>Telescope<cr>', desc = 'Open Telescope' },
       {
         '<leader>tr',
@@ -246,7 +246,7 @@ return {
       local telescope = require('telescope')
       telescope.setup(opts)
       telescope.load_extension('fzf')
-      telescope.load_extension('project')
+      -- telescope.load_extension('project')
       telescope.load_extension('file_browser')
       telescope.load_extension('frecency')
       -- telescope.load_extension('refactoring')
