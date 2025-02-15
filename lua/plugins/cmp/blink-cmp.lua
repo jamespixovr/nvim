@@ -1,15 +1,16 @@
 local icons = require('lib.icons')
--- https://www.lazyvim.org/extras/coding/blink
--- Documentation site: https://cmp.saghen.dev/
 
--- NOTE: Specify the trigger character(s) used for luasnip
-local trigger_text = ';'
+-- Documentation site: https://cmp.saghen.dev/
 
 return {
   {
     'saghen/blink.cmp',
-    build = 'cargo build --release',
-    dependencies = { 'L3MON4D3/LuaSnip', version = 'v2.*' },
+    version = '*',
+    build = 'cargo +nightly build --release',
+    dependencies = {
+      { 'L3MON4D3/LuaSnip', version = 'v2.*' },
+      { 'saghen/blink.compat', opts = {} },
+    },
     event = { 'InsertEnter' },
     opts = function(_, opts)
       opts.sources = vim.tbl_deep_extend('force', opts.sources or {}, {
@@ -44,62 +45,11 @@ return {
             min_keyword_length = 4,
             score_offset = 15, -- the higher the number, the higher the priority
           },
-          snippets = {
-            name = 'snippets',
-            enabled = true,
-            max_items = 8,
-            min_keyword_length = 2,
-            module = 'blink.cmp.sources.snippets',
-            score_offset = 85, -- the higher the number, the higher the priority
-            -- Only show snippets if I type the trigger_text characters, so
-            -- to expand the "bash" snippet, if the trigger_text is ";" I have to
-            -- type ";bash"
-            should_show_items = function()
-              local col = vim.api.nvim_win_get_cursor(0)[2]
-              local before_cursor = vim.api.nvim_get_current_line():sub(1, col)
-              -- NOTE: remember that `trigger_text` is modified at the top of the file
-              return before_cursor:match(trigger_text .. '%w*$') ~= nil
-            end,
-            -- After accepting the completion, delete the trigger_text characters
-            -- from the final inserted text
-            transform_items = function(_, items)
-              local col = vim.api.nvim_win_get_cursor(0)[2]
-              local before_cursor = vim.api.nvim_get_current_line():sub(1, col)
-              local trigger_pos = before_cursor:find(trigger_text .. '[^' .. trigger_text .. ']*$')
-              if trigger_pos then
-                for _, item in ipairs(items) do
-                  item.textEdit = {
-                    newText = item.insertText or item.label,
-                    range = {
-                      start = { line = vim.fn.line('.') - 1, character = trigger_pos - 1 },
-                      ['end'] = { line = vim.fn.line('.') - 1, character = col },
-                    },
-                  }
-                end
-              end
-              -- NOTE: After the transformation, I have to reload the luasnip source
-              -- Otherwise really crazy shit happens and I spent way too much time
-              -- figurig this out
-              vim.schedule(function()
-                require('blink.cmp').reload('snippets')
-              end)
-              return items
-            end,
-          },
-          -- Example on how to configure dadbod found in the main repo
-          -- https://github.com/kristijanhusak/vim-dadbod-completion
           dadbod = {
             name = 'Dadbod',
             module = 'vim_dadbod_completion.blink',
             score_offset = 85, -- the higher the number, the higher the priority
           },
-          -- https://github.com/moyiz/blink-emoji.nvim
-          -- emoji = {
-          --   module = 'blink-emoji',
-          --   name = 'Emoji',
-          --   score_offset = 15, -- the higher the number, the higher the priority
-          --   opts = { insert = true }, -- Insert emoji (default) or complete its name
-          -- },
           codecompanion = {
             name = 'CodeCompanion',
             module = 'codecompanion.providers.completion.blink',
@@ -117,9 +67,7 @@ return {
           return {}
         end,
       })
-
       opts.snippets = { preset = 'luasnip' }
-
       opts.keymap = {
         preset = 'enter',
         ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
@@ -140,10 +88,11 @@ return {
       opts.appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind }
       opts.signature = { window = { border = vim.g.borderStyle } }
       opts.enabled = function()
+        local recording_macro = vim.fn.reg_recording() ~= '' or vim.fn.reg_executing() ~= ''
         return not vim.tbl_contains({}, vim.bo.filetype)
-          -- and vim.bo.buftype ~= 'nofile'
           and vim.bo.buftype ~= 'prompt'
           and vim.b.completion ~= false
+          and not recording_macro
       end
 
       opts.completion = {
@@ -159,7 +108,7 @@ return {
           auto_show_delay_ms = 200,
           window = { border = vim.g.borderStyle },
         },
-        ghost_text = { enabled = true },
+        ghost_text = { enabled = false },
       }
 
       return opts
