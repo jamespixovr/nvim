@@ -31,7 +31,7 @@ return {
             { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
             { icon = '󱘣 ', key = '/', desc = 'Search Files', action = ":lua Snacks.dashboard.pick('live_grep')" },
             { icon = ' ', key = 'm', desc = 'Show mark', action = ":lua Snacks.dashboard.pick('marks')" },
-            -- { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoTrouble' },
+            { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoQuickFix' },
             { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
             { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
           },
@@ -70,6 +70,16 @@ return {
           only_current = true,
           only_scope = true,
           underline = false,
+          hl = {
+            'SnacksIndent1',
+            'SnacksIndent2',
+            'SnacksIndent3',
+            'SnacksIndent4',
+            'SnacksIndent5',
+            'SnacksIndent6',
+            'SnacksIndent7',
+            'SnacksIndent8',
+          },
         },
         chunk = {
           enabled = true,
@@ -140,13 +150,41 @@ return {
             },
           },
         },
+        sources = {
+          commands = { layout = { preset = 'vscode' } },
+          diagnostics = { layout = { preset = 'vertical' } },
+          projects = {
+            dev = { '~/Projects/PayAngel/StandApp/Nodejs', '~/Projects/PAiC/extended' },
+            patterns = {
+              '.git',
+              '_darcs',
+              '.hg',
+              '.bzr',
+              '.svn',
+              '.vscode',
+              'package.json',
+              'compile_commands.json',
+              'Makefile',
+            },
+          },
+          todo_comments = {
+            layout = {
+              preset = function()
+                return vim.o.columns >= 120 and 'ivy' or 'dropdown'
+              end,
+            },
+          },
+          keymaps = {
+            layout = { preview = false, preset = 'default' },
+          },
+        },
       },
       quickfile = { enabled = false },
       scroll = { enabled = true },
-      statuscolumn = { enabled = false },
-      terminal = { enabled = true, win = { style = 'terminal', wo = { winbar = '' } } },
+      statuscolumn = { enabled = true },
+      terminal = { enabled = true, win = { wo = { winbar = '' } } },
       rename = { enabled = true },
-      words = { enabled = true },
+      words = { enabled = true, notify_jump = true },
       styles = {
         input = {
           backdrop = true,

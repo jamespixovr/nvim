@@ -66,16 +66,15 @@ return {
   -- todo comments
   {
     'folke/todo-comments.nvim',
-    cmd = { 'TodoTrouble', 'TodoTelescope' },
+    lazy = false,
+    cmd = { 'TodoTrouble', 'TodoTelescope', 'TodoQuickFix' },
     event = 'BufReadPost',
     -- stylua: ignore
     keys = {
       { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
       { "[t",         function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      { "<leader>xt", "<cmd>TodoTrouble<cr>",                              desc = "Todo Trouble" },
-      { "<leader>xT", "<cmd>TodoTelescope<cr>",                            desc = "Todo Telescope" },
-      { "<leader>xf", "<cmd>TodoTelescope<cr>",                            desc = "Todo" },
-      { "<leader>xF", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>",    desc = "Todo/Fix/Fixme" },
+      { "<leader>xt", function() Snacks.picker.todo_comments() end,                              desc = "Todo Trouble" },
+      { "<leader>xT", function () Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
     },
     config = function()
       require('todo-comments').setup({})
