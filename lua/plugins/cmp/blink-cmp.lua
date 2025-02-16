@@ -5,7 +5,6 @@ local icons = require('lib.icons')
 return {
   {
     'saghen/blink.cmp',
-    tag = 'v0.11.0',
     build = 'cargo +nightly build --release',
     dependencies = {
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
@@ -13,8 +12,35 @@ return {
     },
     event = { 'InsertEnter' },
     opts = {
+      fuzzy = {
+        use_frecency = true,
+      },
+      cmdline = {
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          if type == '/' or type == '?' then
+            return { 'buffer' }
+          end
+          if type == ':' then
+            return { 'cmdline' }
+          end
+          return {}
+        end,
+        keymap = {
+          preset = 'super-tab',
+          ['<Tab>'] = { 'select_next', 'fallback' },
+          ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        },
+        completion = {
+          menu = {
+            draw = {
+              columns = { { 'kind_icon', 'label', 'label_description' } },
+            },
+          },
+        },
+      },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion', 'dadbod' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion', 'dadbod', 'markdown' },
         providers = {
           lsp = {
             name = 'lsp',
@@ -55,17 +81,12 @@ return {
             module = 'codecompanion.providers.completion.blink',
             enabled = true,
           },
+          markdown = {
+            name = 'Render',
+            module = 'render-markdown.integ.blink',
+            fallbacks = { 'lsp' },
+          },
         },
-        cmdline = function()
-          local type = vim.fn.getcmdtype()
-          if type == '/' or type == '?' then
-            return { 'buffer' }
-          end
-          if type == ':' then
-            return { 'cmdline' }
-          end
-          return {}
-        end,
       },
       snippets = { preset = 'luasnip' },
       keymap = {
@@ -78,11 +99,6 @@ return {
         ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
         ['<Tab>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        cmdline = {
-          preset = 'super-tab',
-          ['<Tab>'] = { 'select_next', 'fallback' },
-          ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        },
       },
 
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
