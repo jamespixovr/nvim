@@ -5,15 +5,15 @@ local icons = require('lib.icons')
 return {
   {
     'saghen/blink.cmp',
-    version = '*',
+    tag = 'v0.11.0',
     build = 'cargo +nightly build --release',
     dependencies = {
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
       { 'saghen/blink.compat', opts = {} },
     },
     event = { 'InsertEnter' },
-    opts = function(_, opts)
-      opts.sources = vim.tbl_deep_extend('force', opts.sources or {}, {
+    opts = {
+      sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion', 'dadbod' },
         providers = {
           lsp = {
@@ -66,9 +66,9 @@ return {
           end
           return {}
         end,
-      })
-      opts.snippets = { preset = 'luasnip' }
-      opts.keymap = {
+      },
+      snippets = { preset = 'luasnip' },
+      keymap = {
         preset = 'enter',
         ['<C-p>'] = { 'show', 'select_prev', 'fallback' },
         ['<C-n>'] = { 'show', 'select_next', 'fallback' },
@@ -83,19 +83,18 @@ return {
           ['<Tab>'] = { 'select_next', 'fallback' },
           ['<S-Tab>'] = { 'select_prev', 'fallback' },
         },
-      }
+      },
 
-      opts.appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind }
-      opts.signature = { window = { border = vim.g.borderStyle } }
-      opts.enabled = function()
+      appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
+      signature = { window = { border = vim.g.borderStyle } },
+      enabled = function()
         local recording_macro = vim.fn.reg_recording() ~= '' or vim.fn.reg_executing() ~= ''
         return not vim.tbl_contains({}, vim.bo.filetype)
           and vim.bo.buftype ~= 'prompt'
           and vim.b.completion ~= false
           and not recording_macro
-      end
-
-      opts.completion = {
+      end,
+      completion = {
         list = { selection = { preselect = false, auto_insert = true } },
         menu = {
           border = vim.g.borderStyle,
@@ -108,11 +107,9 @@ return {
           auto_show_delay_ms = 200,
           window = { border = vim.g.borderStyle },
         },
-        ghost_text = { enabled = false },
-      }
-
-      return opts
-    end,
+        ghost_text = { enabled = true },
+      },
+    },
     opts_extend = {
       'sources.default',
     },
