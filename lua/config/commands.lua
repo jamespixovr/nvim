@@ -9,3 +9,27 @@ vim.api.nvim_create_user_command('Uuid', function()
     vim.fn.setline('.', vim.fn.strpart(line, 0, vim.fn.col('.')) .. uuid .. vim.fn.strpart(line, vim.fn.col('.')))
   end)
 end, { force = true })
+
+vim.api.nvim_create_user_command('BiPolar', function(_)
+  local moods_table = {
+    ['true'] = 'false',
+    ['false'] = 'true',
+    ['on'] = 'off',
+    ['off'] = 'on',
+    ['Up'] = 'Down',
+    ['Down'] = 'Up',
+    ['up'] = 'down',
+    ['down'] = 'up',
+    ['enable'] = 'disable',
+    ['disable'] = 'enable',
+    ['no'] = 'yes',
+    ['yes'] = 'no',
+  }
+  local cursor_word = vim.api.nvim_eval("expand('<cword>')")
+  if moods_table[cursor_word] then
+    vim.cmd('normal ciw' .. moods_table[cursor_word] .. '')
+  end
+end, {
+  desc = 'Switch Moody Words',
+  force = true,
+})

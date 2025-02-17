@@ -35,8 +35,9 @@ return {
       { '<leader>oh', '<cmd>OverseerClearCache<cr>', desc = 'Clear cache' },
     },
     opts = {
+      templates = { 'builtin', 'user.run_script' },
       dap = false,
-      strategy = { 'jobstart' },
+      strategy = { 'jobstart', preserve_output = true, use_terminal = true },
       task_launcher = {
         bindings = {
           n = {
@@ -46,16 +47,19 @@ return {
       },
       task_list = {
         direction = 'bottom',
-        min_height = 25,
-        max_height = 25,
-        default_detail = 1,
+        max_width = { 140, 0.4 },
+        min_width = { 40, 0.1 },
+        max_height = { 60, 0.6 },
+        min_height = { 15, 0.2 },
         bindings = {
-          -- ["<Tab>"] = "IncreaseDetail",
-          -- ["<S-Tab>"] = "DecreaseDetail",
+          ---@diagnostic disable-next-line: assign-type-mismatch
+          ['<C-s>'] = false,
           ['<C-l>'] = false,
-          ['gh'] = 'IncreaseAllDetail',
-          ['gl'] = 'DecreaseAllDetail',
+          ['<C-x>'] = 'OpenSplit',
+          ['<C-r>'] = '<CMD>OverseerQuickAction restart<CR>',
+          ['<C-d>'] = '<CMD>OverseerQuickAction dispose<CR>',
         },
+        default_detail = 1,
       },
       form = {
         border = vim.g.borderStyle,

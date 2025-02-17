@@ -12,6 +12,16 @@ vim.api.nvim_create_autocmd({ 'TextYankPost' }, {
   end,
 })
 
+-- -- resize splits if window got resized
+-- vim.api.nvim_create_autocmd({ 'VimResized' }, {
+--   group = augroup('resize_splits'),
+--   callback = function()
+--     local current_tab = vim.fn.tabpagenr()
+--     vim.cmd('tabdo wincmd =')
+--     vim.cmd('tabnext ' .. current_tab)
+--   end,
+-- })
+
 vim.api.nvim_create_autocmd({ 'FileType' }, {
   group = augroup('filetype_settings'),
   pattern = { 'lua' },
@@ -56,50 +66,24 @@ vim.api.nvim_create_autocmd({ 'FileType' }, {
   end,
 })
 
-local function write_commit_prefix()
-  -- Run the Git command to get the current branch name
-  local handle = io.popen('git branch --show-current')
-  if not handle then
-    return
-  end
-  local branch = handle:read('*a')
-  handle:close()
-
-  -- Trim whitespace from the branch name
-  branch = string.gsub(branch, '^%s*(.-)%s*$', '%1')
-
-  -- Check if the branch name contains 'UT-XXXX'
-  local ut_number = string.match(branch, 'UT%-%d%d%d%d')
-  if ut_number then
-    -- Insert 'UT-XXXX: ' at the beginning of the buffer
-    local insert_text = ut_number .. ': '
-    vim.api.nvim_buf_set_lines(0, 0, 1, false, { insert_text })
-
-    -- put the cursor in insert mode at the end of the line
-  end
-  vim.api.nvim_feedkeys('A', 'n', true)
-end
-
-local group = vim.api.nvim_create_augroup('__env', { clear = true })
 vim.api.nvim_create_autocmd('BufEnter', {
   pattern = '.env',
-  group = group,
+  group = augroup('__env'),
   callback = function(args)
     vim.diagnostic.enable(false, { bufnr = args.buf })
   end,
 })
 
-vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
-  pattern = '*.graphql,*.graphqls,*.gql',
-  callback = function()
-    vim.bo.filetype = 'graphql'
-  end,
-  once = false,
-})
+-- vim.api.nvim_create_autocmd({ 'BufNewFile', 'BufRead' }, {
+--   pattern = '*.graphql,*.graphqls,*.gql',
+--   callback = function()
+--     vim.bo.filetype = 'graphql'
+--   end,
+--   once = false,
+-- })
 
 -- Define local variables
 local autocmd = vim.api.nvim_create_autocmd
-local user_cmd = vim.api.nvim_create_user_command
 
 -- Check for spelling in text filetypes and enable wrapping, and set gj and gk keymaps
 autocmd('FileType', {
@@ -108,6 +92,8 @@ autocmd('FileType', {
     'gitcommit',
     'markdown',
     'text',
+    'html',
+    'plaintex',
   },
   desc = 'setlocal wrap and spell',
   callback = function()
@@ -119,36 +105,19 @@ autocmd('FileType', {
   end,
 })
 -- local mapfile = " "
-user_cmd('BiPolar', function(_)
-  local moods_table = {
-    ['true'] = 'false',
-    ['false'] = 'true',
-    ['on'] = 'off',
-    ['off'] = 'on',
-    ['Up'] = 'Down',
-    ['Down'] = 'Up',
-    ['up'] = 'down',
-    ['down'] = 'up',
-    ['enable'] = 'disable',
-    ['disable'] = 'enable',
-    ['no'] = 'yes',
-    ['yes'] = 'no',
-  }
-  local cursor_word = vim.api.nvim_eval("expand('<cword>')")
-  if moods_table[cursor_word] then
-    vim.cmd('normal ciw' .. moods_table[cursor_word] .. '')
-  end
-end, {
-  desc = 'Switch Moody Words',
-  force = true,
-})
 
--- Set up the autocommand for NeogitCommitMessage filetype
+-- Set up the autocommand for NeotestOutput filetype
+-- Scroll to the bottom of the output panel
 vim.api.nvim_create_autocmd('FileType', {
-  pattern = 'gitcommit',
-  callback = write_commit_prefix,
+  pattern = 'neotest-output-panel',
+  group = vim.api.nvim_create_augroup('neotest-scroll', { clear = true }),
+  callback = function()
+    vim.cmd('norm G')
+  end,
 })
 
+-- Set up the autocommand for TS filetype
+-- Add missing imports and remove unused imports
 vim.api.nvim_create_autocmd('BufWritePre', {
   group = vim.api.nvim_create_augroup('ts_fix_imports', { clear = true }),
   desc = 'Add missing imports and remove unused imports for TS',
@@ -159,5 +128,15 @@ vim.api.nvim_create_autocmd('BufWritePre', {
     if package.loaded['conform'] then
       require('conform').format({ bufnr = args.buf })
     end
+  end,
+})
+
+vim.api.nvim_create_autocmd('FileType', {
+  pattern = { 'go', 'gomod', 'gowork' },
+  callback = function()
+    -- set go specific options
+    vim.opt_local.tabstop = 2
+    vim.opt_local.shiftwidth = 2
+    vim.opt_local.colorcolumn = '120'
   end,
 })

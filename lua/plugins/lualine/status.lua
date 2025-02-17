@@ -1,18 +1,36 @@
+local color = require('lib.colors')
+local colors = require('catppuccin.palettes').get_palette('mocha')
 local companion_lualine = require('plugins.lualine.helper')
 local helper = require('helper')
-local settings = require('settings')
-local symbols = settings.icons
+local icons = require('lib.icons')
 local lazy_status = require('lazy.status')
--- local colors = require("tokyonight.colors").setup()
-local colors = require('catppuccin.palettes').get_palette('macchiato')
 
 local M = {}
+
+local mode_map = {
+  ['NORMAL'] = 'N',
+  ['O-PENDING'] = 'N?',
+  ['INSERT'] = 'I',
+  ['VISUAL'] = 'V',
+  ['V-BLOCK'] = 'VB',
+  ['V-LINE'] = 'VL',
+  ['V-REPLACE'] = 'VR',
+  ['REPLACE'] = 'R',
+  ['COMMAND'] = '!',
+  ['SHELL'] = 'SH',
+  ['TERMINAL'] = 'T',
+  ['EX'] = 'X',
+  ['S-BLOCK'] = 'SB',
+  ['S-LINE'] = 'SL',
+  ['SELECT'] = 'S',
+  ['CONFIRM'] = 'Y?',
+  ['MORE'] = 'M',
+}
 
 local modecolor = {
   n = colors.red,
   i = colors.cyan,
   v = colors.purple,
-  -- [""] = colors.purple,
   V = colors.red,
   c = colors.yellow,
   no = colors.red,
@@ -79,7 +97,9 @@ local function getLspName()
   local buf_client_names = {}
 
   for _, client in pairs(buf_clients) do
-    table.insert(buf_client_names, client.name)
+    if client.name ~= 'null-ls' then
+      table.insert(buf_client_names, client.name)
+    end
   end
 
   local lint_s, lint = pcall(require, 'lint')
@@ -134,12 +154,11 @@ end
 
 function M.mode(opts)
   return helper.extend_tbl({
-    -- function()
-    -- return settings.icons.ui.Target
-    -- end,
     'mode',
+    fmt = function(s)
+      return mode_map[s] or s
+    end,
     padding = { left = 0, right = 0 },
-    -- color = { bg = "#282c34", fg = settings.colors.red, gui = "bold" },
     color = function()
       local mode_color = modecolor
       return { bg = mode_color[vim.fn.mode()], fg = colors.bg_dark, gui = 'bold' }
@@ -157,7 +176,7 @@ function M.showMacroRecording(opts)
       return vim.fn.reg_recording() ~= ''
     end,
     separator = { left = '', right = '' },
-    color = { bg = colors.purple, fg = colors.red, gui = 'bold' },
+    color = { bg = colors.red, fg = colors.bg_dark, gui = 'bold' },
   }, opts)
 end
 
@@ -168,8 +187,6 @@ function M.branch(opts)
     -- icon = "",
     separator = { left = '', right = '' },
     color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
-    -- color = { bg = "#282c34", fg = settings.colors.blue, gui = "bold" },
-    -- cond = helper.is_git_repo
   }, opts)
 end
 
@@ -187,18 +204,13 @@ function M.datetime(opts)
       return ' ' .. os.date('%R')
     end,
     padding = { left = 0, right = 0 },
-    color = { bg = '#282c34', fg = settings.colors.blue, gui = 'bold' },
+    color = { bg = '#282c34', fg = color.blue, gui = 'bold' },
   }, opts)
 end
 
 function M.searchCount(opts)
   return helper.extend_tbl({
-    function()
-      require('noice').api.status.search.get()
-    end,
-    cond = function()
-      return package.loaded['noice'] and require('noice').api.status.search.has()
-    end,
+    'searchcount',
     color = { bg = '#282c34', fg = '#ff9e64', gui = 'bold' },
   }, opts)
 end
@@ -215,11 +227,12 @@ function M.diagnostics(opts)
   return helper.extend_tbl({
     'diagnostics',
     sources = { 'nvim_diagnostic' },
+    draw_empty = false,
     symbols = {
-      error = symbols.diagnostics.Error,
-      warn = symbols.diagnostics.Warn,
-      info = symbols.diagnostics.Info,
-      hint = symbols.diagnostics.Hint,
+      error = icons.diagnostics.Error,
+      warn = icons.diagnostics.Warn,
+      info = icons.diagnostics.Info,
+      hint = icons.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
     -- color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
@@ -255,12 +268,12 @@ end
 function M.treesitter(opts)
   return helper.extend_tbl({
     function()
-      return settings.icons.ui.Tree
+      return icons.ui.Tree
     end,
     color = function()
       local buf = vim.api.nvim_get_current_buf()
       local ts = vim.treesitter.highlighter.active[buf]
-      return { fg = ts and not vim.tbl_isempty(ts) and settings.colors.green or settings.colors.red, bg = '#282c34' }
+      return { fg = ts and not vim.tbl_isempty(ts) and color.green or color.red, bg = '#282c34' }
     end,
   }, opts)
 end
@@ -283,12 +296,10 @@ function M.git_diff(opts)
       vim.cmd('DiffviewOpen')
     end,
     symbols = {
-      added = symbols.git.added,
-      modified = symbols.git.modified,
-      removed = symbols.git.removed,
-    }, -- changes diff symbols
-    -- color = { bg = "None" },
-    -- color = { bg = colors.gray2, fg = colors.bg, gui = "bold" },
+      added = icons.git.added,
+      modified = icons.git.modified,
+      removed = icons.git.removed,
+    },
     separator = { left = '', right = '' },
 
     diff_color = {
@@ -297,6 +308,14 @@ function M.git_diff(opts)
       removed = { fg = colors.red },
     },
     -- cond = helper.is_git_repo
+  }, opts)
+end
+
+function M.codecompanion(opts)
+  return helper.extend_tbl({
+    companion_lualine,
+    separator = { left = '', right = '' },
+    color = { bg = colors.red, fg = colors.bg_dark, gui = 'italic,bold' },
   }, opts)
 end
 
@@ -310,12 +329,11 @@ function M.lsp(opts)
     end,
     separator = { left = '', right = '' },
     color = function()
-      local _, color = require('nvim-web-devicons').get_icon_cterm_color_by_filetype(
+      local _, ftcolor = require('nvim-web-devicons').get_icon_cterm_color_by_filetype(
         vim.api.nvim_get_option_value('filetype', { buf = 0 })
       )
-      return { fg = color }
+      return { fg = ftcolor }
     end,
-    -- color = { bg = colors.purple, fg = colors.bg, gui = "italic,bold" },
   }, opts)
 end
 
@@ -375,14 +393,6 @@ function M.LintStatus(opts)
       return '󱉶 ' .. table.concat(linters, ', ')
     end,
     color = { bg = '#282c34', fg = '#bbc2cf', gui = 'bold' },
-  }, opts)
-end
-
-function M.codecompanion(opts)
-  return helper.extend_tbl({
-    companion_lualine,
-    separator = { left = '', right = '' },
-    color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
   }, opts)
 end
 

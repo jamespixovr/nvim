@@ -22,20 +22,28 @@ return {
       lsp_fallback = true, -- not recommended to change
     },
     formatters_by_ft = {
-      css = { 'prettierd', stop_after_first = true },
-      graphql = { 'prettierd', stop_after_first = true },
-      handlebars = { 'prettierd' },
-      html = { 'prettierd', stop_after_first = true },
+      -- cs = { 'csharpier' },
+      css = { 'prettierd', 'prettier', stop_after_first = true },
+      graphql = { 'prettierd', 'prettier', stop_after_first = true },
+      -- go = { 'goimports', 'gofumpt', 'golines' },
+      -- go = { 'goimports', 'gci', 'gofumpt', 'golines' },
+      handlebars = { 'prettier' },
+      html = { 'prettierd', 'prettier', stop_after_first = true },
       json = { 'jq' },
       lua = { 'stylua' },
       markdown = { 'markdownlint', 'markdown-toc', stop_after_first = true },
       python = { 'isort', 'black', stop_after_first = true },
-      -- sql = { "sql-formatter" },
-      yaml = { 'prettierd' },
+      sql = { 'sql-formatter' },
+      sh = { 'shfmt' },
+      yaml = { 'prettier' },
       -- ["*"] = { "trim_whitespace" },
     },
-    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    format_on_save = { timeout_ms = 2000, lsp_fallback = true },
     formatters = {
+      csharpier = {
+        command = 'dotnet-csharpier',
+        args = { '--write-stdout' },
+      },
       markdownlint = {
         command = 'markdownlint',
         stdin = false,
@@ -43,6 +51,25 @@ return {
       },
       sqlfluff = {
         args = { 'format', '--dialect=ansi', '-' },
+      },
+      goimports = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/goimports.lua
+        args = { '-srcdir', '$FILENAME' },
+      },
+      gci = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/gci.lua
+        args = { 'write', '--skip-generated', '-s', 'standard', '-s', 'default', '--skip-vendor', '$FILENAME' },
+      },
+      gofumpt = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/gofumpt.lua
+        prepend_args = { '-extra', '-w', '$FILENAME' },
+        stdin = false,
+      },
+      golines = {
+        -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/golines.lua
+        -- NOTE: golines will use goimports as base formatter by default which can be slow.
+        -- see https://github.com/segmentio/golines/issues/33
+        prepend_args = { '--base-formatter=gofumpt', '--ignore-generated', '--tab-len=1', '--max-len=150' },
       },
     },
   },

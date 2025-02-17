@@ -15,7 +15,7 @@ return {
       formatters = {
         json = { 'jq' },
         html = {
-          'prettierd',
+          'prettier',
           '--parser',
           'html',
         },

@@ -103,8 +103,9 @@ end
 local keys = {
   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
   { '<leader>sf', ':FzfLua grep_cword<cr>', desc = 'Search word under cursor' },
-  { '<leader>fz', file_picker, desc = 'Find Files' },
-  { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
+  -- { '<leader>ff', file_picker, desc = 'Find Files' },
+  -- { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
+  -- { '<leader>bb', fzf_lua.buffers, desc = 'buffers' },
   { '<leader>fm', fzf_lua.marks, desc = 'marks' },
   { '<leader>A', fzf_lua.grep_cword, desc = 'grep (under cursor)' },
   { '<leader>A', fzf_lua.grep_visual, desc = 'grep (visual selection)', mode = 'v' },
@@ -115,7 +116,7 @@ if vim.g.picker == 'fzf_lua' then
   keys = {
     { '<c-p>', git_files_cwd_aware, desc = 'find files' },
     { '<leader>fa', '<Cmd>FzfLua<CR>', desc = 'builtins' },
-    { '<leader>ff', file_picker, desc = 'find files' },
+    -- { '<leader>ff', file_picker, desc = 'find files' },
     { '<leader>fo', fzf_lua.oldfiles, desc = 'oldfiles' },
     { '<leader>fr', fzf_lua.resume, desc = 'resume picker' },
     { '<leader>fh', fzf_lua.highlights, desc = 'highlights' },
@@ -128,7 +129,7 @@ if vim.g.picker == 'fzf_lua' then
     { '<leader>fgb', fzf_lua.git_branches, desc = 'branches' },
     { '<leader>fgc', fzf_lua.git_commits, desc = 'commits' },
     { '<leader>fgB', fzf_lua.git_bcommits, desc = 'buffer commits' },
-    { '<leader>fb', fzf_lua.buffers, desc = 'buffers' },
+    -- { '<leader>fb', fzf_lua.buffers, desc = 'buffers' },
     { '<leader>a', fzf_lua.live_grep_glob, desc = 'live grep' },
     { '<leader>A', fzf_lua.grep_cword, desc = 'grep (under cursor)' },
     { '<leader>A', fzf_lua.grep_visual, desc = 'grep (visual selection)', mode = 'v' },
@@ -162,11 +163,8 @@ end
 return {
   {
     'ibhagwan/fzf-lua',
+    enabled = false,
     event = 'VeryLazy',
-    dependencies = { 'nvim-tree/nvim-web-devicons' },
-    -- keys = {
-    --   { '<leader>fn', ':FzfLua<cr>', desc = 'Fzf Lua' },
-    -- },
     keys = keys,
     config = function()
       -- calling `setup` is optional for customization
@@ -284,9 +282,9 @@ return {
           winopts = { title = title('Diagnostics', '', 'DiagnosticError') },
         }),
       })
-      fzf_lua.register_ui_select(dropdown({
-        winopts = { title = title('Select one of:'), height = 0.33, row = 0.5 },
-      }))
+      -- fzf_lua.register_ui_select(dropdown({
+      --   winopts = { title = title('Select one of:'), height = 0.33, row = 0.5 },
+      -- }))
     end,
   },
 }

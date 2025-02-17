@@ -1,42 +1,301 @@
+local icons = require('lib.icons')
+
+---@diagnostic disable: undefined-global
 return {
   {
     'folke/snacks.nvim',
     priority = 1000,
     lazy = false,
+    ---@module 'snacks'
     ---@type snacks.Config
     opts = {
-      bigfile = { enabled = true },
+      animate = { enabled = true },
+      bigfile = {
+        enabled = true,
+        notify = true,
+        size = 100 * 1024, -- 100 KB
+      },
       bufdelete = { enabled = true },
+      dashboard = {
+        enabled = true,
+        preset = {
+          keys = {
+            {
+              icon = ' ',
+              key = 'f',
+              desc = 'Find File',
+              action = ':lua Snacks.picker.smart({filter = {cwd = true}})',
+            },
+            { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
+            { icon = ' ', key = 's', desc = 'Load Session', section = 'session' },
+            { icon = ' ', key = 'r', desc = 'Recent Files', action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = '󱘣 ', key = '/', desc = 'Search Files', action = ":lua Snacks.dashboard.pick('live_grep')" },
+            { icon = ' ', key = 'm', desc = 'Show mark', action = ":lua Snacks.dashboard.pick('marks')" },
+            { icon = ' ', key = 't', desc = 'Show todo', action = ':TodoQuickFix' },
+            { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
+            { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
+          },
+        },
+        sections = {
+          {
+            section = 'terminal',
+            cmd = 'lolcat --seed=24 ~/.config/nvim/static/neo2.cat',
+            indent = -5,
+            height = 10,
+            width = 71,
+            padding = 1,
+          },
+          {
+            section = 'keys',
+            indent = 1,
+            gap = 1,
+            padding = 1,
+          },
+          { section = 'startup' },
+        },
+      },
       git = { enabled = true },
-      indent = { enabled = true },
-      lazygit = { enabled = true },
-      notifier = { enabled = true, timeout = 3000 },
-      quickfile = { enabled = true },
+      gitbrowse = { enabled = true },
+      scope = { enabled = true },
+      indent = {
+        enabled = true,
+        char = '▎',
+        animate = { enabled = false },
+        indent = {
+          only_current = true,
+          only_scope = true,
+        },
+        scope = {
+          enabled = true,
+          only_current = true,
+          only_scope = true,
+          underline = false,
+          hl = {
+            'SnacksIndent1',
+            'SnacksIndent2',
+            'SnacksIndent3',
+            'SnacksIndent4',
+            'SnacksIndent5',
+            'SnacksIndent6',
+            'SnacksIndent7',
+            'SnacksIndent8',
+          },
+        },
+        chunk = {
+          enabled = true,
+          only_current = true,
+        },
+        -- filter for buffers, turn off the indents for markdown
+        filter = function(buf)
+          return vim.g.snacks_indent ~= false
+            and vim.b[buf].snacks_indent ~= false
+            and vim.bo[buf].buftype == ''
+            and vim.bo[buf].filetype ~= 'markdown'
+        end,
+      },
+      input = {
+        enabled = true,
+        icon = icons.ui.Edit,
+        icon_hl = 'SnacksInputIcon',
+        icon_pos = 'left',
+        prompt_pos = 'title',
+        win = { style = 'input' },
+        expand = true,
+      },
+      notifier = {
+        enabled = true,
+        -- style = 'fancy',
+        timeout = 3000,
+        width = { min = 40, max = 0.4 },
+        height = { min = 1, max = 0.6 },
+        margin = { top = 0, right = 1, bottom = 0 },
+        padding = true,
+        -- sort = { 'level', 'added' },
+        -- level = vim.log.levels.TRACE,
+        icons = {
+          debug = icons.ui.Bug,
+          error = icons.diagnostics.Error,
+          info = icons.diagnostics.Information,
+          trace = icons.ui.Bookmark,
+          warn = icons.diagnostics.Warning,
+        },
+        style = 'compact',
+        top_down = true,
+        date_format = '%R',
+        more_format = ' ↓ %d lines ',
+        -- refresh = 50,
+      },
+      picker = {
+        -- prompt = '> ',
+        ui_select = true,
+        formatters = {
+          file = {
+            filename_first = true,
+          },
+        },
+        layout = {
+          reverse = false,
+          cycle = true,
+          --- Use the default layout or vertical if the window is too narrow
+          preset = function()
+            return vim.o.columns >= 120 and 'ivy' or 'vertical'
+          end,
+          border = 'rounded',
+        },
+        win = {
+          input = {
+            keys = {
+              ['<Esc>'] = { 'close', mode = { 'i', 'n' } },
+              ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+            },
+          },
+        },
+        sources = {
+          commands = { layout = { preset = 'vscode' } },
+          diagnostics = { layout = { preset = 'vertical' } },
+          projects = {
+            dev = { '~/Projects/PayAngel/StandApp/Nodejs', '~/Projects/PAiC/extended' },
+            patterns = {
+              '.git',
+              '_darcs',
+              '.hg',
+              '.bzr',
+              '.svn',
+              '.vscode',
+              'package.json',
+              'compile_commands.json',
+              'Makefile',
+            },
+          },
+          todo_comments = {
+            layout = {
+              preset = function()
+                return vim.o.columns >= 120 and 'ivy' or 'dropdown'
+              end,
+            },
+          },
+          keymaps = {
+            layout = { preview = false, preset = 'default' },
+          },
+        },
+      },
+      quickfile = { enabled = false },
+      scroll = { enabled = true },
       statuscolumn = { enabled = true },
-      words = { enabled = true },
+      terminal = { enabled = true, win = { wo = { winbar = '' } } },
+      rename = { enabled = true },
+      words = { enabled = true, notify_jump = true },
       styles = {
+        input = {
+          backdrop = true,
+          border = vim.g.borderStyle,
+          title_pos = 'left',
+          width = 50,
+          row = math.ceil(vim.o.lines / 2) - 3,
+          wo = { colorcolumn = '' },
+          keys = {
+            CR = { '<CR>', 'confirm', mode = 'n' },
+          },
+        },
         notification = {
           wo = { wrap = true }, -- Wrap notifications
         },
       },
+      scratch = {
+        enabled = true,
+        name = 'SCRATCH',
+        ft = function()
+          if vim.bo.buftype == '' and vim.bo.filetype ~= '' then
+            return vim.bo.filetype
+          end
+          return 'markdown'
+        end,
+        icon = nil,
+        root = vim.fn.stdpath('data') .. '/scratch',
+        autowrite = true,
+        filekey = {
+          cwd = true,
+          branch = true,
+          count = true,
+        },
+        win = {
+          width = 120,
+          height = 40,
+          bo = { buftype = '', buflisted = false, bufhidden = 'hide', swapfile = false },
+          minimal = false,
+          noautocmd = false,
+          zindex = 20,
+          wo = { winhighlight = 'NormalFloat:Normal' },
+          border = 'rounded',
+          title_pos = 'center',
+          footer_pos = 'center',
+
+          keys = {
+            ['execute'] = {
+              '<cr>',
+              function(_)
+                vim.cmd('%SnipRun')
+              end,
+              desc = 'Execute buffer',
+              mode = { 'n', 'x' },
+            },
+          },
+        },
+        win_by_ft = {
+          lua = {
+            keys = {
+              ['source'] = {
+                '<cr>',
+                function(self)
+                  local name = 'scratch.' .. vim.fn.fnamemodify(vim.api.nvim_buf_get_name(self.buf), ':e')
+                  Snacks.debug.run({ buf = self.buf, name = name })
+                end,
+                desc = 'Source buffer',
+                mode = { 'n', 'x' },
+              },
+              ['execute'] = {
+                'e',
+                function(_)
+                  vim.cmd('%SnipRun')
+                end,
+                desc = 'Execute buffer',
+                mode = { 'n', 'x' },
+              },
+            },
+          },
+        },
+      },
     },
     keys = {
-		-- stylua: ignore start
+      -- stylua: ignore start
       { "<leader>.",  function() Snacks.scratch() end, desc = "Toggle Scratch Buffer" },
+      { "<leader>st", function()
+          Snacks.scratch({ icon = " ", name = "Todo", ft = "markdown", file = "TODO.md" })
+        end, desc = "Todo List" },
       { "<leader>S",  function() Snacks.scratch.select() end, desc = "Select Scratch Buffer" },
       { "<leader>ns",  function() Snacks.notifier.show_history() end, desc = "Notification History" },
       { "<leader>bd", function() Snacks.bufdelete() end, desc = "Delete Buffer" },
-      { "<leader>cR", function() Snacks.rename.rename_file() end, desc = "Rename File" },
       { "<leader>gB", function() Snacks.gitbrowse() end, desc = "Git Browse" },
       { "<leader>gb", function() Snacks.git.blame_line() end, desc = "Git Blame Line" },
       { "<leader>gf", function() Snacks.lazygit.log_file() end, desc = "Lazygit Current File History" },
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
       { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit Log (cwd)" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
-      { "<c-/>",      function() Snacks.terminal() end, desc = "Toggle Terminal" },
+      -- { "<c-\\>",     function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
+      { '<leader>jg', function() Snacks.picker.grep() end, desc = 'Grep' },
+      { '<leader>sb', function() Snacks.picker.grep_buffers() end, desc = 'Grep Open Buffers' },
+      { '<leader>sh', function() Snacks.picker.grep_word() end, desc = 'Visual selection or word', mode = { 'n', 'x' } },
+      { '<leader>jk', function() Snacks.picker.keymaps() end, desc = 'Keymaps', },
+      { '<leader>rr', function() Snacks.picker.resume() end, desc = 'Resume' },
+      { '<leader>jf', function() Snacks.picker.files() end, desc = 'Find Files' },
+      { '<leader>:', function() Snacks.picker.commands() end, desc = 'Commands' },
+      { '<leader>je', function() Snacks.picker.explorer() end, desc = 'Commands' },
+      { '<leader>ff', function() Snacks.picker.smart({filter = {cwd = true}}) end, desc = 'Find Files', },
+      { '<leader>bb', function() Snacks.picker.buffers({layout = { preset = 'select'}}) end, desc = 'Buffers', },
+      { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
       -- stylua: ignore end
     },
     init = function()

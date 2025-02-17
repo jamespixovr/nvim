@@ -1,11 +1,4 @@
 return {
-  -- workspace/willRename
-  {
-    'antosha417/nvim-lsp-file-operations',
-    event = 'LspAttach',
-    dependencies = { 'nvim-tree/nvim-tree.lua', 'nvim-lua/plenary.nvim' },
-    config = true,
-  },
   {
     'neovim/nvim-lspconfig',
     event = { 'BufReadPost', 'BufNewFile', 'BufWritePre' }, -- "BufReadPre",
@@ -13,7 +6,8 @@ return {
       'williamboman/mason.nvim',
       'b0o/SchemaStore.nvim',
       'williamboman/mason-lspconfig.nvim',
-      'hrsh7th/cmp-nvim-lsp',
+      { 'hrsh7th/cmp-nvim-lsp', enabled = vim.g.cmploader == 'nvim-cmp' },
+      { 'saghen/blink.cmp', enabled = vim.g.cmploader == 'blink.cmp' },
     },
     ---@class PluginLspOpts
     opts = {
@@ -24,6 +18,12 @@ return {
             lineFoldingOnly = true,
           },
         },
+        workspace = {
+          fileOperations = {
+            didRename = true,
+            willRename = true,
+          },
+        },
       },
 
       -- but can be also overridden when specified
@@ -31,7 +31,7 @@ return {
         formatting_options = nil,
         timeout_ms = nil,
       },
-
+      -- add any global capabilities here
       ---@type lspconfig.options
       servers = {},
       -- you can do any additional lsp server setup here
@@ -39,7 +39,7 @@ return {
       ---@type table<string, fun(server:string, opts: table):boolean?>
       setup = {
         -- example to setup with typescript.nvim
-        -- ts_ls = function(_, opts)
+        -- tsserver = function(_, opts)
         --   require("typescript").setup({ server = opts })
         --   return true
         -- end,
@@ -51,32 +51,5 @@ return {
     config = function(_, opts)
       require('plugins.lsp.lspconfig.setup').setup(opts)
     end,
-  },
-  { -- signature hints
-    'ray-x/lsp_signature.nvim',
-    event = 'BufReadPre',
-    keys = {
-      {
-        '<leader>oh',
-        function()
-          require('lsp_signature').toggle_float_win()
-        end,
-        mode = { 'n', 'v' },
-        desc = '󰒕 LSP signature',
-      },
-    },
-    opts = {
-      hint_prefix = '󰏪 ',
-      hint_scheme = '@variable.parameter', -- highlight group
-      floating_window = false,
-      always_trigger = true,
-      handler_opts = { border = vim.g.borderStyle },
-      auto_close_after = 3000,
-    },
-  },
-  { -- display type hints at eol, not in the middle of a line
-    'chrisgrieser/nvim-lsp-endhints',
-    event = 'LspAttach',
-    opts = true,
   },
 }

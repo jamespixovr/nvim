@@ -3,6 +3,7 @@ return {
     'neovim/nvim-lspconfig',
     opts = {
       servers = {
+        stylelint_lsp = {}, -- css linter
         -- cssmodules_ls = {},
         -- css_variables = {},
         cssls = {

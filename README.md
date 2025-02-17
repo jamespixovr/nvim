@@ -1,12 +1,15 @@
-# Nvim Configuration
+# Jarmex Nvim
 
 The entire configuration using lua, don't forget to check every plugin
-documentation for further information, I think each files is pretty self-explanatory.
+documentation for further information, I think each files is pretty
+self-explanatory.
 
-![Base Image](./baseimage.png)
-![Base Image](./splitscreen.png)
-![Base Image](./lazygit.png)
+![image](https://github.com/jarmex/nvim/blob/main/baseimage.png?raw=true)
+
+![image](https://github.com/jarmex/nvim/blob/main/ai.png?raw=true)
 
 ## Plugin Manager
 
 - [Lazy nvim](https://github.com/folke/lazy.nvim)
+
+<!-- plugins:start -->

@@ -5,15 +5,10 @@ return {
   ft = 'markdown',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    'hrsh7th/nvim-cmp',
+    { 'hrsh7th/nvim-cmp', enabled = vim.g.cmploader == 'nvim-cmp' },
     'nvim-telescope/telescope.nvim',
     'nvim-treesitter/nvim-treesitter',
-    -- "preservim/vim-markdown",
   },
-  -- event = {
-  --   "BufReadPre " .. vim.fn.expand("~") .. "/c/second-brain/**.md",
-  --   "BufNewFile " .. vim.fn.expand("~") .. "/c/second-brain/**.md",
-  -- },
   cmd = {
     'ObsidianOpen',
     'ObsidianNew',
@@ -29,6 +24,7 @@ return {
   },
 
   opts = {
+
     workspaces = {
       {
         name = 'work',
@@ -40,7 +36,7 @@ return {
       },
     },
     completion = {
-      nvim_cmp = true,
+      nvim_cmp = vim.g.cmploader == 'nvim-cmp',
       -- Trigger completion at 2 chars.
       min_chars = 2,
     },
@@ -56,21 +52,6 @@ return {
     notes_subdir = 'inbox',
     new_notes_location = 'notes_subdir',
     disable_frontmatter = true,
-
-    -- TODO: configure to my liking
-    -- Optional, alternatively you can customize the frontmatter data.
-    note_frontmatter_func = function(note)
-      -- This is equivalent to the default frontmatter function.
-      -- local out = { id = note.id, aliases = note.aliases, tags = note.tags }
-      -- -- `note.metadata` contains any manually added fields in the frontmatter.
-      -- -- So here we just make sure those fields are kept in the frontmatter.
-      -- if note.metadata ~= nil and require("obsidian").util.table_length(note.metadata) > 0 then
-      --   for k, v in pairs(note.metadata) do
-      --     out[k] = v
-      --   end
-      -- end
-      -- return out
-    end,
 
     -- Optional, for templates (see below).
     templates = {
@@ -152,14 +133,14 @@ return {
   keys = {
     { '<leader>oo', ':cd /Users/jamesamo/vaults<cr>', desc = 'Open parent directory' },
     { '<leader>on', ':ObsidianTemplate note<cr> :lua vim.cmd([[1,/^\\S/s/^\\n\\{1,}//]])<cr>', desc = 'New Note' },
-    { '<leader>of', ':s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>', desc = 'Fix Headers' },
+    -- { '<leader>of', ':s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>', desc = 'Fix Headers' },
     { '<leader>no', '<cmd>ObsidianOpen<cr>', desc = 'Open Obsidian' },
     { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New note' },
-    { '<leader>ns', '<cmd>ObsidianSearch<cr>', desc = 'Search notes' },
-    { '<leader>nt', '<cmd>ObsidianTags<cr>', desc = 'List notes by tags' },
-    { '<leader>nq', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch in obsidian workspace' },
-    { '<leader>nw', '<cmd>ObsidianWorkspace work<cr>', desc = 'Change to workspace work in obsidian' },
-    { '<leader>np', '<cmd>ObsidianWorkspace personal<cr>', desc = 'Change to workspace home in obsidian' },
+    { '<leader>of', '<cmd>ObsidianSearch<cr>', desc = 'Search notes' },
+    -- { '<leader>nt', '<cmd>ObsidianTags<cr>', desc = 'List notes by tags' },
+    -- { '<leader>nq', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch in obsidian workspace' },
+    -- { '<leader>nw', '<cmd>ObsidianWorkspace work<cr>', desc = 'Change to workspace work in obsidian' },
+    -- { '<leader>np', '<cmd>ObsidianWorkspace personal<cr>', desc = 'Change to workspace home in obsidian' },
   },
 
   config = function(_, opts)

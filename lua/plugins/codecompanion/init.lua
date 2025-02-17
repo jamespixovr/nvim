@@ -1,104 +1,79 @@
+local helper = require('plugins.codecompanion.helper')
+local user = vim.env.USER or 'Jarmex'
+
 return {
   'olimorris/codecompanion.nvim',
-  event = 'VeryLazy',
+  lazy = false,
   dependencies = {
     'nvim-lua/plenary.nvim',
     'nvim-treesitter/nvim-treesitter',
-    'stevearc/dressing.nvim',
     { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
+    { 'saghen/blink.cmp', enabled = vim.g.cmploader == 'blink.cmp' },
   },
   config = function()
+    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'anthropic'
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
-    vim.cmd([[cab ccb CodeCompanionWithBuffers]])
+    vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('codecompanion').setup({
-      use_default_prompts = true,
+      -- system_prompts = require('plugins.codecompanion.prompts').SystemPrompt,
       adapters = {
-        openai = function()
-          return require('codecompanion.adapters').extend('openai', {
-            schema = {
-              model = {
-                default = 'gpt-4o',
-              },
-            },
-          })
-        end,
-        anthropic = function()
-          return require('codecompanion.adapters').extend('anthropic', {
-            env = {
-              api_key = os.getenv('ANTHROPIC_API_KEY'),
-            },
-            schema = {
-              model = {
-                default = 'claude-3-5-sonnet-latest',
-              },
-            },
-          })
-        end,
-        defaultllm = function()
-          return require('codecompanion.adapters').extend('ollama', {
-            name = 'defaultllm',
-            schema = {
-              model = {
-                default = 'qwen2.5-coder',
-              },
-              num_ctx = {
-                default = 16384,
-              },
-              temperature = {
-                default = 0.8,
-              },
-              num_predict = {
-                default = -1,
-              },
-            },
-          })
-        end,
+        openai = helper.openai_fn,
+        anthropic = helper.anthropic_fn,
+        ollama = helper.ollama_fn,
+        gemini = helper.gemini_fn,
       },
       strategies = {
         chat = {
-          adapter = 'anthropic',
-          roles = { llm = ' CodeCompanion', user = 'Me' },
+          adapter = adapter,
+          roles = {
+            ---@type string|fun(adapter: CodeCompanion.Adapter): string
+            llm = function(adapterllm)
+              return '  CodeCompanion' .. '(' .. adapterllm.formatted_name .. ')'
+            end,
+            user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
+          },
           slash_commands = {
             ['buffer'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
+                keymaps = {
+                  modes = {
+                    i = '<C-b>',
+                  },
+                },
               },
             },
             ['help'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
+                max_lines = 1000,
               },
             },
             ['file'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
             ['symbols'] = {
               opts = {
-                provider = 'fzf_lua',
+                provider = 'snacks',
               },
             },
           },
         },
         inline = {
-          adapter = 'anthropic',
+          adapter = adapter,
         },
         agent = {
-          adapter = 'anthropic',
+          adapter = adapter,
           tools = {
             opts = {
               auto_submit_errors = true,
             },
           },
         },
-      },
-      -- adapted from https://github.com/SDGLBL/dotfiles/tree/main/.config/nvim/lua/plugins
-      actions = {
-        require('plugins.codecompanion.actions').translate,
-        require('plugins.codecompanion.actions').write,
       },
       display = {
         diff = {
@@ -115,6 +90,7 @@ return {
           render_headers = false,
         },
       },
+      prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
     })
   end,
   keys = {
@@ -122,6 +98,20 @@ return {
     { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
     { '<leader>at', '<cmd>CodeCompanionChat Toggle<CR>', desc = 'AI Toggle', mode = { 'n', 'v' } },
     { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
-    { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion: Ollama' },
+    { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion Anthropic' },
+    { '<leader>ag', ':CodeCompanionChat gemini<CR>', desc = 'Codecompanion: Gemini' },
+    { '<leader>al', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion OpenAI' },
+    { '<leader>ao', ':CodeCompanionChat openai<CR>', desc = 'Codecompanion Ollama' },
+    {
+      '<leader>aS',
+      function()
+        local name = vim.fn.input('Save as: ')
+        if name and name ~= '' then
+          vim.cmd('CodeCompanionSave ' .. name)
+        end
+      end,
+      desc = 'Codecompanion save',
+    },
+    { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
   },
 }

@@ -1,12 +1,12 @@
 return {
   {
-    "nvim-lualine/lualine.nvim",
-    event = "VeryLazy",
+    'nvim-lualine/lualine.nvim',
+    event = 'VeryLazy',
     init = function()
       vim.g.lualine_laststatus = vim.o.laststatus
       if vim.fn.argc(-1) > 0 then
         -- set an empty statusline till lualine loads
-        vim.o.statusline = " "
+        vim.o.statusline = ' '
       else
         -- hide the statusline on the starter page
         vim.o.laststatus = 0
@@ -15,19 +15,19 @@ return {
     opts = function()
       -- PERF: we don't need this lualine require madness 🤷
       -- from https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/plugins/ui.lua
-      local lualine_require = require("lualine_require")
+      local lualine_require = require('lualine_require')
       lualine_require.require = require
 
-      local status = require("plugins.lualine.status")
+      local status = require('plugins.lualine.status')
       return {
         options = {
-          theme = "catppuccin",
+          theme = 'catppuccin',
           icons_enabled = true,
-          component_separators = { left = "", right = "" },
-          section_separators = { left = "", right = "" },
+          component_separators = { left = '', right = '' },
+          section_separators = { left = '', right = '' },
           disabled_filetypes = {
-            statusline = { "lazy", "alpha" },
-            winbar = { "lazy", "alpha", "toggleterm", "NvimTree", "Trouble", "neo-tree" },
+            statusline = { 'lazy', 'alpha', 'snacks_dashboard' },
+            winbar = { 'lazy', 'alpha', 'toggleterm', 'NvimTree', 'Trouble', 'neo-tree', 'codecompanion', 'snacks' },
           },
           globalstatus = true,
           always_divide_middle = true,
@@ -37,16 +37,17 @@ return {
             winbar = 1000,
           },
           ignore_focus = {
-            "DressingInput",
-            "DressingSelect",
-            "lspinfo",
-            "ccc-ui",
-            "TelescopePrompt",
-            "checkhealth",
-            "noice",
-            "mason",
-            "qf",
-            "lazy",
+            'DressingInput',
+            'DressingSelect',
+            'lspinfo',
+            'ccc-ui',
+            'TelescopePrompt',
+            'checkhealth',
+            'noice',
+            'mason',
+            'qf',
+            'lazy',
+            'snacks',
           },
         },
         tabline = {},
@@ -60,7 +61,7 @@ return {
             status.diagnostics(),
           },
           lualine_c = {
-            "%=",
+            '%=',
             status.filename(),
           },
           lualine_x = {
@@ -81,11 +82,11 @@ return {
             -- status.scrollbar(),
           },
         },
-        extensions = { "nvim-tree", "trouble", "quickfix", "toggleterm", "neo-tree", "lazy", "mason" },
+        extensions = { 'nvim-tree', 'trouble', 'quickfix', 'toggleterm', 'lazy', 'mason', 'oil', 'fzf' },
       }
     end,
     config = function(_, opts)
-      require("lualine").setup(opts)
+      require('lualine').setup(opts)
     end,
   },
 }

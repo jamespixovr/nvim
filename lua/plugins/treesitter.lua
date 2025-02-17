@@ -1,18 +1,3 @@
-local function should_disable(lang, bufnr)
-  local disable_max_size = 2000000 -- 2MB
-  local size = vim.fn.getfsize(vim.api.nvim_buf_get_name(bufnr or 0))
-  -- size will be -2 if it doesn't fit into a number
-  if size > disable_max_size or size == -2 then
-    return true
-  end
-
-  if vim.tbl_contains({ 'ruby' }, lang) then
-    return true
-  end
-
-  return false
-end
-
 return {
   -- comments
   {
@@ -34,12 +19,39 @@ return {
   },
   {
     'abecodes/tabout.nvim', -- Tab out from parenthesis, quotes, brackets...
+    enabled = false,
     opts = {
       tabkey = '<Tab>', -- key to trigger tabout, set to an empty string to disable
       backwards_tabkey = '<S-Tab>', -- key to trigger backwards tabout, set to an empty string to disable
       completion = true, -- We use tab for completion so set this to true
     },
   },
+  -- {
+  --   'nvim-treesitter/nvim-treesitter-textobjects',
+  --   event = 'VeryLazy',
+  --   config = function()
+  --     -- When in diff mode, we want to use the default
+  --     -- vim text objects c & C instead of the treesitter ones.
+  --     local move = require('nvim-treesitter.textobjects.move') ---@type table<string,fun(...)>
+  --     local configs = require('nvim-treesitter.configs')
+  --     for name, fn in pairs(move) do
+  --       if name:find('goto') == 1 then
+  --         move[name] = function(q, ...)
+  --           if vim.wo.diff then
+  --             local config = configs.get_module('textobjects.move')[name] ---@type table<string,string>
+  --             for key, query in pairs(config or {}) do
+  --               if q == query and key:find('[%]%[][cC]') then
+  --                 vim.cmd('normal! ' .. key)
+  --                 return
+  --               end
+  --             end
+  --           end
+  --           return fn(q, ...)
+  --         end
+  --       end
+  --     end
+  --   end,
+  -- },
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
     event = 'VeryLazy',
@@ -89,14 +101,17 @@ return {
       -- CODE FROM LazyVim (thanks folke!) https://github.com/LazyVim/LazyVim/commit/1e1b68d633d4bd4faa912ba5f49ab6b8601dc0c9
       require('lazy.core.loader').add_to_rtp(plugin)
       require('nvim-treesitter.query_predicates')
+      -- add mise integration -- https://mise.jdx.dev/mise-cookbook/neovim.html
+      require('vim.treesitter.query').add_predicate('is-mise?', function(_, _, bufnr, _)
+        local filepath = vim.api.nvim_buf_get_name(tonumber(bufnr) or 0)
+        local filename = vim.fn.fnamemodify(filepath, ':t')
+        return string.match(filename, '.*mise.*%.toml$')
+      end, { force = true, all = false })
     end,
     dependencies = {
       'windwp/nvim-ts-autotag',
     },
     opts = function()
-      local function is_disable(_, bufnr)
-        return bufnr and vim.api.nvim_buf_line_count(bufnr) > 5000
-      end
       return {
         ignore_install = { 'help' },
         ensure_installed = {
@@ -153,25 +168,22 @@ return {
         auto_install = true, -- install missing parsers when entering a buffer
         highlight = {
           enable = vim.g.vscode ~= 1,
-          disable = should_disable,
           use_languagetree = true,
           -- Some languages depend on vim's regex highlighting system (such as Ruby) for indent rules.
           --  If you are experiencing weird indenting issues, add the language to
           --  the list of additional_vim_regex_highlighting and disabled languages for indent.
           additional_vim_regex_highlighting = {
-            'ruby',
             'python',
             'vim',
           },
         },
-        indent = { enable = true, disable = is_disable },
-        context_commentstring = { enable = true, enable_autocmd = false, disable = is_disable },
-        autopairs = { enable = true, disable = is_disable },
-        -- playground = { enable = true, disable = is_disable },
-        matchup = { enable = true, disable = is_disable },
+        indent = { enable = true },
+        context_commentstring = { enable = true, enable_autocmd = false },
+        autopairs = { enable = true },
+        -- playground = { enable = true},
+        matchup = { enable = true },
         incremental_selection = {
           enable = true,
-          disable = is_disable,
           keymaps = {
             init_selection = '<C-space>',
             node_incremental = '<C-space>',
@@ -181,8 +193,8 @@ return {
         },
         -- nvim-treesitter-endwise plugin
         endwise = { enable = true },
-
         textobjects = {
+          enable = false,
           move = {
             enable = true,
             goto_next_start = { [']f'] = '@function.outer', [']c'] = '@class.outer' },
@@ -193,7 +205,6 @@ return {
           select = {
             enable = true,
             lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-
             keymaps = {
               -- Use v[keymap], c[keymap], d[keymap] to perform any operation
               ['af'] = '@function.outer',

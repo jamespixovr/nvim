@@ -1,6 +1,7 @@
-local icons = require('settings').icons.dap
+local icons = require('lib.icons')
+
 local function dap_keymaps()
-		-- stylua: ignore start
+  -- stylua: ignore start
   return {
     { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
     { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
@@ -28,7 +29,6 @@ local function dap_keymaps()
     { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>", desc = "Terminate" },
   }
   -- stylua: ignore end
-  --
 end
 local function dap_ui_keymaps()
   return {
@@ -53,14 +53,12 @@ end
 --------------------------------------------------------------------------------------
 
 local function dapConfig()
-  vim.fn.sign_define('DapStopped', { text = icons.Stopped, texthl = 'DiagnosticInfo', linehl = '' })
-  vim.fn.sign_define('DapBreakpoint', { text = icons.Breakpoint, texthl = 'DiagnosticError', linehl = '' })
-  vim.fn.sign_define('DapBreakpointCondition', { text = icons.BpCondition, texthl = 'DiagnosticError', linehl = '' })
-  vim.fn.sign_define('DapBreakpointRejected', { text = icons.BreakpointRejected, texthl = 'DiagnosticError' })
-  vim.fn.sign_define('DapLogPoint', { text = icons.LogPoint, texthl = '', linehl = '', numhl = '' })
+  vim.fn.sign_define('DapStopped', { text = icons.dap.Stopped, texthl = 'DiagnosticHint', linehl = 'DapPause' })
+  vim.fn.sign_define('DapBreakpoint', { text = icons.dap.Breakpoint, texthl = 'DiagnosticInfo', linehl = 'DapBreak' })
+  vim.fn.sign_define('DapBreakpointRejected', { text = icons.dap.BreakpointRejected, texthl = 'DiagnosticError' })
 
   -- use overseer for running preLaunchTask and postDebugTask
-  require('overseer').enable_dap(true)
+  require('overseer').enable_dap()
 
   -- require('dap.ext.vscode').load_launchjs('launch.json')
   require('dap.ext.vscode').load_launchjs(nil, { node = { 'typescript', 'javascript' } })
@@ -81,18 +79,10 @@ local function dapConfig()
     require('dapui').close()
   end
 
-  require('plugins.debugger.typescript')
+  require('plugins.dap.typescript')
 end
 
 return {
-  {
-    'Weissle/persistent-breakpoints.nvim',
-    enabled = false,
-    opts = {
-      load_breakpoints_event = { 'BufReadPost' },
-    },
-    lazy = false,
-  },
   --  DEBUGGER ----------------------------------------------------------------
   --  Debugger alternative to vim-inspector [debugger]
   --  https://github.com/mfussenegger/nvim-dap
@@ -118,8 +108,7 @@ return {
     -- stylua: ignore
     keys = dap_ui_keymaps(),
     opts = {
-      icons = { expanded = '▾', collapsed = '▸' },
-      -- floating = { border = 'rounded' },
+      icons = { expanded = icons.ui.TriangleShortArrowDown, icons.ui.TriangleShortArrowRight },
       layouts = {
         {
           elements = {
@@ -132,9 +121,6 @@ return {
       },
       floating = {
         border = vim.g.borderStyle,
-        -- max_height = 0.5,
-        -- max_width = 0.9,
-        -- border = "rounded",
         mappings = {
           close = { 'q', '<Esc>' },
         },

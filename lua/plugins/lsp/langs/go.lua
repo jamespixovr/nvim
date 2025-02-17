@@ -1,4 +1,5 @@
 local util = require('lspconfig.util')
+
 return {
   -- correctly setup mason lsp / dap extensions
   {
@@ -27,7 +28,7 @@ return {
         }, -- linter
         gopls = {
           cmd = { 'gopls' },
-          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl', 'gosum' },
           root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
           keys = {
             -- Workaround for the lack of a DAP strategy in neotest-go: https://github.com/nvim-neotest/neotest-go/issues/12
@@ -42,8 +43,12 @@ return {
             -- for more details, also see:
             -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
             -- https://github.com/golang/tools/blob/master/gopls/README.md
+            env = {
+              GOEXPERIMENT = 'rangefunc',
+            },
             gopls = {
-              gofumpt = true,
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              gofumpt = true, -- for conform set this to false
               codelenses = {
                 gc_details = true, -- Show a code lens toggling the display of gc's choices.
                 generate = true, -- show the `go generate` lens.
@@ -76,15 +81,21 @@ return {
                 undeclaredname = true,
                 unreachable = true,
               },
-              staticcheck = true,
               usePlaceholders = true,
               completeUnimported = true,
               directoryFilters = { '-**/node_modules', '-**/.git', '-.vscode', '-.idea', '-.vscode-test' },
-              semanticTokens = true,
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              semanticTokens = false, -- disabling this enables treesitter injections (for sql, json etc)
               symbolMatcher = 'fuzzy',
               buildFlags = { '-tags', 'integration' },
               diagnosticsDelay = '500ms',
               matcher = 'Fuzzy',
+
+              -- diagnostic options
+              -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
+              staticcheck = true,
+              vulncheck = 'imports',
+              analysisProgressReporting = true,
             },
           },
         },
@@ -114,7 +125,7 @@ return {
         dap_debug = false,
         dap_debug_gui = false,
         run_in_floaterm = true,
-        luasnip = true,
+        luasnip = false,
         dap_debug_keymap = false,
         lsp_codelens = false,
         lsp_keymaps = false,
@@ -132,7 +143,6 @@ return {
     ft = { 'go', 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
-
   {
     'nvim-neotest/neotest',
     optional = true,

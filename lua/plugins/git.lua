@@ -1,6 +1,6 @@
 local function gitsigns_keymaps()
   return {
-    { '<leader>gb', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Toggle Git Blame' },
+    -- { '<leader>gb', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Toggle Git Blame' },
     { '<leader>gp', '<cmd>Gitsigns preview_hunk<cr>', desc = 'Preview Hunk' },
     { ']g', '<cmd>Gitsigns next_hunk<cr>', desc = 'Next Hunk' },
     { '[g', '<cmd>Gitsigns prev_hunk<cr>', desc = 'Prev Hunk' },
@@ -11,10 +11,6 @@ local function gitsigns_keymaps()
   }
 end
 return {
-  {
-    'tpope/vim-fugitive',
-  },
-
   -- git signs
   {
     'lewis6991/gitsigns.nvim',
@@ -46,13 +42,18 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim', -- required
       'sindrets/diffview.nvim', -- optional - Diff integration
-      'nvim-telescope/telescope.nvim', -- optional
+      'nvim-telescope/telescope.nvim',
     },
     cmd = 'Neogit',
     opts = {
-      integrations = {
-        diffview = true,
-      },
+      integrations = { diffview = true },
+      kind = 'tab',
+      auto_show_console = true,
+      status = { recent_commit_count = 10 },
+      commit_editor = { kind = 'split' },
+      commit_select_view = { kind = 'tab' },
+      log_view = { kind = 'tab' },
+      rebase_editor = { kind = 'split' },
     },
     keys = {
       { '<leader>gn', '<cmd>Neogit<cr>', desc = 'Neogit' },

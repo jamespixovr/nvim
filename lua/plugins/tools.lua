@@ -1,8 +1,16 @@
 return {
   {
     'folke/persistence.nvim',
-    event = 'BufReadPre',
+    event = 'VimEnter',
+    lazy = false,
+    init = function()
+      -- https://neovim.io/doc/user/options.html#'sessionoptions'
+      vim.opt.sessionoptions = 'curdir,folds,help,winsize,winpos,localoptions'
+    end,
     opts = { options = { 'buffers', 'curdir', 'tabpages', 'winsize', 'help' } },
+    config = function(_, opts)
+      require('persistence').setup(opts)
+    end,
     -- stylua: ignore
     keys = {
       { "<leader>qs", function() require("persistence").load() end,                desc = "Restore Session" },
@@ -64,6 +72,7 @@ return {
   ---- pixo related plugins ----
   {
     'jamespixovr/pixovr.nvim',
+    enabled = false,
     event = 'VeryLazy',
     cmd = { 'Pixovr' },
     dependencies = {
@@ -72,52 +81,5 @@ return {
     },
     config = true,
   },
-  -- e.g. for go.mod and swagger yaml
-  -- https://github.com/icholy/lsplinks.nvim
-  {
-    'icholy/lsplinks.nvim',
-    enabled = false,
-    config = function()
-      require('lsplinks').setup({
-        highlight = true,
-        hl_group = 'Underlined',
-      })
-    end,
-  },
-  {
-    'rachartier/tiny-inline-diagnostic.nvim',
-    enabled = false,
-    event = 'VeryLazy',
-    config = function()
-      require('tiny-inline-diagnostic').setup({
-        blend = {
-          factor = 0.3,
-        },
-        options = {
-          break_line = {
-            enabled = true,
-            after = 80,
-          },
-          multiple_diag_under_cursor = true,
-          show_source = true,
-        },
-      })
-    end,
-  },
-  {
-    'lukas-reineke/headlines.nvim',
-    enabled = false,
-    dependencies = 'nvim-treesitter/nvim-treesitter',
-    opts = {
-      markdown = {
-        bullets = {},
-      },
-    }, -- or `opts = {}`
-  },
-  { --Fuzzy search nerd glyphs, by name and unicode
-    '2kabhishek/nerdy.nvim',
-    enabled = false,
-    dependencies = { 'echasnovski/mini.pick' },
-    cmd = 'Nerdy',
-  },
+  -- for dev-container checkout https://github.com/Matt-FTW/dotfiles/blob/main/.config/nvim/lua/plugins/extras/editor/dev-container.lua
 }

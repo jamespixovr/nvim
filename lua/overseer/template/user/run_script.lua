@@ -1,4 +1,4 @@
--- from: https://github.com/stevearc/overseer.nvim/blob/master/doc/tutorials.md
+-- https://github.com/stevearc/overseer.nvim/blob/master/doc/tutorials.md#build-a-c-file
 return {
   name = 'run script',
   builder = function()

@@ -13,11 +13,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  { import = 'plugins' },
-  { import = 'plugins.lsp' },
-  { import = 'plugins.lsp.langs' },
-}, {
-  defaults = { lazy = false },
+  spec = {
+    { import = 'plugins' },
+    { import = 'plugins.lsp' },
+    { import = 'plugins.lsp.langs' },
+  },
+  defaults = { lazy = true },
   install = { colorscheme = { 'catppuccin', 'habamax' } },
   checker = {
     enabled = true, -- automatically check for plugin updates
@@ -88,7 +89,7 @@ vim.defer_fn(function()
   if not require('lazy.status').has_updates() then
     return
   end
-  local threshold = 15
+  local threshold = 10
   local numberOfUpdates = tonumber(require('lazy.status').updates():match('%d+'))
   if numberOfUpdates < threshold then
     return

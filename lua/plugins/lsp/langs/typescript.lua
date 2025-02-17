@@ -31,6 +31,9 @@ return {
       'neovim/nvim-lspconfig',
       { 'dmmulroy/ts-error-translator.nvim', config = true },
     },
+    keys = {
+      { '<leader>og', '<cmd>TSToolsOrganizeImports<cr>', desc = 'Organize Imports' },
+    },
     ft = { 'javascriptreact', 'typescriptreact', 'javascript.jsx', 'typescript.tsx', 'javascript', 'typescript' },
     config = function()
       -- local api = require("typescript-tools.api")
@@ -53,21 +56,24 @@ return {
             enable = true,
             filetypes = { 'javascriptreact', 'typescriptreact' },
           },
+          publish_diagnostic_on = 'insert_leave',
           tsserver_file_preferences = {
             includeInlayEnumMemberValueHints = false,
             includeInlayFunctionLikeReturnTypeHints = false,
             includeInlayFunctionParameterTypeHints = false,
             includeInlayParameterNameHints = 'all', -- none | literals | all
             includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = false,
+            includeInlayPropertyDeclarationTypeHints = true,
             includeInlayVariableTypeHints = false,
             includeInlayVariableTypeHintsWhenTypeMatchesName = false,
             includeCompletionsForModuleExports = true,
+            importModuleSpecifierPreference = 'non-relative',
           },
           tsserver_plugins = {
             -- https://github.com/styled-components/typescript-styled-plugin
             -- for TypeScript v4.9+
-            '@styled/typescript-styled-plugin',
+            'typescript-plugin-css-modules',
+            -- '@styled/typescript-styled-plugin',
             -- or for older TypeScript versions
             -- "typescript-styled-plugin",
           },
@@ -77,12 +83,18 @@ return {
       })
     end,
   },
-
   {
     'nvim-neotest/neotest',
     optional = true,
     dependencies = {
-      { 'haydenmeade/neotest-jest', version = false },
+      { 'nvim-neotest/neotest-jest' },
+    },
+    keys = {
+      {
+        '<leader>tw',
+        "<cmd>lua require('neotest').run.run({ jestCommand = 'jest --watch ' })<cr>",
+        desc = 'Neotest Watch',
+      },
     },
     opts = {
       adapters = {

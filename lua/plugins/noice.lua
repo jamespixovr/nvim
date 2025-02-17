@@ -92,11 +92,10 @@ local routes = {
 return {
   {
     'folke/noice.nvim',
-    event = 'VimEnter', -- earlier to catch notifications on startup
-    enabled = true,
+    event = 'VeryLazy',
     dependencies = {
       'MunifTanjim/nui.nvim',
-      'rcarriga/nvim-notify',
+      -- 'rcarriga/nvim-notify',
     },
     opts = {
       routes = routes,
@@ -147,7 +146,7 @@ return {
         },
         hover = {
           border = { style = vim.g.borderStyle },
-          size = { max_width = 0 },
+          size = { max_width = 80 },
           win_options = { scrolloff = 4, wrap = true },
         },
         popup = {
@@ -166,18 +165,18 @@ return {
       lsp = {
         progress = { enabled = false },
         signature = { enabled = false },
-        hover = { enabled = false },
+        hover = { silent = true },
         -- ENABLE features
         override = {
           ['vim.lsp.util.convert_input_to_markdown_lines'] = true,
           ['vim.lsp.util.stylize_markdown'] = true,
-          ['cmp.entry.get_documentation'] = true,
+          ['cmp.entry.get_documentation'] = vim.g.cmploader == 'nvim-cmp',
         },
       },
       presets = {
         bottom_search = false,
         command_palette = true,
-        -- long_message_to_split = false,
+        long_message_to_split = true,
         inc_rename = true,
         cmdline_output_to_split = false,
         lsp_doc_border = true,
@@ -245,5 +244,14 @@ return {
         mode = { 'i', 'n', 's' },
       },
     },
+    config = function(_, opts)
+      -- HACK: noice shows messages from before it was enabled,
+      -- but this is not ideal when Lazy is installing plugins,
+      -- so clear the messages in this case.
+      if vim.o.filetype == 'lazy' then
+        vim.cmd([[messages clear]])
+      end
+      require('noice').setup(opts)
+    end,
   },
 }
