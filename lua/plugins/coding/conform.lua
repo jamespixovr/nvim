@@ -101,7 +101,7 @@ return {
         -- https://github.com/stevearc/conform.nvim/blob/master/lua/conform/formatters/golines.lua
         -- NOTE: golines will use goimports as base formatter by default which can be slow.
         -- see https://github.com/segmentio/golines/issues/33
-        prepend_args = { '--base-formatter=gofumpt', '--ignore-generated', '--tab-len=1', '--max-len=120' },
+        prepend_args = { '--base-formatter=gofumpt', '--ignore-generated', '--tab-len=1', '--max-len=150' },
       },
       yamlfmt = {
         prepend_args = {

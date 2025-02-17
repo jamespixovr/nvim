@@ -13,7 +13,11 @@ return {
     require('hover.providers.diagnostic')
   end,
   opts = {
-    preview_opts = { border = 'rounded' },
+    preview_opts = {
+      border = 'rounded',
+      focusable = true,
+      focus = true,
+    },
     preview_window = false,
     title = true,
     mouse_providers = { 'LSP' },

@@ -24,14 +24,15 @@ return {
   },
 
   opts = {
+
     workspaces = {
       {
-        name = 'personal',
-        path = '~/vaults/jamesamo',
-      },
-      {
         name = 'work',
-        path = '~/vaults/work',
+        path = '~/vaults',
+        -- Optional, override certain settings.
+        overrides = {
+          notes_subdir = 'notes',
+        },
       },
     },
     completion = {

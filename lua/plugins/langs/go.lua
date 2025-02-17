@@ -48,7 +48,7 @@ return {
             },
             gopls = {
               -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
-              gofumpt = false, -- handled by conform instead.
+              gofumpt = true, -- for conform set this to false
               codelenses = {
                 gc_details = true, -- Show a code lens toggling the display of gc's choices.
                 generate = true, -- show the `go generate` lens.
@@ -154,38 +154,37 @@ return {
     ft = { 'go', 'gomod' },
     -- build = ':lua require("go.install").update_all_sync()' -- if you need to install/update all binaries
   },
-
-  -- {
-  --   'nvim-neotest/neotest',
-  --   optional = true,
-  --   dependencies = {
-  --     { 'jarmex/neotest-ginkgo' },
-  --     -- {
-  --     --   'fredrikaverpil/neotest-golang',
-  --     --   -- enabled = false,
-  --     --   version = '*',
-  --     --   dependencies = {
-  --     --     'leoluz/nvim-dap-go',
-  --     --   },
-  --     -- },
-  --   },
-  --   opts = {
-  --     adapters = {
-  --       ['neotest-ginkgo'] = {
-  --         -- Here we can set options for neotest-go, e.g.
-  --         -- args = { "-tags=integration" }
-  --         --   args = { "-count=1", "-timeout=60s", "-race", "-cover" },
-  --         experimental = {
-  --           test_table = true,
-  --         },
-  --       },
-  --       -- ['neotest-golang'] = {
-  --       --   args = { "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out" },
-  --       --   experimental = {
-  --       --     test_table = true,
-  --       --   },
-  --       -- },
-  --     },
-  --   },
-  -- },
+  {
+    'nvim-neotest/neotest',
+    optional = true,
+    dependencies = {
+      { 'jarmex/neotest-ginkgo' },
+      {
+        'fredrikaverpil/neotest-golang',
+        -- enabled = false,
+        version = '*',
+        dependencies = {
+          'leoluz/nvim-dap-go',
+        },
+      },
+    },
+    opts = {
+      adapters = {
+        ['neotest-ginkgo'] = {
+          -- Here we can set options for neotest-go, e.g.
+          -- args = { "-tags=integration" }
+          --   args = { "-count=1", "-timeout=60s", "-race", "-cover" },
+          experimental = {
+            test_table = true,
+          },
+        },
+        -- ['neotest-golang'] = {
+        --   args = { "-coverprofile=" .. vim.fn.getcwd() .. "/coverage.out" },
+        --   experimental = {
+        --     test_table = true,
+        --   },
+        -- },
+      },
+    },
+  },
 }
