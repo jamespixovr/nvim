@@ -27,12 +27,39 @@ return {
     event = 'VeryLazy',
     ---@type Flash.Config
     opts = {},
-    -- stylua: ignore
     keys = {
-      { "<leader>hs", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Fla[s][h]" },
-      { "<leader>hS", mode = { "n", "o", "x" }, function() require("flash").treesitter() end,        desc = "Flas[h] Tree[s]itter" },
-      { "<leader>hr", mode = "o",               function() require("flash").remote() end,            desc = "[R]emote Flas[h]" },
-      { "<leader>hT", mode = { "o", "x" },      function() require("flash").treesitter_search() end, desc = "Flas[h] [T]reesitter Search" },
+      {
+        'zs',
+        mode = { 'n', 'x', 'o' },
+        function()
+          require('flash').jump()
+        end,
+        desc = 'Fla[s][h]',
+      },
+      {
+        'zS',
+        mode = { 'n', 'o', 'x' },
+        function()
+          require('flash').treesitter()
+        end,
+        desc = 'Flas[h] Tree[s]itter',
+      },
+      {
+        '<leader>hr',
+        mode = 'o',
+        function()
+          require('flash').remote()
+        end,
+        desc = '[R]emote Flas[h]',
+      },
+      {
+        '<leader>hT',
+        mode = { 'o', 'x' },
+        function()
+          require('flash').treesitter_search()
+        end,
+        desc = 'Flas[h] [T]reesitter Search',
+      },
     },
   },
 
