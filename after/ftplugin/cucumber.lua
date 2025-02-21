@@ -8,6 +8,6 @@ vim.keymap.set(
 vim.keymap.set(
   'n',
   '<leader>td',
-  '<cmd>Pixovr debug<cr>',
+  '<cmd>CucumberTest<cr>',
   { buffer = true, desc = 'System [T]est [D]ebug', nowait = true }
 )
