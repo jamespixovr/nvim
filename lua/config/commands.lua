@@ -33,3 +33,7 @@ end, {
   desc = 'Switch Moody Words',
   force = true,
 })
+
+vim.api.nvim_create_user_command('CucumberTest', function()
+  require('overseer').run_template({ name = 'cucumber test' })
+end, {})
