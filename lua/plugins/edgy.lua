@@ -38,9 +38,10 @@ return {
             return vim.bo[buf].buftype == 'help'
           end,
         },
-        { ft = 'neotest-output-panel', title = 'Neotest OutputPanel', size = { height = 0.3 } },
+        { title = 'Neotest Output', ft = 'neotest-output-panel', size = { height = 15 } },
         {
           ft = 'Trouble',
+          size = { height = 15 },
           title = 'TROUBLE',
           filter = function(buf, win)
             return vim.api.nvim_win_get_config(win).relative == ''

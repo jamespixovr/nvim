@@ -99,9 +99,7 @@ vim.api.nvim_create_autocmd('LspAttach', {
       map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions', { 'n', 'v' })
     end
 
-    if client.supports_method(methods.textDocument_rename) then
-      map('<leader>cr', rename, '[R]ename')
-    end
+    map('<leader>cr', rename, '[R]ename')
 
     map('<leader>ci', '<cmd>LspInfo<cr>', 'Lsp Info')
     map('<leader>ch', vim.lsp.codelens.refresh, 'CodeLens Refresh')

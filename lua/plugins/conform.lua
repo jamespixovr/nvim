@@ -22,22 +22,32 @@ return {
       lsp_fallback = true, -- not recommended to change
     },
     formatters_by_ft = {
-      css = { 'prettierd', 'prettier', stop_after_first = true },
-      graphql = { 'prettierd', 'prettier', stop_after_first = true },
+      css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       go = { 'goimports', 'gci', 'gofumpt', 'golines' },
+      graphql = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       handlebars = { 'prettier' },
       html = { 'prettierd', 'prettier', stop_after_first = true },
-      json = { 'jq' },
+      javascript = { 'biome' },
+      javascriptreact = { 'biome' },
+      json = { 'biome' },
+      json5 = { 'biome' },
+      jsonc = { 'biome' },
       lua = { 'stylua' },
       markdown = { 'markdownlint', 'markdown-toc', stop_after_first = true },
       python = { 'isort', 'black', stop_after_first = true },
-      sql = { 'sql-formatter' },
       sh = { 'shfmt' },
+      sql = { 'sql-formatter' },
+      typescript = { 'biome' },
+      typescriptreact = { 'biome' },
       yaml = { 'prettier' },
       -- ["*"] = { "trim_whitespace" },
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
     formatters = {
+      -- biome = {
+      --   -- https://biomejs.dev/formatter/
+      --   args = { 'format', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
+      -- },
       markdownlint = {
         command = 'markdownlint',
         stdin = false,

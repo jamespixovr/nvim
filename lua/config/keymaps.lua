@@ -31,7 +31,7 @@ keymap('v', '<', '<gv')
 keymap('v', '>', '>gv')
 
 -- Paste over currently selected text without yanking it
-keymap('v', 'p', '"_dP')
+-- keymap('v', 'p', '"_dP')
 
 -- COMMAND & INSERT MODE
 keymap({ 'i', 'c' }, '<C-a>', '<Home>')

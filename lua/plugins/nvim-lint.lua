@@ -5,6 +5,7 @@ return {
     config = function()
       require('lint').linters_by_ft = {
         -- python = { "ruff" },
+        dockerfile = { 'hadolint' },
         htmldjango = { 'djlint' },
         lua = { 'selene' },
         sh = { 'shellcheck' },

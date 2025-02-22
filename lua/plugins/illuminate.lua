@@ -1,6 +1,8 @@
+-- this is taken over by snacks words. so this is disabled
 return {
   {
     'RRethy/vim-illuminate',
+    enabled = false,
     event = 'LspAttach',
     opts = {
       delay = 500,
