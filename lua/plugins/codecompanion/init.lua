@@ -4,12 +4,7 @@ local user = vim.env.USER or 'Jarmex'
 return {
   'olimorris/codecompanion.nvim',
   lazy = false,
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-    'nvim-treesitter/nvim-treesitter',
-    { 'MeanderingProgrammer/render-markdown.nvim', ft = { 'markdown', 'codecompanion' } },
-    { 'saghen/blink.cmp', enabled = vim.g.cmploader == 'blink.cmp' },
-  },
+  dependencies = { 'j-hui/fidget.nvim' },
   config = function()
     local adapter = os.getenv('NVIM_AI_ADAPTER') or 'anthropic'
     -- Expand `cc` into CodeCompanion in the command line
@@ -93,6 +88,7 @@ return {
       },
       prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
     })
+    require('plugins.codecompanion.spinner'):init()
   end,
   keys = {
     { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },

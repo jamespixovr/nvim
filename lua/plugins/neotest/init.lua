@@ -11,6 +11,9 @@ return {
     },
     keys = require('plugins.neotest.keymaps').keymaps(),
     opts = {
+      -- consumers = {
+      --   overseer = require('neotest.consumers.overseer'),
+      -- },
       log_level = vim.log.levels.ERROR,
       status = { virtual_text = true, signs = true },
       output = { open_on_run = false },

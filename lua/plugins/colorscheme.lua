@@ -1,18 +1,18 @@
 local M = {
-  {
-    'folke/tokyonight.nvim',
-    enabled = false,
-    lazy = false,
-    priority = 1000,
-    opts = {
-      style = 'storm',
-      transparent = true,
-      styles = {
-        sidebars = 'transparent', -- style for sidebars, see below
-        floats = 'transparent', -- style for floating windows
-      },
-    },
-  },
+  -- {
+  --   'folke/tokyonight.nvim',
+  --   enabled = false,
+  --   lazy = false,
+  --   priority = 1000,
+  --   opts = {
+  --     style = 'storm',
+  --     transparent = true,
+  --     styles = {
+  --       sidebars = 'transparent', -- style for sidebars, see below
+  --       floats = 'transparent', -- style for floating windows
+  --     },
+  --   },
+  -- },
   {
     'catppuccin/nvim',
     name = 'catppuccin',

@@ -154,18 +154,18 @@ return {
           commands = { layout = { preset = 'vscode' } },
           diagnostics = { layout = { preset = 'vertical' } },
           projects = {
-            dev = { '~/Projects/PayAngel/StandApp/Nodejs', '~/Projects/PAiC/extended' },
-            patterns = {
-              '.git',
-              '_darcs',
-              '.hg',
-              '.bzr',
-              '.svn',
-              '.vscode',
-              'package.json',
-              'compile_commands.json',
-              'Makefile',
+            projects = {
+              vim.fn.expand('~/Projects/PayAngel/StandApp/Nodejs'),
+              vim.fn.expand('~/Projects/PAiC/extended'),
             },
+            recent = true,
+            dev = { '~/Projects/PayAngel/StandApp/Nodejs', '~/Projects/PAiC/extended' },
+            patterns = { '.git', '.vscode', 'package.json', 'Makefile' },
+            confirm = function(picker, item)
+              picker:close()
+              vim.cmd('cd ' .. item.file)
+              Snacks.notify('Changed directory to: ' .. item.file)
+            end,
           },
           todo_comments = {
             layout = {
@@ -323,6 +323,7 @@ return {
           Snacks.toggle.treesitter():map('<leader>uT')
           Snacks.toggle.option('background', { off = 'light', on = 'dark', name = 'Dark Background' }):map('<leader>ub')
           Snacks.toggle.inlay_hints():map('<leader>uh')
+          Snacks.toggle.indent():map('<leader>ug')
         end,
       })
     end,

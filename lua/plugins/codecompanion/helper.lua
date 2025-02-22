@@ -126,7 +126,8 @@ M.openai_fn = function()
   local openai_config = {
     schema = {
       model = {
-        default = 'gpt-4o',
+        -- default = 'gpt-4o',
+        default = 'o3-mini-2025-01-31',
       },
     },
   }
