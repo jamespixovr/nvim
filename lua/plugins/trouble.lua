@@ -7,6 +7,9 @@ return {
     opts = {
       focus = true,
       modes = {
+        lsp = {
+          win = { position = 'right' },
+        },
         test = {
           mode = 'diagnostics',
           preview = {
@@ -17,13 +20,6 @@ return {
           },
         },
       },
-      -- modes = {
-      --   diagnostics = {
-      --     groups = {
-      --       { 'filename', format = '{file_icon} {basename:Title} {count}' },
-      --     },
-      --   },
-      -- },
     },
     specs = {
       'folke/snacks.nvim',
@@ -61,23 +57,5 @@ return {
       { '<leader>xL', '<cmd>Trouble loclist toggle<cr>', desc = 'Location List (Trouble)' },
       { '<leader>xQ', '<cmd>Trouble qflist toggle<cr>', desc = 'Quickfix List (Trouble)' },
     },
-  },
-
-  -- todo comments
-  {
-    'folke/todo-comments.nvim',
-    lazy = false,
-    cmd = { 'TodoTrouble', 'TodoTelescope', 'TodoQuickFix' },
-    event = 'BufReadPost',
-    -- stylua: ignore
-    keys = {
-      { "]t",         function() require("todo-comments").jump_next() end, desc = "Next todo comment" },
-      { "[t",         function() require("todo-comments").jump_prev() end, desc = "Previous todo comment" },
-      { "<leader>xt", function() Snacks.picker.todo_comments() end,                              desc = "Todo Trouble" },
-      { "<leader>xT", function () Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end, desc = "Todo/Fix/Fixme" },
-    },
-    config = function()
-      require('todo-comments').setup({})
-    end,
   },
 }

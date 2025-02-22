@@ -1,12 +1,4 @@
 return {
-  -- comments
-  {
-    'JoosepAlviste/nvim-ts-context-commentstring',
-    lazy = true,
-    opts = {
-      enable_autocmd = false,
-    },
-  },
   {
     'nvim-treesitter/nvim-treesitter-context',
     event = 'BufReadPre',
@@ -151,7 +143,7 @@ return {
           },
         },
         indent = { enable = true },
-        context_commentstring = { enable = true, enable_autocmd = false },
+        -- context_commentstring = { enable = true, enable_autocmd = false },
         autopairs = { enable = true },
         -- playground = { enable = true},
         matchup = { enable = true },

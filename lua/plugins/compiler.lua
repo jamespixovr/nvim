@@ -5,6 +5,7 @@ return {
   {
     'Zeioth/compiler.nvim',
     lazy = true,
+    enabled = false,
     cmd = { 'CompilerOpen', 'CompilerToggleResults', 'CompilerRedo' },
     dependencies = { 'stevearc/overseer.nvim' },
     opts = function()
