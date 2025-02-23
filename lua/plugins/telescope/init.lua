@@ -10,17 +10,14 @@ if vim.g.borderStyle == 'rounded' then
 end
 
 return {
-  -- Telescope
   {
     'nvim-telescope/telescope.nvim',
     cmd = 'Telescope',
     version = false, -- telescope did only one release, so use HEAD for now
     dependencies = {
       'nvim-lua/plenary.nvim',
-      -- 'nvim-telescope/telescope-project.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-frecency.nvim',
-      'nvim-telescope/telescope-ui-select.nvim',
       { 'nvim-telescope/telescope-fzf-native.nvim', enabled = vim.fn.executable('make') == 1, build = 'make' },
       {
         'debugloop/telescope-undo.nvim',
@@ -30,23 +27,15 @@ return {
       },
     },
     keys = {
-      -- { '<leader>fp', '<CMD>Telescope project display_type=full<CR>', desc = 'Find project' },
-      -- { '<leader>T', '<cmd>Telescope<cr>', desc = 'Open Telescope' },
       {
         '<leader>tr',
         '<cmd>Telescope resume<cr>',
         desc = 'Telescope Resume',
       },
-      -- { '<leader>bb', '<cmd>Telescope buffers sort_mru=true ignore_current_buffer=true<cr>', desc = 'Switch Buffer' },
-      -- { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
       { '<leader>fe', '<cmd>Telescope file_browser<cr>', desc = 'Browse Files' },
-      -- { '<leader>fg', '<cmd>Telescope git_files<cr>', desc = 'Find Git Files' },
       { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
-      -- { '<leader>:', '<cmd>Telescope commands<cr>', desc = 'Commands' },
       { '<leader>fC', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
       { '<leader>fM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
-      -- { '<leader>fa', '<cmd>Telescope autocommands<cr>', desc = 'Auto Commands' },
-      -- { '<leader>fb', '<cmd>Telescope current_buffer_fuzzy_find<cr>', desc = 'Buffer' },
       {
         '<leader>fl',
         ":lua require('telescope.builtin').grep_string({ search = vim.fn.input('GREP -> ') })<CR>",
@@ -80,12 +69,6 @@ return {
         desc = 'Search word under cursor (cwd)',
       },
       { '<leader>T', '<cmd>Telescope builtin include_extensions=true<cr>', desc = 'Telescope' },
-      {
-        '<leader>/',
-        '<leader>jg',
-        desc = 'Find in Files (Grep)',
-        remap = true,
-      },
     },
     opts = function()
       local actions = require('telescope.actions')
@@ -222,7 +205,6 @@ return {
             select_buffer = true,
             mappings = {
               i = {
-                -- mappings should be consistent with nvim-ghengis mappings
                 ['<D-n>'] = require('telescope._extensions.file_browser.actions').create,
                 ['<C-r>'] = require('telescope._extensions.file_browser.actions').rename,
                 ['<D-BS>'] = require('telescope._extensions.file_browser.actions').remove,
@@ -236,9 +218,6 @@ return {
             override_file_sorter = true,
             case_mode = 'smart_case', -- or "ignore_case" or "respect_case"
           },
-          ['ui-select'] = {
-            require('telescope.themes').get_dropdown({}),
-          },
         },
       }
     end,
@@ -246,11 +225,8 @@ return {
       local telescope = require('telescope')
       telescope.setup(opts)
       telescope.load_extension('fzf')
-      -- telescope.load_extension('project')
       telescope.load_extension('file_browser')
       telescope.load_extension('frecency')
-      -- telescope.load_extension('refactoring')
-      telescope.load_extension('ui-select')
       vim.keymap.set('n', '<space>fg', require('plugins.telescope.multi-ripgrep'))
     end,
   },
