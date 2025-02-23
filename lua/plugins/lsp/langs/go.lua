@@ -1,7 +1,7 @@
 local util = require('lspconfig.util')
 
 return {
-  -- correctly setup mason lsp / dap extensions
+  -- correctly setup mason LSP / DAP extensions
   {
     'williamboman/mason.nvim',
     opts = function(_, opts)

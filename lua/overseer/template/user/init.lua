@@ -4,4 +4,5 @@ return {
   'user.run_script',
   'user.docker-compose',
   'user.tsc_build',
+  'user.go',
 }
