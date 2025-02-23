@@ -286,6 +286,7 @@ return {
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
       { '<leader>jg', function() Snacks.picker.grep() end, desc = 'Grep' },
+      { '<leader>/', function() Snacks.picker.grep() end, desc = 'Grep' },
       { '<leader>sb', function() Snacks.picker.grep_buffers() end, desc = 'Grep Open Buffers' },
       { '<leader>sh', function() Snacks.picker.grep_word() end, desc = 'Visual selection or word', mode = { 'n', 'x' } },
       { '<leader>jk', function() Snacks.picker.keymaps() end, desc = 'Keymaps', },

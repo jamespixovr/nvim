@@ -164,6 +164,25 @@ return {
             program = 'main.go',
             cwd = '${workspaceFolder}',
           },
+          {
+            type = 'go',
+            name = "Delve: debug opened file's cmd/cli",
+            request = 'launch',
+            cwd = '${fileDirname}', -- FIXME: should work from repo root
+            program = './${relativeFileDirname}',
+            args = {},
+          },
+          {
+            type = 'go',
+            name = 'Delve: debug test (manually enter test name)',
+            request = 'launch',
+            mode = 'test',
+            program = './${relativeFileDirname}',
+            args = function()
+              local testname = vim.fn.input('Test name (^regexp$ ok): ')
+              return { '-test.run', testname }
+            end,
+          },
         },
       })
     end,
