@@ -35,7 +35,7 @@ return {
 
     -- Check if it's a Go project (look for go.mod)
     local is_go = vim.fn.filereadable(git_root .. '/go.mod') == 1
-    -- Check if it's an npm project (look for package.json)
+    -- Check if it's NPM project (look for package.json)
     local is_npm = vim.fn.filereadable(git_root .. '/package.json') == 1
 
     if is_go then

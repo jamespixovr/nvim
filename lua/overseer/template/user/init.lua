@@ -6,4 +6,5 @@ return {
   'user.go',
   'user.node',
   'user.java',
+  'user.cucumber_test',
 }

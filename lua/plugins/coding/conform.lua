@@ -39,7 +39,7 @@ return {
     },
     formatters_by_ft = {
       css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-      go = { 'goimports', 'gci', 'gofumpt', 'golines' },
+      -- go = { 'goimports', 'gci', 'gofumpt', 'golines' },
       graphql = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       handlebars = { 'prettier' },
       html = { 'prettierd', 'prettier', stop_after_first = true },
