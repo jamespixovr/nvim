@@ -68,6 +68,17 @@ return {
                 parameterNames = true,
                 rangeVariableTypes = true,
               },
+              -- https://github.com/golang/tools/blob/master/gopls/doc/inlayHints.md
+              -- check if this works?
+              ['ui.inlayhint.hints'] = {
+                assignVariableTypes = true,
+                compositeLiteralFields = true,
+                compositeLiteralTypes = true,
+                constantValues = true,
+                functionTypeParameters = true,
+                parameterNames = true,
+                rangeValuesTypes = true,
+              },
               analyses = {
                 fieldalignment = false,
                 nilness = true,
