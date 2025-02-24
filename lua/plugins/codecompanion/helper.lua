@@ -115,7 +115,7 @@ M.anthropic_fn = function()
   local anthropic_config = {
     schema = {
       model = {
-        default = 'claude-3-5-sonnet-latest',
+        default = 'claude-3-7-sonnet-latest',
       },
     },
   }

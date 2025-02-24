@@ -63,7 +63,7 @@ local function keymap(bufnr, client)
     Snacks.picker.lsp_type_definitions()
   end, 'Goto Type Definition')
 
-  -- map('K', vim.lsp.buf.hover, 'Hover Documentation') -- use the hover nvim
+  -- map('K', vim.lsp.buf.hover, 'Hover Documentation') -- use the hover vim
 
   map('gK', vim.lsp.buf.signature_help, 'Signature Help')
 
