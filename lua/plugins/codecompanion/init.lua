@@ -57,6 +57,12 @@ return {
                 provider = 'snacks',
               },
             },
+            ['git_files'] = require('plugins.codecompanion.slash_commands.git_files'),
+            ['git_commit'] = require('plugins.codecompanion.slash_commands.git_commit'),
+            ['thinking'] = require('plugins.codecompanion.slash_commands.thinking'),
+            ['codeforces_companion'] = require('plugins.codecompanion.slash_commands.codeforces_companion'),
+            ['review_merge_request'] = require('plugins.codecompanion.slash_commands.review_merge_request'),
+            ['review_git_diffs'] = require('plugins.codecompanion.slash_commands.review_git_diffs'),
           },
         },
         inline = {
@@ -89,6 +95,18 @@ return {
       prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
     })
     require('plugins.codecompanion.spinner'):init()
+
+    -- Disable line numbers in CodeCompanion chat
+    local group = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
+    vim.api.nvim_create_autocmd({ 'User' }, {
+      pattern = 'CodeCompanionChatOpened',
+      group = group,
+      callback = function()
+        vim.wo.number = false
+        vim.wo.relativenumber = false
+      end,
+    })
+    -----
   end,
   keys = {
     { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },
