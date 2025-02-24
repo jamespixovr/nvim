@@ -1,8 +1,8 @@
 return {
-  'user.deno_run',
-  'user.deno_test',
+  'user.deno',
   'user.run_script',
   'user.docker-compose',
   'user.tsc_build',
   'user.go',
+  'user.node',
 }

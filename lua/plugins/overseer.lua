@@ -35,7 +35,7 @@ return {
       { '<leader>oh', '<cmd>OverseerClearCache<cr>', desc = 'Clear cache' },
     },
     opts = {
-      templates = { 'builtin', 'user' },
+      templates = { 'make', 'user', 'vscode', 'task', 'shell' },
       dap = false,
       strategy = { 'jobstart', preserve_output = true, use_terminal = true },
       task_launcher = {
