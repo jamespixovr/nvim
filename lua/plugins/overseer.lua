@@ -21,6 +21,7 @@ return {
       'CompilerToggleResults',
     },
     keys = {
+      { '<leader>o', '', desc = 'Overseer' },
       { '<leader>oR', '<cmd>OverseerRunCmd<cr>', desc = 'Run Command' },
       { '<leader>oa', '<cmd>OverseerTaskAction<cr>', desc = 'Task Action' },
       { '<leader>ob', '<cmd>OverseerBuild<cr>', desc = 'Build' },
@@ -54,18 +55,31 @@ return {
         bindings = {
           ---@diagnostic disable-next-line: assign-type-mismatch
           ['<C-s>'] = false,
+          ['<C-h>'] = false,
+          ['<C-j>'] = false,
+          ['<C-k>'] = false,
           ['<C-l>'] = false,
           ['<C-x>'] = 'OpenSplit',
           ['<C-r>'] = '<CMD>OverseerQuickAction restart<CR>',
           ['<C-d>'] = '<CMD>OverseerQuickAction dispose<CR>',
         },
-        default_detail = 1,
+        -- default_detail = 1,
       },
       form = {
         border = vim.g.borderStyle,
         win_opts = {
           winblend = 0,
           winhl = 'FloatBorder:NormalFloat',
+        },
+      },
+      confirm = {
+        win_opts = {
+          winblend = 0,
+        },
+      },
+      task_win = {
+        win_opts = {
+          winblend = 0,
         },
       },
       component_aliases = {
@@ -114,7 +128,6 @@ return {
               open_height = 8,
               items_only = true,
             },
-            -- We don't care to keep this around as long as most tasks
             { 'on_complete_dispose', timeout = 30 },
             'default',
           },

@@ -2,7 +2,7 @@ local M = {}
 
 function M.keymaps()
   return {
-    { '<leader>t', '', desc = '+test' },
+    { '<leader>t', '', desc = '+Neotest' },
     {
       '<leader>tn',
       "<cmd>lua require('neotest').run.run()<cr>",

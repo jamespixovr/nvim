@@ -5,4 +5,5 @@ return {
   'user.tsc_build',
   'user.go',
   'user.node',
+  'user.java',
 }
