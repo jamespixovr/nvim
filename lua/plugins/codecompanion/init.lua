@@ -115,8 +115,8 @@ return {
     { '<leader>aa', '<cmd>CodeCompanionActions<CR>', desc = '[A]I [A]ctions', mode = { 'n', 'v' } },
     { '<leader>an', ':CodeCompanionChat anthropic<CR>', desc = 'Codecompanion Anthropic' },
     { '<leader>ag', ':CodeCompanionChat gemini<CR>', desc = 'Codecompanion: Gemini' },
-    { '<leader>al', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion OpenAI' },
-    { '<leader>ao', ':CodeCompanionChat openai<CR>', desc = 'Codecompanion Ollama' },
+    { '<leader>al', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion Ollama' },
+    { '<leader>ao', ':CodeCompanionChat openai<CR>', desc = 'Codecompanion OpenAI' },
     {
       '<leader>aS',
       function()

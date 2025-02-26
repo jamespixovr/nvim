@@ -125,12 +125,12 @@ end
 --- OpenAI config for CodeCompanion.
 M.openai_fn = function()
   local openai_config = {
-    schema = {
-      model = {
-        -- default = 'gpt-4o',
-        default = 'o3-mini-2025-01-31',
-      },
-    },
+    -- schema = {
+    --   model = {
+    --     -- default = 'gpt-4o',
+    --     default = 'o3-mini-2025-01-31',
+    --   },
+    -- },
   }
   return require('codecompanion.adapters').extend('openai', openai_config)
 end

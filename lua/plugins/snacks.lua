@@ -282,7 +282,7 @@ return {
       { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit Log (cwd)" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
       { "<c-i>",     function() Snacks.terminal() end, desc = "Toggle Terminal" },
-      { "<c-_>",      function() Snacks.terminal() end, desc = "which_key_ignore" },
+      { "TT",  function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },
       { '<leader>jg', function() Snacks.picker.grep() end, desc = 'Grep' },
@@ -297,6 +297,11 @@ return {
       { '<leader>ff', function() Snacks.picker.smart({filter = {cwd = true}}) end, desc = 'Find Files', },
       { '<leader>bb', function() Snacks.picker.buffers({layout = { preset = 'select'}}) end, desc = 'Buffers', },
       { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
+      { "<leader>ld", function() Snacks.picker.lsp_definitions():set_layout("vertical") end, desc = "Definition" },
+      { "<leader>lr", function() Snacks.picker.lsp_references():set_layout("ivy") end, nowait = true, desc = "References" },
+      { "<leader>lI", function() Snacks.picker.lsp_implementations():set_layout("ivy") end, desc = "Implementation" },
+      { "<leader>lt", function() Snacks.picker.lsp_type_definitions():set_layout("ivy") end, desc = "Type Definition" },
+
       -- stylua: ignore end
     },
     init = function()
