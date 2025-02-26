@@ -38,6 +38,7 @@ return {
       lsp_fallback = true, -- not recommended to change
     },
     formatters_by_ft = {
+      -- cs = { 'csharpier' },
       css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       -- go = { 'goimports', 'gci', 'gofumpt', 'golines' },
       graphql = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
@@ -76,6 +77,10 @@ return {
       --   args = { 'format', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
       -- },
       injected = { options = { ignore_errors = true } },
+      csharpier = {
+        command = 'dotnet-csharpier',
+        args = { '--write-stdout' },
+      },
       markdownlint = {
         command = 'markdownlint',
         stdin = false,
