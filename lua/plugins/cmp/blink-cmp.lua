@@ -16,6 +16,7 @@ return {
         use_frecency = true,
       },
       cmdline = {
+        enabled = true,
         sources = function()
           local type = vim.fn.getcmdtype()
           if type == '/' or type == '?' then
@@ -32,7 +33,9 @@ return {
           ['<S-Tab>'] = { 'select_prev', 'fallback' },
         },
         completion = {
+          ghost_text = { enabled = true },
           menu = {
+            auto_show = true,
             draw = {
               columns = { { 'kind_icon', 'label', 'label_description' } },
             },
