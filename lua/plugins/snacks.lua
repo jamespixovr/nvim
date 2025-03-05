@@ -194,7 +194,7 @@ return {
           row = math.ceil(vim.o.lines / 2) - 3,
           wo = { colorcolumn = '' },
           keys = {
-            CR = { '<CR>', 'confirm', mode = 'n' },
+            -- CR = { '<CR>', 'confirm', mode = 'n' },
           },
         },
         notification = {
@@ -281,7 +281,7 @@ return {
       { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
       { "<leader>gl", function() Snacks.lazygit.log() end, desc = "Lazygit Log (cwd)" },
       { "<leader>un", function() Snacks.notifier.hide() end, desc = "Dismiss All Notifications" },
-      { "<c-i>",     function() Snacks.terminal() end, desc = "Toggle Terminal" },
+      -- { "<c-i>",     function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "TT",  function() Snacks.terminal() end, desc = "Toggle Terminal" },
       { "]]",         function() Snacks.words.jump(vim.v.count1) end, desc = "Next Reference", mode = { "n", "t" } },
       { "[[",         function() Snacks.words.jump(-vim.v.count1) end, desc = "Prev Reference", mode = { "n", "t" } },

@@ -39,8 +39,10 @@ return {
       sql = { 'sql_formatter' },
       typescript = { 'biome' },
       typescriptreact = { 'biome' },
-      yaml = { 'prettier' },
+      -- yaml = { 'prettier' },
       xml = { 'xmlformatter' },
+      -- https://github.com/google/yamlfmt
+      yaml = { 'yamlfmt' },
       -- ["*"] = { "trim_whitespace" },
     },
     format_on_save = { timeout_ms = 500, lsp_fallback = true },
@@ -75,6 +77,13 @@ return {
         -- NOTE: golines will use goimports as base formatter by default which can be slow.
         -- see https://github.com/segmentio/golines/issues/33
         prepend_args = { '--base-formatter=gofumpt', '--ignore-generated', '--tab-len=1', '--max-len=120' },
+      },
+      yamlfmt = {
+        prepend_args = {
+          -- https://github.com/google/yamlfmt/blob/main/docs/config-file.md#configuration-1
+          '-formatter',
+          'retain_line_breaks_single=true',
+        },
       },
     },
   },

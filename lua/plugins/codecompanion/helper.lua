@@ -1,6 +1,17 @@
 -- adapted from https://github.com/fredrikaverpil/dotfiles/blob/main/nvim-fredrik/lua/fredrik/plugins/codecompanion.lua
+local user = vim.env.USER or 'Jarmex'
 
 local M = {}
+
+M.roles = function()
+  return {
+    ---@type string|fun(adapter: CodeCompanion.Adapter): string
+    llm = function(adapterllm)
+      return '  CodeCompanion' .. '(' .. adapterllm.formatted_name .. ')'
+    end,
+    user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
+  }
+end
 
 -- add 2 commands:
 --    CodeCompanionSave [space delimited args]
@@ -125,12 +136,12 @@ end
 --- OpenAI config for CodeCompanion.
 M.openai_fn = function()
   local openai_config = {
-    -- schema = {
-    --   model = {
-    --     -- default = 'gpt-4o',
-    --     default = 'o3-mini-2025-01-31',
-    --   },
-    -- },
+    schema = {
+      model = {
+        -- default = 'gpt-4o',
+        default = 'o3-mini-2025-01-31',
+      },
+    },
   }
   return require('codecompanion.adapters').extend('openai', openai_config)
 end
@@ -141,13 +152,13 @@ M.ollama_fn = function()
     name = 'defaultllm',
     schema = {
       model = {
-        default = 'deepseek-r1:1.5b',
+        default = 'qwen2.5-coder:3b',
       },
       num_ctx = {
         default = 16384,
       },
       temperature = {
-        default = 0.8,
+        default = 0.3,
       },
       num_predict = {
         default = -1,
@@ -163,6 +174,7 @@ M.gemini_fn = function()
       model = {
         default = 'gemini-2.0-flash-thinking-exp',
       },
+      temperature = { default = 0.5 },
     },
   }
   return require('codecompanion.adapters').extend('gemini', gemini_config)
@@ -179,13 +191,18 @@ M.openrouter_fn = function()
     },
     schema = {
       temperature = {
-        default = 0.6,
+        default = 0.5,
       },
       model = {
         default = 'deepseek/deepseek-r1:free',
         choices = {
           ['deepseek/deepseek-r1:free'] = { opts = { can_reason = true } },
-          'google/gemini-2.0-flash-exp:free',
+          'deepseek/deepseek-r1-distill-llama-70b:free',
+          'deepseek/deepseek-chat:free',
+          'mistralai/mistral-small-24b-instruct-2501:free',
+          ['google/gemini-2.0-flash-exp:free'] = { opts = { can_reason = true } }, -- context: 1.05M
+          ['google/gemini-2.0-pro-exp-02-05:free'] = { opts = { can_reason = true } }, -- context: 2M
+          ['google/gemini-2.0-flash-thinking-exp-1219:free'] = { opts = { can_reason = true } }, -- context: 40K
         },
       },
       num_ctx = {

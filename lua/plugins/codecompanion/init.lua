@@ -1,99 +1,44 @@
 local helper = require('plugins.codecompanion.helper')
-local user = vim.env.USER or 'Jarmex'
 
 return {
   'olimorris/codecompanion.nvim',
   lazy = false,
+
   dependencies = { 'j-hui/fidget.nvim' },
   config = function()
-    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'anthropic'
+    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'openrouter'
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
     vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('codecompanion').setup({
-      -- system_prompts = require('plugins.codecompanion.prompts').SystemPrompt,
       adapters = {
         openai = helper.openai_fn,
         anthropic = helper.anthropic_fn,
         ollama = helper.ollama_fn,
         gemini = helper.gemini_fn,
+        openrouter = helper.openrouter_fn,
       },
       strategies = {
         chat = {
           adapter = adapter,
-          -- roles = { llm = ' CodeCompanion', user = 'Jarmex' },
-          roles = {
-            ---@type string|fun(adapter: CodeCompanion.Adapter): string
-            llm = function(adapterllm)
-              return '  CodeCompanion' .. '(' .. adapterllm.formatted_name .. ')'
-            end,
-            user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
-          },
-          slash_commands = {
-            ['buffer'] = {
-              opts = {
-                provider = 'snacks',
-                keymaps = {
-                  modes = {
-                    i = '<C-b>',
-                  },
-                },
-              },
-            },
-            ['help'] = {
-              opts = {
-                provider = 'snacks',
-                max_lines = 1000,
-              },
-            },
-            ['file'] = {
-              opts = {
-                provider = 'snacks',
-              },
-            },
-            ['symbols'] = {
-              opts = {
-                provider = 'snacks',
-              },
-            },
-            ['git_files'] = require('plugins.codecompanion.slash_commands.git_files'),
-            ['git_commit'] = require('plugins.codecompanion.slash_commands.git_commit'),
-            ['thinking'] = require('plugins.codecompanion.slash_commands.thinking'),
-            ['codeforces_companion'] = require('plugins.codecompanion.slash_commands.codeforces_companion'),
-            ['review_merge_request'] = require('plugins.codecompanion.slash_commands.review_merge_request'),
-            ['review_git_diffs'] = require('plugins.codecompanion.slash_commands.review_git_diffs'),
-          },
+          roles = helper.roles(),
+          slash_commands = require('plugins.codecompanion.slash_commands'),
         },
-        inline = {
-          adapter = adapter,
-        },
+        inline = { adapter = adapter },
         agent = {
           adapter = adapter,
-          tools = {
-            opts = {
-              auto_submit_errors = true,
-            },
-          },
+          tools = { opts = { auto_submit_errors = true } },
         },
       },
       display = {
-        diff = {
-          close_chat_at = 500,
-          provider = 'mini_diff',
-        },
-        inline = {
-          diff = {
-            enabled = true,
-          },
-        },
-        chat = {
-          show_settings = false,
-          render_headers = false,
-        },
+        diff = { close_chat_at = 500, provider = 'mini_diff' },
+        inline = { diff = { enabled = true } },
+        chat = { show_settings = false, render_headers = false },
       },
       prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
     })
+
     require('plugins.codecompanion.spinner'):init()
 
     -- Disable line numbers in CodeCompanion chat
@@ -117,6 +62,7 @@ return {
     { '<leader>ag', ':CodeCompanionChat gemini<CR>', desc = 'Codecompanion: Gemini' },
     { '<leader>al', ':CodeCompanionChat ollama<CR>', desc = 'Codecompanion Ollama' },
     { '<leader>ao', ':CodeCompanionChat openai<CR>', desc = 'Codecompanion OpenAI' },
+    { '<leader>ar', ':CodeCompanionChat openrouter<CR>', desc = 'Codecompanion OpenRouter' },
     {
       '<leader>aS',
       function()
