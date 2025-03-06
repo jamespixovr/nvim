@@ -304,5 +304,6 @@ return {
     TriangleShortArrowLeft = '',
     TriangleShortArrowRight = '',
     TriangleShortArrowUp = '',
+    CurrentFrame = '*',
   },
 }

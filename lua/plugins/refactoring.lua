@@ -95,7 +95,7 @@ return {
     },
     opts = {
       prompt_func_return_type = {
-        go = false,
+        go = true,
         java = false,
         cpp = false,
         c = false,

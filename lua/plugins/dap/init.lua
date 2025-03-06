@@ -1,55 +1,6 @@
 local icons = require('lib.icons')
+local keymaps = require('plugins.dap.keymaps')
 
-local function dap_keymaps()
-  -- stylua: ignore start
-  return {
-    { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-    { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
-    { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
-    { "<leader>dg", function() require("dap").goto_() end, desc = "Go to line (no execute)" },
-    { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Breakpoint Condition" },
-    { "<leader>dj", function() require("dap").down() end, desc = "Down", },
-    { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
-    { "<leader>dE", "<cmd>lua require('dapui').eval(vim.fn.input '[Expression] > ')<cr>", desc = "Evaluate Input" },
-    { "<leader>dO", "<cmd>lua require('dap').step_out()<CR>", desc = "Step Out" },
-    { "<leader>dP", "<cmd>lua require('dapui').float_element()<cr>", desc = "Float Element" },
-    { "<leader>dR", "<cmd>lua require('dap').run_to_cursor()<cr>", desc = "Run to Cursor" },
-    { "<leader>dS", function() require("dap.ui.widgets").scopes() end, desc = "Scopes" },
-    { "<leader>dd", "<cmd>lua require('dap').disconnect()<cr>", desc = "Disconnect" },
-    { "<leader>dg", function() require("dap").session() end, desc = "Get Session" },
-    { "<leader>dh", "<cmd>lua require('dap.ui.widgets').hover()<cr>", desc = "Hover Variables" },
-    { "<leader>dh", function() require("dap.ui.widgets").hover() end, desc = "Hover Variables" },
-    { "<leader>di", "<cmd>lua require('dap').step_into()<CR>", desc = "Step Into" },
-    { "<leader>dl", function() require("dap").run_last() end, desc = "Run Last" },
-    { "<leader>do", "<cmd>lua require('dap').step_over()<CR>", desc = "Step Over" },
-    { "<leader>dp", "<cmd>lua require('dap').pause()<cr>", desc = "Pause" },
-    { "<leader>dq", function() require("dap").close() end, desc = "Quit" },
-    { "<leader>dr", "<cmd>lua require('dap').repl.open()<cr>", desc = "Toggle REPL" },
-    { "<leader>dv", "<cmd>lua require('dap.ui.widgets').preview()<cr>", desc = "Preview" },
-    { "<leader>dx", "<cmd>lua require('dap').terminate()<cr>", desc = "Terminate" },
-  }
-  -- stylua: ignore end
-end
-local function dap_ui_keymaps()
-  return {
-    {
-      '<leader>dI',
-      function()
-        require('dapui').toggle({})
-      end,
-      desc = 'Dap UI',
-    },
-    {
-      '<leader>de',
-      function() -- Calling this twice to open and jump into the window.
-        require('dapui').eval()
-        require('dapui').eval()
-      end,
-      mode = { 'n', 'v' },
-      desc = 'Evaluate expression',
-    },
-  }
-end
 --------------------------------------------------------------------------------------
 
 local function dapConfig()
@@ -61,7 +12,7 @@ local function dapConfig()
   require('overseer').enable_dap()
 
   -- require('dap.ext.vscode').load_launchjs('launch.json')
-  require('dap.ext.vscode').load_launchjs(nil, { node = { 'typescript', 'javascript' } })
+  -- require('dap.ext.vscode').load_launchjs(nil, { node = { 'typescript', 'javascript' } })
   require('dap.ext.vscode').json_decode = require('overseer.json').decode
 
   -- AUTO-OPEN/CLOSE THE DAP-UI
@@ -83,17 +34,10 @@ local function dapConfig()
 end
 
 return {
-  --  DEBUGGER ----------------------------------------------------------------
-  --  Debugger alternative to vim-inspector [debugger]
-  --  https://github.com/mfussenegger/nvim-dap
-  --  Here we configure the adapter+config of every debugger.
-  --  Debuggers don't have system dependencies, you just install them with mason.
-  --  We currently ship most of them with nvim.
   {
     'mfussenegger/nvim-dap',
     event = 'VeryLazy',
-    keys = dap_keymaps(),
-
+    keys = keymaps.dap_keymaps(),
     dependencies = {
       { 'theHamsta/nvim-dap-virtual-text', opts = { virt_text_pos = 'eol' } },
     },
@@ -105,10 +49,13 @@ return {
     'rcarriga/nvim-dap-ui',
     event = 'VeryLazy',
     dependencies = { 'nvim-neotest/nvim-nio' },
-    -- stylua: ignore
-    keys = dap_ui_keymaps(),
+    keys = keymaps.dap_ui_keymaps(),
     opts = {
-      icons = { expanded = icons.ui.TriangleShortArrowDown, icons.ui.TriangleShortArrowRight },
+      icons = {
+        expanded = icons.ui.TriangleShortArrowDown,
+        current_frame = icons.ui.CurrentFrame,
+        collapsed = icons.ui.TriangleShortArrowRight,
+      },
       layouts = {
         {
           elements = {
@@ -127,6 +74,8 @@ return {
       },
       render = {
         max_type_length = nil,
+        indent = 2,
+        max_value_lines = 100,
       },
     },
   },
@@ -187,9 +136,18 @@ return {
       })
     end,
   },
+  -- [persistent-breakpoints.nvim] - Store breakpoints location on disk and load them on buffer open event.
+  -- See: `:h persistent-breakpoints.nvim`
+  -- link: https://github.com/Weissle/persistent-breakpoints.nvim
+  {
+    'Weissle/persistent-breakpoints.nvim',
+    branch = 'main',
+    keys = keymaps.persistent_keymaps(),
+    opts = {
+      save_dir = vim.fn.stdpath('cache') .. '/nvim_breakpoints',
+      load_breakpoints_event = { 'BufReadPost' },
+      perf_record = false,
+      on_load_breakpoint = nil,
+    },
+  },
 }
-
--- credit
--- check this out https://github.com/mawkler/nvim/blob/master/lua/configs/dap.lua
--- https://github.com/chrisgrieser/.config/blob/main/nvim/lua/plugins/debugger.lua
--- https://github.com/NormalNvim/NormalNvim/blob/main/lua/plugins/4-dev.lua

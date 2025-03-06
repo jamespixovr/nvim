@@ -159,7 +159,7 @@ M.OtherPrompts = {
     opts = {
       modes = { 'v' },
       short_name = 'refactor',
-      auto_submit = true,
+      auto_submit = false,
       stop_context_insertion = true,
       user_prompt = false,
     },

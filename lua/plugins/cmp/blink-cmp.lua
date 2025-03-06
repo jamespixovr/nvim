@@ -33,7 +33,7 @@ return {
           ['<S-Tab>'] = { 'select_prev', 'fallback' },
         },
         completion = {
-          ghost_text = { enabled = true },
+          ghost_text = { enabled = false },
           menu = {
             auto_show = true,
             draw = {
