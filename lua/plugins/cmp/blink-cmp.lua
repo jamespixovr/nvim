@@ -5,6 +5,7 @@ local icons = require('lib.icons')
 return {
   {
     'saghen/blink.cmp',
+    version = false,
     build = 'cargo +nightly build --release',
     dependencies = {
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
@@ -17,7 +18,6 @@ return {
     },
 
     event = { 'BufReadPost', 'CmdlineEnter' },
-    version = '*',
     opts = {
       fuzzy = {
         use_frecency = true,
