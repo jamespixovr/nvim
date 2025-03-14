@@ -9,8 +9,15 @@ return {
     dependencies = {
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
       { 'saghen/blink.compat', opts = {} },
+      'folke/lazydev.nvim',
+      {
+        'Kaiser-Yang/blink-cmp-dictionary',
+        dependencies = { 'nvim-lua/plenary.nvim' },
+      },
     },
-    event = { 'InsertEnter' },
+
+    event = { 'BufReadPost', 'CmdlineEnter' },
+    version = '*',
     opts = {
       fuzzy = {
         use_frecency = true,
@@ -38,6 +45,12 @@ return {
             auto_show = true,
             draw = {
               columns = { { 'kind_icon', 'label', 'label_description' } },
+            },
+          },
+          list = {
+            selection = {
+              preselect = false,
+              auto_insert = true,
             },
           },
         },
@@ -88,6 +101,21 @@ return {
             name = 'Render',
             module = 'render-markdown.integ.blink',
             fallbacks = { 'lsp' },
+          },
+          lazydev = {
+            name = 'LazyDev',
+            module = 'lazydev.integrations.blink',
+            score_offset = 100,
+          },
+          dictionary = {
+            module = 'blink-cmp-dictionary',
+            name = 'Dict',
+            -- Make sure this is at least 2.
+            -- 3 is recommended
+            min_keyword_length = 3,
+            opts = {
+              -- options for blink-cmp-dictionary
+            },
           },
         },
       },

@@ -3,6 +3,8 @@ local icons = require('lib.icons')
 return {
   {
     'nvim-neotest/neotest',
+    version = false,
+    event = 'VeryLazy',
     dependencies = {
       'nvim-treesitter/nvim-treesitter',
       'nvim-lua/plenary.nvim',

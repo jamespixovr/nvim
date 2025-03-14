@@ -6,6 +6,10 @@ return {
         'folke/lazydev.nvim',
         ft = 'lua', -- only load on lua files
         cmd = 'LazyDev',
+        dependencies = {
+          { 'Bilal2453/luvit-meta' },
+          { 'folke/snacks.nvim' },
+        },
         opts = {
           library = {
             -- Or relative, which means they will be resolved from the plugin dir.
