@@ -5,6 +5,7 @@ return {
       -- Make sure mason installs the server
       servers = {
         harper_ls = {
+          filetypes = { 'gitcommit', 'html', 'markdown' },
           settings = {
             ['harper-ls'] = {
               codeActions = {

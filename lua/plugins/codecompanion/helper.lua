@@ -194,9 +194,10 @@ M.openrouter_fn = function()
         default = 0.5,
       },
       model = {
-        default = 'deepseek/deepseek-r1:free',
+        default = 'qwen/qwen-2.5-coder-32b-instruct:free',
         choices = {
           ['deepseek/deepseek-r1:free'] = { opts = { can_reason = true } },
+          'qwen/qwen-2.5-coder-32b-instruct:free',
           'deepseek/deepseek-r1-distill-llama-70b:free',
           'deepseek/deepseek-chat:free',
           'mistralai/mistral-small-24b-instruct-2501:free',
