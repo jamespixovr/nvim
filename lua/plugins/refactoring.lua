@@ -119,9 +119,5 @@ return {
         go = '%s := %s',
       },
     },
-    config = function(_, opts)
-      require('refactoring').setup(opts)
-      require('telescope').load_extension('refactoring')
-    end,
   },
 }

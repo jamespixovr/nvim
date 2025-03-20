@@ -6,8 +6,8 @@ local M = {}
 M.roles = function()
   return {
     ---@type string|fun(adapter: CodeCompanion.Adapter): string
-    llm = function(adapterllm)
-      return '  CodeCompanion' .. '(' .. adapterllm.formatted_name .. ')'
+    llm = function(llm)
+      return '  ' .. llm.formatted_name .. '(' .. llm.schema.model.default .. ')'
     end,
     user = ' ' .. user:sub(1, 1):upper() .. user:sub(2),
   }

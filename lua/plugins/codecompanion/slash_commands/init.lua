@@ -11,4 +11,10 @@ return {
   ['review_git_diffs'] = require('plugins.codecompanion.slash_commands.review_git_diffs'),
   ['review_merge_request'] = require('plugins.codecompanion.slash_commands.review_merge_request'),
   ['thinking'] = require('plugins.codecompanion.slash_commands.thinking'),
+
+  ['summarize_text'] = require('plugins.codecompanion.slash_commands.summarize_text'),
+  ['delete_session'] = require('plugins.codecompanion.slash_commands.delete_session'),
+  ['dump_session'] = require('plugins.codecompanion.slash_commands.dump_session'),
+  ['restore_session'] = require('plugins.codecompanion.slash_commands.restore_session'),
+  ['plan_mode'] = require('plugins.codecompanion.slash_commands.plan_mode'),
 }

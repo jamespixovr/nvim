@@ -56,7 +56,7 @@ return {
         },
       },
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'codecompanion', 'dadbod', 'markdown' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'markdown' },
         providers = {
           lsp = {
             name = 'lsp',
@@ -91,11 +91,6 @@ return {
             name = 'Dadbod',
             module = 'vim_dadbod_completion.blink',
             score_offset = 85, -- the higher the number, the higher the priority
-          },
-          codecompanion = {
-            name = 'CodeCompanion',
-            module = 'codecompanion.providers.completion.blink',
-            enabled = true,
           },
           markdown = {
             name = 'Render',

@@ -4,6 +4,8 @@ local adapter = os.getenv('NVIM_AI_ADAPTER') or 'openrouter'
 return {
   'olimorris/codecompanion.nvim',
   dependencies = { 'j-hui/fidget.nvim' },
+  cmd = { 'CodeCompanionChat', 'CodeCompanion', 'CodeCompanionCmd', 'CodeCompanionActions' },
+  event = 'VeryLazy',
   keys = {
     { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },
     { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
@@ -26,37 +28,39 @@ return {
     },
     { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
   },
-  opts = {
-    adapters = {
-      openai = helper.openai_fn,
-      anthropic = helper.anthropic_fn,
-      ollama = helper.ollama_fn,
-      gemini = helper.gemini_fn,
-      openrouter = helper.openrouter_fn,
-    },
-    strategies = {
-      chat = {
-        adapter = adapter,
-        roles = helper.roles(),
-        slash_commands = require('plugins.codecompanion.slash_commands'),
-      },
-      inline = { adapter = adapter },
-      agent = {
-        adapter = adapter,
-        tools = { opts = { auto_submit_errors = true } },
-      },
-    },
-    display = {
-      diff = { close_chat_at = 500, provider = 'mini_diff' },
-      inline = { diff = { enabled = true } },
-      chat = { show_settings = false, render_headers = false },
-    },
-    prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
-  },
-  config = function(_, opts)
+  config = function()
     -- Expand `cc` into CodeCompanion in the command line
 
-    require('codecompanion').setup(opts)
+    require('codecompanion').setup({
+      adapters = {
+        openai = helper.openai_fn,
+        anthropic = helper.anthropic_fn,
+        ollama = helper.ollama_fn,
+        gemini = helper.gemini_fn,
+        openrouter = helper.openrouter_fn,
+      },
+      strategies = {
+        chat = {
+          adapter = adapter,
+          roles = helper.roles(),
+          slash_commands = require('plugins.codecompanion.slash_commands'),
+        },
+        inline = { adapter = adapter },
+        agent = {
+          adapter = adapter,
+          tools = { opts = { auto_submit_errors = true } },
+        },
+      },
+      display = {
+        diff = { close_chat_at = 500, provider = 'mini_diff' },
+        inline = { diff = { enabled = true } },
+        chat = { show_settings = false, render_headers = false },
+      },
+      prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
+      opts = {
+        system_prompt = require('plugins.codecompanion.system_prompt'),
+      },
+    })
 
     require('plugins.codecompanion.spinner'):init()
 
@@ -70,6 +74,7 @@ return {
         vim.wo.relativenumber = false
       end,
     })
+
     -----
   end,
 }
