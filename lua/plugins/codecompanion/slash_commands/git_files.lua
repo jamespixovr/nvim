@@ -1,5 +1,3 @@
-require('codecompanion')
-
 ---@param chat CodeCompanion.Chat
 local function callback(chat)
   local handle = io.popen('git ls-files')

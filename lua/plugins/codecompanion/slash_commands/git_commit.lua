@@ -1,5 +1,4 @@
 -- https://github.com/yingmanwumen/nvim/blob/master/lua/plugins/ai/codecompanion/slash_commands/git_commit.lua
-require('codecompanion')
 
 local function generate_commit_message()
   local handle_staged = io.popen('git diff --no-ext-diff --staged')

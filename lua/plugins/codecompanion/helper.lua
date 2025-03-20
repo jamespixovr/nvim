@@ -155,7 +155,7 @@ M.ollama_fn = function()
         default = 'qwen2.5-coder:3b',
       },
       num_ctx = {
-        default = 16384,
+        default = 20000,
       },
       temperature = {
         default = 0.3,

@@ -1,5 +1,3 @@
-require('codecompanion')
-
 local prompt = [[
 ### Act as Codeforces Companion
 

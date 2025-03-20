@@ -1,5 +1,3 @@
-require('codecompanion')
-
 local prompt = [[
 # **Agent Mode**
 Now you are going to be in **Agent Mode**.
