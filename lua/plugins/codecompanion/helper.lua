@@ -146,6 +146,23 @@ M.openai_fn = function()
   return require('codecompanion.adapters').extend('openai', openai_config)
 end
 
+M.deepseek_fn = function()
+  return require('codecompanion.adapters').extend('deepseek', {
+    env = {
+      api_key = os.getenv('DEEPSEEK_API_KEY'),
+    },
+    schema = {
+      model = {
+        -- default = "deepseek-chat",
+        default = 'deepseek-reasoner',
+      },
+      temperature = {
+        default = 0.6, -- official recommendation
+      },
+    },
+  })
+end
+
 --- Ollama config for CodeCompanion.
 M.ollama_fn = function()
   return require('codecompanion.adapters').extend('ollama', {

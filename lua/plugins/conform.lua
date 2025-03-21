@@ -83,6 +83,7 @@ return {
           -- https://github.com/google/yamlfmt/blob/main/docs/config-file.md#configuration-1
           '-formatter',
           'retain_line_breaks_single=true',
+          'include_document_start=true',
         },
       },
     },

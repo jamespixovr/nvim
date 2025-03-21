@@ -37,9 +37,15 @@ return {
         ollama = helper.ollama_fn,
         gemini = helper.gemini_fn,
         openrouter = helper.openrouter_fn,
+        deepseek = helper.deepseek_fn,
       },
       strategies = {
         chat = {
+          keymaps = {
+            close = {
+              modes = { n = { 'q', '<C-c>' }, i = '<C-c>' },
+            },
+          },
           adapter = adapter,
           roles = helper.roles(),
           slash_commands = require('plugins.codecompanion.slash_commands'),
