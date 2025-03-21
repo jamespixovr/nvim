@@ -29,8 +29,8 @@ local mode_map = {
 
 local modecolor = {
   n = colors.red,
-  i = colors.cyan,
-  v = colors.purple,
+  i = color.cyan,
+  v = color.purple,
   V = colors.red,
   c = colors.yellow,
   no = colors.red,
@@ -39,14 +39,14 @@ local modecolor = {
   [''] = colors.yellow,
   ic = colors.yellow,
   R = colors.green,
-  Rv = colors.purple,
+  Rv = color.purple,
   cv = colors.red,
   ce = colors.red,
-  r = colors.cyan,
-  rm = colors.cyan,
-  ['r?'] = colors.cyan,
+  r = color.cyan,
+  rm = color.cyan,
+  ['r?'] = color.cyan,
   ['!'] = colors.red,
-  t = colors.red1,
+  t = color.red1,
 }
 
 local function quickfixCounter()
@@ -161,7 +161,7 @@ function M.mode(opts)
     padding = { left = 0, right = 0 },
     color = function()
       local mode_color = modecolor
-      return { bg = mode_color[vim.fn.mode()], fg = colors.bg_dark, gui = 'bold' }
+      return { bg = mode_color[vim.fn.mode()], fg = color.bg_dark, gui = 'bold' }
     end,
     separator = { left = '', right = '' },
   }, opts)
@@ -176,7 +176,7 @@ function M.showMacroRecording(opts)
       return vim.fn.reg_recording() ~= ''
     end,
     separator = { left = '', right = '' },
-    color = { bg = colors.red, fg = colors.bg_dark, gui = 'bold' },
+    color = { bg = colors.red, fg = color.bg_dark, gui = 'bold' },
   }, opts)
 end
 
@@ -186,7 +186,7 @@ function M.branch(opts)
     icon = '',
     -- icon = "",
     separator = { left = '', right = '' },
-    color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
+    color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
   }, opts)
 end
 
@@ -194,7 +194,7 @@ function M.progress(opts)
   return helper.extend_tbl({
     'progress',
     separator = { left = '', right = '' },
-    color = { bg = colors.purple, fg = colors.bg, gui = 'bold' },
+    color = { bg = color.purple, fg = color.bg, gui = 'bold' },
   }, opts)
 end
 
@@ -202,6 +202,21 @@ function M.datetime(opts)
   return helper.extend_tbl({
     function()
       return ' ' .. os.date('%R')
+    end,
+    padding = { left = 0, right = 0 },
+    color = { bg = '#282c34', fg = color.blue, gui = 'bold' },
+  }, opts)
+end
+
+function M.spell_status(opts)
+  return helper.extend_tbl({
+    function()
+      local spell_lang = ''
+      if vim.opt.spell:get() then
+        local languages = vim.fn.toupper(vim.fn.substitute(vim.o.spelllang, ',', '/', 'g'))
+        spell_lang = ' [' .. languages .. ']'
+      end
+      return spell_lang
     end,
     padding = { left = 0, right = 0 },
     color = { bg = '#282c34', fg = color.blue, gui = 'bold' },
@@ -228,6 +243,9 @@ function M.diagnostics(opts)
     'diagnostics',
     sources = { 'nvim_diagnostic' },
     draw_empty = false,
+    on_click = function()
+      vim.cmd('Trouble diagnostics toggle filter.buf=0')
+    end,
     symbols = {
       error = icons.diagnostics.Error,
       warn = icons.diagnostics.Warn,
@@ -247,7 +265,7 @@ function M.filetype(opts)
     icon_only = true,
     separator = '',
     padding = { left = 1, right = 0 },
-    color = { fg = colors.cyan, gui = 'italic,bold' },
+    color = { fg = color.cyan, gui = 'italic,bold' },
     -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
   }, opts)
 end
@@ -260,7 +278,7 @@ function M.filename(opts)
     -- shorting_target = 40,
     -- symbols = { modified = " ", readonly = " ", unnamed = " " },
     -- color = { fg = "#bcbcbc", gui = "bold" },
-    color = { fg = colors.blue5, gui = 'bold' },
+    color = { fg = color.blue5, gui = 'bold' },
     separator = { left = '', right = '' },
   }, opts)
 end
@@ -307,7 +325,6 @@ function M.git_diff(opts)
       modified = { fg = colors.yellow },
       removed = { fg = colors.red },
     },
-    -- cond = helper.is_git_repo
   }, opts)
 end
 
@@ -315,7 +332,7 @@ function M.codecompanion(opts)
   return helper.extend_tbl({
     companion_lualine,
     separator = { left = '', right = '' },
-    color = { bg = colors.red, fg = colors.bg_dark, gui = 'italic,bold' },
+    color = { bg = colors.red, fg = color.bg_dark, gui = 'italic,bold' },
   }, opts)
 end
 
@@ -379,7 +396,7 @@ function M.DapStatus(opts)
     cond = function()
       return package.loaded['dap'] and require('dap').status() ~= ''
     end,
-    color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
+    color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
   }, opts)
 end
 
@@ -400,7 +417,7 @@ function M.quickfixCounter(opts)
   return helper.extend_tbl({
     quickfixCounter,
     separator = { left = '', right = '' },
-    color = { bg = colors.purple, fg = colors.bg, gui = 'italic,bold' },
+    color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
   }, opts)
 end
 
@@ -415,5 +432,36 @@ function M.pythonEnv(opts)
     padding = { left = 1, right = 0 },
   }, opts)
 end
+
+local conds = {
+  hide_winwidth_leq_80 = function()
+    return vim.fn.winwidth(0) > 80
+  end,
+  hide_winwidth_leq_60 = function()
+    return vim.fn.winwidth(0) > 60
+  end,
+  hide_winwidth_leq_40 = function()
+    return vim.fn.winwidth(0) > 40
+  end,
+}
+
+M.overseer_ext = {
+  sections = {
+    lualine_a = {
+      function()
+        return 'Overseer Tasks'
+      end,
+    },
+    lualine_z = {
+      {
+        'overseer',
+        label = '',
+        colored = false,
+        cond = conds.hide_winwidth_leq_60,
+      },
+    },
+  },
+  filetypes = { 'OverseerList' },
+}
 
 return M

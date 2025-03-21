@@ -175,7 +175,7 @@ return {
             },
           },
           keymaps = {
-            layout = { preview = false, preset = 'default' },
+            layout = { preset = 'default' },
           },
         },
       },

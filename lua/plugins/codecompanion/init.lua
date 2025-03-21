@@ -6,6 +6,7 @@ return {
   dependencies = { 'j-hui/fidget.nvim' },
   cmd = { 'CodeCompanionChat', 'CodeCompanion', 'CodeCompanionCmd', 'CodeCompanionActions' },
   event = 'VeryLazy',
+  version = false,
   keys = {
     { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },
     { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
@@ -28,10 +29,8 @@ return {
     },
     { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
   },
-  config = function()
-    -- Expand `cc` into CodeCompanion in the command line
-
-    require('codecompanion').setup({
+  opts = function()
+    return {
       adapters = {
         openai = helper.openai_fn,
         anthropic = helper.anthropic_fn,
@@ -54,27 +53,34 @@ return {
       display = {
         diff = { close_chat_at = 500, provider = 'mini_diff' },
         inline = { diff = { enabled = true } },
-        chat = { show_settings = false, render_headers = false },
+        chat = { show_settings = false, render_headers = true },
       },
       prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
-      opts = {
-        system_prompt = require('plugins.codecompanion.system_prompt'),
-      },
-    })
+      -- opts = {
+      --   system_prompt = require('plugins.codecompanion.system_prompt'),
+      -- },
+    }
+  end,
+  config = function(_, opts)
+    require('codecompanion').setup(opts)
+    -----
+  end,
+  init = function()
+    -- Expand `cc` into CodeCompanion in the command line
+    vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('plugins.codecompanion.spinner'):init()
 
     -- Disable line numbers in CodeCompanion chat
-    local group = vim.api.nvim_create_augroup('CodeCompanionHooks', {})
+    local group = vim.api.nvim_create_augroup('CodeCompanionHooks', { clear = true })
     vim.api.nvim_create_autocmd({ 'User' }, {
-      pattern = 'CodeCompanionChatOpened',
+      pattern = 'CodeCompanionChat*',
       group = group,
       callback = function()
         vim.wo.number = false
         vim.wo.relativenumber = false
       end,
     })
-
-    -----
   end,
 }

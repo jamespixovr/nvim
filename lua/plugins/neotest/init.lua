@@ -12,76 +12,77 @@ return {
       { 'nvim-neotest/nvim-nio' },
     },
     keys = require('plugins.neotest.keymaps').keymaps(),
-    opts = {
-      -- consumers = {
-      --   overseer = require('neotest.consumers.overseer'),
-      -- },
-      log_level = vim.log.levels.ERROR,
-      status = { virtual_text = true, signs = true },
-      output = { open_on_run = false },
-      floating = {
-        border = 'rounded',
-        max_height = 0.90,
-        max_width = 0.90,
-      },
-      quickfix = {
-        enabled = false,
-        open = false,
-      },
-      output_panel = {
-        open = 'rightbelow vsplit | resize 40',
-      },
-      strategies = {
-        integrated = {
-          width = 180,
+    opts = function()
+      return {
+        consumers = {
+          overseer = require('neotest.consumers.overseer'),
         },
-      },
-      discovery = {
-        enabled = false,
-      },
-      summary = {
-        open = 'botright vsplit | vertical resize 60',
-        enabled = true,
-        expand_errors = true,
-        follow = true,
-        mappings = {
-          attach = 'a',
-          expand = { '<Space>', '<2-LeftMouse>' },
-          expand_all = '<tab>',
-          jumpto = { 'i', '<cr>' },
-          mark = 'm',
-          next_failed = 'J',
-          output = 'o',
-          prev_failed = 'K',
-          run = 'r',
-          debug = 'd',
-          run_marked = 'R',
-          debug_marked = 'D',
-          short = 'O',
-          stop = 's',
-          target = 't',
-          clear_marked = 'M',
-          clear_target = 'T',
+        log_level = vim.log.levels.ERROR,
+        status = { enabled = true, virtual_text = true, signs = true },
+        output = { enabled = true, open_on_run = false },
+        discovery = { enabled = true },
+        diagnostic = { enabled = true },
+        floating = {
+          border = 'rounded',
+          max_height = 0.90,
+          max_width = 0.90,
         },
-      },
+        quickfix = {
+          enabled = false,
+          open = false,
+        },
+        output_panel = {
+          open = 'rightbelow vsplit | resize 40',
+        },
+        strategies = {
+          integrated = {
+            width = 180,
+          },
+        },
+        summary = {
+          open = 'botright vsplit | vertical resize 60',
+          enabled = true,
+          expand_errors = true,
+          follow = true,
+          mappings = {
+            attach = 'a',
+            expand = { '<Space>', '<2-LeftMouse>' },
+            expand_all = '<tab>',
+            jumpto = { 'i', '<cr>' },
+            mark = 'm',
+            next_failed = 'J',
+            output = 'o',
+            prev_failed = 'K',
+            run = 'r',
+            debug = 'd',
+            run_marked = 'R',
+            debug_marked = 'D',
+            short = 'O',
+            stop = 's',
+            target = 't',
+            clear_marked = 'M',
+            clear_target = 'T',
+          },
+        },
 
-      icons = {
-        passed = icons.testing.Success,
-        running = '',
-        failed = icons.testing.Failed,
-        unknown = '',
-        expanded = '',
-        child_prefix = '',
-        child_indent = '',
-        final_child_prefix = '',
-        non_collapsible = '',
-        collapsed = '',
+        icons = {
+          passed = icons.testing.Success,
+          running = '',
+          failed = icons.testing.Failed,
+          unknown = '',
+          expanded = '',
+          child_prefix = '',
+          child_indent = '',
+          final_child_prefix = '',
+          non_collapsible = '',
+          collapsed = '',
 
-        running_animated = vim.tbl_map(function(s)
-          return s .. ' '
-        end, { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }),
-      },
-    },
+          running_animated = vim.tbl_map(function(s)
+            return s .. ' '
+          end, { '⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏' }),
+        },
+      }
+    end,
     config = function(_, opts)
       local neotest_ns = vim.api.nvim_create_namespace('neotest')
       vim.diagnostic.config({

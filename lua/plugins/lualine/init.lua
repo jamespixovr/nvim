@@ -82,7 +82,17 @@ return {
             -- status.scrollbar(),
           },
         },
-        extensions = { 'nvim-tree', 'trouble', 'quickfix', 'toggleterm', 'lazy', 'mason', 'oil', 'fzf' },
+        extensions = {
+          'nvim-tree',
+          'trouble',
+          'quickfix',
+          'toggleterm',
+          'lazy',
+          'mason',
+          'oil',
+          'fzf',
+          -- status.overseer_ext,
+        },
       }
     end,
     config = function(_, opts)

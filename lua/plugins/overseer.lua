@@ -4,22 +4,6 @@ return {
   {
     'stevearc/overseer.nvim',
     event = 'VeryLazy',
-    cmd = {
-      'Grep',
-      'Make',
-      'OverseerDebugParser',
-      'OverseerInfo',
-      'OverseerOpen',
-      'OverseerRun',
-      'OverseerRunCmd',
-      'OverseerToggle',
-      'OverseerBuild',
-      'OverseerQuickAction',
-      'OverseerTaskAction',
-      'OverseerClearCache',
-      'CompilerOpen',
-      'CompilerToggleResults',
-    },
     keys = {
       { '<leader>o', '', desc = 'Overseer' },
       { '<leader>oR', '<cmd>OverseerRunCmd<cr>', desc = 'Run Command' },
@@ -47,11 +31,13 @@ return {
         },
       },
       task_list = {
+        default_detail = 2,
         direction = 'bottom',
-        max_width = { 140, 0.4 },
-        min_width = { 40, 0.1 },
-        max_height = { 60, 0.6 },
-        min_height = { 15, 0.2 },
+        min_height = 15,
+        max_height = 15,
+        min_width = 0.4,
+        max_width = 0.4,
+        separator = '',
         bindings = {
           ---@diagnostic disable-next-line: assign-type-mismatch
           ['<C-s>'] = false,
@@ -60,8 +46,21 @@ return {
           ['<C-k>'] = false,
           ['<C-l>'] = false,
           ['<C-x>'] = 'OpenSplit',
+          ['zo'] = 'IncreaseDetail',
+          ['zc'] = 'DecreaseDetail',
+          ['zr'] = 'IncreaseDetail',
+          ['zm'] = 'DecreaseDetail',
+          [']'] = false,
+          ['['] = false,
+          ['[t'] = 'PrevTask',
+          [']t'] = 'NextTask',
           ['<C-r>'] = '<CMD>OverseerQuickAction restart<CR>',
           ['<C-d>'] = '<CMD>OverseerQuickAction dispose<CR>',
+          ['<A-v>'] = 'TogglePreview',
+          ['<A-j>'] = 'ScrollOutputDown',
+          ['<A-k>'] = 'ScrollOutputUp',
+          ['dd'] = 'Dispose',
+          ['ss'] = 'Stop',
         },
         -- default_detail = 1,
       },
@@ -103,6 +102,21 @@ return {
       overseer.setup(opts)
 
       vim.api.nvim_create_user_command('OverseerDebugParser', 'lua require("overseer").debug_parser()', {})
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = 'OverseerList',
+        group = vim.api.nvim_create_augroup('OverseerConfig', {}),
+        callback = function(e)
+          vim.opt_local.winfixbuf = true
+          vim.defer_fn(function()
+            vim.cmd('stopinsert')
+          end, 1)
+
+          vim.keymap.set('n', 'q', function()
+            pcall(vim.api.nvim_win_close, 0, true)
+            vim.cmd('wincmd p')
+          end, { buffer = e.buf })
+        end,
+      })
 
       vim.api.nvim_create_user_command('Grep', function(params)
         local args = vim.fn.expandcmd(params.args)
