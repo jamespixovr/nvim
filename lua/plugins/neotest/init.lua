@@ -20,7 +20,7 @@ return {
         log_level = vim.log.levels.ERROR,
         status = { enabled = true, virtual_text = true, signs = true },
         output = { enabled = true, open_on_run = false },
-        discovery = { enabled = true },
+        discovery = { enabled = false }, -- recommend by neotest-jest
         diagnostic = { enabled = true },
         floating = {
           border = 'rounded',

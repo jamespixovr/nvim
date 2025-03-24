@@ -138,9 +138,31 @@ return {
           cycle = true,
           --- Use the default layout or vertical if the window is too narrow
           preset = function()
-            return vim.o.columns >= 120 and 'ivy' or 'vertical'
+            return vim.o.columns >= 120 and 'mivy' or 'vertical'
           end,
           border = 'rounded',
+        },
+        layouts = {
+          mivy = {
+            layout = {
+              box = 'vertical',
+              backdrop = 50,
+              row = -1,
+              width = 0,
+              height = 0.5,
+              border = 'top',
+              title = '{title} {live} {flags}',
+              {
+                box = 'horizontal',
+                {
+                  box = 'vertical',
+                  { win = 'input', height = 2 },
+                  { win = 'list' },
+                },
+                { win = 'preview', title = '{preview}', width = vim.o.columns <= 125 and 0.7 or 0.55 },
+              },
+            },
+          },
         },
         win = {
           input = {
@@ -187,7 +209,7 @@ return {
       words = { enabled = true, notify_jump = true },
       styles = {
         input = {
-          backdrop = true,
+          backdrop = 50,
           border = vim.g.borderStyle,
           title_pos = 'left',
           width = 50,

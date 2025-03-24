@@ -43,6 +43,7 @@ vim.api.nvim_create_user_command('CodeCompanionLoad', function()
     'gemini',
     'ollama',
     'openrouter',
+    'deepseek',
   }
 
   local function select_adapter(filepath)
@@ -153,8 +154,8 @@ M.deepseek_fn = function()
     },
     schema = {
       model = {
-        -- default = "deepseek-chat",
-        default = 'deepseek-reasoner',
+        default = 'deepseek-chat',
+        -- default = 'deepseek-reasoner',
       },
       temperature = {
         default = 0.6, -- official recommendation
