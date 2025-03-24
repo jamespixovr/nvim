@@ -48,6 +48,7 @@ return {
           },
           adapter = adapter,
           roles = helper.roles(),
+          tools = require('plugins.codecompanion.tools'),
           slash_commands = require('plugins.codecompanion.slash_commands'),
         },
         inline = { adapter = adapter },
