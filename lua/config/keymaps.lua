@@ -25,6 +25,11 @@ keymap('n', 'n', 'nzzzv')
 keymap('n', 'N', 'Nzzzv')
 keymap('n', 'g,', 'g,zvzz')
 keymap('n', 'g;', 'g;zvzz')
+keymap('n', 'J', 'mzJ`z')
+keymap('n', '<C-d>', '<C-d>zz')
+keymap('n', '<C-u>', '<C-u>zz')
+keymap('n', '=ap', "ma=ap'a")
+keymap('n', '<leader>zr', '<cmd>LspRestart<cr>')
 
 -- Better indent
 keymap('v', '<', '<gv')
@@ -32,6 +37,9 @@ keymap('v', '>', '>gv')
 
 -- Paste over currently selected text without yanking it
 -- keymap('v', 'p', '"_dP')
+-- keymap('x', '<leader>p', [["_dP]])
+keymap({ 'n', 'v' }, '<leader>y', [["+y]])
+keymap('n', '<leader>Y', [["+Y]])
 
 -- COMMAND & INSERT MODE
 keymap({ 'i', 'c' }, '<C-a>', '<Home>')
