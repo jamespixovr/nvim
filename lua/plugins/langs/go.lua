@@ -10,7 +10,7 @@ return {
         'gopls',
         'goimports',
         'golangci-lint',
-        'golangci-lint-langserver', -- Wraps golangci-lint as a language server
+        -- 'golangci-lint-langserver', -- Wraps golangci-lint as a language server
       })
     end,
   },
@@ -21,11 +21,11 @@ return {
     opts = {
       ---@type lspconfig.options
       servers = {
-        golangci_lint_ls = {
-          cmd = { 'golangci-lint-langserver' },
-          filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
-          root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
-        }, -- linter
+        -- golangci_lint_ls = {
+        --   cmd = { 'golangci-lint-langserver' },
+        --   filetypes = { 'go', 'gomod', 'gowork', 'gotmpl' },
+        --   root_dir = util.root_pattern('go.work', 'go.mod', '.git'),
+        -- }, -- linter
         gopls = {
           cmd = { 'gopls' },
           filetypes = { 'go', 'gomod', 'gowork', 'gotmpl', 'gosum' },

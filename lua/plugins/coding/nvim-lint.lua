@@ -4,7 +4,8 @@ return {
     event = 'BufReadPre',
     config = function()
       require('lint').linters_by_ft = {
-        -- python = { "ruff" },
+        python = { 'ruff' },
+        go = { 'golangci-lint' },
         dockerfile = { 'hadolint' },
         htmldjango = { 'djlint' },
         lua = { 'selene' },
