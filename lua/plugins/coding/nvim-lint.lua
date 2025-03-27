@@ -5,7 +5,7 @@ return {
     config = function()
       require('lint').linters_by_ft = {
         python = { 'ruff' },
-        go = { 'golangci-lint' },
+        -- go = { 'golangci-lint' },
         dockerfile = { 'hadolint' },
         htmldjango = { 'djlint' },
         lua = { 'selene' },

@@ -6,7 +6,7 @@ return {
   {
     'saghen/blink.cmp',
     version = false,
-    build = 'cargo +nightly build --release',
+    build = 'cargo build --release',
     dependencies = {
       { 'L3MON4D3/LuaSnip', version = 'v2.*' },
       { 'saghen/blink.compat', opts = {} },
@@ -16,44 +16,11 @@ return {
         dependencies = { 'nvim-lua/plenary.nvim' },
       },
     },
-
-    event = { 'BufReadPost', 'CmdlineEnter' },
+    event = { 'InsertEnter', 'CmdlineEnter' },
+    -- event = { 'BufReadPost', 'CmdlineEnter' },
     opts = {
       fuzzy = {
         use_frecency = true,
-      },
-      cmdline = {
-        enabled = true,
-        sources = function()
-          local type = vim.fn.getcmdtype()
-          if type == '/' or type == '?' then
-            return { 'buffer' }
-          end
-          if type == ':' then
-            return { 'cmdline' }
-          end
-          return {}
-        end,
-        keymap = {
-          preset = 'super-tab',
-          ['<Tab>'] = { 'select_next', 'fallback' },
-          ['<S-Tab>'] = { 'select_prev', 'fallback' },
-        },
-        completion = {
-          ghost_text = { enabled = false },
-          menu = {
-            auto_show = true,
-            draw = {
-              columns = { { 'kind_icon', 'label', 'label_description' } },
-            },
-          },
-          list = {
-            selection = {
-              preselect = false,
-              auto_insert = true,
-            },
-          },
-        },
       },
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'dadbod', 'markdown' },
@@ -123,8 +90,22 @@ return {
         ['<C-space>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-k>'] = { 'scroll_documentation_up', 'fallback' },
         ['<C-j>'] = { 'scroll_documentation_down', 'fallback' },
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<Tab>'] = {
+          function(cmp)
+            return cmp.select_next()
+          end,
+          'snippet_forward',
+          'fallback',
+        },
+        ['<S-Tab>'] = {
+          function(cmp)
+            return cmp.select_prev()
+          end,
+          'snippet_backward',
+          'fallback',
+        },
+        -- ['<Tab>'] = { 'select_next', 'fallback' },
+        -- ['<S-Tab>'] = { 'select_prev', 'fallback' },
       },
 
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
@@ -137,7 +118,8 @@ return {
           and not recording_macro
       end,
       completion = {
-        list = { selection = { preselect = false, auto_insert = true } },
+        accept = { auto_brackets = { enabled = true } },
+        list = { selection = { preselect = false, auto_insert = false } },
         menu = {
           border = vim.g.borderStyle,
           draw = {
@@ -150,6 +132,39 @@ return {
           window = { border = vim.g.borderStyle },
         },
         ghost_text = { enabled = false },
+      },
+      cmdline = {
+        enabled = true,
+        sources = function()
+          local type = vim.fn.getcmdtype()
+          if type == '/' or type == '?' then
+            return { 'buffer' }
+          end
+          if type == ':' then
+            return { 'cmdline' }
+          end
+          return {}
+        end,
+        keymap = {
+          preset = 'super-tab',
+          ['<Tab>'] = { 'select_next', 'fallback' },
+          ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        },
+        completion = {
+          ghost_text = { enabled = false },
+          menu = {
+            auto_show = true,
+            draw = {
+              columns = { { 'kind_icon', 'label', 'label_description' } },
+            },
+          },
+          list = {
+            selection = {
+              preselect = false,
+              auto_insert = true,
+            },
+          },
+        },
       },
     },
     opts_extend = {
