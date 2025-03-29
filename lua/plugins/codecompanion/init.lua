@@ -3,10 +3,10 @@ local adapter = os.getenv('NVIM_AI_ADAPTER') or 'openrouter'
 
 return {
   'olimorris/codecompanion.nvim',
+  version = false,
   dependencies = { 'j-hui/fidget.nvim' },
   cmd = { 'CodeCompanionChat', 'CodeCompanion', 'CodeCompanionCmd', 'CodeCompanionActions' },
   event = 'VeryLazy',
-  version = false,
   keys = {
     { 'ga', '<cmd>CodeCompanionChat Add<cr>', mode = { 'v' }, desc = 'Add Visual' },
     { '<leader>ai', '<cmd>CodeCompanion<cr>', mode = { 'n', 'v' }, desc = 'InlineCode' },
@@ -62,7 +62,7 @@ return {
         inline = { diff = { enabled = true } },
         chat = { show_settings = false, render_headers = true },
       },
-      prompt_library = require('plugins.codecompanion.prompts').to_codecompanion(),
+      prompt_library = require('plugins.codecompanion.promptlibrary'),
       -- opts = {
       --   system_prompt = require('plugins.codecompanion.system_prompt'),
       -- },
@@ -70,7 +70,6 @@ return {
   end,
   config = function(_, opts)
     require('codecompanion').setup(opts)
-    -----
   end,
   init = function()
     -- Expand `cc` into CodeCompanion in the command line
@@ -78,6 +77,10 @@ return {
     vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     require('plugins.codecompanion.spinner'):init()
+
+    -- Expand `cc` into CodeCompanion in the command line
+    vim.cmd([[cab cc CodeCompanion]])
+    vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
     -- Disable line numbers in CodeCompanion chat
     local group = vim.api.nvim_create_augroup('CodeCompanionHooks', { clear = true })

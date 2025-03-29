@@ -158,7 +158,7 @@ M.deepseek_fn = function()
         -- default = 'deepseek-reasoner',
       },
       temperature = {
-        default = 0.6, -- official recommendation
+        default = 0.3,
       },
     },
   })
@@ -190,9 +190,15 @@ M.gemini_fn = function()
   local gemini_config = {
     schema = {
       model = {
-        default = 'gemini-2.0-flash-thinking-exp',
+        default = 'gemini-2.0-flash',
       },
-      temperature = { default = 0.5 },
+      choices = {
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-thinking-exp',
+        'gemini-2.5-pro-exp-03-25',
+      },
+      temperature = { default = 0.2 },
+      maxOutputTokens = { default = 8192 },
     },
   }
   return require('codecompanion.adapters').extend('gemini', gemini_config)
@@ -208,9 +214,8 @@ M.openrouter_fn = function()
       api_key = os.getenv('OPENROUTER_API_KEY'),
     },
     schema = {
-      temperature = {
-        default = 0.5,
-      },
+      temperature = { default = 0.3 },
+      maxOutputTokens = { default = 8192 },
       model = {
         default = 'qwen/qwen-2.5-coder-32b-instruct:free',
         choices = {
