@@ -71,6 +71,7 @@ local function keymap(bufnr, client)
 
   map('[d', diagnostic_goto(true), 'Next Diagnostic')
   map(']d', diagnostic_goto(false), 'Next Diagnostic')
+  map('<leader>cd', "<cmd>lua vim.diagnostic.open_float({source='if_many'})<cr>", 'Diagnostic')
 
   map('<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', 'Set loclist')
 

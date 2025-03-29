@@ -192,7 +192,7 @@ return {
           todo_comments = {
             layout = {
               preset = function()
-                return vim.o.columns >= 120 and 'ivy' or 'dropdown'
+                return vim.o.columns >= 120 and 'mivy' or 'dropdown'
               end,
             },
           },
@@ -201,7 +201,7 @@ return {
           },
         },
       },
-      quickfile = { enabled = false },
+      quickfile = { enabled = true },
       scroll = { enabled = true },
       statuscolumn = { enabled = true },
       terminal = { enabled = true, win = { wo = { winbar = '' } } },
@@ -320,9 +320,9 @@ return {
       { '<leader>bb', function() Snacks.picker.buffers({layout = { preset = 'select'}}) end, desc = 'Buffers', },
       { '<leader>sp', function() Snacks.picker({layout = { preset = 'vscode'}}) end, desc = 'Pickers', },
       { "<leader>ld", function() Snacks.picker.lsp_definitions():set_layout("vertical") end, desc = "Definition" },
-      { "<leader>lr", function() Snacks.picker.lsp_references():set_layout("ivy") end, nowait = true, desc = "References" },
-      { "<leader>lI", function() Snacks.picker.lsp_implementations():set_layout("ivy") end, desc = "Implementation" },
-      { "<leader>lt", function() Snacks.picker.lsp_type_definitions():set_layout("ivy") end, desc = "Type Definition" },
+      { "<leader>lr", function() Snacks.picker.lsp_references():set_layout("mivy") end, nowait = true, desc = "References" },
+      { "<leader>lI", function() Snacks.picker.lsp_implementations():set_layout("mivy") end, desc = "Implementation" },
+      { "<leader>lt", function() Snacks.picker.lsp_type_definitions():set_layout("mivy") end, desc = "Type Definition" },
 
       -- stylua: ignore end
     },

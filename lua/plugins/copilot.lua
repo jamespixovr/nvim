@@ -4,9 +4,9 @@ return {
     cmd = 'Copilot',
     build = ':Copilot auth',
     keys = {
-      { mode = { 'n' }, '<leader>ce', ':Copilot enable<CR>', { silent = true } },
-      { mode = { 'n' }, '<leader>cd', ':Copilot disable<CR>', { silent = true } },
-      { mode = { 'n' }, '<leader>cp', ':Copilot panel<CR>', { silent = true } },
+      -- { mode = { 'n' }, '<leader>ce', ':Copilot enable<CR>', { silent = true } },
+      -- { mode = { 'n' }, '<leader>cd', ':Copilot disable<CR>', { silent = true } },
+      -- { mode = { 'n' }, '<leader>cp', ':Copilot panel<CR>', { silent = true } },
     },
     config = function()
       require('copilot').setup({

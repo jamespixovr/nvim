@@ -3,15 +3,24 @@ local M = {}
 function M.setup(opts)
   local servers = opts.servers
 
-  local function setup(server)
+  local function serverSetup(server)
     local server_opts = servers[server] or {}
+    local server_capabilities = server_opts.capabilities or {}
 
     if vim.g.cmploader == 'nvim-cmp' then
       server_opts.capabilities = require('cmp_nvim_lsp').default_capabilities()
     end
 
     if vim.g.cmploader == 'blink.cmp' then
-      server_opts.capabilities = require('blink.cmp').get_lsp_capabilities(server_opts.capabilities)
+      -- server_opts.capabilities = require('blink.cmp').get_lsp_capabilities(server_opts.capabilities)
+      server_opts.capabilities = vim.tbl_deep_extend(
+        'force',
+        {},
+        vim.lsp.protocol.make_client_capabilities(),
+        require('blink.cmp').get_lsp_capabilities(),
+        opts.capabilities,
+        server_capabilities
+      )
     end
 
     if opts.setup[server] then
@@ -39,7 +48,7 @@ function M.setup(opts)
       server_opts = server_opts == true and {} or server_opts
       -- run manual setup if mason=false or if this is a server that cannot be installed with mason-lspconfig
       if server_opts.mason == false or not vim.tbl_contains(all_mslp_servers, server) then
-        setup(server)
+        serverSetup(server)
       else
         ensure_installed[#ensure_installed + 1] = server
       end
@@ -47,7 +56,7 @@ function M.setup(opts)
   end
 
   if have_mason then
-    mlsp.setup({ ensure_installed = ensure_installed, handlers = { setup } })
+    mlsp.setup({ ensure_installed = ensure_installed, handlers = { serverSetup } })
   end
 
   require('plugins.lsp.lspconfig.attach')
