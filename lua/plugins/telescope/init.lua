@@ -25,6 +25,7 @@ return {
           require('telescope').load_extension('undo')
         end,
       },
+      'nvim-telescope/telescope-live-grep-args.nvim',
     },
     keys = {
       {
@@ -227,7 +228,8 @@ return {
       telescope.load_extension('fzf')
       telescope.load_extension('file_browser')
       telescope.load_extension('frecency')
-      vim.keymap.set('n', '<space>fg', require('plugins.telescope.multi-ripgrep'))
+      telescope.load_extension('live_grep_args')
+      -- vim.keymap.set('n', '<space>fg', require('plugins.telescope.multi-ripgrep'))
     end,
   },
 }
