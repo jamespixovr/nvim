@@ -68,7 +68,7 @@ return {
             status.DapStatus(),
             status.Overseer(),
             status.showMacroRecording(),
-            -- status.filetype(),
+            status.filetype(),
             -- status.treesitter(),
           },
           lualine_y = {
