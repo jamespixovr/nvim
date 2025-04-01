@@ -1,5 +1,5 @@
-local helper = require('plugins.codecompanion.helper')
-local adapter = os.getenv('NVIM_AI_ADAPTER') or 'openrouter'
+local helper = require('plugins.ai.codecompanion.helper')
+local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
 
 return {
   'olimorris/codecompanion.nvim',
@@ -48,8 +48,8 @@ return {
           },
           adapter = adapter,
           roles = helper.roles(),
-          tools = require('plugins.codecompanion.tools'),
-          slash_commands = require('plugins.codecompanion.slash_commands'),
+          tools = require('plugins.ai.codecompanion.tools'),
+          slash_commands = require('plugins.ai.codecompanion.slash_commands'),
         },
         inline = { adapter = adapter },
         agent = {
@@ -60,11 +60,20 @@ return {
       display = {
         diff = { close_chat_at = 500, provider = 'mini_diff' },
         inline = { diff = { enabled = true } },
-        chat = { show_settings = false, render_headers = true },
+        chat = {
+          show_settings = false,
+          render_headers = true,
+          window = {
+            opts = {
+              number = false,
+              relativenumber = false,
+            },
+          },
+        },
       },
-      prompt_library = require('plugins.codecompanion.promptlibrary'),
+      prompt_library = require('plugins.ai.codecompanion.promptlibrary'),
       -- opts = {
-      --   system_prompt = require('plugins.codecompanion.system_prompt'),
+      --   system_prompt = require('plugins.ai.codecompanion.system_prompt'),
       -- },
     }
   end,
@@ -72,11 +81,7 @@ return {
     require('codecompanion').setup(opts)
   end,
   init = function()
-    -- Expand `cc` into CodeCompanion in the command line
-    vim.cmd([[cab cc CodeCompanion]])
-    vim.cmd([[cab ccb CodeCompanionChat anthropic]])
-
-    require('plugins.codecompanion.spinner'):init()
+    require('plugins.ai.codecompanion.spinner'):init()
 
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])

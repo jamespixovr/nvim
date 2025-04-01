@@ -1,0 +1,11 @@
+return {
+  ['Explain architecture'] = require('plugins.ai.codecompanion.promptlibrary.explain_architecture'),
+  ['Suggest Refactoring'] = require('plugins.ai.codecompanion.promptlibrary.suggest_refactoring'),
+  ['Add DocBlock'] = require('plugins.ai.codecompanion.promptlibrary.docblock'),
+  ['Git Diff Code Review'] = require('plugins.ai.codecompanion.promptlibrary.git_diff_code_review'),
+  ['inline'] = require('plugins.ai.codecompanion.promptlibrary.inline'),
+  ['Code review'] = require('plugins.ai.codecompanion.promptlibrary.code_review'),
+  ['Explain code'] = require('plugins.ai.codecompanion.promptlibrary.explain_code'),
+  ['Code Expert'] = require('plugins.ai.codecompanion.promptlibrary.code_expert'),
+  ['Review'] = require('plugins.ai.codecompanion.promptlibrary.review'),
+}

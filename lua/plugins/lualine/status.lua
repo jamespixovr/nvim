@@ -253,9 +253,7 @@ function M.diagnostics(opts)
       hint = icons.diagnostics.Hint,
     },
     padding = { left = 1, right = 1 },
-    -- color = { bg = colors.gray2, fg = colors.blue, gui = "bold" },
     separator = { left = '', right = '' },
-    -- color = { bg = "None" },
   }, opts)
 end
 
@@ -263,10 +261,9 @@ function M.filetype(opts)
   return helper.extend_tbl({
     'filetype',
     icon_only = true,
-    separator = '',
     padding = { left = 1, right = 0 },
-    color = { fg = color.cyan, gui = 'italic,bold' },
-    -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
+    color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
+    -- separator = { left = '', right = '' },
   }, opts)
 end
 

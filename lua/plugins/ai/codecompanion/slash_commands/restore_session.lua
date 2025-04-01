@@ -1,4 +1,4 @@
-local restore_messages = require('plugins.codecompanion.utils.restore_messages')
+local restore_messages = require('plugins.ai.codecompanion.utils.restore_messages')
 local util = require('codecompanion.utils')
 
 -- ---@param chat CodeCompanion.Chat

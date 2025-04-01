@@ -77,7 +77,7 @@ return {
           },
           lualine_z = {
             status.progress(),
-            status.quickfixCounter(),
+            -- status.quickfixCounter(),
             -- status.datetime(),
             -- status.scrollbar(),
           },
