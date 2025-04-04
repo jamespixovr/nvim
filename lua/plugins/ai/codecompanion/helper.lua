@@ -167,7 +167,7 @@ end
 --- Ollama config for CodeCompanion.
 M.ollama_fn = function()
   return require('codecompanion.adapters').extend('ollama', {
-    name = 'defaultllm',
+    name = 'ollama',
     schema = {
       model = {
         default = 'qwen2.5-coder:3b',
@@ -189,16 +189,8 @@ end
 M.gemini_fn = function()
   local gemini_config = {
     schema = {
-      model = {
-        default = 'gemini-2.0-flash',
-      },
-      choices = {
-        'gemini-2.0-flash',
-        'gemini-2.0-flash-thinking-exp',
-        'gemini-2.5-pro-exp-03-25',
-      },
       temperature = { default = 0.2 },
-      maxOutputTokens = { default = 8192 },
+      num_ctx = { default = 200000 },
     },
   }
   return require('codecompanion.adapters').extend('gemini', gemini_config)
@@ -229,9 +221,7 @@ M.openrouter_fn = function()
           ['google/gemini-2.0-flash-thinking-exp-1219:free'] = { opts = { can_reason = true } }, -- context: 40K
         },
       },
-      num_ctx = {
-        default = 200000,
-      },
+      num_ctx = { default = 200000 },
     },
   }
   return require('codecompanion.adapters').extend('openai_compatible', openrouter_config)
