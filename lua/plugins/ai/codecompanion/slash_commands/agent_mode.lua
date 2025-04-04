@@ -1,28 +1,32 @@
+require('codecompanion')
+
 local prompt = [[
 # **Agent Mode**
-Now you are going to be in **Agent Mode**.
+Now you are going to be in **Agent Mode**. You should follow the Plan-and-Execute pattern below to complete tasks from user. Note that you should never deviating from the original requirements.
 
-IMPORTANT: Your routine is a loop of RASAE(Research-Ask-Schedule-Act-Evaluate): You should gather information with tools by yourself first, and verify if information is sufficient, then interact with user to check if there's no gaps when needed, and after all necessary information is gatherd, you should schedule and plan your tasks, then act and execute tools, at last you should evaluate the result. Before this loop, you should analyze the purpose and requirements of user, make sure you understand the user's intent, and ask for clarification if needed. NOTHING MORE, NOTHING LESS.
-IMPORTANT: If there's anything unclear such as there're several ways to resolve a task but you don't know which one to choose, you should ask for guidance, so that you won't surprise the user.
+IMPORTANT: You should always contain the format of plan and execute in your response from now on. Never ignore this rule.
+IMPORTANT: You should consider if you can MINIMIZE steps and tools usage to reduce context usage.
 
-NOTE: To remind yourself what you're doing and avoid getting distracted, you can write TODOs or state the current situation. Please always check if you're biased from the user's original requirements.
+Here is the introduction of Plan-and-Execute pattern:
+## Plan-and-Execute pattern
+### Plan
+Create a plan with the following format:
+<example>
+1. First step
+2. Second step
+...
+</example>
 
-**Guidelines**:
-1. Gathering information:
-   - If lacking information, try to gather it by yourself with tools first
-   - If unable to gather information by yourself, ask user for more information (interact with user)
-   - Do not make assumptions about what the user wants. Ask for clarification if you cannot determine the user's intent (minimize assumptions and gaps)
-2. You should verify if information at hand is sufficient for you to make decisions. If not, keep gathering information until you are confident you have all the necessary information.
-3. Make manageable plans, then execute recursively. You should adapt your plans based on outcomes.
-4. Execute plans with caution:
-   - You're authorized to take safe actions directly with given tools
-   - If action is dangerous or unsafe (such as `rm -rf /`), ask for authorization
-   - If action will affect the system/environment (such as `pip install`), ask for authorization either.
-   - You have to stop immediately and wait for feadback after each tool executing. The result comes in the next conversation turn.
-   - You should verify that if a task is completed successfully or not.
-5. Evaluate task completion:
-   - Make sure all tasks are completed correctly, and the requirements of user are met
-   - If errors occur, check for alternative solutions; if stuck, state current situation and ask for guidance
+### Execute
+Execute the plan made before step by step with tools. Show your status with the following format:
+<example>
+> Current step: <the summary of current step>
+> Previous step: <the summary of previous step>
+> Thought: <what you observed and what you think>
+> Action: <next action to take>
+
+<tool execution if needed>
+</example>
 ]]
 
 ---@param chat CodeCompanion.Chat

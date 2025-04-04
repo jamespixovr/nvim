@@ -1,3 +1,5 @@
+require('codecompanion')
+
 local prompt = [[
 # **Plan Mode**
 Now you are going to be in **Plan Mode**.

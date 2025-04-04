@@ -1,4 +1,5 @@
 -- https://github.com/yingmanwumen/nvim/blob/master/lua/plugins/ai/codecompanion/slash_commands/git_commit.lua
+require('codecompanion')
 
 local function generate_commit_message()
   local handle_staged = io.popen('git diff --no-ext-diff --staged')
@@ -25,14 +26,13 @@ local function generate_commit_message()
     handle_untracked:close()
   end
 
-  local content = [[@cmd_runner
+  local content = [[Tools allowed to use: @cmd_runner @files
 - Task:
-  - Write commit message for the diffs with `commitizen convention`.
-  - Keep the commit message short, clean but concise and comprehensive.
-  - Wrap the whole message in code block with language `gitcommit`
-  - After generating commit message, stage diffs and then commit them with `git commit -F- <<EOF`.
+  1. Before proceeding, review the changes. If there're potential issues or typos, stop and state them. You should fully understand every piece of code in diffs, and analyze the purpose and context of each change.
+  2. Write commit messages for the diffs with `commitizen convention`. Format as a gitcommit code block. Keep the commit messages concise and precise. "Concise" means keep the title under 50 characters and wrap message at 72 characters. Remember, you should ensure that each commit is atomic, means each commit only contains ONE logical change, and you should write multiple commits for multiple logical changes.
+  3. After generating commit messages, stage diffs and then commit them with `git commit -F- <<EOF`.
 
-### Git Diff
+Full diffs are as follows:
 
 ]]
   if #staged > 0 then
