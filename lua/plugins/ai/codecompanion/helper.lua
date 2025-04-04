@@ -13,6 +13,111 @@ M.roles = function()
   }
 end
 
+--- Anthropic config for CodeCompanion.
+M.anthropic_fn = function()
+  local anthropic_config = {
+    schema = {
+      model = {
+        default = 'claude-3-7-sonnet-latest',
+      },
+    },
+  }
+  return require('codecompanion.adapters').extend('anthropic', anthropic_config)
+end
+
+--- OpenAI config for CodeCompanion.
+M.openai_fn = function()
+  local openai_config = {
+    schema = {
+      model = {
+        -- default = 'gpt-4o',
+        default = 'o3-mini-2025-01-31',
+      },
+    },
+  }
+  return require('codecompanion.adapters').extend('openai', openai_config)
+end
+
+M.deepseek_fn = function()
+  return require('codecompanion.adapters').extend('deepseek', {
+    env = {
+      api_key = os.getenv('DEEPSEEK_API_KEY'),
+    },
+    schema = {
+      model = {
+        default = 'deepseek-chat',
+        -- default = 'deepseek-reasoner',
+      },
+      temperature = {
+        default = 0.3,
+      },
+    },
+  })
+end
+
+--- Ollama config for CodeCompanion.
+M.ollama_fn = function()
+  return require('codecompanion.adapters').extend('ollama', {
+    name = 'ollama',
+    schema = {
+      model = {
+        default = 'qwen2.5-coder:3b',
+      },
+      num_ctx = {
+        default = 20000,
+      },
+      temperature = {
+        default = 0.3,
+      },
+      num_predict = {
+        default = -1,
+      },
+    },
+  })
+end
+
+--- Gemini config for CodeCompanion.
+M.gemini_fn = function()
+  local gemini_config = {
+    schema = {
+      temperature = { default = 0.2 },
+      num_ctx = { default = 200000 },
+    },
+  }
+  return require('codecompanion.adapters').extend('gemini', gemini_config)
+end
+
+--- Gemini config for CodeCompanion.
+M.openrouter_fn = function()
+  local openrouter_config = {
+    name = 'openrouter',
+    formatted_name = 'OpenRouter',
+    url = 'https://openrouter.ai/api/v1/chat/completions',
+    env = {
+      api_key = os.getenv('OPENROUTER_API_KEY'),
+    },
+    schema = {
+      temperature = { default = 0.3 },
+      maxOutputTokens = { default = 8192 },
+      model = {
+        default = 'qwen/qwen-2.5-coder-32b-instruct:free',
+        choices = {
+          ['deepseek/deepseek-r1:free'] = { opts = { can_reason = true } },
+          'qwen/qwen-2.5-coder-32b-instruct:free',
+          'deepseek/deepseek-r1-distill-llama-70b:free',
+          'deepseek/deepseek-chat:free',
+          'mistralai/mistral-small-24b-instruct-2501:free',
+          ['google/gemini-2.0-flash-exp:free'] = { opts = { can_reason = true } }, -- context: 1.05M
+          ['google/gemini-2.0-pro-exp-02-05:free'] = { opts = { can_reason = true } }, -- context: 2M
+          ['google/gemini-2.0-flash-thinking-exp-1219:free'] = { opts = { can_reason = true } }, -- context: 40K
+        },
+      },
+      num_ctx = { default = 200000 },
+    },
+  }
+  return require('codecompanion.adapters').extend('openai_compatible', openrouter_config)
+end
+
 -- add 2 commands:
 --    CodeCompanionSave [space delimited args]
 --    CodeCompanionLoad
@@ -121,110 +226,5 @@ vim.api.nvim_create_user_command('CodeCompanionSave', function(opts)
   local lines = vim.api.nvim_buf_get_lines(0, 0, -1, false)
   save_path:write(table.concat(lines, '\n'), 'w')
 end, { nargs = '*' })
-
---- Anthropic config for CodeCompanion.
-M.anthropic_fn = function()
-  local anthropic_config = {
-    schema = {
-      model = {
-        default = 'claude-3-7-sonnet-latest',
-      },
-    },
-  }
-  return require('codecompanion.adapters').extend('anthropic', anthropic_config)
-end
-
---- OpenAI config for CodeCompanion.
-M.openai_fn = function()
-  local openai_config = {
-    schema = {
-      model = {
-        -- default = 'gpt-4o',
-        default = 'o3-mini-2025-01-31',
-      },
-    },
-  }
-  return require('codecompanion.adapters').extend('openai', openai_config)
-end
-
-M.deepseek_fn = function()
-  return require('codecompanion.adapters').extend('deepseek', {
-    env = {
-      api_key = os.getenv('DEEPSEEK_API_KEY'),
-    },
-    schema = {
-      model = {
-        default = 'deepseek-chat',
-        -- default = 'deepseek-reasoner',
-      },
-      temperature = {
-        default = 0.3,
-      },
-    },
-  })
-end
-
---- Ollama config for CodeCompanion.
-M.ollama_fn = function()
-  return require('codecompanion.adapters').extend('ollama', {
-    name = 'ollama',
-    schema = {
-      model = {
-        default = 'qwen2.5-coder:3b',
-      },
-      num_ctx = {
-        default = 20000,
-      },
-      temperature = {
-        default = 0.3,
-      },
-      num_predict = {
-        default = -1,
-      },
-    },
-  })
-end
-
---- Gemini config for CodeCompanion.
-M.gemini_fn = function()
-  local gemini_config = {
-    schema = {
-      temperature = { default = 0.2 },
-      num_ctx = { default = 200000 },
-    },
-  }
-  return require('codecompanion.adapters').extend('gemini', gemini_config)
-end
-
---- Gemini config for CodeCompanion.
-M.openrouter_fn = function()
-  local openrouter_config = {
-    name = 'openrouter',
-    formatted_name = 'OpenRouter',
-    url = 'https://openrouter.ai/api/v1/chat/completions',
-    env = {
-      api_key = os.getenv('OPENROUTER_API_KEY'),
-    },
-    schema = {
-      temperature = { default = 0.3 },
-      maxOutputTokens = { default = 8192 },
-      model = {
-        default = 'qwen/qwen-2.5-coder-32b-instruct:free',
-        choices = {
-          ['deepseek/deepseek-r1:free'] = { opts = { can_reason = true } },
-          'qwen/qwen-2.5-coder-32b-instruct:free',
-          'deepseek/deepseek-r1-distill-llama-70b:free',
-          'deepseek/deepseek-chat:free',
-          'mistralai/mistral-small-24b-instruct-2501:free',
-          ['google/gemini-2.0-flash-exp:free'] = { opts = { can_reason = true } }, -- context: 1.05M
-          ['google/gemini-2.0-pro-exp-02-05:free'] = { opts = { can_reason = true } }, -- context: 2M
-          ['google/gemini-2.0-flash-thinking-exp-1219:free'] = { opts = { can_reason = true } }, -- context: 40K
-        },
-      },
-      num_ctx = { default = 200000 },
-    },
-  }
-  return require('codecompanion.adapters').extend('openai_compatible', openrouter_config)
-end
 
 return M
