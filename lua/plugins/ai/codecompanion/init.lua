@@ -1,5 +1,4 @@
 local helper = require('plugins.ai.codecompanion.helper')
-local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
 
 return {
   'olimorris/codecompanion.nvim',
@@ -30,15 +29,10 @@ return {
     { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
   },
   opts = function()
+    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
+
     return {
-      adapters = {
-        openai = helper.openai_fn,
-        anthropic = helper.anthropic_fn,
-        ollama = helper.ollama_fn,
-        gemini = helper.gemini_fn,
-        openrouter = helper.openrouter_fn,
-        deepseek = helper.deepseek_fn,
-      },
+      adapters = helper.adapters(),
       strategies = {
         chat = {
           keymaps = {
@@ -79,23 +73,10 @@ return {
   end,
   config = function(_, opts)
     require('codecompanion').setup(opts)
-  end,
-  init = function()
-    require('plugins.ai.codecompanion.spinner'):init()
-
     -- Expand `cc` into CodeCompanion in the command line
     vim.cmd([[cab cc CodeCompanion]])
     vim.cmd([[cab ccb CodeCompanionChat anthropic]])
 
-    -- Disable line numbers in CodeCompanion chat
-    local group = vim.api.nvim_create_augroup('CodeCompanionHooks', { clear = true })
-    vim.api.nvim_create_autocmd({ 'User' }, {
-      pattern = 'CodeCompanionChat*',
-      group = group,
-      callback = function()
-        vim.wo.number = false
-        vim.wo.relativenumber = false
-      end,
-    })
+    require('plugins.ai.codecompanion.spinner'):init()
   end,
 }

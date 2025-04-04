@@ -14,7 +14,7 @@ M.roles = function()
 end
 
 --- Anthropic config for CodeCompanion.
-M.anthropic_fn = function()
+local anthropic_fn = function()
   local anthropic_config = {
     schema = {
       model = {
@@ -26,7 +26,7 @@ M.anthropic_fn = function()
 end
 
 --- OpenAI config for CodeCompanion.
-M.openai_fn = function()
+local openai_fn = function()
   local openai_config = {
     schema = {
       model = {
@@ -38,7 +38,7 @@ M.openai_fn = function()
   return require('codecompanion.adapters').extend('openai', openai_config)
 end
 
-M.deepseek_fn = function()
+local deepseek_fn = function()
   return require('codecompanion.adapters').extend('deepseek', {
     env = {
       api_key = os.getenv('DEEPSEEK_API_KEY'),
@@ -56,7 +56,7 @@ M.deepseek_fn = function()
 end
 
 --- Ollama config for CodeCompanion.
-M.ollama_fn = function()
+local ollama_fn = function()
   return require('codecompanion.adapters').extend('ollama', {
     name = 'ollama',
     schema = {
@@ -77,7 +77,7 @@ M.ollama_fn = function()
 end
 
 --- Gemini config for CodeCompanion.
-M.gemini_fn = function()
+local gemini_fn = function()
   local gemini_config = {
     schema = {
       temperature = { default = 0.2 },
@@ -88,7 +88,7 @@ M.gemini_fn = function()
 end
 
 --- Gemini config for CodeCompanion.
-M.openrouter_fn = function()
+local openrouter_fn = function()
   local openrouter_config = {
     name = 'openrouter',
     formatted_name = 'OpenRouter',
@@ -116,6 +116,17 @@ M.openrouter_fn = function()
     },
   }
   return require('codecompanion.adapters').extend('openai_compatible', openrouter_config)
+end
+
+M.adapters = function()
+  return {
+    openai = openai_fn,
+    anthropic = anthropic_fn,
+    ollama = ollama_fn,
+    gemini = gemini_fn,
+    openrouter = openrouter_fn,
+    deepseek = deepseek_fn,
+  }
 end
 
 -- add 2 commands:
