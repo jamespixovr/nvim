@@ -2,14 +2,14 @@ return {
   {
     'ravitemer/mcphub.nvim',
     version = '*',
-    enabled = false,
+    enabled = true,
     dependencies = {
       'nvim-lua/plenary.nvim',
     },
     cmd = { 'MCPHub' },
     build = 'npm install -g mcp-hub@latest',
     opts = {
-      port = 3000,
+      port = 4004,
       config = vim.fn.expand('~/mcpservers.json'),
       extensions = {
         codecompanion = {

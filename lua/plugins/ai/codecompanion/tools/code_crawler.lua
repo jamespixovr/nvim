@@ -212,83 +212,78 @@ local function move_cursor_to_symbol(symbol)
   return -1
 end
 
-local M = {}
+return {
+  description = 'Expose LSP actions to the Agent so it can travers the code like a programmer.',
+  opts = { user_approval = false },
+  callback = {
+    name = 'code_crawler',
+    cmds = {
+      function(_, action, _)
+        local symbol = action.symbol
+        local type = action._attr.type
 
-M.code_crawler = function()
-  return {
-    description = 'Expose LSP actions to the Agent so it can travers the code like a programmer.',
-    opts = {
-      user_approval = false,
+        local bufnr = move_cursor_to_symbol(symbol)
+
+        if lsp_methods[type] then
+          content = call_lsp_method(bufnr, lsp_methods[type])
+          filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
+          return { status = 'success', msg = nil }
+        end
+
+        return { status = 'error', msg = 'No symbol found' }
+      end,
     },
-    callback = {
-      name = 'code_crawler',
-      cmds = {
-        function(_, action, _)
-          local symbol = action.symbol
-          local type = action._attr.type
-
-          local bufnr = move_cursor_to_symbol(symbol)
-
-          if lsp_methods[type] then
-            content = call_lsp_method(bufnr, lsp_methods[type])
-            filetype = vim.api.nvim_get_option_value('filetype', { buf = bufnr })
-            return { status = 'success', msg = nil }
-          end
-
-          return { status = 'error', msg = 'No symbol found' }
-        end,
+    schema = {
+      {
+        tool = {
+          _attr = { name = 'code_crawler' },
+          action = {
+            _attr = { type = 'get_definition' },
+            symbol = '<![CDATA[UserRepository]]>',
+          },
+        },
       },
-      schema = {
-        {
-          tool = {
-            _attr = { name = 'code_crawler' },
-            action = {
+      {
+        tool = {
+          _attr = { name = 'code_crawler' },
+          action = {
+            _attr = { type = 'get_references' },
+            symbol = '<![CDATA[saveUser]]>',
+          },
+        },
+      },
+      {
+        tool = {
+          _attr = { name = 'code_crawler' },
+          action = {
+            _attr = { type = 'get_implementation' },
+            symbol = '<![CDATA[Comparable]]>',
+          },
+        },
+      },
+      {
+        tool = {
+          _attr = { name = 'code_crawler' },
+          action = {
+            {
               _attr = { type = 'get_definition' },
-              symbol = '<![CDATA[UserRepository]]>',
+              symbol = '<![CDATA[UserService]]>',
             },
-          },
-        },
-        {
-          tool = {
-            _attr = { name = 'code_crawler' },
-            action = {
+            {
+              _attr = { type = 'get_definition' },
+              symbol = '<![CDATA[refreshUser]]>',
+            },
+            {
               _attr = { type = 'get_references' },
-              symbol = '<![CDATA[saveUser]]>',
-            },
-          },
-        },
-        {
-          tool = {
-            _attr = { name = 'code_crawler' },
-            action = {
-              _attr = { type = 'get_implementation' },
-              symbol = '<![CDATA[Comparable]]>',
-            },
-          },
-        },
-        {
-          tool = {
-            _attr = { name = 'code_crawler' },
-            action = {
-              {
-                _attr = { type = 'get_definition' },
-                symbol = '<![CDATA[UserService]]>',
-              },
-              {
-                _attr = { type = 'get_definition' },
-                symbol = '<![CDATA[refreshUser]]>',
-              },
-              {
-                _attr = { type = 'get_references' },
-                symbol = '<![CDATA[UserService]]>',
-              },
+              symbol = '<![CDATA[UserService]]>',
             },
           },
         },
       },
-      system_prompt = function(schema)
-        return string.format(
-          [[## Code Crawler Tool (`code_crawler`) - Enhanced Guidelines
+    },
+    system_prompt = function(schema)
+      return string.format(
+        [[## Code Crawler Tool (`code_crawler`) - Enhanced Guidelines
 
 ### Purpose:
 - Traversing the codebase like a regular programmer to find definition, references, implementation, type definition, incoming or outgoing calls of specific code symbols like classes or functions.
@@ -336,64 +331,61 @@ d) **Multiple Actions**: Combine actions in one response if needed:
 ### Reminder:
 - Minimize extra explanations and focus on returning correct XML blocks with properly wrapped CDATA sections.
 - Always use the structure above for consistency.]],
-          require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[1] } }), -- Get Definition
-          require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[2] } }), -- Get References
-          require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[3] } }), -- Get Implementation
-          require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[4] } }) -- Multiple actions
-        )
+        require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[1] } }), -- Get Definition
+        require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[2] } }), -- Get References
+        require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[3] } }), -- Get Implementation
+        require('codecompanion.utils.xml.xml2lua').toXml({ tools = { schema[4] } }) -- Multiple actions
+      )
+    end,
+    handlers = {
+      setup = function(_)
+        -- codecompanion_winid = vim.api.nvim_win_get_number(0)
       end,
-      handlers = {
-        setup = function(_)
-          -- codecompanion_winid = vim.api.nvim_win_get_number(0)
-        end,
-        on_exit = function(_)
-          -- vim.api.nvim_set_current_win(codecompanion_winid)
-          codecompanion_winid = -1
-        end,
-      },
-      output = {
-        success = function(self, action, _)
-          local type = action._attr.type
-          local symbol = action.symbol
+      on_exit = function(_)
+        -- vim.api.nvim_set_current_win(codecompanion_winid)
+        codecompanion_winid = -1
+      end,
+    },
+    output = {
+      success = function(self, action, _)
+        local type = action._attr.type
+        local symbol = action.symbol
 
-          return self.chat:add_buf_message({
-            role = require('codecompanion.config').constants.USER_ROLE,
-            content = string.format(
-              [[The %s of symbol: `%s` is:
+        return self.chat:add_buf_message({
+          role = require('codecompanion.config').constants.USER_ROLE,
+          content = string.format(
+            [[The %s of symbol: `%s` is:
 
 ```%s
 %s
 ```\n]],
-              string.upper(type),
-              symbol,
-              filetype,
-              content
-            ),
-          })
-        end,
-        error = function(self, action, err)
-          return self.chat:add_buf_message({
-            role = require('codecompanion.config').constants.USER_ROLE,
-            content = string.format(
-              [[There was an error running the %s action:
+            string.upper(type),
+            symbol,
+            filetype,
+            content
+          ),
+        })
+      end,
+      error = function(self, action, err)
+        return self.chat:add_buf_message({
+          role = require('codecompanion.config').constants.USER_ROLE,
+          content = string.format(
+            [[There was an error running the %s action:
 
 ```txt
 %s
 ```]],
-              string.upper(action._attr.type),
-              err
-            ),
-          })
-        end,
-        rejected = function(self, action)
-          return self.chat:add_buf_message({
-            role = require('codecompanion.config').constants.USER_ROLE,
-            content = string.format('I rejected the %s action.\n\n', string.upper(action._attr.type)),
-          })
-        end,
-      },
+            string.upper(action._attr.type),
+            err
+          ),
+        })
+      end,
+      rejected = function(self, action)
+        return self.chat:add_buf_message({
+          role = require('codecompanion.config').constants.USER_ROLE,
+          content = string.format('I rejected the %s action.\n\n', string.upper(action._attr.type)),
+        })
+      end,
     },
-  }
-end
-
-return M
+  },
+}
