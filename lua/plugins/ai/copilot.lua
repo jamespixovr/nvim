@@ -3,17 +3,17 @@ return {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
     build = ':Copilot auth',
-    -- event = 'InsertEnter',
+    event = 'InsertEnter',
     keys = {
       -- { mode = { 'n' }, '<leader>ce', ':Copilot enable<CR>', { silent = true } },
       -- { mode = { 'n' }, '<leader>cd', ':Copilot disable<CR>', { silent = true } },
       -- { mode = { 'n' }, '<leader>cp', ':Copilot panel<CR>', { silent = true } },
     },
     config = function()
-      require('plugins.ai.copilot').setup({
-        -- panel = {
-        --   enabled = false,
-        -- },
+      require('copilot').setup({
+        panel = {
+          enabled = false,
+        },
         suggestion = {
           enabled = false,
           auto_trigger = true,
