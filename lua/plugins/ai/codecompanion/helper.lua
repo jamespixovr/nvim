@@ -20,6 +20,16 @@ local anthropic_fn = function()
       model = {
         default = 'claude-3-7-sonnet-latest',
       },
+      max_tokens = {
+        -- default = 8192,
+        default = 18000,
+      },
+      extended_output = {
+        default = false,
+      },
+      extended_thinking = {
+        default = false,
+      },
     },
   }
   return require('codecompanion.adapters').extend('anthropic', anthropic_config)
