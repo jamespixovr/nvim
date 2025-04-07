@@ -13,6 +13,22 @@ return {
       end,
       desc = 'Format buffer',
     },
+    {
+      '<leader>cM',
+      function()
+        require('conform').format({ formatters = { 'injected' }, timeout_ms = 3000 })
+      end,
+      mode = { 'n', 'v' },
+      desc = 'Format Injected Langs',
+    },
+    {
+      '<leader>cm',
+      function()
+        require('conform').format()
+      end,
+      mode = { 'n', 'v' },
+      desc = 'Format',
+    },
   },
   opts = {
     format = {
@@ -45,12 +61,21 @@ return {
       yaml = { 'yamlfmt' },
       -- ["*"] = { "trim_whitespace" },
     },
-    format_on_save = { timeout_ms = 500, lsp_fallback = true },
+    format_on_save = {
+      timeout_ms = 500,
+      lsp_fallback = true,
+      condition = function(bufnr)
+        -- Skip files matching these patterns
+        local filename = vim.api.nvim_buf_get_name(bufnr)
+        return not (filename:match('%.min%.[jc]ss$'))
+      end,
+    },
     formatters = {
       -- biome = {
       --   -- https://biomejs.dev/formatter/
       --   args = { 'format', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
       -- },
+      injected = { options = { ignore_errors = true } },
       markdownlint = {
         command = 'markdownlint',
         stdin = false,
