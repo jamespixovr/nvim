@@ -8,4 +8,5 @@ return {
   ['Explain code'] = require('plugins.ai.codecompanion.promptlibrary.explain_code'),
   ['Code Expert'] = require('plugins.ai.codecompanion.promptlibrary.code_expert'),
   ['Review'] = require('plugins.ai.codecompanion.promptlibrary.review'),
+  ['Generate Docstring'] = require('plugins.ai.codecompanion.promptlibrary.doc_string'),
 }
