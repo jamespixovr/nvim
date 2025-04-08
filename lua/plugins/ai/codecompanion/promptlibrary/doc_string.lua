@@ -12,7 +12,22 @@ return {
         return 'You are a senior '
           .. context.filetype
           .. ' developer. You add clear and appropriate documentation based on code context.'
+          .. [[
+			   Keep the following in mind when writing documentation:
+				1. **Identify Key Points**: Carefully read the provided code to understand its functionality.
+                2. **Review the Documentation**: Ensure the documentation:
+                  - Includes necessary explanations.
+                  - Helps in understanding the code's functionality.
+                  - Follows best practices for readability and maintainability.
+                  - Is formatted correctly.
+
+                For C/C++ code: use Doxygen comments using `\` instead of `@`.
+                For Python code: Use Docstring numpy-notypes format.
+			 ]]
       end,
+      opts = {
+        visible = false,
+      },
     },
     {
       role = 'user',

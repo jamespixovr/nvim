@@ -1,28 +1,53 @@
+local function open_first_failed_task()
+  local overseer = require('overseer')
+  local constants = require('overseer.constants')
+  local action_util = require('overseer.action_util')
+  local failed_tasks = overseer.list_tasks({ status = constants.STATUS.FAILURE })
+  if #failed_tasks > 0 then
+    local task = failed_tasks[1] ---@type overseer.Task
+    action_util.run_task_action(task, 'open hsplit')
+  else
+    vim.notify('No failed tasks found', vim.log.levels.WARN, { title = 'Overseer' })
+  end
+end
 return {
   --  overseer [task runner]
   --  https://github.com/stevearc/overseer.nvim
   {
     'stevearc/overseer.nvim',
-    event = 'VeryLazy',
+    cmd = { 'OverseerRun', 'OverseerInfo', 'OverseerToggle', 'OverseerFromTerminal' },
     keys = {
       { '<leader>o', '', desc = 'Overseer' },
       { '<leader>oR', '<cmd>OverseerRunCmd<cr>', desc = 'Run Command' },
-      { '<leader>oa', '<cmd>OverseerTaskAction<cr>', desc = 'Task Action' },
+      { '<leader>ol', '<cmd>OverseerTaskAction<cr>', desc = 'Task Action' },
       { '<leader>ob', '<cmd>OverseerBuild<cr>', desc = 'Build' },
       { '<leader>oc', '<cmd>OverseerClose<cr>', desc = 'Close' },
       { '<leader>od', '<cmd>OverseerDeleteBundle<cr>', desc = 'Delete Bundle' },
-      { '<leader>ol', '<cmd>OverseerLoadBundle<cr>', desc = 'Load Bundle' },
+      { '<leader>ob', '<cmd>OverseerLoadBundle<cr>', desc = 'Load Bundle' },
+      { '<leader>oi', '<cmd>OverseerInfo<cr>', desc = 'Overseer Info' },
       { '<leader>oo', '<cmd>OverseerOpen<cr>', desc = 'Open' },
       { '<leader>oq', '<cmd>OverseerQuickAction<cr>', desc = 'Quick Action' },
       { '<leader>or', '<cmd>OverseerRun<cr>', desc = 'Run' },
       { '<leader>os', '<cmd>OverseerSaveBundle<cr>', desc = 'Save Bundle' },
       { '<leader>ot', '<cmd>OverseerToggle<cr>', desc = 'Toggle' },
       { '<leader>oh', '<cmd>OverseerClearCache<cr>', desc = 'Clear cache' },
+      { '<leader>ox', '<cmd>OverseerFromTerminal<cr>', mode = { 'n', 'v' }, desc = 'Overseer From Terminal' },
+      { '<leader>oa', '<cmd>OverseerRestartLast<cr>', desc = 'Overseer Restart Last' },
+      { '<leader>op', open_first_failed_task, desc = 'Overseer Open Failed Task' },
     },
     opts = {
       templates = { 'make', 'user', 'vscode', 'task', 'shell' },
       dap = false,
-      strategy = { 'jobstart', preserve_output = true, use_terminal = true },
+      strategy = { 'jobstart', preserve_output = true, use_terminal = true, use_shell = true },
+      -- strategy = {
+      --   'toggleterm',
+      --   auto_scroll = false,
+      --   close_on_exit = false,
+      --   hidden = false,
+      --   open_on_start = false,
+      --   quit_on_exit = 'never',
+      --   use_shell = true,
+      -- },
       task_launcher = {
         bindings = {
           n = {
@@ -32,7 +57,8 @@ return {
       },
       task_list = {
         default_detail = 2,
-        direction = 'bottom',
+        -- direction = 'bottom',
+        direction = 'right',
         min_height = 15,
         max_height = 15,
         min_width = 0.4,
@@ -84,10 +110,10 @@ return {
       component_aliases = {
         default = {
           { 'display_duration', detail_level = 2 },
-          'on_result_notify',
+          'on_output_summarize',
           'on_exit_set_status',
           { 'on_complete_notify', system = 'unfocused' },
-          'on_complete_dispose',
+          { 'on_complete_dispose', require_view = { 'SUCCESS', 'FAILURE' } },
         },
         default_neotest = {
           'unique',
@@ -101,74 +127,7 @@ return {
       local overseer = require('overseer')
       overseer.setup(opts)
 
-      vim.api.nvim_create_user_command('OverseerDebugParser', 'lua require("overseer").debug_parser()', {})
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = 'OverseerList',
-        group = vim.api.nvim_create_augroup('OverseerConfig', {}),
-        callback = function(e)
-          vim.opt_local.winfixbuf = true
-          vim.defer_fn(function()
-            vim.cmd('stopinsert')
-          end, 1)
-
-          vim.keymap.set('n', 'q', function()
-            pcall(vim.api.nvim_win_close, 0, true)
-            vim.cmd('wincmd p')
-          end, { buffer = e.buf })
-        end,
-      })
-
-      vim.api.nvim_create_user_command('Grep', function(params)
-        local args = vim.fn.expandcmd(params.args)
-        -- Insert args at the '$*' in the grepprg
-        local cmd, num_subs = vim.o.grepprg:gsub('%$%*', args)
-        if num_subs == 0 then
-          cmd = cmd .. ' ' .. args
-        end
-        local cwd
-        local has_oil, oil = pcall(require, 'oil')
-        if has_oil then
-          cwd = oil.get_current_dir()
-        end
-        local task = overseer.new_task({
-          cmd = cmd,
-          cwd = cwd,
-          name = 'grep ' .. args,
-          components = {
-            {
-              'on_output_quickfix',
-              errorformat = vim.o.grepformat,
-              open = not params.bang,
-              open_height = 8,
-              items_only = true,
-            },
-            { 'on_complete_dispose', timeout = 30 },
-            'default',
-          },
-        })
-        task:start()
-      end, { nargs = '*', bang = true, bar = true, complete = 'file' })
-
-      vim.api.nvim_create_user_command('Make', function(params)
-        -- Insert args at the '$*' in the makeprg
-        local cmd, num_subs = vim.o.makeprg:gsub('%$%*', params.args)
-        if num_subs == 0 then
-          cmd = cmd .. ' ' .. params.args
-        end
-        local task = require('overseer').new_task({
-          cmd = vim.fn.expandcmd(cmd),
-          components = {
-            { 'on_output_quickfix', open = not params.bang, open_height = 8 },
-            'unique',
-            'default',
-          },
-        })
-        task:start()
-      end, {
-        desc = 'Run your makeprg as an Overseer task',
-        nargs = '*',
-        bang = true,
-      })
+      require('plugins.overseer.commands')
     end,
   },
 }

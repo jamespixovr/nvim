@@ -9,4 +9,9 @@ return {
   ['Code Expert'] = require('plugins.ai.codecompanion.promptlibrary.code_expert'),
   ['Review'] = require('plugins.ai.codecompanion.promptlibrary.review'),
   ['Generate Docstring'] = require('plugins.ai.codecompanion.promptlibrary.doc_string'),
+  ['Refactor'] = require('plugins.ai.codecompanion.promptlibrary.refactor'),
+  ['Pull Request'] = require('plugins.ai.codecompanion.promptlibrary.pullrequest'),
+  ['Spell'] = require('plugins.ai.codecompanion.promptlibrary.spell'),
+  ['Bug Finder'] = require('plugins.ai.codecompanion.promptlibrary.bug_finder'),
+  ['Agent Mode'] = require('plugins.ai.codecompanion.promptlibrary.agent_mode'),
 }

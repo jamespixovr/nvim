@@ -17,4 +17,5 @@ return {
   ['dump_session'] = require('plugins.ai.codecompanion.slash_commands.dump_session'),
   ['restore_session'] = require('plugins.ai.codecompanion.slash_commands.restore_session'),
   ['plan_mode'] = require('plugins.ai.codecompanion.slash_commands.plan_mode'),
+  ['terminal'] = require('plugins.ai.codecompanion.slash_commands.terminal'),
 }

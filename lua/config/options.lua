@@ -84,3 +84,31 @@ end
 
 -- Fix markdown indentation settings
 vim.g.markdown_recommended_style = 0
+
+-- vim.opt.listchars = {
+--   tab = ' ',
+--   trail = '·',
+--   extends = '',
+--   precedes = '',
+-- }
+--
+-- vim.opt.diffopt = {
+--   'internal',
+--   'filler',
+--   'closeoff',
+-- }
+--
+-- vim.opt.fillchars = {
+--   diff = '╱',
+--   eob = ' ',
+--   stl = ' ',
+--   stlnc = ' ',
+--   wbr = ' ',
+--   horiz = '─',
+--   horizup = '┴',
+--   horizdown = '┬',
+--   vert = '│',
+--   vertleft = '┤',
+--   vertright = '├',
+--   verthoriz = '┼',
+-- }
