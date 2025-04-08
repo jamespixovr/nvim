@@ -1,4 +1,14 @@
 return {
+  -- {
+  --    'folke/which-key.nvim',
+  --    optional = true,
+  --    opts = {
+  --      spec = {
+  --        { '<leader>r', group = 'refactor' },
+  --        { '<leader>rb', group = 'block' },
+  --      },
+  --    },
+  --  },
   {
     'ThePrimeagen/refactoring.nvim', -- Refactor code like Martin Fowler
     enabled = true,

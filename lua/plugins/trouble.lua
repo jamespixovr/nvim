@@ -6,9 +6,38 @@ return {
     cmd = 'Trouble',
     opts = {
       focus = true,
+      max_items = 500, -- limit number of items that can be displayed per section
+      warn_no_results = false, -- show a warning when there are no results
+      open_no_results = true, -- open the trouble window when there are no results
+      ---@type trouble.Window.opts
+      preview = {
+        type = 'main',
+        scratch = false,
+      },
       modes = {
         lsp = {
           win = { position = 'right' },
+        },
+        lsp_references = {
+          desc = 'LSP References',
+          mode = 'lsp_references',
+          title = false,
+          restore = true,
+          focus = false,
+          follow = false,
+        },
+        lsp_definitions = {
+          desc = 'LSP definitions',
+          mode = 'lsp_definitions',
+          title = false,
+          restore = true,
+          focus = false,
+          follow = false,
+        },
+        lsp_document_symbols = {
+          title = false,
+          focus = false,
+          format = '{kind_icon}{symbol.name} {text:Comment} {pos}',
         },
         test = {
           mode = 'diagnostics',
@@ -42,9 +71,9 @@ return {
       end,
     },
     keys = {
-      { '<leader>xx', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Diagnostics (Trouble)' },
+      { '<leader>xX', '<cmd>Trouble diagnostics toggle<cr>', desc = 'Diagnostics (Trouble)' },
       {
-        '<leader>xX',
+        '<leader>xx',
         '<cmd>Trouble diagnostics toggle filter.buf=0<cr>',
         desc = 'Buffer Diagnostics (Trouble)',
       },

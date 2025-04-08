@@ -378,6 +378,12 @@ function M.Overseer(opts)
     name_not = false, -- When true, invert the name search
     status = nil, -- List of task statuses to display
     status_not = false, -- When true, invert the status search
+    symbols = {
+      ['FAILURE'] = ' ',
+      ['CANCELED'] = ' ',
+      ['SUCCESS'] = ' ',
+      ['RUNNING'] = ' ',
+    },
   }, opts)
 end
 

@@ -18,6 +18,7 @@ return {
         { '<leader>d', group = '+[debug]' },
         { '<leader>f', group = '+[file/find]' },
         { '<leader>g', group = '+[git]' },
+        { '<leader>gd', group = 'diffview' },
         -- { '<leader>a', group = '+[codecompanion]' },
         { '<leader>a', group = '+[ai]', icon = '󰚩' },
         { '<leader>h', group = 'hardtime' },
