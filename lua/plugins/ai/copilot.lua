@@ -3,7 +3,7 @@ return {
     'zbirenbaum/copilot.lua',
     cmd = 'Copilot',
     build = ':Copilot auth',
-    event = 'InsertEnter',
+    -- event = 'InsertEnter',
     keys = {
       -- { mode = { 'n' }, '<leader>ce', ':Copilot enable<CR>', { silent = true } },
       -- { mode = { 'n' }, '<leader>cd', ':Copilot disable<CR>', { silent = true } },

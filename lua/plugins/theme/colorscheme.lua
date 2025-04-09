@@ -37,6 +37,25 @@ local M = {
           crust = '#000000',
         },
       },
+      dim_inactive = { enabled = false },
+      default_integrations = {
+        blink_cmp = true,
+        diffview = true,
+        fidget = true,
+        fzf = true,
+        headlines = true,
+        hop = true,
+        lspsaga = true,
+        mason = true,
+        mini = { enabled = true },
+        native_lsp = { enabled = true },
+        navic = { enabled = true },
+        neotree = true,
+        nvim_surround = true,
+        rainbow_delimiters = true,
+        snacks = { enabled = true },
+        which_key = true,
+      },
       integrations = {
         alpha = true,
         lsp_trouble = true,
@@ -91,6 +110,10 @@ local M = {
       },
       custom_highlights = function(colors)
         return {
+          -- FloatBorder = { fg = colors.mantle, bg = colors.mantle },
+          -- FloatTitle = { fg = colors.lavender, bg = colors.mantle },
+          LspInfoBorder = { fg = colors.mantle, bg = colors.mantle },
+          WinSeparator = { bg = colors.base, fg = colors.lavender },
           PmenuThumb = { bg = colors.blue },
           DapUIFloatBorder = { link = 'FloatBorder' },
         }

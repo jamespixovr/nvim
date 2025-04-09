@@ -1,5 +1,5 @@
 local icons = require('lib.icons')
-local keymaps = require('plugins.dap.keymaps')
+local keymaps = require('plugins.coding.dap.keymaps')
 
 --------------------------------------------------------------------------------------
 
@@ -30,7 +30,7 @@ local function dapConfig()
     require('dapui').close()
   end
 
-  require('plugins.dap.typescript')
+  require('plugins.coding.dap.typescript')
 end
 
 return {

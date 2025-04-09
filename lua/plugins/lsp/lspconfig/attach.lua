@@ -5,10 +5,10 @@ local methods = vim.lsp.protocol.Methods
 --https://github.com/nazo6/nvim/blob/master/lua/user/plugins/lsp/lspconfig/attach.lua
 
 local function diagnostic_goto(next, severity)
-  local go = next and vim.diagnostic.goto_next or vim.diagnostic.goto_prev
+  local count = next and 1 or -1
   severity = severity and vim.diagnostic.severity[severity] or nil
   return function()
-    go({ severity = severity })
+    vim.diagnostic.jump({ count = count, float = true, severity = severity })
   end
 end
 

@@ -16,6 +16,7 @@ vim.api.nvim_create_autocmd('FileType', {
 })
 
 vim.api.nvim_create_user_command('Grep', function(params)
+  local overseer = require('overseer')
   local args = vim.fn.expandcmd(params.args)
   -- Insert args at the '$*' in the grepprg
   local cmd, num_subs = vim.o.grepprg:gsub('%$%*', args)

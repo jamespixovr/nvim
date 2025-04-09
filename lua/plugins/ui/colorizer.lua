@@ -1,6 +1,6 @@
 return {
   'catgoose/nvim-colorizer.lua',
-  enabled = false,
+  enabled = true,
   event = 'BufReadPre',
   opts = {
     user_default_options = {

@@ -38,7 +38,6 @@ return {
     opts = {
       templates = { 'make', 'user', 'vscode', 'task', 'shell' },
       dap = false,
-<<<<<<<< HEAD:lua/plugins/coding/overseer/init.lua
       -- strategy = { 'jobstart', preserve_output = true, use_terminal = true, use_shell = true },
       strategy = {
         'toggleterm',
@@ -49,18 +48,6 @@ return {
         quit_on_exit = 'never',
         use_shell = true,
       },
-========
-      strategy = { 'jobstart', preserve_output = true, use_terminal = true, use_shell = true },
-      -- strategy = {
-      --   'toggleterm',
-      --   auto_scroll = false,
-      --   close_on_exit = false,
-      --   hidden = false,
-      --   open_on_start = false,
-      --   quit_on_exit = 'never',
-      --   use_shell = true,
-      -- },
->>>>>>>> 4885d09 (feat: add new prompt library and overseer features):lua/plugins/overseer/init.lua
       task_launcher = {
         bindings = {
           n = {
@@ -70,16 +57,9 @@ return {
       },
       task_list = {
         default_detail = 2,
-<<<<<<<< HEAD:lua/plugins/coding/overseer/init.lua
         direction = 'bottom',
         min_height = 17,
         max_height = 17,
-========
-        -- direction = 'bottom',
-        direction = 'right',
-        min_height = 15,
-        max_height = 15,
->>>>>>>> 4885d09 (feat: add new prompt library and overseer features):lua/plugins/overseer/init.lua
         min_width = 0.4,
         max_width = 0.4,
         separator = '',
@@ -159,7 +139,6 @@ return {
 
       overseer.setup(opts)
 
-<<<<<<<< HEAD:lua/plugins/coding/overseer/init.lua
       -- Close overseer window when all buffers are closed
       vim.api.nvim_create_autocmd({ 'BufWinLeave' }, {
         pattern = '*',
@@ -185,9 +164,6 @@ return {
       })
 
       require('plugins.coding.overseer.commands')
-========
-      require('plugins.overseer.commands')
->>>>>>>> 4885d09 (feat: add new prompt library and overseer features):lua/plugins/overseer/init.lua
     end,
   },
 }
