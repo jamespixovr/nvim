@@ -19,29 +19,6 @@ return {
     desc = 'Codecompanion save',
   },
   { '<leader>aL', ':CodeCompanionLoad<CR>', desc = 'Codecompanion load' },
-  {
-    '<leader>aa',
-    function()
-      local bufnr = vim.api.nvim_get_current_buf()
-      local name = require('codecompanion').last_chat().references:make_id_from_buf(bufnr)
-      if name == '' then
-        name = 'Buffer ' .. bufnr
-      end
-      local id = '<buf>' .. name .. '</buf>'
-
-      require('codecompanion').last_chat().references:add({
-        bufnr = bufnr,
-        id = id,
-        source = 'codecompanion.strategies.chat.variables.buffer',
-        opts = {
-          watched = true,
-        },
-      })
-      vim.print('buffer added to chat')
-    end,
-    silent = true,
-    desc = 'buffer to CodeCompanion chat',
-  },
   { '<leader>ap', ':CodeCompanion /pr<cr>', mode = { 'n' }, desc = 'Code Companion PR' },
   { '<leader>ar', ':CodeCompanion /optimize<cr>', mode = { 'v' }, desc = 'Code Companion Refactor' },
   { '<leader>as', ':CodeCompanion /spell<cr>', mode = { 'n', 'v' }, desc = 'Code Companion Spell' },

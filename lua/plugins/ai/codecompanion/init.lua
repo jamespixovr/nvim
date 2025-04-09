@@ -1,6 +1,3 @@
-local adapters = require('plugins.ai.codecompanion.adapters')
-local helper = require('plugins.ai.codecompanion.helper')
-
 return {
   'olimorris/codecompanion.nvim',
   version = false,
@@ -10,9 +7,10 @@ return {
   keys = require('plugins.ai.codecompanion.keymaps'),
   opts = function()
     local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
+    local helper = require('plugins.ai.codecompanion.helper')
 
     return {
-      adapters = adapters,
+      adapters = require('plugins.ai.codecompanion.adapters'),
       strategies = {
         chat = {
           keymaps = {
@@ -42,6 +40,14 @@ return {
               number = false,
               relativenumber = false,
             },
+          },
+        },
+        action_palette = {
+          prompt = 'Prompt ', -- Prompt used for interactive LLM calls
+          provider = 'telescope', -- Can be "default", "telescope", or "mini_pick". If not specified, the plugin will autodetect installed providers.
+          opts = {
+            show_default_actions = true, -- Show the default actions in the action palette?
+            show_default_prompt_library = true, -- Show the default prompt library in the action palette?
           },
         },
       },

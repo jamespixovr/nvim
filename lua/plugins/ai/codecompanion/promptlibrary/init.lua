@@ -14,4 +14,5 @@ return {
   ['Spell'] = require('plugins.ai.codecompanion.promptlibrary.spell'),
   ['Bug Finder'] = require('plugins.ai.codecompanion.promptlibrary.bug_finder'),
   ['Agent Mode'] = require('plugins.ai.codecompanion.promptlibrary.agent_mode'),
+  ['Generate a Commit Message for Staged Files'] = require('plugins.ai.codecompanion.promptlibrary.scommit'),
 }
