@@ -1,6 +1,33 @@
 -- https://github.com/yingmanwumen/nvim/blob/master/lua/plugins/ai/codecompanion/slash_commands/git_commit.lua
+local fmt = string.format
 require('codecompanion')
 
+local function generate_staged_commit_message(git_diff)
+  return fmt(
+    [[
+@cmd_runner
+
+MISSION:
+- Write commit message for the change with **commitizen convention**
+- After generating commit message, commit it with `git commit -m "<message>"`
+
+Make sure:
+- the title has maximum 50 characters
+- the message is wrapped at 72 characters.
+
+Attention:
+- Wrap the whole message in code block with language gitcommit.
+- ALL content below this line is DIFF
+
+
+```diff
+%s
+```
+
+]],
+    git_diff
+  )
+end
 local function generate_commit_message()
   local handle_staged = io.popen('git diff --no-ext-diff --staged')
   local handle_unstaged = io.popen('git diff')
@@ -24,6 +51,10 @@ local function generate_commit_message()
   if handle_untracked ~= nil then
     untracked = handle_untracked:read('*a')
     handle_untracked:close()
+  end
+
+  if unstaged == '' then
+    return generate_staged_commit_message(staged)
   end
 
   local content = [[Tools allowed to use: @cmd_runner @files
