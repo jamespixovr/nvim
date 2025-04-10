@@ -6,6 +6,12 @@ return {
       preset = {
         keys = {
           {
+            icon = '󱕻',
+            key = 'T',
+            desc = "Today's Daily Note",
+            action = ':ObsidianToday',
+          },
+          {
             icon = ' ',
             key = 'f',
             desc = 'Find File',
