@@ -38,16 +38,16 @@ return {
     opts = {
       templates = { 'make', 'user', 'vscode', 'task', 'shell' },
       dap = false,
-      -- strategy = { 'jobstart', preserve_output = true, use_terminal = true, use_shell = true },
-      strategy = {
-        'toggleterm',
-        auto_scroll = false,
-        close_on_exit = false,
-        hidden = false,
-        open_on_start = false,
-        quit_on_exit = 'never',
-        use_shell = true,
-      },
+      strategy = { 'jobstart', preserve_output = true, use_terminal = true, use_shell = true },
+      -- strategy = {
+      --   'toggleterm',
+      --   auto_scroll = false,
+      --   close_on_exit = false,
+      --   hidden = false,
+      --   open_on_start = false,
+      --   quit_on_exit = 'never',
+      --   use_shell = true,
+      -- },
       task_launcher = {
         bindings = {
           n = {

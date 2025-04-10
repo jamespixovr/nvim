@@ -6,16 +6,16 @@ return {
       preset = {
         keys = {
           {
-            icon = '󱕻',
-            key = 'T',
-            desc = "Today's Daily Note",
-            action = ':ObsidianToday',
-          },
-          {
             icon = ' ',
             key = 'f',
             desc = 'Find File',
             action = ':lua Snacks.picker.smart({filter = {cwd = true}})',
+          },
+          {
+            icon = '󱕻',
+            key = 'T',
+            desc = "Today's Daily Note",
+            action = ':ObsidianToday',
           },
           { icon = ' ', key = 'n', desc = 'New File', action = ':ene | startinsert' },
           { icon = ' ', key = 's', desc = 'Load Session', section = 'session' },
