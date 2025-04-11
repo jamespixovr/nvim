@@ -194,6 +194,8 @@ return {
           end,
         },
         todo_comments = {
+          hidden = false,
+          ignored = false,
           layout = {
             preset = function()
               return vim.o.columns >= 120 and 'mivy' or 'telescope_no_preview'

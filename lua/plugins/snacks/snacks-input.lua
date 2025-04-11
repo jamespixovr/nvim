@@ -33,6 +33,13 @@ return {
         wo = { winhighlight = 'Normal:SnacksNotifierHistory' },
         keys = { q = 'close' },
       },
+      float = {
+        position = 'float',
+        backdrop = 60,
+        height = 0.9,
+        width = 0.9,
+        zindex = 50,
+      },
       above_cursor = {
         backdrop = 50,
         position = 'float',
@@ -41,6 +48,7 @@ return {
         height = 1,
         noautocmd = true,
         relative = 'cursor',
+        width = 60,
         row = -3,
         col = 0,
         wo = {
