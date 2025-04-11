@@ -11,7 +11,7 @@ local default_options = {
   conceallevel = 2, -- Hide * markup for bold and italic
   fileencoding = 'utf-8', -- the encoding written to a file
   foldenable = true, -- Enable folding
-  foldmethod = 'expr', -- folding, set to "expr" for treesitter based folding
+  foldmethod = 'indent', -- folding, set to "expr" for treesitter based folding
   foldexpr = '', -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
   foldcolumn = '1',
   hidden = true, -- required to keep multiple buffers and open multiple buffers
@@ -28,7 +28,7 @@ local default_options = {
   swapfile = false, -- creates a swapfile
   termguicolors = true, -- set term gui colors (most terminals support this)
   timeout = true, -- This option and 'timeoutlen' determine the behavior when part of a mapped key sequence has been received. This is on by default but being explicit!
-  timeoutlen = 400, -- Time in milliseconds to wait for a mapped sequence to complete.
+  timeoutlen = 300, -- Time in milliseconds to wait for a mapped sequence to complete.
   ttimeoutlen = 10, -- Time in milliseconds to wait for a key code sequence to complete
   updatetime = 280, -- If in this milliseconds nothing is typed, the swap file will be written to disk.
   wildignore = { '*/.git/*', '*/node_modules/*' }, -- Ignore these files/folders
@@ -62,6 +62,7 @@ local default_options = {
   virtualedit = 'block', -- Allow cursor to move where there is no text in visual block mode
   wildmode = 'longest:full,full', -- Command-line completion mode
   grepprg = 'rg --vimgrep',
+  grepformat = '%f:%l:%c:%m',
   fillchars = {
     foldopen = '',
     foldclose = '',
@@ -75,7 +76,6 @@ local default_options = {
   spelllang = { 'en' },
   splitkeep = 'screen',
   jumpoptions = 'view',
-  smoothscroll = true,
 }
 
 for k, v in pairs(default_options) do

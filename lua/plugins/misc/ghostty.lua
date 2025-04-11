@@ -5,7 +5,7 @@
 
 return {
   'ghostty',
-  enabled = false,
   dir = '/Applications/Ghostty.app/Contents/Resources/vim/vimfiles/',
-  lazy = false,
+  ft = { 'ghostty' },
+  enabled = vim.fn.executable('ghostty') == 1,
 }

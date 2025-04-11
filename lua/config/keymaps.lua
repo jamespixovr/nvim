@@ -59,10 +59,6 @@ keymap('t', '<C-k>', '<cmd>wincmd k<cr>', { desc = 'Go to upper window' })
 keymap('t', '<C-l>', '<cmd>wincmd l<cr>', { desc = 'Go to right window' })
 keymap('t', '<C-/>', '<cmd>close<cr>', { desc = 'Hide Terminal' })
 keymap('t', '<c-_>', '<cmd>close<cr>', { desc = 'which_key_ignore' })
--- QuickFix
--- keymap('n', ']q', ':cnext<CR>')
--- keymap('n', '[q', ':cprev<CR>')
-keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 
 -- Clear search with <esc>
 vim.keymap.set('n', '<leader><space>', ':nohlsearch<CR>', { desc = 'Clear hlsearch', nowait = true })
@@ -85,13 +81,6 @@ keymap('n', '<leader>w|', '<C-W>v', { desc = 'Split window right', remap = true 
 
 keymap('x', 'K', ":m '<-2<CR>gv-gv")
 keymap('x', 'J', ":m '>+1<CR>gv-gv")
-
--- QUICKFIX
--- keymap('n', 'gq', vim.cmd.cnext, { desc = ' Next Quickfix' })
--- keymap('n', 'gQ', vim.cmd.cprevious, { desc = ' Prev Quickfix' })
-keymap('n', 'dQ', function()
-  vim.cmd.cexpr('[]')
-end, { desc = ' Delete Quickfix List' })
 
 -- OPTION TOGGLING
 -- toggle inlay hints
@@ -116,3 +105,18 @@ keymap('n', '<leader><tab>d', '<cmd>tabclose<cr>', { desc = 'Close Tab' })
 keymap('n', '<leader><tab>[', '<cmd>tabprevious<cr>', { desc = 'Previous Tab' })
 keymap('n', '[<tab>', '<cmd>tabprevious<cr>', { desc = 'Previous Tab', silent = true })
 keymap('n', ']<tab>', '<cmd>tabnext<cr>', { desc = 'Next Tab', silent = true })
+
+-- quickfix list
+keymap('n', '<leader>xq', function()
+  local success, err = pcall(vim.fn.getqflist({ winid = 0 }).winid ~= 0 and vim.cmd.cclose or vim.cmd.copen)
+  if not success and err then
+    vim.notify(err, vim.log.levels.ERROR)
+  end
+end, { desc = 'Quickfix List' })
+
+-- keymap('n', '[q', vim.cmd.cprev, { desc = ' Previous Quickfix' })
+-- keymap('n', ']q', vim.cmd.cnext, { desc = ' Next Quickfix' })
+keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
+keymap('n', 'dQ', function()
+  vim.cmd.cexpr('[]')
+end, { desc = ' Delete Quickfix List' })
