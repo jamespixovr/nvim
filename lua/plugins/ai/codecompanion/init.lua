@@ -9,13 +9,22 @@ return {
     local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
     local helper = require('plugins.ai.codecompanion.helper')
 
+    local systemPromptModes = require('plugins.ai.codecompanion.systemprompts')
+
+    systemPromptModes.setup()
+
     return {
       adapters = require('plugins.ai.codecompanion.adapters'),
       strategies = {
         chat = {
           keymaps = {
-            close = {
-              modes = { n = { 'q', '<C-c>' }, i = '<C-c>' },
+            close = { modes = { n = { 'q', '<C-c>' }, i = '<C-c>' } },
+            switch_mode = {
+              modes = { n = 'gm' },
+              description = 'Switch Chat Mode',
+              callback = function()
+                systemPromptModes.browse()
+              end,
             },
           },
           adapter = adapter,
