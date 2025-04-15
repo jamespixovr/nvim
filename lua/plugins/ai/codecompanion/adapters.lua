@@ -27,7 +27,8 @@ return {
       schema = {
         model = {
           -- default = 'gpt-4o',
-          default = 'o3-mini-2025-01-31',
+          -- default = 'o3-mini-2025-01-31',
+          default = 'gpt-4.1-mini-2025-04-14',
         },
       },
     }
