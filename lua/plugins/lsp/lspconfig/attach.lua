@@ -44,49 +44,58 @@ local go_to_definition = function()
 end
 
 local function keymap(bufnr, client)
-  local function map(lhs, rhs, desc, mode)
+  local function map(lhs, rhs, mode, opts)
     mode = mode or 'n'
-    vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = '[LSP] ' .. desc, silent = true })
+    opts = opts or {}
+    opts.silent = opts.silent or true
+    opts.buffer = bufnr
+    opts.desc = string.format('Lsp: %s', opts.desc)
+    vim.keymap.set(mode, lhs, rhs, opts)
   end
 
   map('gd', go_to_definition, 'Go to definition')
 
-  vim.keymap.set('n', 'gr', function()
+  map('gr', function()
     Snacks.picker.lsp_references()
   end, { buffer = bufnr, desc = 'References', nowait = true })
 
   map('gi', function()
     Snacks.picker.lsp_implementations()
-  end, 'Goto Implementation')
+  end, { desc = 'Goto Implementation' })
 
   map('gy', function()
     Snacks.picker.lsp_type_definitions()
-  end, 'Goto Type Definition')
+  end, { desc = 'Goto Type Definition' })
 
-  -- map('K', vim.lsp.buf.hover, 'Hover Documentation') -- use the hover vim
+  map('gh', function()
+    vim.lsp.buf.hover({ border = vim.g.borderStyle })
+  end, { desc = 'Hover' })
 
-  map('gK', vim.lsp.buf.signature_help, 'Signature Help')
+  map('gK', vim.lsp.buf.signature_help, { desc = 'Signature Help' })
 
-  map('gl', "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", 'Show diagnostics')
+  map('gl', "<cmd>lua vim.diagnostic.open_float(0,{border='rounded'})<CR>", { desc = 'Show diagnostics' })
 
-  map('[d', diagnostic_goto(true), 'Next Diagnostic')
-  map(']d', diagnostic_goto(false), 'Next Diagnostic')
-  map('<leader>cd', "<cmd>lua vim.diagnostic.open_float({source='if_many'})<cr>", 'Diagnostic')
+  map('[d', diagnostic_goto(true), { desc = 'Next Diagnostic' })
+  map(']d', diagnostic_goto(false), { desc = 'Next Diagnostic' })
+  map('<leader>cd', "<cmd>lua vim.diagnostic.open_float({source='if_many'})<cr>", { desc = 'Diagnostic' })
 
-  map('<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', 'Set loclist')
+  map('<leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', { desc = 'Set loclist' })
 
-  map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', '[W]orkspace [A]dd Folder')
-  map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', '[W]orkspace [R]emove Folder')
+  map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', { desc = '[W]orkspace [A]dd Folder' })
+  map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', { desc = '[W]orkspace [R]emove Folder' })
 
   if client.supports_method(methods.textDocument_codeAction) then
-    map('<leader>ca', vim.lsp.buf.code_action, 'Code Actions', { 'n', 'v' })
+    map('<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Actions' }, { 'n', 'v' })
   end
 
-  map('<leader>cr', rename, '[R]ename')
+  map('<leader>cr', rename, { desc = '[R]ename' })
 
-  map('<leader>ci', '<cmd>LspInfo<cr>', 'Lsp Info')
-  map('<leader>ch', vim.lsp.codelens.refresh, 'CodeLens Refresh')
-  map('<leader>cl', vim.lsp.codelens.run, '[C]ode[L]ens Run')
+  map('<leader>ci', '<cmd>LspInfo<cr>', { desc = 'Lsp Info' })
+  map('<leader>ch', vim.lsp.codelens.refresh, { desc = 'CodeLens Refresh' })
+  map('<leader>cl', vim.lsp.codelens.run, { desc = '[C]ode[L]ens Run' })
+  map('<leader>th', function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  end, { desc = 'Toggle inlay hints' })
 end
 
 vim.api.nvim_create_autocmd('LspAttach', {

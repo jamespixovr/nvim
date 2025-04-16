@@ -59,11 +59,11 @@ return {
         helper.telescope('live_grep', { cwd = false }),
         desc = 'Find in Files (Grep)',
       },
-      {
-        '<leader>th',
-        '<cmd>Telescope grep_string<cr>',
-        desc = 'Search word under cursor',
-      },
+      -- {
+      --   '<leader>th',
+      --   '<cmd>Telescope grep_string<cr>',
+      --   desc = 'Search word under cursor',
+      -- },
       {
         '<leader>sH',
         helper.telescope('grep_string', { cwd = false }),

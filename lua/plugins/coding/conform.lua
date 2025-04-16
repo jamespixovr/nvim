@@ -38,7 +38,8 @@ return {
       lsp_fallback = true, -- not recommended to change
     },
     formatters_by_ft = {
-      -- cs = { 'csharpier' },
+      cs = { 'csharpier' },
+      -- cs = "dotnet-csharpier",
       css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
       -- go = { 'goimports', 'gci', 'gofumpt', 'golines' },
       graphql = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
