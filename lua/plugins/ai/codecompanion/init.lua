@@ -6,15 +6,15 @@ return {
   event = 'VeryLazy',
   keys = require('plugins.ai.codecompanion.keymaps'),
   opts = function()
-    local adapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
+    local defaultAdapter = os.getenv('NVIM_AI_ADAPTER') or 'gemini'
     local helper = require('plugins.ai.codecompanion.helper')
-
     local systemPromptModes = require('plugins.ai.codecompanion.systemprompts')
+    local adapters = require('plugins.ai.codecompanion.adapters')
 
     systemPromptModes.setup()
 
     return {
-      adapters = require('plugins.ai.codecompanion.adapters'),
+      adapters = adapters,
       strategies = {
         chat = {
           keymaps = {
@@ -27,20 +27,20 @@ return {
               end,
             },
           },
-          adapter = adapter,
+          adapter = defaultAdapter,
           roles = helper.roles(),
           tools = require('plugins.ai.codecompanion.tools'),
           slash_commands = require('plugins.ai.codecompanion.slash_commands'),
         },
-        inline = { adapter = adapter },
+        inline = { adapter = adapters.openai },
         agent = {
-          adapter = adapter,
+          adapter = defaultAdapter,
           tools = { opts = { auto_submit_errors = true } },
         },
       },
       display = {
         diff = {
-          close_chat_at = 240, -- Close an open chat buffer if the total columns of your display are less than...
+          close_chat_at = 500, -- Close an open chat buffer if the total columns of your display are less than...
           layout = 'vertical', -- vertical|horizontal split for default provider
           opts = { 'internal', 'filler', 'closeoff', 'algorithm:patience', 'followwrap', 'linematch:120' },
           provider = 'mini_diff', -- default|mini_diff
@@ -48,7 +48,8 @@ return {
         inline = { diff = { enabled = true } },
         chat = {
           show_settings = false,
-          render_headers = true,
+          render_headers = false,
+          auto_scroll = false,
           window = {
             opts = {
               number = false,
