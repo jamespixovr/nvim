@@ -6,7 +6,10 @@ return {
     keys = {
       {
         'gd',
-        "<cmd>lua require('omnisharp_extended').lsp_definition()<cr>",
+        function()
+          require('omnisharp_extended').telescope_lsp_definition()
+        end,
+        { noremap = true },
         desc = 'Go to definition',
         ft = { 'cs', 'vb' },
       },
@@ -18,7 +21,11 @@ return {
       },
       {
         'gr',
-        "<cmd>lua require('omnisharp_extended').lsp_references()<cr>",
+        function()
+          require('omnisharp_extended').telescope_lsp_references(
+            require('telescope.themes').get_ivy({ excludeDefinition = true })
+          )
+        end,
         desc = 'Go to references',
         ft = { 'cs', 'vb' },
       },
@@ -61,28 +68,10 @@ return {
                 ForImplicitObjectCreatio = true,
               },
             },
-          },
-          keys = {
-            {
-              'gd',
-              function()
-                require('omnisharp_extended').lsp_definitions()
-              end,
-              desc = 'Goto Definition',
-            },
-            {
-              'gr',
-              function()
-                require('omnisharp_extended').lsp_references()
-              end,
-              desc = 'Goto References',
-            },
-            {
-              'gi',
-              function()
-                require('omnisharp_extended').lsp_implementation()
-              end,
-              desc = 'Goto Implementation',
+            RenameOptions = {
+              RenameInComments = nil,
+              RenameOverloads = nil,
+              RenameInStrings = nil,
             },
           },
           enable_roslyn_analyzers = true,

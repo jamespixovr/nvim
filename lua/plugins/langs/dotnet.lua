@@ -1,5 +1,6 @@
 return {
   'seblyng/roslyn.nvim',
+  enabled = false,
   event = { 'BufReadPre', 'BufNewFile' },
   opts = {
     filewatching = 'off',
