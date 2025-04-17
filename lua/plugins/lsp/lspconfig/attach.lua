@@ -48,6 +48,7 @@ local function keymap(_bufnr, client)
     mode = mode or 'n'
     opts = opts or {}
     opts.silent = opts.silent or true
+    opts.noremap = true
     opts.buffer = true
     opts.desc = string.format('Lsp: %s', opts.desc)
     vim.keymap.set(mode, lhs, rhs, opts)
@@ -84,9 +85,9 @@ local function keymap(_bufnr, client)
   map('<leader>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', { desc = '[W]orkspace [A]dd Folder' })
   map('<leader>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', { desc = '[W]orkspace [R]emove Folder' })
 
-  if client.supports_method(methods.textDocument_codeAction) then
-    map('<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Actions' }, { 'n', 'v' })
-  end
+  -- if client.supports_method(methods.textDocument_codeAction) then
+  map('<leader>ca', vim.lsp.buf.code_action, { desc = 'Code Actions' }, { 'n', 'v' })
+  -- end
 
   map('<leader>cr', rename, { desc = '[R]ename' })
 

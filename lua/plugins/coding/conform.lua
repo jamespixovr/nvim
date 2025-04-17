@@ -9,9 +9,10 @@ return {
     {
       '<leader>fd',
       function()
-        require('conform').format({ async = true, lsp_fallback = true })
+        require('conform').format({ async = false, timeout_ms = 5000, lsp_fallback = true })
       end,
-      desc = 'Format buffer',
+      mode = { 'n', 'v' },
+      desc = 'Format file or range (in visual mode)',
     },
     {
       '<leader>cM',
@@ -63,15 +64,23 @@ return {
       yaml = { 'yamlfmt' },
       -- ["*"] = { "trim_whitespace" },
     },
-    format_on_save = {
-      timeout_ms = 500,
-      lsp_fallback = true,
-      condition = function(bufnr)
-        -- Skip files matching these patterns
-        local filename = vim.api.nvim_buf_get_name(bufnr)
-        return not (filename:match('%.min%.[jc]ss$'))
-      end,
-    },
+    format_on_save = function(bufnr)
+      -- Disable autoformat on certain filetypes
+      local ignore_filetypes = {}
+      if vim.tbl_contains(ignore_filetypes, vim.bo[bufnr].filetype) then
+        return
+      end
+      -- Disable with a global or buffer-local variable
+      if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+        return
+      end
+      -- Disable autoformat for files in a certain path
+      local bufname = vim.api.nvim_buf_get_name(bufnr)
+      if bufname:match('/node_modules/') then
+        return
+      end
+      return { timeout_ms = 500, lsp_format = 'fallback' }
+    end,
     formatters = {
       -- biome = {
       --   -- https://biomejs.dev/formatter/

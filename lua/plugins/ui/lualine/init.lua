@@ -69,7 +69,15 @@ return {
             status.Overseer(),
             status.showMacroRecording(),
             status.filetype(),
+            status.LazyUpdates(),
             -- status.treesitter(),
+            {
+              function()
+                return ' '
+              end,
+              separator = { right = '' },
+              padding = { left = 0, right = 0 },
+            },
           },
           lualine_y = {
             status.codecompanion(),

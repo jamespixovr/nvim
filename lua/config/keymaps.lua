@@ -35,6 +35,7 @@ keymap('n', '<leader>zr', '<cmd>LspRestart<cr>')
 keymap('v', '<', '<gv')
 keymap('v', '>', '>gv')
 
+vim.keymap.set('n', '<Leader>r', ':%s/<c-r><c-w>//g<left><left>', { desc = 'Rename word under cursor' })
 -- Paste over currently selected text without yanking it
 -- keymap('v', 'p', '"_dP')
 -- keymap('x', '<leader>p', [["_dP]])
@@ -120,3 +121,15 @@ keymap('n', '<C-q>', ':call QuickFixToggle()<CR>')
 keymap('n', 'dQ', function()
   vim.cmd.cexpr('[]')
 end, { desc = ' Delete Quickfix List' })
+
+-- adapted from
+-- https://github.com/rachartier/dotfiles/blob/main/.config/nvim/lua/remap.lua
+local map = vim.keymap.set
+
+map('n', 'dd', function()
+  if vim.api.nvim_get_current_line():match('^%s*$') then
+    return '"_dd'
+  else
+    return 'dd'
+  end
+end, { expr = true, desc = 'Smart dd' })

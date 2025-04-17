@@ -148,6 +148,7 @@ function M.LazyUpdates(opts)
     lazy_status.updates,
     padding = { left = 1, right = 1 },
     cond = lazy_status.has_updates,
+    separator = { right = '' },
     color = { bg = '#282c34', fg = '#bbc2cf', gui = 'bold' },
   }, opts)
 end
@@ -163,7 +164,8 @@ function M.mode(opts)
       local mode_color = modecolor
       return { bg = mode_color[vim.fn.mode()], fg = color.bg_dark, gui = 'bold' }
     end,
-    separator = { left = '', right = '' },
+    separator = { right = '' },
+    -- separator = { left = '', right = '' },
   }, opts)
 end
 
@@ -193,7 +195,8 @@ end
 function M.progress(opts)
   return helper.extend_tbl({
     'progress',
-    separator = { left = '', right = '' },
+    -- separator = { left = '', right = '' },
+    separator = { left = '' },
     color = { bg = color.purple, fg = color.bg, gui = 'bold' },
   }, opts)
 end
@@ -242,6 +245,7 @@ function M.diagnostics(opts)
   return helper.extend_tbl({
     'diagnostics',
     sources = { 'nvim_diagnostic' },
+    colored = true,
     draw_empty = false,
     on_click = function()
       vim.cmd('Trouble diagnostics toggle filter.buf=0')
@@ -296,6 +300,7 @@ end
 function M.git_diff(opts)
   return helper.extend_tbl({
     'diff',
+    colored = true,
     source = function()
       ---@diagnostic disable-next-line: undefined-field
       local gitsigns = vim.b.gitsigns_status_dict
@@ -341,7 +346,7 @@ function M.lsp(opts)
     on_click = function()
       vim.api.nvim_command('LspInfo')
     end,
-    separator = { left = '', right = '' },
+    separator = { left = '', right = '' },
     color = function()
       local _, ftcolor = require('nvim-web-devicons').get_icon_cterm_color_by_filetype(
         vim.api.nvim_get_option_value('filetype', { buf = 0 })

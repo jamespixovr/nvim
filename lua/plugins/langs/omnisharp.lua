@@ -46,13 +46,18 @@ return {
             ['textDocument/definition'] = function(...)
               return require('omnisharp_extended').handler(...)
             end,
-            -- ['textDocument/definition'] = require('omnisharp_extended').definition_handler,
-            -- ['textDocument/typeDefinition'] = require('omnisharp_extended').type_definition_handler,
-            -- ['textDocument/references'] = require('omnisharp_extended').references_handler,
-            -- ['textDocument/implementation'] = require('omnisharp_extended').implementation_handler,
           },
           settings = {
+            FormattingOptions = {
+              EnableEditorConfigSupport = true,
+              OrganizeImports = true,
+            },
+            Sdk = {
+              IncludePrereleases = true,
+            },
             RoslynExtensionsOptions = {
+              EnableAnalyzersSupport = true,
+              EnableImportCompletion = true,
               InlayHintsOptions = {
                 EnableForParameters = true,
                 ForLiteralParameters = true,
@@ -67,11 +72,6 @@ return {
                 ForLambdaParameterTypes = true,
                 ForImplicitObjectCreatio = true,
               },
-            },
-            RenameOptions = {
-              RenameInComments = nil,
-              RenameOverloads = nil,
-              RenameInStrings = nil,
             },
           },
           enable_roslyn_analyzers = true,
