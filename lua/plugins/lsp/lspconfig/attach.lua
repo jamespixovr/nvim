@@ -44,7 +44,7 @@ local go_to_definition = function()
 end
 
 local function keymap(_bufnr, client)
-  local function map(lhs, rhs, mode, opts)
+  local function map(lhs, rhs, opts, mode)
     mode = mode or 'n'
     opts = opts or {}
     opts.silent = opts.silent or true
