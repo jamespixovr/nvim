@@ -18,4 +18,5 @@ return {
   ['Proof Read'] = require('plugins.ai.codecompanion.promptlibrary.proofread'),
   ['Naming'] = require('plugins.ai.codecompanion.promptlibrary.naming'),
   ['Vibe Code'] = require('plugins.ai.codecompanion.promptlibrary.vibe_code'),
+  ['Platform Commit'] = require('plugins.ai.codecompanion.promptlibrary.platform-commit'),
 }

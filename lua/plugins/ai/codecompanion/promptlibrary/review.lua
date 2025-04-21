@@ -1,6 +1,6 @@
 return {
   strategy = 'chat',
-  description = 'Review the selected code',
+  description = 'Review the provided code snippet.',
   opts = {
     -- index = 3,
     -- is_default = true,

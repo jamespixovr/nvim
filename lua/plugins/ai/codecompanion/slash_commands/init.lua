@@ -1,7 +1,7 @@
 return {
-  ['buffer'] = { opts = { provider = 'snacks', keymaps = { modes = { i = '<C-b>' } } } },
+  ['buffer'] = { opts = { provider = 'snacks', contains_code = true, keymaps = { modes = { i = '<C-b>' } } } },
   ['help'] = { opts = { provider = 'snacks', max_lines = 1000 } },
-  ['file'] = { opts = { provider = 'snacks' } },
+  ['file'] = { opts = { provider = 'snacks', contains_code = true, max_lines = 1000 } },
   ['symbols'] = { opts = { provider = 'snacks' } },
 
   ['agent_mode'] = require('plugins.ai.codecompanion.slash_commands.agent_mode'),
