@@ -94,6 +94,7 @@ return {
           'nvim-tree',
           'trouble',
           'quickfix',
+          'nvim-dap-ui',
           'toggleterm',
           'lazy',
           'mason',

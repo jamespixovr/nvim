@@ -7,7 +7,7 @@ return {
       'nvim-lua/plenary.nvim',
     },
     cmd = { 'MCPHub' },
-    build = 'npm install -g mcp-hub@latest',
+    build = 'pnpm add -g mcp-hub@latest',
     opts = {
       port = 4004,
       config = vim.fn.expand('~/mcpservers.json'),
@@ -21,5 +21,12 @@ return {
         },
       },
     },
+    config = function(_, opts)
+      local root = vim.fs.root(0, '.git')
+      if root then
+        vim.fn.setenv('MCP_PROJECT_ROOT_PATH', root)
+      end
+      require('mcphub').setup(opts)
+    end,
   },
 }
