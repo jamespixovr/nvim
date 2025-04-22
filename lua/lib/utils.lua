@@ -7,4 +7,17 @@ function M.is_available(plugin)
   return package.loaded[plugin] ~= nil
 end
 
+function M.debounce(ms, fn)
+  local timer = assert(vim.uv.new_timer())
+  return function(...)
+    local argc, argv = select('#', ...), { ... }
+    timer:start(ms, 0, function()
+      timer:stop()
+      vim.schedule(function()
+        fn(unpack(argv, 1, argc))
+      end)
+    end)
+  end
+end
+
 return M
