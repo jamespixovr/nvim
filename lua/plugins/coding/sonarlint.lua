@@ -1,40 +1,32 @@
+local filetypes = { 'java', 'python', 'php', 'javascript', 'typescript', 'vue', 'go' }
+
 return {
-  url = 'https://gitlab.com/schrieveslaach/sonarlint.nvim',
-  enabled = false,
-  ft = { 'python', 'javascript', 'go', 'typescript', 'javascriptreact', 'typescriptreact' },
-  dependencies = {
-    'neovim/nvim-lspconfig',
-  },
-  config = function()
-    -- local mason = vim.fn.stdpath "data" .. "/mason"
-    require('sonarlint').setup({
-      server = {
-        cmd = {
-          '/opt/homebrew/opt/openjdk@17/bin/java',
-          '-jar',
-          vim.fn.expand('$MASON/packages/sonarlint-language-server/extension/server/sonarlint-ls.jar'),
-          '-stdio',
-          '-analyzers',
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarjava.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarpython.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonargo.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarcfamily.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarhtml.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarjs.jar'),
-          -- vim.fn.expand("$MASON/share/sonarlint-analyzers/sonarphp.jar"),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonartext.jar'),
-          vim.fn.expand('$MASON/share/sonarlint-analyzers/sonarxml.jar'),
+  {
+    'https://gitlab.com/schrieveslaach/sonarlint.nvim',
+    ft = filetypes,
+    dependencies = {
+      'neovim/nvim-lspconfig',
+    },
+    config = function()
+      require('sonarlint').setup({
+        server = {
+          cmd = vim
+            .iter({
+              -- '/opt/homebrew/opt/openjdk@17/bin/java',
+              require('lib.jvm').home(17) .. '/bin/java',
+              -- "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005",
+              '-jar',
+              vim.fn.expand('$MASON/packages/sonarlint-language-server/extension/server/sonarlint-ls.jar'),
+              '-stdio',
+              '-analyzers',
+              vim.fn.expand('$MASON/share/sonarlint-analyzers/*.jar', true, 1),
+            })
+            :flatten()
+            :totable(),
         },
-      },
-      filetypes = {
-        -- Tested and working
-        'python',
-        'go',
-        'javascript',
-        'typescript',
-        'javascriptreact',
-        'typescriptreact',
-      },
-    })
-  end,
+
+        filetypes = filetypes,
+      })
+    end,
+  },
 }

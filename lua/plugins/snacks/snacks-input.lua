@@ -30,7 +30,7 @@ return {
         title_pos = 'center',
         ft = 'markdown',
         bo = { filetype = 'snacks_notif_history', modifiable = false },
-        wo = { winhighlight = 'Normal:SnacksNotifierHistory' },
+        wo = { winhighlight = 'Normal:SnacksNotifierHistory', wrap = true },
         keys = { q = 'close' },
       },
       float = {
