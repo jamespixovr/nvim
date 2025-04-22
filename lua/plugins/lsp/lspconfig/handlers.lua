@@ -1,11 +1,12 @@
-require("lspconfig.ui.windows").default_options.border = vim.g.borderStyle
+require('lspconfig.ui.windows').default_options.border = vim.g.borderStyle
 
-vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(vim.lsp.handlers.hover, {
+vim.lsp.handlers['textDocument/hover'] = vim.lsp.with(vim.lsp.handlers.hover, {
   silent = true,
   border = vim.g.borderStyle,
 })
 
-vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+vim.lsp.handlers['textDocument/signatureHelp'] = vim.lsp.with(vim.lsp.handlers.signature_help, {
+  focus = false,
   border = vim.g.borderStyle,
 })
 
@@ -13,20 +14,20 @@ vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(vim.lsp.handlers.s
 ---@return string displayedText
 local function addCodeAndSourceAsSuffix(diag)
   if not diag.source then
-    return ""
+    return ''
   end
-  local source = diag.source:gsub(" ?%.$", "") -- rm trailing dot for lua_ls
-  local code = diag.code and ": " .. diag.code or ""
-  return (" (%s%s)"):format(source, code)
+  local source = diag.source:gsub(' ?%.$', '') -- rm trailing dot for lua_ls
+  local code = diag.code and ': ' .. diag.code or ''
+  return (' (%s%s)'):format(source, code)
 end
 
 vim.diagnostic.config({
   signs = {
     text = {
-      [vim.diagnostic.severity.ERROR] = "",
-      [vim.diagnostic.severity.WARN] = "▲",
-      [vim.diagnostic.severity.INFO] = "●",
-      [vim.diagnostic.severity.HINT] = "",
+      [vim.diagnostic.severity.ERROR] = '', -- "✘"
+      [vim.diagnostic.severity.WARN] = '▲',
+      [vim.diagnostic.severity.INFO] = '●',
+      [vim.diagnostic.severity.HINT] = '',
     },
   },
   virtual_text = {
@@ -37,13 +38,13 @@ vim.diagnostic.config({
     severity_sort = true,
     border = vim.g.borderStyle,
     max_width = 70,
-    header = "",
+    header = '',
     prefix = function(_, _, total)
-      local bullet = total > 1 and "• " or ""
-      return bullet, "Comment"
+      local bullet = total > 1 and '• ' or ''
+      return bullet, 'Comment'
     end,
     suffix = function(diag)
-      return addCodeAndSourceAsSuffix(diag), "Comment"
+      return addCodeAndSourceAsSuffix(diag), 'Comment'
     end,
   },
 })

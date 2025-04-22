@@ -1,5 +1,3 @@
--- adapted from https://github.com/binhtran432k/nvim/blob/main/lua/helper.lua
-
 local M = {}
 
 M.root_patterns = { '.git', '/lua' }
@@ -211,12 +209,6 @@ function M.notify(title, msg, level)
     level = 'info'
   end
   vim.notify(msg, vim.log.levels[level:upper()], { title = title })
-end
-
----@param file string
----@return string
-function M.lint_config(file)
-  return vim.fn.stdpath('config') .. '/.lint_configs/' .. file
 end
 
 return M
