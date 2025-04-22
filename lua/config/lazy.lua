@@ -108,3 +108,13 @@ vim.defer_fn(function()
   end
   vim.notify(('󱧕 %s plugin updates'):format(numberOfUpdates), vim.log.levels.INFO, { title = 'Lazy' })
 end, 5000)
+
+-- Autocmds and keymaps can be loaded, lazily, after plugins
+vim.api.nvim_create_autocmd('User', {
+  pattern = 'VeryLazy',
+  callback = function()
+    require('config.autocmds')
+    require('config.commands')
+    require('config.keymaps')
+  end,
+})

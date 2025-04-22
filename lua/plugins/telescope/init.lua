@@ -33,10 +33,10 @@ return {
         '<cmd>Telescope resume<cr>',
         desc = 'Telescope Resume',
       },
-      { '<leader>fe', '<cmd>Telescope file_browser<cr>', desc = 'Browse Files' },
+      -- { '<leader>fe', '<cmd>Telescope file_browser<cr>', desc = 'Browse Files' },
       { '<leader>fr', '<cmd>Telescope oldfiles<cr>', desc = 'Recent' },
-      { '<leader>fC', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
-      { '<leader>fM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
+      -- { '<leader>fC', '<cmd>Telescope command_history<cr>', desc = 'Command History' },
+      -- { '<leader>fM', '<cmd>Telescope man_pages<cr>', desc = 'Man Pages' },
       {
         '<leader>fl',
         ":lua require('telescope.builtin').grep_string({ search = vim.fn.input('GREP -> ') })<CR>",
@@ -44,11 +44,11 @@ return {
         silent = true,
         desc = 'Grep string',
       },
-      {
-        '<leader>fF',
-        helper.telescope('find_files', { cwd = false }),
-        desc = 'Find Files (cwd)',
-      },
+      -- {
+      --   '<leader>fF',
+      --   helper.telescope('find_files', { cwd = false }),
+      --   desc = 'Find Files (cwd)',
+      -- },
       {
         '<leader>sg',
         '<cmd>Telescope live_grep<cr>',

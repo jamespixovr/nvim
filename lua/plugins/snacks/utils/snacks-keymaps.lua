@@ -259,5 +259,19 @@ return function()
       end,
       desc = 'Marks',
     },
+    {
+      '<leader>fe',
+      function()
+        local buf_path = vim.api.nvim_buf_get_name(0)
+        local dir = vim.fn.fnamemodify(buf_path, ':h')
+
+        Snacks.picker.files({
+          cwd = dir,
+          hidden = false,
+          ignored = false,
+        })
+      end,
+      desc = 'Find files in current directory',
+    },
   }
 end

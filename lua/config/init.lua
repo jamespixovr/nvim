@@ -71,12 +71,8 @@ local load_core = function()
   leader_map()
   add_filetype()
 
-  safeRequire('config.lazy')
-
-  safeRequire('config.autocmds')
   safeRequire('config.options')
-  safeRequire('config.commands')
-  safeRequire('config.keymaps')
+  safeRequire('config.lazy')
 end
 
 load_core()

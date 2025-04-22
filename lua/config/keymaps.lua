@@ -44,7 +44,7 @@ keymap('n', '<leader>Y', [["+Y]])
 
 -- COMMAND & INSERT MODE
 keymap({ 'i', 'c' }, '<C-a>', '<Home>')
-keymap({ 'i', 'c' }, '<C-e>', '<End>')
+-- keymap({ 'i', 'c' }, '<C-e>', '<End>')
 
 -- navigation
 keymap('i', '<M-Up>', '<C-\\><C-N><C-w>k')
@@ -85,9 +85,9 @@ keymap('x', 'J', ":m '>+1<CR>gv-gv")
 
 -- OPTION TOGGLING
 -- toggle inlay hints
-keymap('n', '<leader>uh', function()
-  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
-end)
+-- keymap('n', '<leader>uh', function()
+--   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+-- end)
 
 -- Resize windows using <ctrl> arrow keys
 keymap('n', '<M-Up>', ':resize +2<CR>', { desc = 'Increase window height', silent = true })
