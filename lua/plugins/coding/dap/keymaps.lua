@@ -67,3 +67,8 @@ M.dap_ui_keymaps = function()
 end
 
 return M
+
+-- vim.keymap.set("n", "<leader>tt", function()
+--             dapui.toggle({ layout = 1, reset = true })
+--             dapui.toggle({ layout = 2, reset = true })
+--          end)
