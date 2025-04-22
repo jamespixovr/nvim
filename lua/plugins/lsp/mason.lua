@@ -39,6 +39,11 @@ return {
         'yamllint',
         'csharpier',
         'netcoredbg',
+        'sonarlint-language-server',
+        -- Java stuff
+        'jdtls',
+        'java-debug-adapter',
+        'java-test',
       },
     },
     config = function(_, opts)
