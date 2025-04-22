@@ -1,0 +1,34 @@
+{
+  "mcpServers": {
+    "fetch": {
+      "command": "uvx",
+      "args": ["mcp-server-fetch"]
+    },
+    "time": {
+      "command": "uvx",
+      "args": ["mcp-server-time"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@executeautomation/playwright-mcp-server"]
+    },
+    "github": {
+      "command": "github-mcp-server",
+      "args": ["stdio"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "<YOUR_TOKEN>"
+      }
+    }
+  },
+  "nativeMCPServers": {
+    "neovim": {
+      "disabled": false,
+      "disabled_tools": [],
+      "disabled_resources": [],
+      "custom_instructions": {
+        "disabled": false,
+        "text": ""
+      }
+    }
+  }
+}
