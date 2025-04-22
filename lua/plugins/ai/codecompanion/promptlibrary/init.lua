@@ -1,4 +1,6 @@
-return {
+local promptList = require('plugins.ai.codecompanion.promptlibrary.awesome-prompts')
+
+return vim.tbl_extend('force', promptList.prompt_library(), {
   ['Explain architecture'] = require('plugins.ai.codecompanion.promptlibrary.explain_architecture'),
   ['Suggest Refactoring'] = require('plugins.ai.codecompanion.promptlibrary.suggest_refactoring'),
   ['Add DocBlock'] = require('plugins.ai.codecompanion.promptlibrary.docblock'),
@@ -19,4 +21,4 @@ return {
   ['Naming'] = require('plugins.ai.codecompanion.promptlibrary.naming'),
   ['Vibe Code'] = require('plugins.ai.codecompanion.promptlibrary.vibe_code'),
   ['Platform Commit'] = require('plugins.ai.codecompanion.promptlibrary.platform-commit'),
-}
+})
