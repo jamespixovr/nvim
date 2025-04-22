@@ -12,7 +12,8 @@ return {
         server = {
           cmd = vim
             .iter({
-              '/opt/homebrew/opt/openjdk@17/bin/java',
+              -- '/opt/homebrew/opt/openjdk@17/bin/java',
+              require('lib.jvm').home(17) .. '/bin/java',
               -- "-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:5005",
               '-jar',
               vim.fn.expand('$MASON/packages/sonarlint-language-server/extension/server/sonarlint-ls.jar'),

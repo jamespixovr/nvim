@@ -117,7 +117,7 @@ local function enable_codelens(bufnr)
   })
 end
 
-local function enable_debugger(bufnr)
+local function enable_debugger(_bufnr)
   require('jdtls').setup_dap({ hotcodereplace = 'auto' })
   require('jdtls.dap').setup_dap_main_class_configs()
 end
