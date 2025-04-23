@@ -84,11 +84,6 @@ return {
     version = false,
     config = function()
       require('mini.surround').setup({
-        -- Add/delete/replace surroundings (brackets, quotes, etc.)
-        --
-        -- - gsaiw) - [S]urround [A]dd [I]nner [W]ord [)]Paren
-        -- - gsd'   - [S]urround [D]elete [']quotes
-        -- - gsr)'  - [S]urround [R]eplace [)] [']
         mappings = {
           add = 'gsa', -- Add surrounding in Normal and Visual modes
           delete = 'gsd', -- Delete surrounding

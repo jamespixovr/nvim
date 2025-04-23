@@ -3,7 +3,7 @@ return {
   ft = 'qf',
   opts = {
     auto_enable = true,
-    auto_resize_height = true,
+    auto_resize_height = false,
     func_map = {
       open = '<cr>',
       openc = 'o',
