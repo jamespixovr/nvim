@@ -2,6 +2,18 @@
 local debounce = require('lib.utils').debounce
 local autocmd = vim.api.nvim_create_autocmd
 
+local function codelens(bufnr, client)
+  if client.server_capabilities.codeLensProvider then
+    vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter', 'InsertLeave' }, {
+      group = vim.api.nvim_create_augroup('CodeLens', { clear = false }),
+      buffer = bufnr,
+      callback = function()
+        vim.lsp.codelens.refresh({ bufnr = bufnr })
+      end,
+    })
+  end
+end
+
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
   callback = function(ctx)
@@ -35,17 +47,18 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     require('plugins.lsp.lspconfig.keymaps').keymap(bufnr)
 
-    if client:supports_method('textDocument/codeLens') then
-      vim.lsp.codelens.refresh({ bufnr = bufnr })
-      vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-        -- callback = debounce(200, function(args0)
-        callback = debounce(20, function(args0)
-          vim.lsp.codelens.refresh({ bufnr = args0.buf })
-        end),
-      })
-      -- Code lens setup, don't call again
-      return true
-    end
+    codelens(bufnr, client)
+
+    -- if client:supports_method('textDocument/codeLens') then
+    --   vim.lsp.codelens.refresh({ bufnr = bufnr })
+    --   vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
+    --     callback = debounce(400, function(args0)
+    --       vim.lsp.codelens.refresh({ bufnr = args0.buf })
+    --     end),
+    --   })
+    --   -- Code lens setup, don't call again
+    --   return true
+    -- end
   end,
 })
 

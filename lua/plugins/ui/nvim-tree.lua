@@ -28,12 +28,62 @@ return {
   -- file explorer
   {
     'nvim-tree/nvim-tree.lua',
-    -- event = "User DirOpened",
-    lazy = false,
+    -- lazy = false,
+    event = 'UIEnter',
     keys = {
       { '<leader>e', '<cmd>NvimTreeToggle<cr>', desc = 'Nvim Tree' },
     },
-    config = function()
+    opts = {
+      actions = { open_file = { quit_on_open = true } },
+      diagnostics = {
+        enable = true,
+        icons = {
+          hint = icons.diagnostics.Hint,
+          info = icons.diagnostics.Information,
+          warning = icons.diagnostics.Warning,
+          error = icons.diagnostics.Error,
+        },
+        show_on_dirs = true,
+      },
+      disable_netrw = true,
+      filters = { dotfiles = true },
+      hijack_cursor = true,
+      on_attach = on_attach,
+      renderer = {
+        add_trailing = false,
+        group_empty = true,
+        highlight_git = true,
+        highlight_opened_files = 'none',
+        root_folder_modifier = ':~',
+        indent_markers = {
+          enable = false,
+          icons = { corner = icons.ui.Corner, edge = icons.ui.Edge, none = icons.ui.Edge },
+        },
+        icons = {
+          webdev_colors = true,
+          git_placement = 'before',
+          padding = ' ',
+          symlink_arrow = icons.ui.Arrow,
+          show = { file = true, folder = true, folder_arrow = true, git = true },
+          glyphs = {
+            folder = icons.nvim_tree.folder,
+          },
+        },
+        special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'go.mod' },
+      },
+      select_prompts = true,
+      update_focused_file = {
+        enable = true,
+        update_root = false,
+        ignore_list = { 'fzf', 'help', 'git', 'snacks' },
+      },
+      view = {
+        adaptive_size = true,
+        width = 40,
+        signcolumn = 'no',
+      },
+    },
+    config = function(_, opts)
       local nvim_tree = require('nvim-tree')
       local Snacks = require('snacks')
 
@@ -51,56 +101,7 @@ return {
         end,
       })
 
-      nvim_tree.setup({
-        on_attach = on_attach,
-        disable_netrw = true,
-        hijack_cursor = true,
-        filters = { dotfiles = true },
-
-        update_focused_file = {
-          enable = true,
-          update_root = false,
-          ignore_list = { 'fzf', 'help', 'git', 'snacks' },
-        },
-        diagnostics = {
-          enable = true,
-          icons = {
-            hint = icons.diagnostics.Hint,
-            info = icons.diagnostics.Information,
-            warning = icons.diagnostics.Warning,
-            error = icons.diagnostics.Error,
-          },
-          show_on_dirs = true,
-        },
-        actions = { open_file = { quit_on_open = true } },
-        view = {
-          adaptive_size = true,
-          width = 40,
-          signcolumn = 'no',
-        },
-        renderer = {
-          add_trailing = false,
-          group_empty = true,
-          highlight_git = true,
-          highlight_opened_files = 'none',
-          root_folder_modifier = ':~',
-          indent_markers = {
-            enable = false,
-            icons = { corner = icons.ui.Corner, edge = icons.ui.Edge, none = icons.ui.Edge },
-          },
-          icons = {
-            webdev_colors = true,
-            git_placement = 'before',
-            padding = ' ',
-            symlink_arrow = icons.ui.Arrow,
-            show = { file = true, folder = true, folder_arrow = true, git = true },
-            glyphs = {
-              folder = icons.nvim_tree.folder,
-            },
-          },
-          special_files = { 'Cargo.toml', 'Makefile', 'README.md', 'go.mod' },
-        },
-      })
+      nvim_tree.setup(opts)
     end,
   },
 }

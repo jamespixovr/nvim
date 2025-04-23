@@ -27,9 +27,10 @@ return {
           {
             icon = '󰭹 ',
             key = 'a',
-            desc = 'AI Chat',
+            desc = 'AI Chat As',
             action = function()
-              require('codecompanion').chat()
+              require('codecompanion').actions({})
+              -- require('codecompanion').chat()
             end,
           },
           { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },
