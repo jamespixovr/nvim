@@ -47,18 +47,17 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     require('plugins.lsp.lspconfig.keymaps').keymap(bufnr)
 
-    codelens(bufnr, client)
-
-    -- if client:supports_method('textDocument/codeLens') then
-    --   vim.lsp.codelens.refresh({ bufnr = bufnr })
-    --   vim.api.nvim_create_autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-    --     callback = debounce(400, function(args0)
-    --       vim.lsp.codelens.refresh({ bufnr = args0.buf })
-    --     end),
-    --   })
-    --   -- Code lens setup, don't call again
-    --   return true
-    -- end
+    if client:supports_method('textDocument/codeLens') then
+      vim.lsp.codelens.refresh({ bufnr = bufnr })
+      autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
+        -- callback = debounce(200, function(args0)
+        callback = debounce(500, function(args0)
+          vim.lsp.codelens.refresh({ bufnr = args0.buf })
+        end),
+      })
+      -- Code lens setup, don't call again
+      return true
+    end
   end,
 })
 
@@ -66,7 +65,7 @@ do -- textDocument/documentHighlight
   local method = 'textDocument/documentHighlight'
 
   autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
-    callback = debounce(200, function(args)
+    callback = debounce(500, function(args)
       vim.lsp.buf.clear_references()
       local win = vim.api.nvim_get_current_win()
       local bufnr = args.buf --- @type integer

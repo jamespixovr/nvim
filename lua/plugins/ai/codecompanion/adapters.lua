@@ -7,8 +7,8 @@ return {
           default = 'claude-3-7-sonnet-latest',
         },
         max_tokens = {
-          -- default = 8192,
-          default = 18000,
+          default = 8192,
+          -- default = 28000,
         },
         extended_output = {
           default = false,

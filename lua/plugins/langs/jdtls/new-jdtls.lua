@@ -1,3 +1,4 @@
+-- https://github.com/lazymaniac/nvim-ide/blob/master/lua/plugins/lsp/lang/java.lua
 return {
   {
     'mfussenegger/nvim-jdtls',
@@ -32,7 +33,32 @@ return {
           },
         },
         settings = {
+          redhat = {
+            telemetry = {
+              enabled = false,
+            },
+          },
           java = {
+            import = {
+              saveActions = {
+                organizeImports = true,
+              },
+              maven = {
+                enabled = true,
+              },
+              gradle = {
+                enabled = true,
+              },
+            },
+            implementationsCodeLens = {
+              enabled = true,
+            },
+            referencesCodeLens = {
+              enabled = true,
+            },
+            signatureHelp = {
+              enabled = true,
+            },
             configuration = {
               runtimes = {
                 {
@@ -52,6 +78,106 @@ return {
                   path = require('lib.jvm').home(23),
                 },
               },
+            },
+            completion = {
+              importOrder = { '', 'javax', 'java', '#' },
+              matchCase = 'firstLetter',
+              maxResults = 100,
+              postfix = {
+                enabled = true,
+              },
+              enabled = true,
+              chain = {
+                enabled = true,
+              },
+              collapseCompletionItems = true,
+              lazyResolveTextEdit = {
+                enabled = true,
+              },
+              favoriteStaticMembers = {
+                'org.hamcrest.MatcherAssert.assertThat',
+                'org.hamcrest.Matchers.*',
+                'org.hamcrest.CoreMatchers.*',
+                'org.junit.jupiter.api.Assertions.*',
+                'java.util.Objects.requireNonNull',
+                'java.util.Objects.requireNonNullElse',
+                'org.mockito.Mockito.*',
+                'org.mockito.BDDMockito.*',
+                'org.instancio.Instancio.*',
+                'org.instancio.Select.*',
+              },
+              filteredTypes = { 'java.awt.*', 'com.sun.*', 'sun.*', 'jdk.*', 'org.graalvm.*', 'io.micrometer.shaded.*' },
+              guessMethodArguments = 'auto',
+            },
+            cleanup = {
+              actions = { 'renameFileToType' },
+              actionsOnSave = {
+                -- "qualifyMembers",
+                -- "qualifyStaticMembers",
+                'addOverride',
+                'addDeprecated',
+                'stringConcatToTextBlock',
+                'invertEquals',
+                -- "addFinalModifier",
+                'instanceofPatternMatch',
+                'lambdaExpression',
+                'switchExpression',
+              },
+            },
+            codeGeneration = {
+              insertionLocation = 'afterCursor',
+              generateComments = false,
+              hashCodeEquals = {
+                useInstanceof = true,
+                useJava7Objects = true,
+              },
+              toString = {
+                codeStyle = 'STRING_BUILDER_CHAINED', -- "STRING_CONCATENATION" | "STRING_BUILDER" | "STRING_BUILDER_CHAINED" | "STRING_FORMAT"
+                limitElements = 0,
+                listArrayContents = true,
+                skipNullValues = false,
+                template = '${object.className} [${member.name()}=${member.value}, ${otherMembers}]',
+              },
+              useBlocks = true,
+            },
+            codeAction = {
+              sortMembers = {
+                avoidVolatileChanges = false,
+              },
+            },
+            refactoring = {
+              extract = {
+                interface = {
+                  replace = true,
+                },
+              },
+            },
+            format = {
+              comments = {
+                enabled = true,
+              },
+              enabled = true,
+              onType = {
+                enabled = true,
+              },
+              settings = {
+                url = '~/.config/nvim/java-formatter.xml',
+              },
+            },
+            inlayHints = {
+              parameterNames = {
+                enabled = 'all', -- literals, all, none
+                exclusions = {},
+              },
+            },
+            maven = {
+              downloadSources = true,
+              updateSnapshots = false,
+            },
+            maxConcurrentBuilds = 1,
+            references = {
+              includeAccessors = true,
+              includeDecompiledSources = true,
             },
           },
         },
