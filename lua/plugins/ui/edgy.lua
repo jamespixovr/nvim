@@ -48,6 +48,7 @@ return {
     options = {
       bottom = { size = 0.3 },
       left = { size = 40 },
+      top = { size = 10 },
     },
     close_when_all_hidden = false,
     exit_when_last = false,

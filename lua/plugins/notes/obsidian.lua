@@ -213,9 +213,9 @@ return {
     { '<leader>oo', ':cd /Users/jamesamo/vaults<cr>', desc = 'Open parent directory' },
     { '<leader>on', ':ObsidianTemplate note<cr> :lua vim.cmd([[1,/^\\S/s/^\\n\\{1,}//]])<cr>', desc = 'New Note' },
     -- { '<leader>of', ':s/\\(# \\)[^_]*_/\\1/ | s/-/ /g<cr>', desc = 'Fix Headers' },
-    { '<leader>no', '<cmd>ObsidianOpen<cr>', desc = 'Open Obsidian' },
-    { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New note' },
-    { '<leader>of', '<cmd>ObsidianSearch<cr>', desc = 'Search notes' },
+    -- { '<leader>no', '<cmd>ObsidianOpen<cr>', desc = 'Open Obsidian' },
+    -- { '<leader>nn', '<cmd>ObsidianNew<cr>', desc = 'New note' },
+    { '<leader>os', '<cmd>ObsidianSearch<cr>', desc = 'Search notes' },
     -- { '<leader>nt', '<cmd>ObsidianTags<cr>', desc = 'List notes by tags' },
     -- { '<leader>nq', '<cmd>ObsidianQuickSwitch<cr>', desc = 'Quick switch in obsidian workspace' },
     -- { '<leader>nw', '<cmd>ObsidianWorkspace work<cr>', desc = 'Change to workspace work in obsidian' },
@@ -237,5 +237,12 @@ return {
     vim.cmd.cabbrev({ 'Yesterday', 'ObsidianYesterday' })
     vim.cmd.cabbrev({ 'Tomorrow', 'ObsidianTomorrow' })
     vim.cmd.cabbrev({ 'Daily', 'ObsidianTemplate JournalNvim' })
+
+    vim.keymap.set(
+      'n',
+      '<C-c>',
+      '<Cmd>ObsidianToggleCheckbox<CR>',
+      { noremap = true, desc = '(Obsidian)Toggle checkbox' }
+    )
   end,
 }
