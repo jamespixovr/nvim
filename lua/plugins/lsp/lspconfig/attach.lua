@@ -1,13 +1,16 @@
 ---@diagnostic disable: need-check-nil
+local debounce = require('lib.utils').debounce
+local autocmd = vim.api.nvim_create_autocmd
 
 local function codelens(bufnr, client)
-  if client.server_capabilities.codeLensProvider then
-    vim.api.nvim_create_autocmd({ 'BufWritePost', 'BufEnter', 'InsertLeave' }, {
+  if client:supports_method('textDocument/codeLens') then
+    vim.lsp.codelens.refresh({ bufnr = bufnr })
+    autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'InsertLeave' }, {
       group = vim.api.nvim_create_augroup('CodeLens', { clear = false }),
       buffer = bufnr,
-      callback = function()
-        vim.lsp.codelens.refresh({ bufnr = bufnr })
-      end,
+      callback = debounce(500, function(args0)
+        vim.lsp.codelens.refresh({ bufnr = args0.buf })
+      end),
     })
   end
 end
@@ -45,5 +48,42 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
     require('plugins.lsp.lspconfig.keymaps').keymap(bufnr)
     codelens(bufnr, client)
+
+    -- if client:supports_method('textDocument/codeLens') then
+    --   vim.lsp.codelens.refresh({ bufnr = bufnr })
+    --   autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
+    --     -- callback = debounce(200, function(args0)
+    --     callback = debounce(500, function(args0)
+    --       vim.lsp.codelens.refresh({ bufnr = args0.buf })
+    --     end),
+    --   })
+    --   -- Code lens setup, don't call again
+    --   return true
+    -- end
   end,
 })
+
+do -- textDocument/documentHighlight
+  local method = 'textDocument/documentHighlight'
+
+  autocmd({ 'FocusGained', 'WinEnter', 'BufEnter', 'CursorMoved' }, {
+    callback = debounce(500, function(args)
+      vim.lsp.buf.clear_references()
+      local win = vim.api.nvim_get_current_win()
+      local bufnr = args.buf --- @type integer
+      for _, client in ipairs(vim.lsp.get_clients({ bufnr = bufnr, method = method })) do
+        local enc = client.offset_encoding
+        client:request(method, vim.lsp.util.make_position_params(0, enc), function(_, result, ctx)
+          if not result or win ~= vim.api.nvim_get_current_win() then
+            return
+          end
+          vim.lsp.util.buf_highlight_references(ctx.bufnr, result, enc)
+        end, bufnr)
+      end
+    end),
+  })
+
+  autocmd({ 'FocusLost', 'WinLeave', 'BufLeave' }, {
+    callback = vim.lsp.buf.clear_references,
+  })
+end

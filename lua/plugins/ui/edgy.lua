@@ -48,6 +48,7 @@ return {
     options = {
       bottom = { size = 0.3 },
       left = { size = 40 },
+      top = { size = 10 },
     },
     close_when_all_hidden = false,
     exit_when_last = false,
@@ -91,15 +92,6 @@ return {
     top = {},
     left = {
       {
-        title = 'Neo-Tree',
-        ft = 'neo-tree',
-        filter = function(buf)
-          return vim.b[buf].neo_tree_source == 'filesystem'
-        end,
-        size = { height = 0.5 },
-        open = 'Neotree show position=left filesystem',
-      },
-      {
         title = 'diffview-file-panel',
         ft = 'DiffviewFiles',
         open = function()
@@ -123,14 +115,6 @@ return {
       { title = 'avante', ft = 'Avante', open = 'AvanteToggle', size = { width = 0.25 } },
       { title = 'avante-files', ft = 'AvanteFiles' },
       { title = 'avante-selected-files', ft = 'AvanteSelectedFiles', size = { height = 0.1 } },
-      {
-        title = 'avante-input',
-        ft = 'AvanteInput',
-        filter = function(_, win)
-          return vim.api.nvim_win_get_config(win).relative == ''
-        end,
-        size = { height = 0.2 },
-      },
     },
     bottom = {
       {
@@ -157,6 +141,7 @@ return {
     extend(opts, require('plugins.ui.edgy.edgy-trouble'))
     extend(opts, require('plugins.ui.edgy.edgy-test'))
     extend(opts, require('plugins.ui.edgy.edgy-dap'))
+
     require('edgy').setup(opts)
   end,
 }

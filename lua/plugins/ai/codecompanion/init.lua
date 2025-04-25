@@ -54,6 +54,7 @@ return {
             opts = {
               number = false,
               relativenumber = false,
+              winbar = '',
             },
           },
         },

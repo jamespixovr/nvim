@@ -80,7 +80,7 @@ return {
       },
       quickfile = { enabled = true },
       scroll = { enabled = true },
-      statuscolumn = { enabled = true },
+      statuscolumn = { enabled = false },
       terminal = { enabled = true, win = { wo = { winbar = '' } } },
       rename = { enabled = true },
       words = { enabled = true, notify_jump = true },

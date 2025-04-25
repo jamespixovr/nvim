@@ -1,4 +1,23 @@
+local filetypes = {
+  'javascript',
+  'javascriptreact',
+  'javascript.jsx',
+  'typescript',
+  'typescriptreact',
+  'typescript.tsx',
+  'vue',
+}
+
 return {
+  {
+    'davidosomething/format-ts-errors.nvim',
+    config = function()
+      require('format-ts-errors').setup({
+        add_markdown = true, -- wrap output with markdown ```ts ``` markers
+        start_indent_level = 0, -- initial indent
+      })
+    end,
+  },
   -- add typescript to treesitter
   {
     'nvim-treesitter/nvim-treesitter',
@@ -29,59 +48,110 @@ return {
     dependencies = {
       'nvim-lua/plenary.nvim',
       'neovim/nvim-lspconfig',
-      { 'dmmulroy/ts-error-translator.nvim', config = true },
+      -- { 'dmmulroy/ts-error-translator.nvim', config = true },
     },
     keys = {
       { '<leader>og', '<cmd>TSToolsOrganizeImports<cr>', desc = 'Organize Imports' },
     },
-    ft = { 'javascriptreact', 'typescriptreact', 'javascript.jsx', 'typescript.tsx', 'javascript', 'typescript' },
-    config = function()
-      -- local api = require("typescript-tools.api")
-      require('typescript-tools').setup({
-        handlers = {
-          ['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
-            require('ts-error-translator').translate_diagnostics(err, result, ctx, config)
-            -- api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
-            vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
-          end,
+    ft = filetypes,
+    opts = {
+      filetypes = filetypes,
+      settings = {
+        tsserver_file_preferences = {
+          importModuleSpecifierPreference = 'non-relative',
+          providePrefixAndSuffixTextForRename = false,
+
+          includeInlayEnumMemberValueHints = false,
+          includeInlayFunctionLikeReturnTypeHints = false,
+          includeInlayFunctionParameterTypeHints = false,
+          includeInlayParameterNameHints = 'all', -- none | literals | all
+          includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+          includeInlayPropertyDeclarationTypeHints = true,
+          includeInlayVariableTypeHints = false,
+          includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+          includeCompletionsForModuleExports = true,
         },
-        on_attach = function(client)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
+        tsserver_plugins = { '@vue/typescript-plugin' },
+        tsserver_max_memory = 3072,
+        separate_diagnostic_server = true,
+        publish_diagnostic_on = 'insert_leave',
+        expose_as_code_action = 'all',
+      },
+      handlers = {
+        ['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
+          if result.diagnostics == nil then
+            return
+          end
+
+          -- ignore some tsserver diagnostics
+          local idx = 1
+          while idx <= #result.diagnostics do
+            local entry = result.diagnostics[idx]
+
+            local formatter = require('format-ts-errors')[entry.code]
+            entry.message = formatter and formatter(entry.message) or entry.message
+
+            -- codes: https://github.com/microsoft/TypeScript/blob/main/src/compiler/diagnosticMessages.json
+            if entry.code == 80001 then
+              -- { message = "File is a CommonJS module; it may be converted to an ES module.", }
+              table.remove(result.diagnostics, idx)
+            else
+              idx = idx + 1
+            end
+          end
+
+          ---@diagnostic disable-next-line: redundant-parameter
+          vim.lsp.diagnostic.on_publish_diagnostics(_, result, ctx, config)
         end,
-        settings = {
-          expose_as_code_action = 'all',
-          code_lens = 'off', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
-          jsx_close_tag = {
-            enable = true,
-            filetypes = { 'javascriptreact', 'typescriptreact' },
-          },
-          publish_diagnostic_on = 'insert_leave',
-          tsserver_file_preferences = {
-            includeInlayEnumMemberValueHints = false,
-            includeInlayFunctionLikeReturnTypeHints = false,
-            includeInlayFunctionParameterTypeHints = false,
-            includeInlayParameterNameHints = 'all', -- none | literals | all
-            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-            includeInlayPropertyDeclarationTypeHints = true,
-            includeInlayVariableTypeHints = false,
-            includeInlayVariableTypeHintsWhenTypeMatchesName = false,
-            includeCompletionsForModuleExports = true,
-            importModuleSpecifierPreference = 'non-relative',
-          },
-          tsserver_plugins = {
-            -- https://github.com/styled-components/typescript-styled-plugin
-            -- for TypeScript v4.9+
-            'typescript-plugin-css-modules',
-            -- '@styled/typescript-styled-plugin',
-            -- or for older TypeScript versions
-            -- "typescript-styled-plugin",
-          },
-          separate_diagnostic_server = true,
-          tsserver_max_memory = 3072,
-        },
-      })
-    end,
+      },
+    },
+    -- config = function()
+    --   -- local api = require("typescript-tools.api")
+    --   require('typescript-tools').setup({
+    --     handlers = {
+    --       ['textDocument/publishDiagnostics'] = function(err, result, ctx, config)
+    --         require('ts-error-translator').translate_diagnostics(err, result, ctx, config)
+    --         -- api.filter_diagnostics({ 80006, 80001 })(err, result, ctx, config)
+    --         vim.lsp.diagnostic.on_publish_diagnostics(err, result, ctx, config)
+    --       end,
+    --     },
+    --     on_attach = function(client)
+    --       client.server_capabilities.documentFormattingProvider = false
+    --       client.server_capabilities.documentRangeFormattingProvider = false
+    --     end,
+    --     settings = {
+    --       expose_as_code_action = 'all',
+    --       code_lens = 'off', -- possible values: ("off"|"all"|"implementations_only"|"references_only")
+    --       jsx_close_tag = {
+    --         enable = true,
+    --         filetypes = { 'javascriptreact', 'typescriptreact' },
+    --       },
+    --       publish_diagnostic_on = 'insert_leave',
+    --       tsserver_file_preferences = {
+    --         includeInlayEnumMemberValueHints = false,
+    --         includeInlayFunctionLikeReturnTypeHints = false,
+    --         includeInlayFunctionParameterTypeHints = false,
+    --         includeInlayParameterNameHints = 'all', -- none | literals | all
+    --         includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+    --         includeInlayPropertyDeclarationTypeHints = true,
+    --         includeInlayVariableTypeHints = false,
+    --         includeInlayVariableTypeHintsWhenTypeMatchesName = false,
+    --         includeCompletionsForModuleExports = true,
+    --         importModuleSpecifierPreference = 'non-relative',
+    --       },
+    --       tsserver_plugins = {
+    --         -- https://github.com/styled-components/typescript-styled-plugin
+    --         -- for TypeScript v4.9+
+    --         'typescript-plugin-css-modules',
+    --         -- '@styled/typescript-styled-plugin',
+    --         -- or for older TypeScript versions
+    --         -- "typescript-styled-plugin",
+    --       },
+    --       separate_diagnostic_server = true,
+    --       tsserver_max_memory = 3072,
+    --     },
+    --   })
+    -- end,
   },
   {
     'nvim-neotest/neotest',

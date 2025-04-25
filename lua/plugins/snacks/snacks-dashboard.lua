@@ -20,16 +20,17 @@ return {
           { icon = '󰒲 ', key = 'l', desc = 'Lazy', action = ':Lazy', enabled = package.loaded.lazy ~= nil },
           {
             icon = '󱕻',
-            key = 'T',
+            key = 'o',
             desc = "Today's Daily Note",
             action = ':ObsidianToday',
           },
           {
             icon = '󰭹 ',
             key = 'a',
-            desc = 'AI Chat',
+            desc = 'AI Chat As',
             action = function()
-              require('codecompanion').chat()
+              require('codecompanion').actions({})
+              -- require('codecompanion').chat()
             end,
           },
           { icon = ' ', key = 'q', desc = 'Quit', action = ':qa' },

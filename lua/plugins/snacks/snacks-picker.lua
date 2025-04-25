@@ -171,6 +171,13 @@ return {
       enabled = true,
       prompt = '',
       sources = {
+        -- buffers = {
+        --   layout = {
+        --     preset = function()
+        --       return vim.o.columns >= 120 and 'mivy' or 'dropdown'
+        --     end,
+        --   },
+        -- },
         grep_word = {
           layout = { preset = 'telescope_preview' },
         },

@@ -10,7 +10,12 @@ return {
     build = 'pnpm add -g mcp-hub@latest',
     opts = {
       port = 4004,
-      config = vim.fn.expand('~/mcpservers.json'),
+      config = (function()
+        if vim.fn.has('mac') then
+          return vim.fn.expand(vim.fn.stdpath('config') .. '/mac_mcphub_servers.json')
+        end
+        return vim.fn.expand(vim.fn.stdpath('config') .. '/mcphub_servers.json')
+      end)(),
       extensions = {
         codecompanion = {
           -- Show the mcp tool result in the chat buffer

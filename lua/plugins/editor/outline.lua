@@ -2,10 +2,9 @@ return {
   {
     'hedyhli/outline.nvim',
     lazy = true,
-    enabled = false,
     cmd = { 'Outline', 'OutlineOpen' },
     keys = {
-      { '<leader>ss', '<cmd>Outline<cr>', desc = 'Toggle Outline' },
+      { '<leader>so', '<cmd>Outline<cr>', desc = 'Toggle Outline' },
     },
     opts = {},
   },
@@ -23,7 +22,14 @@ return {
       })
     end,
     keys = {
-      { '<leader>ss', '<cmd>Namu symbols<cr>', desc = 'Toggle Outline' },
+      {
+        '<leader>ss',
+        function()
+          require('namu.namu_symbols').show()
+        end,
+        desc = 'Toggle Outline',
+        mode = { 'n', 'x', 'o' },
+      },
     },
   },
 }
