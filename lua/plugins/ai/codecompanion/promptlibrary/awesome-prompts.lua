@@ -24,6 +24,29 @@ function M.fetch_prompts()
   return prompts
 end
 
+function M.load_local_prompts()
+  local filelocation = vim.fn.stdpath('config') .. '/gpt_prompts.csv'
+  local handle = io.open(filelocation, 'r')
+  if not handle then
+    return {}
+  end
+
+  local result = handle:read('*a')
+  handle:close()
+
+  local prompts = {}
+  -- Skip header line and parse CSV
+  for line in result:gmatch('[^\r\n]+') do
+    if not line:match('^act,prompt') then -- Skip header
+      local act, prompt = line:match('^"?([^,"]+)"?,%s*"?(.+)"?$')
+      if act and prompt then
+        prompts[act] = prompt
+      end
+    end
+  end
+  return prompts
+end
+
 -- Load prompts from cache or fetch new ones
 function M.load_prompts(cache_file, cache_expiry, keep_prompts_uptodate)
   local stat = vim.loop.fs_stat(cache_file)
@@ -61,6 +84,38 @@ function M.load_prompts(cache_file, cache_expiry, keep_prompts_uptodate)
 end
 
 function M.prompt_library()
+  local prompt_lists = {}
+  local prompts = M.load_local_prompts()
+
+  for act, prompt in pairs(prompts) do
+    local shortName = act:match('^(%w+)'):lower()
+    prompt_lists[act] = {
+      strategy = 'chat',
+      description = string.format('Act as an expert %s', act),
+      opts = {
+        short_name = shortName,
+        is_slash_cmd = true,
+        auto_submit = false,
+        ignore_system_prompt = true,
+      },
+      prompts = {
+        {
+          role = 'system',
+          content = prompt,
+          opts = { visible = true },
+        },
+        {
+          role = 'user',
+          content = [[]],
+        },
+      },
+    }
+  end
+
+  return prompt_lists
+end
+
+function M.prompt_library_online()
   local prompt_lists = {}
   local prompts = M.load_prompts(vim.fn.stdpath('cache') .. '/prompts.json', 86400, true)
 
