@@ -25,25 +25,28 @@ function M.fetch_prompts()
 end
 
 function M.load_local_prompts()
-  local filelocation = vim.fn.stdpath('config') .. '/gpt_prompts.csv'
+  local filelocation = vim.fn.stdpath('config') .. '/gpt_prompt.csv'
   local handle = io.open(filelocation, 'r')
   if not handle then
     return {}
   end
 
-  local result = handle:read('*a')
-  handle:close()
-
   local prompts = {}
-  -- Skip header line and parse CSV
-  for line in result:gmatch('[^\r\n]+') do
-    if not line:match('^act,prompt') then -- Skip header
-      local act, prompt = line:match('^"?([^,"]+)"?,%s*"?(.+)"?$')
+  local first_line = true
+  for line in handle:lines() do
+    if first_line then
+      first_line = false
+    else
+      -- Parse CSV line with quoted strings possibly containing commas
+      local act, prompt = line:match('^"(.-)","(.-)"$')
       if act and prompt then
+        -- Unescape inner quotes if needed
+        prompt = prompt:gsub('""', '"')
         prompts[act] = prompt
       end
     end
   end
+  handle:close()
   return prompts
 end
 

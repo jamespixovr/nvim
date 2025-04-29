@@ -15,6 +15,7 @@ local function codeium_keymaps()
     -- stylua: ignore end
   }
 end
+
 return {
   {
     'Exafunction/codeium.vim',
