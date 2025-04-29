@@ -68,6 +68,7 @@ return {
         },
       },
       prompt_library = require('plugins.ai.codecompanion.promptlibrary'),
+      extensions = require('plugins.ai.codecompanion.extensions'),
       -- opts = {
       -- local system_prompt = require("codecompanion.config").config.opts.system_prompt
       --   system_prompt = require('plugins.ai.codecompanion.system_prompt'),
