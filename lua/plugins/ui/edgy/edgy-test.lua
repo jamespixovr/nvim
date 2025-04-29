@@ -13,7 +13,7 @@ return {
       {
         title = 'neotest-panel',
         ft = 'neotest-output-panel',
-        size = { height = 0.25 },
+        size = { height = 0.30 },
         open = 'Neotest output-panel',
       },
     },

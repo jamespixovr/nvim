@@ -29,7 +29,10 @@ return {
         },
         quickfix = {
           enabled = false,
-          open = false,
+          -- open = false,
+          open = function()
+            require('trouble').open({ mode = 'quickfix', focus = false })
+          end,
         },
         output_panel = {
           open = 'rightbelow vsplit | resize 40',
