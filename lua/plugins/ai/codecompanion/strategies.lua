@@ -59,6 +59,19 @@ M.background = {
   },
 }
 
+M.skills = {
+  dirs = {
+    '~/.agents/skills', -- Shared agent skills (source of the ~/.claude/skills symlinks)
+    '~/.claude/skills', -- Claude Code's personal skills
+    '.claude/skills', -- Claude Code's project skills
+  },
+  opts = {
+    chat = {
+      enabled = true,
+    },
+  },
+}
+
 --------------
 --  Inline  --
 --------------

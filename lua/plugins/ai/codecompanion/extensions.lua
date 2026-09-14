@@ -106,15 +106,15 @@ return {
       },
     },
   },
-  agentskills = {
-    opts = {
-      paths = {
-        -- { '~/.config/skills/.claude/skills', recursive = true },
-        { '~/.agents/skills', recursive = true }, -- Recursive search
-        { '.claude/skills', recursive = true }, -- Recursive search
-      },
-    },
-  },
+  -- agentskills = {
+  --   opts = {
+  --     paths = {
+  --       -- { '~/.config/skills/.claude/skills', recursive = true },
+  --       { '~/.agents/skills', recursive = true }, -- Recursive search
+  --       { '.claude/skills', recursive = true }, -- Recursive search
+  --     },
+  --   },
+  -- },
   -- spinner = {
   --   opts = {
   --     log_level = 'info',

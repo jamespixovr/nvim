@@ -1,19 +1,10 @@
 return {
-  -- {
-  --   'ravitemer/codecompanion-history.nvim', -- Save and load conversation history.
-  --   cmd = { 'CodeCompanionHistory', 'CodeCompanionSummaries' },
-  --   config = true,
-  -- },
   {
     'olimorris/codecompanion.nvim',
     version = false,
     dependencies = {
-      -- 'j-hui/fidget.nvim',
       'hakonharnes/img-clip.nvim',
-      -- 'ravitemer/codecompanion-history.nvim', -- Save and load conversation history.
-      -- 'lalitmee/codecompanion-spinners.nvim',
       'jarmex/codecompanion-gitcommit.nvim',
-      'cairijun/codecompanion-agentskills.nvim',
     },
     cmd = {
       'CodeCompanionChat',
@@ -48,6 +39,7 @@ return {
         prompt_library = require('plugins.ai.codecompanion.promptlibrary'),
         extensions = require('plugins.ai.codecompanion.extensions'),
         mcp = require('plugins.ai.codecompanion.mcp').mcpServers,
+        skills = strategies.skills,
         opts = {
           log_level = 'DEBUG',
         },
