@@ -3,15 +3,8 @@ return {
   ['help'] = { opts = { provider = 'snacks', contains_code = true, max_lines = 1000 } },
   ['file'] = { opts = { provider = 'snacks', contains_code = true, max_lines = 1000 } },
   ['symbols'] = { opts = { provider = 'snacks', contains_code = true } },
-  ['image'] = {
-    -- keymaps = { modes = { i = '<C-i>' } },
-    opts = { dirs = { '~/Desktop' } },
-    ---@param opts { adapter: CodeCompanion.HTTPAdapter }
-    ---@return boolean
-    enabled = function(opts)
-      return opts.adapter.opts and opts.adapter.opts.vision == true
-    end,
-  },
+  ['fetch'] = { opts = { adapter = 'markitdown' } },
+  ['image'] = { opts = { dirs = { '~/Desktop' } } },
   ['workspace'] = { opts = { contains_code = true, provider = 'snacks' } },
   ['terminal'] = { opts = { contains_code = true, provider = 'snacks' } },
   ['agent_mode'] = require('plugins.ai.codecompanion.slash_commands.agent_mode'),

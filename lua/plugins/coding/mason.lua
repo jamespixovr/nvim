@@ -185,9 +185,12 @@ return {
       -- also requires `yq` being available in the system
       -- ("file:%s/personal-mason-registry"):format(vim.fn.stdpath("config")),
       'github:mason-org/mason-registry',
+      -- for csharp debugging - seblyng/roslyn.nvim
+      'github:Crashdummyy/mason-registry',
     },
     ui = {
       border = 'rounded',
+      backdrop = 100,
       icons = {
         package_installed = '✓',
         -- package_pending = "➜",

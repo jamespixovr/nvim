@@ -90,6 +90,13 @@ return {
             vim.treesitter.start()
             vim.wo.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
             vim.wo.foldmethod = 'expr'
+
+            -- Only enable indentexpr if the lang contains queries for indents
+            -- Otherwise it will just mess everything up in C# at least
+            -- local lang = vim.treesitter.language.get_lang(vim.bo.ft) or vim.bo.ft
+            if vim.treesitter.query.get(lang, 'indents') then
+              vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+            end
           end
         end,
       })

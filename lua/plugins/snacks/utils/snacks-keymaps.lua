@@ -435,5 +435,34 @@ return function()
       end,
       desc = 'Search Git History',
     },
+    {
+      '<leader>fw',
+      function()
+        Snacks.picker.grep({
+          title = vim.fs.basename(vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()),
+          cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd(),
+        })
+      end,
+      desc = 'Picker: Grep',
+    },
+    {
+      '<leader>fs',
+      function()
+        if not vim.g.roslyn_nvim_selected_solution then
+          return vim.notify('No solution file found')
+        end
+
+        local projects = require('roslyn.sln.api').projects(vim.g.roslyn_nvim_selected_solution)
+        local files = vim
+          .iter(projects)
+          :map(function(it)
+            return vim.fs.dirname(it)
+          end)
+          :totable()
+
+        Snacks.picker.files({ dirs = files })
+      end,
+      desc = 'Search files in solution',
+    },
   }
 end

@@ -15,6 +15,12 @@ return {
       requires_approval_after = false,
     },
   },
+  ['fetch_webpage'] = {
+    opts = {
+      adapter = 'markitdown', -- jina, markitdown
+      require_approval_before = false,
+    },
+  },
   ['web_search'] = {
     opts = {
       adapter = 'duckduckgo',
@@ -31,11 +37,6 @@ return {
     },
   },
   ['fetch'] = {
-    opts = {
-      require_approval_before = false,
-    },
-  },
-  ['fetch_webpage'] = {
     opts = {
       require_approval_before = false,
     },

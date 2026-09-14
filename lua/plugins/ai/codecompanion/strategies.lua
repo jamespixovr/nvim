@@ -149,11 +149,9 @@ M.chat = {
   slash_commands = require('plugins.ai.codecompanion.slash_commands'),
   editor_context = require('plugins.ai.codecompanion.variables'),
   keymaps = {
+    send = { modes = { i = { '<C-CR>', '<C-s>' } } },
     close = { modes = { n = 'q', i = '<C-c>' } },
-    -- clear = { modes = { n = '<C-x>' } },
-    completion = { modes = { i = '<C-x>' } },
-    clear = { modes = { n = 'gcr' } },
-    regenerate = { modes = { n = 'gcR' } },
+    clear = { modes = { n = '<C-x>' } },
   },
   window = {
     breakindent = true,

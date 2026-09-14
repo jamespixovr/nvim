@@ -16,6 +16,13 @@ local adaptersList = {
   },
 
   ['neotest-golang'] = {
+    warn_test_name_dupes = false,
+    dap_mode = 'manual',
+    dap_manual_config = {
+      type = 'delve',
+      request = 'launch',
+      mode = 'test',
+    },
     go_list_args = { tags },
     go_test_args = {
       '-v',
@@ -61,7 +68,7 @@ return {
         -- enabled = false,
         version = '*',
         dependencies = {
-          'leoluz/nvim-dap-go',
+          -- 'leoluz/nvim-dap-go',
           'uga-rosa/utf8.nvim', -- required for sanitization feature
         },
       },
@@ -71,6 +78,28 @@ return {
       return {
         consumers = {
           overseer = require('neotest.consumers.overseer'),
+          -- from https://github.com/seblyng/dotfiles/blob/master/nvim/lua/config/neotest.lua
+          seblyng_run = function(client)
+            client.listeners.starting = function()
+              handle = require('fidget.progress').handle.create({
+                title = 'Finding tests',
+                message = 'In progress...',
+                lsp_client = {
+                  name = 'Neotest',
+                },
+              })
+            end
+            return {}
+          end,
+          seblyng_results = function(client)
+            client.listeners.started = function()
+              if handle then
+                handle.message = 'Completed'
+                handle:finish()
+              end
+            end
+            return {}
+          end,
         },
         log_level = vim.log.levels.ERROR,
         status = { enabled = true, virtual_text = true, signs = true },

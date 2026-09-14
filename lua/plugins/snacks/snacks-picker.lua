@@ -275,7 +275,10 @@ return {
       formatters = {
         file = {
           filename_first = true,
-          truncate = 100,
+          min_width = 40,
+          filename_only = false,
+          -- truncate = 100,
+          truncate = 'left',
         },
       },
       enabled = true,
@@ -381,6 +384,12 @@ return {
       win = {
         input = {
           keys = {
+            ['<c-d>'] = { 'preview_scroll_down', mode = { 'i', 'n' } },
+            ['<c-u>'] = { 'preview_scroll_up', mode = { 'i', 'n' } },
+            ['<c-.>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
+            ['<c-i>'] = { 'toggle_ignored', mode = { 'i', 'n' } },
+
+            ['<c-m>'] = { 'toggle_maximize', mode = { 'i', 'n' } },
             ['<Esc>'] = { 'close', mode = { 'i', 'n' } },
             -- ['<C-h>'] = { 'toggle_hidden', mode = { 'i', 'n' } },
             ['<c-h>'] = { 'cycle_next_layouts', mode = { 'i', 'n' } },

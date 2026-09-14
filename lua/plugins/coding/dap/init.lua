@@ -4,6 +4,7 @@ local keymaps = require('plugins.coding.dap.keymaps')
 --------------------------------------------------------------------------------------
 
 local function dapConfig()
+  local dap = require('dap')
   -- use overseer for running preLaunchTask and postDebugTask
   require('overseer').enable_dap()
 
@@ -28,7 +29,132 @@ local function dapConfig()
 
   require('plugins.coding.dap.typescript')
   -- require("config.dap.cs").setup()
+  --
 
+  -- C# config
+  dap.adapters.coreclr = {
+    type = 'executable',
+    command = vim.fn.exepath('netcoredbg'),
+    args = { '--interpreter=vscode' },
+  }
+
+  dap.configurations.cs = {
+    {
+      type = 'coreclr',
+      name = 'Launch',
+      request = 'launch',
+      program = function()
+        local project_path = vim.fs.root(0, function(name)
+          return name:match('%.csproj$') ~= nil
+        end)
+
+        if not project_path then
+          vim.notify("Couldn't find the csproj path")
+          return dap.ABORT
+        end
+
+        return require('dap.utils').pick_file({
+          filter = string.format('Debug/.*/%s', vim.fn.fnamemodify(project_path, ':t:r')),
+          path = string.format('%s/bin', project_path),
+        })
+      end,
+    },
+
+    {
+      type = 'coreclr',
+      name = 'Attach',
+      request = 'attach',
+      processId = function()
+        return require('dap.utils').pick_process({
+          filter = function(proc)
+            ---@diagnostic disable-next-line: return-type-mismatch
+            return proc.name:match('.*/Debug/.*') and not proc.name:find('vstest.console.dll')
+          end,
+        })
+      end,
+    },
+  }
+
+  -- Go config
+  dap.adapters.delve = function(callback, config)
+    if config.mode == 'remote' and config.request == 'attach' then
+      callback({
+        type = 'server',
+        host = config.host or '127.0.0.1',
+        port = config.port or '38697',
+      })
+    else
+      callback({
+        type = 'server',
+        port = '${port}',
+        executable = {
+          command = 'dlv',
+          args = { 'dap', '-l', '127.0.0.1:${port}', '--log', '--log-output=dap' },
+          detached = vim.fn.has('win32') == 0,
+        },
+      })
+    end
+  end
+
+  dap.configurations.go = {
+    {
+      type = 'delve',
+      name = 'Debug',
+      request = 'launch',
+      program = function()
+        return vim.fs.root(0, { { 'go.mod' }, '.git' }) or '${file}'
+      end,
+    },
+    {
+      type = 'delve',
+      name = 'Attach',
+      mode = 'local',
+      request = 'attach',
+      processId = function()
+        return require('dap.utils').pick_process()
+      end,
+    },
+    {
+      type = 'delve',
+      name = 'Debug test',
+      request = 'launch',
+      mode = 'test',
+      program = '${file}',
+    },
+    {
+      type = 'delve',
+      name = 'Debug test (go.mod)',
+      request = 'launch',
+      mode = 'test',
+      program = './${relativeFileDirname}',
+    },
+    {
+      type = 'go',
+      name = 'Delve: debug test (manually enter test name)',
+      request = 'launch',
+      mode = 'test',
+      program = './${relativeFileDirname}',
+      args = function()
+        local testname = vim.fn.input('Test name (^regexp$ ok): ')
+        return { '-test.run', testname }
+      end,
+    },
+    {
+      type = 'go',
+      name = 'Debug (Main) Package',
+      request = 'launch',
+      program = 'main.go',
+      cwd = '${workspaceFolder}',
+    },
+    {
+      type = 'go',
+      name = "Delve: debug opened file's cmd/cli",
+      request = 'launch',
+      cwd = '${fileDirname}', -- FIXME: should work from repo root
+      program = './${relativeFileDirname}',
+      args = {},
+    },
+  }
   -- vim.keymap.set('n', '<leader>tm', function()
   --   if vim.api.nvim_buf_get_option_value('filetype', { buf = 0 }) == 'java' then
   --     require('jdtls').test_nearest_method()
@@ -44,17 +170,34 @@ end
 
 return {
   {
-    'https://codeberg.org/mfussenegger/nvim-dap',
+    'mfussenegger/nvim-dap',
     event = 'VeryLazy',
     keys = keymaps.dap_keymaps(),
     dependencies = {
       { 'theHamsta/nvim-dap-virtual-text', opts = { virt_text_pos = 'eol' } },
       {
-        'https://codeberg.org/mfussenegger/nvim-dap-python',
+        'mfussenegger/nvim-dap-python',
         config = function(_, opts)
           require('dap-python').setup('uv', opts)
         end,
       },
+      -- {
+      --   'https://github.com/igorlfs/nvim-dap-view',
+      --   config = function()
+      --     require('dap-view').setup({
+      --       auto_toggle = true,
+      --       winbar = { default_section = 'scopes' },
+      --       windows = { terminal = { hide = { 'coreclr' } } },
+      --       expand_lines = true,
+      --       force_buffers = true,
+      --       icons = {
+      --         expanded = icons.ui.TriangleShortArrowDown,
+      --         current_frame = icons.ui.CurrentFrame,
+      --         collapsed = icons.ui.TriangleShortArrowRight,
+      --       },
+      --     })
+      --   end,
+      -- },
     },
     init = function()
       vim.api.nvim_set_hl(0, 'DapBreakpoint', { ctermbg = 0, fg = '#993939', bg = '#31353f' })
@@ -211,43 +354,6 @@ return {
         -- Update this to ensure that you have the debuggers for the langs you want
       },
     },
-  },
-  --  Debugging with go debugger
-  {
-    'leoluz/nvim-dap-go',
-    event = 'VeryLazy',
-    config = function()
-      require('dap-go').setup({
-        dap_configurations = {
-          {
-            type = 'go',
-            name = 'Debug (Main) Package',
-            request = 'launch',
-            program = 'main.go',
-            cwd = '${workspaceFolder}',
-          },
-          {
-            type = 'go',
-            name = "Delve: debug opened file's cmd/cli",
-            request = 'launch',
-            cwd = '${fileDirname}', -- FIXME: should work from repo root
-            program = './${relativeFileDirname}',
-            args = {},
-          },
-          {
-            type = 'go',
-            name = 'Delve: debug test (manually enter test name)',
-            request = 'launch',
-            mode = 'test',
-            program = './${relativeFileDirname}',
-            args = function()
-              local testname = vim.fn.input('Test name (^regexp$ ok): ')
-              return { '-test.run', testname }
-            end,
-          },
-        },
-      })
-    end,
   },
   -- [persistent-breakpoints.nvim] - Store breakpoints location on disk and load them on buffer open event.
   -- See: `:h persistent-breakpoints.nvim`

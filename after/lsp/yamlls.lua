@@ -1,6 +1,6 @@
 ---@type vim.lsp.Config
 local config = {
-  filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.gitlab', 'yaml.github' },
+  filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.github' },
   settings = {
     redhat = { telemetry = { enabled = false } },
     yaml = {

@@ -9,7 +9,7 @@ return {
     cmd = { 'LspInfo', 'LspInstall', 'LspStart' },
     event = { 'BufReadPre', 'BufNewFile' },
     dependencies = {
-      'https://codeberg.org/mfussenegger/nvim-dap',
+      'mfussenegger/nvim-dap',
       { 'b0o/SchemaStore.nvim', lazy = true, version = false },
     },
     config = function()
@@ -41,28 +41,12 @@ return {
         capabilities = lsp_capabilities,
       })
 
-      vim.lsp.enable({
-        'basedpyright',
-        'bashls',
-        'biome',
-        'cssls',
-        'cucumber_language_server',
-        'docker_compose_language_service',
-        'dockerls',
-        'emmet_language_server',
-        'gopls',
-        'golangci_lint_ls',
-        'harper_ls',
-        'helm_ls',
-        'jsonls',
-        'lua_ls',
-        'ruff',
-        'taplo',
-        'typos_lsp',
-        'vue_ls',
-        'yamlls',
-        -- 'ts_ls',
-      })
+      local packages = require('mason-registry').get_installed_packages()
+      local names = vim.iter(packages):map(function(pack)
+        return pack.spec.neovim and pack.spec.neovim.lspconfig
+      end)
+
+      vim.lsp.enable(names:totable())
 
       vim.lsp.config('html', {
         on_attach = function(client)
@@ -89,6 +73,10 @@ return {
       })
 
       require('plugins.coding.lsp.diagnostics')
+
+      vim.api.nvim_create_user_command('LspLog', function()
+        vim.cmd('edit ' .. vim.lsp.log.get_filename())
+      end, {})
 
       -- disable lsp for .env files
       local group = vim.api.nvim_create_augroup('__env', { clear = true })
