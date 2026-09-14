@@ -377,24 +377,6 @@ return {
         cycle_prev_layouts = function(picker)
           set_prev_preferred_layout(picker)
         end,
-        flash = function(picker)
-          require('flash').jump({
-            pattern = '^',
-            label = { after = { 0, 0 } },
-            search = {
-              mode = 'search',
-              exclude = {
-                function(win)
-                  return vim.bo[vim.api.nvim_win_get_buf(win)].filetype ~= 'snacks_picker_list'
-                end,
-              },
-            },
-            action = function(match)
-              local idx = picker.list:row2idx(match.pos[1])
-              picker.list:_move(idx, true, true)
-            end,
-          })
-        end,
       },
       win = {
         input = {
@@ -404,9 +386,8 @@ return {
             ['<c-h>'] = { 'cycle_next_layouts', mode = { 'i', 'n' } },
             ['<c-l>'] = { 'cycle_prev_layouts', mode = { 'i', 'n' } },
             ['<c-t>'] = { 'trouble_open', mode = { 'n', 'i' } },
-            ['<c-s>'] = { 'flash', mode = { 'n', 'i' } },
-            ['<c-c>'] = { 'close', mode = { 'n', 'i' } },
-            ['s'] = { 'flash' },
+            ['<M-j>'] = { 'preview_scroll_down', mode = { 'i' } },
+            ['<M-k>'] = { 'preview_scroll_up', mode = { 'i' } },
           },
         },
       },

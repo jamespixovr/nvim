@@ -1,7 +1,24 @@
 ---@type vim.lsp.Config
 return {
+  cmd = { 'cucumber-language-server', '--stdio' },
+  filetypes = { 'cucumber' },
+  root_markers = { '.git' },
+  capabilities = { textDocument = { formatting = true } },
   settings = {
     cucumber = {
+      features = {
+        -- Cucumber-JVM
+        'src/test/**/*.feature',
+        -- Cucumber-Ruby Cucumber-Js, Behat, Behave
+        'features/**/*.feature',
+        -- Pytest-BDD
+        'tests/**/*.feature',
+        -- SpecFlow
+        '*specs*/**/.feature',
+        '**/Features/**/*.feature',
+        -- Cypress
+        'cypress/e2e/**/*.feature',
+      },
       glue = {
         -- DEFAULTS
         -- Cucumber-JVM
@@ -28,11 +45,12 @@ return {
         'features/**/*.rb',
         -- SpecFlow
         '*specs*/**/*.cs',
+        '**/Steps/**/*.cs',
         -- Godog
         'features/**/*_test.go',
-        -- MY SETTINGS
-        -- TODO: Refactor directory structure of redstone-sidecar so tests aren't placed here, but in test/ instead
-        'modules/**/*steps.ts',
+        -- Cypress
+        'cypress/e2e/**/*{.js,.ts}',
+        'cypress/support/step_definitions/**/*{.js,.ts}',
       },
     },
   },

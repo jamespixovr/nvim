@@ -24,7 +24,7 @@ return {
         server = {
           cmd = vim
             .iter({
-              require('helpers.jvm').home(17) .. '/bin/java',
+              require('helpers.jvm').home(21) .. '/bin/java',
               '-jar',
               vim.fn.expand('$MASON/packages/sonarlint-language-server/extension/server/sonarlint-ls.jar'),
               '-stdio',

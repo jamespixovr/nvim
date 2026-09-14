@@ -1,18 +1,32 @@
 local M = {}
 
+--- Resolve the actual JAVA_HOME from a mise install dir.
+--- mise installs the macOS JDK bundle, so JAVA_HOME lives in Contents/Home.
+local function resolve_home(base)
+  if vim.fn.isdirectory(base .. '/Contents/Home') == 1 then
+    return base .. '/Contents/Home'
+  end
+  return base
+end
+
 function M.home(version)
   local home = nil
 
-  -- Run zsh to execute java_home -V and parse output for given version
+  local mise = vim.fn.exepath('mise')
+  if mise == '' then
+    return nil
+  end
+
+  -- mise where java@<version> prints the install dir for the requested version
   local job_id = vim.fn.jobstart({
-    'zsh',
-    '-c',
-    '/usr/libexec/java_home -V 2>&1 | grep "^ *' .. tostring(version) .. "\" | tail -n1 | awk '{print $NF}'",
+    mise,
+    'where',
+    'java@' .. tostring(version),
   }, {
     stdout_buffered = true,
     on_stdout = function(_, data)
       if data and data[1] and data[1] ~= '' then
-        home = vim.trim(data[1])
+        home = resolve_home(vim.trim(data[1]))
       end
     end,
   })

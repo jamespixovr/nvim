@@ -4,7 +4,8 @@ local vault = {
   -- If you want to use the home shortcut '~' here you need to call 'vim.fn.expand'.
   -- E.g. "BufReadPre " .. vim.fn.expand "~" .. "/my-vault/*.md"
   -- refer to `:h file-pattern` for more examples
-  path = vim.fn.expand('~') .. '/vaults/jamesamo',
+  -- path = vim.fn.expand('~') .. '/vaults/jamesamo',
+  path = '/Users/jamesamo/Projects/pixo/md-docs/WorkDocs',
   -- Optional, override certain settings.
   overrides = {
     notes_subdir = 'notes',

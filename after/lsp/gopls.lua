@@ -51,9 +51,7 @@ local config = {
   },
   -- https://github.com/golang/tools/blob/master/gopls/doc/settings.md#settings
   settings = {
-    env = {
-      GOEXPERIMENT = 'rangefunc',
-    },
+    env = { GOEXPERIMENT = 'rangefunc' },
     gopls = {
       codelenses = {
         gc_details = true, -- Show a code lens toggling the display of gc's choices.
