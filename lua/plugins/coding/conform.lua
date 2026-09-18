@@ -8,14 +8,13 @@ return {
   dependencies = { 'mason.nvim' },
   keys = {
     {
-      '<leader>fd',
+      '<leader>fm',
       function()
         require('conform').format({ async = false, timeout_ms = 5000, lsp_fallback = true })
       end,
       mode = { 'n', 'v' },
       desc = 'Format file or range (in visual mode)',
     },
-
     {
       '<leader>cm',
       function()
@@ -25,8 +24,9 @@ return {
       desc = 'Format',
     },
   },
-  opts = function(_, opts)
-    opts = vim.tbl_deep_extend('force', opts or {}, {
+  config = function()
+    local conform = require('conform')
+    conform.setup({
       format = {
         timeout_ms = 3000,
         async = true, -- not recommended to change
@@ -35,17 +35,54 @@ return {
       },
       formatters_by_ft = {
         css = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
-        -- TODO: Re-enable once this is fixed: https://github.com/antham/ghokin/issues/76#issuecomment-3474465409
-        -- cucumber = { "ghokin" },
+        cs = { 'csharpier' },
+        csproj = { 'csharpier' },
+        sln = { 'csharpier' },
+        slnx = { 'csharpier' },
         cucumber = { 'reformat-gherkin' },
         go = { 'goimports', 'gci', 'gofumpt', 'golines' },
         graphql = { 'biome', 'prettierd', 'prettier', stop_after_first = true },
         handlebars = { 'prettier' },
         html = { 'prettierd', 'prettier', stop_after_first = true },
         java = { 'google-java-format' },
-        javascript = { 'biome', 'biome-organize-imports' },
-        javascriptreact = { 'biome', 'biome-organize-imports' },
-        json = { 'biome' },
+        -- javascript = { 'prettierd', 'biome', 'biome-organize-imports', lsp_format = 'last', stop_after_first = true },
+        javascript = function(bufnr)
+          if conform.get_formatter_info('biome', bufnr).available then
+            return { 'biome', 'biome-organize-imports' }
+          else
+            return { 'prettierd' }
+          end
+        end,
+        -- javascriptreact = { 'prettierd', 'biome', 'biome-organize-imports', stop_after_first = true },
+        -- json = { 'prettierd', 'biome', stop_after_first = true },
+        son = function(bufnr)
+          if conform.get_formatter_info('biome', bufnr).available then
+            return { 'biome' }
+          else
+            return { 'prettierd' }
+          end
+        end,
+        typescript = function(bufnr)
+          if conform.get_formatter_info('biome', bufnr).available then
+            return { 'biome-organize-imports', 'biome' }
+          else
+            return { 'prettierd' }
+          end
+        end,
+        javascriptreact = function(bufnr)
+          if conform.get_formatter_info('biome', bufnr).available then
+            return { 'biome', 'biome-organize-imports' }
+          else
+            return { 'prettierd' }
+          end
+        end,
+        typescriptreact = function(bufnr)
+          if conform.get_formatter_info('biome', bufnr).available then
+            return { 'biome', 'biome-organize-imports' }
+          else
+            return { 'prettierd' }
+          end
+        end,
         json5 = { 'biome' },
         jsonc = { 'biome' },
         -- less = { 'prettierd' },
@@ -55,8 +92,8 @@ return {
         python = { 'ruff_fix', 'ruff_organize_imports' },
         sh = { 'shfmt' },
         sql = { 'sleek' }, -- https://github.com/nrempel/sleek
-        typescript = { 'biome-organize-imports', 'biome' },
-        typescriptreact = { 'biome', 'biome-organize-imports' },
+        -- typescript = { 'biome-organize-imports', 'biome' },
+        -- typescriptreact = { 'biome', 'biome-organize-imports' },
         xml = { 'xmlformatter' },
         yaml = { 'yamlfmt', 'trim_whitespace' },
         zsh = { 'shell-home', 'shellcheck' },
@@ -80,12 +117,23 @@ return {
         return { timeout_ms = 500, lsp_format = 'fallback' }
       end,
       formatters = {
-        -- biome = {
-        --   args = { 'format', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
-        -- },
-        -- ['biome-organize-imports'] = {
-        --   args = { 'organize-imports', '--indent-style', 'space', '--stdin-file-path', '$FILENAME' },
-        -- },
+        biome = {
+          prepend_args = function(_, ctx)
+            -- Check if a local biome.json or biome.jsonc exists upwards from the current file
+            local local_config = vim.fs.find({ 'biome.json', 'biome.jsonc' }, {
+              path = ctx.filename,
+              upward = true,
+            })
+
+            -- If no local config is found, fallback to the global config path
+            if vim.tbl_isempty(local_config) then
+              local global_config = vim.fn.expand('~/.config/nvim/biome.json') -- Update to your global path
+              return { 'format', '--config-path=' .. global_config }
+            end
+
+            return { 'format' }
+          end,
+        },
         shellcheck = {
           -- add `--shell=bash` to force to work with `zsh`
           args = "'$FILENAME' --format=diff --shell=bash | patch -p1 '$FILENAME'",
@@ -177,14 +225,6 @@ return {
         },
       },
     })
-    -- if vim.fn.executable('black') == 1 then
-    --   vim.list_extend(opts.formatters_by_ft.python, { 'black' })
-    -- end
-    return opts
-  end,
-  init = function()
-    -- If you want the formatexpr, here is the place to set it
-    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
     vim.api.nvim_create_user_command('Format', function(args)
       local range = nil
       if args.count ~= -1 then
@@ -212,5 +252,10 @@ return {
     end, {
       desc = 'Re-enable autoformat-on-save',
     })
+  end,
+
+  init = function()
+    -- If you want the formatexpr, here is the place to set it
+    vim.o.formatexpr = "v:lua.require'conform'.formatexpr()"
   end,
 }

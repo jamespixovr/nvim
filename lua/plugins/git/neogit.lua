@@ -4,13 +4,20 @@ return {
     version = '*',
     event = 'VeryLazy',
     dependencies = {
-      -- 'sindrets/diffview.nvim', -- optional - Diff integration
+      'esmuellert/codediff.nvim', -- optional - Diff integration
       'nvim-lua/plenary.nvim',
       'folke/snacks.nvim',
     },
     cmd = 'Neogit',
     opts = {
-      kind = 'tab',
+      kind = 'floating',
+      floating = {
+        relative = 'editor',
+        width = 0.85,
+        height = 0.8,
+        style = 'minimal',
+        border = 'rounded',
+      },
       commit_view = {
         kind = 'split',
         verify_commit = vim.fn.executable('gpg') == 1,
@@ -29,7 +36,7 @@ return {
       disable_insert_on_commit = true,
       fetch_after_checkout = false,
       graph_style = 'unicode',
-      process_spinner = true,
+      process_spinner = false,
       commit_editor = {
         kind = 'tab',
         show_staged_diff = true,
@@ -44,29 +51,13 @@ return {
         telescope = false,
         codediff = true,
       },
+      diff_viewer = 'codediff',
       status = {
         show_head_commit_hash = true,
-        recent_commit_count = 20,
+        recent_commit_count = 10,
         HEAD_padding = 10,
         HEAD_folded = false,
         mode_padding = 3,
-        mode_text = {
-          M = 'modified',
-          N = 'new file',
-          A = 'added',
-          D = 'deleted',
-          C = 'copied',
-          U = 'updated',
-          R = 'renamed',
-          DD = 'unmerged',
-          AU = 'unmerged',
-          UD = 'unmerged',
-          UA = 'unmerged',
-          DU = 'unmerged',
-          AA = 'unmerged',
-          UU = 'unmerged',
-          ['?'] = 'untracked',
-        },
       },
       sort_branches = '-committerdate',
 

@@ -1,6 +1,5 @@
 local function gitsigns_keymaps()
   return {
-    -- { '<leader>gb', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Toggle Git Blame' },
     { '<leader>gp', '<cmd>Gitsigns preview_hunk<cr>', desc = 'Preview Hunk' },
     { ']g', '<cmd>Gitsigns next_hunk<cr>', desc = 'Next Hunk' },
     { '[g', '<cmd>Gitsigns prev_hunk<cr>', desc = 'Prev Hunk' },
@@ -8,7 +7,7 @@ local function gitsigns_keymaps()
     { '<leader>gu', '<cmd>Gitsigns undo_stage_hunk<cr>', desc = 'Undo Stage Hunk' },
     { '<leader>gr', '<cmd>Gitsigns reset_hunk<cr>', desc = 'Reset Hunk' },
     { '<leader>gR', '<cmd>Gitsigns reset_buffer<cr>', desc = 'Reset Buffer' },
-    -- { '<leader>ga', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Toggle Git Blame' },
+    { '<leader>ga', '<cmd>Gitsigns toggle_current_line_blame<cr>', desc = 'Toggle Git Blame' },
     { '<leader>hg', '<cmd>Gitsigns diffthis HEAD<cr>', desc = 'Git Diff This' },
   }
 end
@@ -22,8 +21,8 @@ return {
       signs = {
         add = { text = '▎' },
         change = { text = '▎' },
-        delete = { text = '契' },
-        topdelete = { text = '契' },
+        delete = { text = ' ' },
+        topdelete = { text = ' ' },
         changedelete = { text = '▎' },
       },
       signs_staged = {
