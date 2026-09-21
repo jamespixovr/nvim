@@ -1,19 +1,31 @@
+--- Resolve a config file in the global `.linter_configs/` directory, creating it
+--- from `default_content` when it is missing and content was supplied.
+--- @param filename string Name of the file inside `.linter_configs/`
+--- @param default_content string|nil Written when the file does not exist yet
+--- @return string|nil path Readable config path, or nil when there is none
 local function ensure_global_config_exists(filename, default_content)
-  local config_path = (vim.fn.stdpath('config') .. '/.linter_configs/') .. filename
-  if default_content == nil then
-    return vim.fn.expand(config_path)
+  local config_dir = vim.fn.stdpath('config') .. '/.linter_configs/'
+  local config_path = vim.fn.expand(config_dir .. filename)
+
+  if vim.fn.filereadable(config_path) == 1 then
+    return config_path
   end
 
-  if vim.fn.filereadable(config_path) == 0 then
-    vim.fn.mkdir((vim.fn.stdpath('config') .. '/.linter_configs/'), 'p')
-    local file = io.open(config_path, 'w')
-    if file then
-      file:write(default_content)
-      file:close()
-    else
-      vim.notify('Failed to create global config: ' .. config_path, vim.log.levels.ERROR)
-    end
+  -- Nothing on disk and no content to seed it with: let the formatter use its
+  -- own defaults rather than pointing it at a path that does not exist.
+  if default_content == nil then
+    return nil
   end
+
+  vim.fn.mkdir(config_dir, 'p')
+  local file = io.open(config_path, 'w')
+  if not file then
+    vim.notify('Failed to create global config: ' .. config_path, vim.log.levels.ERROR)
+    return nil
+  end
+  file:write(default_content)
+  file:close()
+  return config_path
 end
 
 -- Fallback function to find local markdownlint configuration files
@@ -25,12 +37,8 @@ local function get_markdownlint_config(ctx)
     '.markdownlint.yml',
   }, { upward = true, path = ctx.dirname })[1]
 
-  if local_config then
-    return local_config
-  else
-    -- Fallback to your global config directory path
-    return ensure_global_config_exists('markdownlint.jsonc')
-  end
+  -- Fallback to the global config directory path, or nil if it is absent too
+  return local_config or ensure_global_config_exists('markdownlint.jsonc')
 end
 
 return {
@@ -193,8 +201,8 @@ return {
 
             local args = { 'format', '--stdin-file-path', '$FILENAME' }
 
-            if not local_config then
-              local global_config_path = ensure_global_config_exists('biome.json')
+            local global_config_path = not local_config and ensure_global_config_exists('biome.json')
+            if global_config_path then
               table.insert(args, '--config-path=' .. global_config_path)
             end
 
@@ -211,8 +219,8 @@ return {
 
             local args = { '-in' }
 
-            if not local_config then
-              local global_config = ensure_global_config_exists('yamlfmt.yaml')
+            local global_config = not local_config and ensure_global_config_exists('yamlfmt.yaml')
+            if global_config then
               vim.list_extend(args, { '-conf', global_config })
             end
 
@@ -225,6 +233,9 @@ return {
           args = function(self, ctx)
             -- Evaluates dynamically to use the project local configuration or global backup
             local config_path = get_markdownlint_config(ctx)
+            if not config_path then
+              return { '--fix', '$FILENAME' }
+            end
             return { '--fix', '--config', config_path, '$FILENAME' }
           end,
         },
@@ -261,20 +272,8 @@ return {
             '2',
           },
         },
-        ['ts-add-missing-imports'] = {
-          format = function(_self, ctx, _lines, callback)
-            vim.lsp.buf.code_action({
-              context = { only = { 'source.addMissingImports.ts' } },
-              apply = true,
-            })
-            vim.defer_fn(function()
-              local out_lines = vim.api.nvim_buf_get_lines(ctx.buf, 0, -1, true)
-              callback(nil, out_lines)
-            end, 80)
-          end,
-        },
         ['ts-organize-imports'] = {
-          format = function(_self, ctx, lines, callback)
+          format = function(_, ctx, lines, callback)
             callback(nil, organize_imports(ctx.buf, lines))
           end,
         },

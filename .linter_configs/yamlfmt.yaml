@@ -1,0 +1,14 @@
+---
+# Global fallback used by conform.nvim when a project has no
+# .yamlfmt / yamlfmt.yaml of its own.
+formatter:
+  type: basic
+  indent: 2
+  # keep existing blank lines instead of collapsing them
+  retain_line_breaks_single: true
+  # do not force a leading `---` onto every document
+  include_document_start: false
+  max_line_length: 90
+  pad_line_comments: 1
+  trim_trailing_whitespace: true
+  eof_newline: true
