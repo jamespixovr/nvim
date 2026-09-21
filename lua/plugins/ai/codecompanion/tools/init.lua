@@ -52,6 +52,11 @@ return {
     },
   },
   ['grep_search'] = {
+    -- CodeCompanion copies a tool's whole config onto its chat context item, and
+    -- the sessions serializer (vim.json.encode) cannot encode function values.
+    -- The default `enabled` is a function (rg presence check); a boolean keeps
+    -- sessions saveable while the upstream leak is fixed.
+    enabled = true,
     opts = {
       require_approval_before = false,
     },

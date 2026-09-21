@@ -1,7 +1,7 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.5.13/schema.json",
   "linter": {
-   "enabled": true,
+    "enabled": true,
     "rules": {
       "style": {
         "noParameterAssign": "error",
@@ -17,9 +17,16 @@
         "useTemplate": "error",
         "useEnumInitializers": "error"
       },
-      "correctness": {},
-      "suspicious": {},
-      "nursery": {}
+      "correctness": {
+        "noUndeclaredDependencies": "error"
+      },
+      "suspicious": {
+        "noVar": "on",
+        "noImportCycles": "error"
+      },
+      "nursery": {
+        "noFloatingPromises": "error"
+      }
     }
   },
   "javascript": {
@@ -43,5 +50,10 @@
     "lineWidth": 120,
     "indentStyle": "space",
     "formatWithErrors": true
+  },
+  "vcs": {
+    "clientKind": "git",
+    "enabled": true,
+    "useIgnoreFile": true
   }
 }

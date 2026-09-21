@@ -1,3 +1,5 @@
+local constants = require('helpers.constants')
+
 local function keymap(modes, lhs, rhs, opts)
   if not opts then
     opts = {}
@@ -150,7 +152,10 @@ keymap('x', '<Right>', [["zx"zpgvlolo]], { desc = '➡️ Move selection right' 
 keymap('x', '<left>', [["zxhh"zpgvhoho]], { desc = '⬅ Move selection left' })
 
 --------------------------------------------------------------------------------
-vim.keymap.set('n', '<leader>oi', function()
+keymap('n', '<leader>co', function()
+  if not vim.tbl_contains(constants.javascript_aliases, vim.bo.filetype) then
+    return
+  end
   vim.lsp.buf.code_action({
     context = { only = { 'source.organizeImports' }, diagnostics = {} },
     apply = true,

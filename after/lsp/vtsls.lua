@@ -73,6 +73,10 @@ local config = {
   },
   filetypes = constants.javascript_aliases,
   single_file_support = false,
+  commands = {
+    -- sent after organize-imports but never advertised, so Neovim warns once per session without this
+    ['_typescript.didOrganizeImports'] = function() end,
+  },
   handlers = {
     ['textDocument/publishDiagnostics'] = function(_, result, ctx, config)
       if result.diagnostics == nil then
