@@ -21,8 +21,11 @@
       })
       ]]
 
+local constants = require('helpers.constants')
+
 ---@type vim.lsp.Config
 local config = {
+  filetypes = constants.go_aliases,
   init_options = {
     usePlaceholders = true,
     semanticTokens = true,

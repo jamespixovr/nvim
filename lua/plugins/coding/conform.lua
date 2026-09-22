@@ -153,6 +153,10 @@ return {
         slnx = { 'csharpier' },
         cucumber = { 'reformat-gherkin' },
         go = { 'goimports', 'gci', 'gofumpt', 'golines' },
+        gitcommit = function()
+          return {}
+        end, -- disable formatting for this filetype
+
         -- web languages
         css = web_formatter,
         graphql = web_formatter,

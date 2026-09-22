@@ -4,6 +4,7 @@ local extractedTsserver = mason_packages .. '/typescript-language-server/node_mo
 ---@type vim.lsp.Config
 local config = {
   filetypes = { 'vue' },
+  root_markers = { 'package.json' },
   init_options = {
     vue = { hybridMode = true },
     typescript = {

@@ -46,7 +46,7 @@ local diagnostic_config = {
     end,
   },
   float = {
-    focusable = false,
+    focusable = true,
     style = 'minimal',
     border = 'rounded',
     source = 'if_many',
@@ -71,7 +71,8 @@ vim.diagnostic.config(diagnostic_config)
 
 ---@param direction 'forward' | 'backward'
 local function cycle_diagnostic_modes(direction)
-  local current_config = vim.diagnostic.config() or diagnostic_config
+  local current_config = diagnostic_config
+  -- local current_config = vim.diagnostic.config() or diagnostic_config
   local modes = {
     {
       virtual_text = {

@@ -13,7 +13,7 @@ return {
       { 'b0o/SchemaStore.nvim', lazy = true, version = false },
     },
     config = function()
-      require('plugins.coding.lsp.lsp_border')
+      require('lspconfig.ui.windows').default_options.border = vim.g.borderStyle
 
       -- This should be executed before you configure any language server
       --

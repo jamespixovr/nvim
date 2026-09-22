@@ -1,4 +1,3 @@
--- from https://github.com/serranomorante/dotfiles/blob/main/nvim/dot-config/nvim/lua/serranomorante/constants.lua
 local M = {}
 
 ---Useful way of organizing some common filetypes
@@ -17,10 +16,9 @@ M.lua_aliases = { 'lua' }
 M.markdown_aliases = { 'markdown' }
 M.json_aliases = { 'json', 'jsonc' }
 M.bash_aliases = { 'sh', 'bash' }
-M.fish_aliases = { 'fish' }
 M.html_aliases = { 'html', 'htm' }
 M.php_aliases = { 'php' }
-M.go_aliases = { 'go' }
+M.go_aliases = { 'go', 'gomod', 'gowork', 'gotmpl' }
 
 M.overseer_status = {
   ['FAILURE'] = { 'F', 'Red' },
@@ -85,56 +83,5 @@ M.fullscreen_jobstart_opts = {
 }
 
 M.NUMBERED_MARKS = { "'0", "'1", "'2", "'3", "'4", "'5", "'6", "'7", "'8", "'9" }
-M.GLOBAL_MARKS = {
-  ["'A"] = nil,
-  ["'B"] = 'me:finance',
-  ["'C"] = 'me:health',
-  ["'D"] = 'me:youtube',
-  ["'E"] = 'me:ideas 1',
-  ["'F"] = 'me:ideas 2',
-  ["'G"] = 'me:todos 1',
-  ["'H"] = 'me:todos 2',
-  ["'I"] = nil,
-  ["'J"] = 'code:step-1',
-  ["'K"] = 'code:step-2',
-  ["'L"] = nil,
-  ["'M"] = 'me:learning 1',
-  ["'N"] = 'me:learning 2',
-  ["'O"] = 'work:important 1',
-  ["'P"] = 'code:issues 1',
-  ["'Q"] = 'code:issues 2',
-  ["'R"] = 'work:important 2',
-  ["'S"] = 'me:journal 1',
-  ["'T"] = 'me:journal 2',
-  ["'U"] = 'me:journal 3',
-  ["'V"] = 'code:important 1',
-  ["'W"] = 'code:important 2',
-  ["'X"] = 'code:watch-later 1',
-  ["'Y"] = 'code:watch-later 2',
-  ["'Z"] = nil,
-}
-
-M.KEYRINGS = {
-  anthropic = {
-    folder = 'dev-tools',
-    passkey = 'anthropic-api-key',
-    wallet = 'kdewallet',
-  },
-  openai = {
-    folder = 'dev-tools',
-    passkey = 'openai-api-key',
-    wallet = 'kdewallet',
-  },
-  gemini = {
-    folder = 'dev-tools',
-    passkey = 'gemini-api-key',
-    wallet = 'kdewallet',
-  },
-  davinci = {
-    folder = 'creative-tools',
-    passkey = 'davinci-resolve-blackmagic-pass',
-    wallet = 'kdewallet',
-  },
-}
 
 return M
