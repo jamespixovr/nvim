@@ -7,7 +7,14 @@ return {
     },
     extend = {
       anthropic = { env = {} },
-      deepseek = { env = { api_key = os.getenv('DEEPSEEK_API_KEY') } },
+      deepseek = {
+        env = { api_key = os.getenv('DEEPSEEK_API_KEY') },
+        schema = {
+          max_tokens = {
+            default = 16384,
+          },
+        },
+      },
       gemini = {},
       openai = {},
       openai_responses = {},

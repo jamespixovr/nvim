@@ -6,7 +6,6 @@ local default_variables = {
       default_params = 'diff',
     },
   },
-  ['automated'] = require('plugins.ai.codecompanion.variables.automated'),
   ['ls'] = {
     callback = function()
       local handle = io.popen('eza -T --git-ignore')

@@ -14,6 +14,9 @@ M.mcpServers = {
         require_approval_before = false,
       },
     },
+    ['atlassian'] = {
+      cmd = { 'npx', '-y', 'mcp-remote', 'https://mcp.atlassian.com/v1/mcp' },
+    },
     ['github'] = {
       type = 'http',
       url = 'https://api.githubcopilot.com/mcp/',

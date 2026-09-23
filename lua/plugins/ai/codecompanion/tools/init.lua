@@ -23,7 +23,7 @@ return {
   },
   ['web_search'] = {
     opts = {
-      adapter = 'duckduckgo',
+      -- adapter = 'tavily', -- tavily, duckduckgo
     },
   },
   ['delete_file'] = {
@@ -65,9 +65,8 @@ return {
     opts = {
       require_approval_before = false,
       whitelist = {
-        { path = '~/.config/personal/PERSONAL.md', as = 'personal' },
-        { path = '~/.config/personal/notes', as = 'notes' },
-        -- { path = "~/notes/Repositories/", as = "obsidian" },
+        { path = '~/.config/personal/PERSONAL.md', as = '/personal' },
+        { path = '~/vaults/pixovr/notes', as = '/notes' },
       },
     },
   },
@@ -88,20 +87,16 @@ return {
       tools = {
         'ask_questions',
         'create_file',
-        'delete_file',
-        'fetch_webpage',
         'file_search',
         'files',
         'get_changed_files',
         'grep_search',
         'insert_edit_into_file',
-        'list_code_usages',
         'memory',
         'next_edit_suggestion',
         'read_file',
         'run_command',
         'web_search',
-        'agent_skills',
       },
       opts = {
         collapse_tools = true,
@@ -194,6 +189,8 @@ return {
     -- replace_main_system_prompt = false, -- Replace the main system prompt with the tools system prompt?
     -- },
     allowed_in_yolo_mode = true,
+    require_approval_before = false,
+    require_cmd_approval = false,
     default_tools = {
       'myagent',
     },
