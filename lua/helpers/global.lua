@@ -38,5 +38,6 @@ vim.filetype.add({
   },
   pattern = {
     ['.*/%.vscode/.*%.json'] = 'json5', -- These json files frequently have comments
+    ['.*%.go%.tmpl'] = 'gotmpl',
   },
 })

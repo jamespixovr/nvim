@@ -97,21 +97,33 @@ end
 
 vim.api.nvim_create_autocmd('LspAttach', {
   group = vim.api.nvim_create_augroup('UserLspConfig', { clear = true }),
-  callback = function(ctx)
+  callback = function(args)
     disable_global_keymaps()
 
-    local bufnr = ctx.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    local bufnr = args.buf
 
-    local client = vim.lsp.get_client_by_id(ctx.data.client_id)
-    assert(client, 'No client found')
-    --
+    if client == nil then
+      return
+    end
+
+    if client.name == 'copilot' then
+      return
+    end
+
+    if client.name == 'ruff' then
+      -- Disable hover in favor of Pyright
+      client.server_capabilities.hoverProvider = false
+    end
+
     -- Disable codelens for lua (lua_ls "0 References" is noisy)
     if client.name == 'lua_ls' then
       vim.lsp.codelens.enable(false, { bufnr = bufnr })
     end
 
-    if client.name == 'copilot' then
-      return
+    -- Inline completion
+    if client:supports_method('textDocument/inlineCompletion', bufnr) then
+      vim.lsp.inline_completion.enable(true)
     end
 
     -- Linked editing (e.g., paired HTML tags)
@@ -124,17 +136,23 @@ vim.api.nvim_create_autocmd('LspAttach', {
       vim.lsp.document_color.enable(true, { bufnr = bufnr })
     end
 
-    -- set up workspace diagnostics
-    if client:supports_method('workspace/diagnostic', ctx.buf) then
-      vim.lsp.buf.workspace_diagnostics({ client_id = client.id })
+    -- if client.name == 'yamlls' then
+    --   -- Need this so that conform uses LSP to format yaml.* files.
+    --   client.server_capabilities.documentFormattingProvider = true
+    -- end
+
+    if client.name == 'vue_ls' then
+      -- Disable rename in hybrid mode (vtsls handles it)
+      client.server_capabilities.renameProvider = false
     end
 
-    -- setup inline completion (only neovim 0.12+)
-    if vim.lsp.inline_completion then
-      if client:supports_method('textDocument/inlineCompletion', ctx.buf) then
-        vim.lsp.inline_completion.enable(true)
-      end
-    end
+    -- Prevent LSP from attaching to virtual buffers such as diffview.
+    -- local bufname = vim.api.nvim_buf_get_name(args.buf)
+    -- if bufname:match('^diffview://') then
+    --   vim.schedule(function()
+    --     vim.lsp.buf_detach_client(args.buf, args.data.client_id)
+    --   end)
+    -- end
 
     keymap(bufnr)
   end,
@@ -156,5 +174,19 @@ vim.api.nvim_create_autocmd('LspDetach', {
         vim.diagnostic.reset(namespace)
       end
     end
+  end,
+})
+
+vim.api.nvim_create_user_command('LspLog', function()
+  vim.cmd('edit ' .. vim.lsp.log.get_filename())
+end, {})
+
+-- disable lsp for .env files
+vim.api.nvim_create_autocmd('BufEnter', {
+  pattern = { '*.env', '.env*' },
+  group = (vim.api.nvim_create_augroup('__env', { clear = true })),
+  callback = function(args)
+    vim.cmd([[set filetype=sh]]) -- set ft to sh to enable syntax highlighting
+    vim.diagnostic.enable(false, { bufnr = args.buf })
   end,
 })

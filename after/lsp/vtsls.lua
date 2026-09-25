@@ -33,9 +33,7 @@ local config = {
     typescript = {
       importModuleSpecifier = 'relative',
       updateImportsOnFileMove = { enabled = 'always' },
-      suggest = {
-        completeFunctionCalls = true,
-      },
+      suggest = { completeFunctionCalls = true },
       inlayHints = {
         enumMemberValues = { enabled = true },
         functionLikeReturnTypes = { enabled = true },
@@ -48,21 +46,25 @@ local config = {
     javascript = {
       importModuleSpecifier = 'relative',
       updateImportsOnFileMove = { enabled = 'always' },
-      suggest = {
-        completeFunctionCalls = true,
-      },
+      suggest = { completeFunctionCalls = true },
       implicitProjectConfig = {
         checkJs = true,
         strictNullChecks = false,
         strictFunctionTypes = false,
       },
-      lib = {
-        'ES2020',
-        'DOM',
+      inlayHints = {
+        parameterNames = { enabled = 'literals' },
+        parameterTypes = { enabled = true },
+        variableTypes = { enabled = true },
+        propertyDeclarationTypes = { enabled = true },
+        functionLikeReturnTypes = { enabled = true },
+        enumMemberValues = { enabled = true },
       },
+      lib = { 'ES2020', 'DOM' },
     },
   },
   init_options = {
+    hostInfo = 'neovim',
     plugins = {
       {
         name = '@vue/typescript-plugin',
@@ -71,6 +73,11 @@ local config = {
       },
     },
   },
+  on_attach = function(client)
+    -- Disable LSP formatting in favor of biome (via conform.nvim)
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end,
   filetypes = constants.javascript_aliases,
   single_file_support = false,
   commands = {

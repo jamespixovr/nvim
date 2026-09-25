@@ -98,16 +98,18 @@ local config = {
         nonewvars = true,
         undeclaredname = true,
         unreachable = true,
-        ST1000 = false,
         -- Variable naming convention check
         ST1003 = true,
+        ST1000 = true, -- Incorrect or missing package comment
+        ST1020 = true, -- Exported function doc should start with function name
+        ST1021 = true, -- Exported type doc should start with type name
       },
       usePlaceholders = true,
       completeUnimported = true,
+      gofumpt = false, -- handled by conform
       directoryFilters = { '-**/node_modules', '-**/.git', '-.vscode', '-.idea', '-.vscode-test' },
       -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
       semanticTokens = false, -- disabling this enables treesitter injections (for sql, json etc)
-      symbolMatcher = 'fuzzy',
       buildFlags = { '-tags', 'integration' },
       diagnosticsDelay = '500ms',
       matcher = 'Fuzzy',
@@ -117,6 +119,13 @@ local config = {
       staticcheck = true,
       vulncheck = 'imports',
       analysisProgressReporting = true,
+      -- go-impl.nvim uses workspace/symbol to populate its interface picker.
+      -- "workspace" (default) excludes stdlib/deps, so e.g. typing "reader"
+      -- would not surface io.Reader. "all" fixes that.
+      symbolScope = 'all',
+      -- FastFuzzy makes the same workspace/symbol queries fuzzy rather than
+      -- prefix-only, improving match quality in the go-impl picker.
+      symbolMatcher = 'FastFuzzy',
     },
   },
 }

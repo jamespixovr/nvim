@@ -18,7 +18,7 @@ M.json_aliases = { 'json', 'jsonc' }
 M.bash_aliases = { 'sh', 'bash' }
 M.html_aliases = { 'html', 'htm' }
 M.php_aliases = { 'php' }
-M.go_aliases = { 'go', 'gomod', 'gowork', 'gotmpl' }
+M.go_aliases = { 'go', 'gomod', 'gowork', 'gosum', 'templ', 'gotmpl', 'gohtml' }
 
 M.overseer_status = {
   ['FAILURE'] = { 'F', 'Red' },
