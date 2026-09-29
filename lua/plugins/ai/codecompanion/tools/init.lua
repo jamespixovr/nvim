@@ -10,7 +10,7 @@ return {
   },
   ['run_command'] = {
     opts = {
-      judge_in_yolo_mode = true,
+      judge = true,
       require_approval_before = false,
       requires_approval_after = false,
     },

@@ -100,7 +100,7 @@ local config = {
         unreachable = true,
         -- Variable naming convention check
         ST1003 = true,
-        ST1000 = true, -- Incorrect or missing package comment
+        ST1000 = false, -- Incorrect or missing package comment
         ST1020 = true, -- Exported function doc should start with function name
         ST1021 = true, -- Exported type doc should start with type name
       },
