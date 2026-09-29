@@ -151,7 +151,8 @@ return {
         csproj = { 'csharpier' },
         sln = { 'csharpier' },
         slnx = { 'csharpier' },
-        cucumber = { 'reformat-gherkin' },
+        cucumber = { 'ghokin' }, -- install using go install github.com/antham/ghokin/v3@latest
+        gherkin = { 'ghokin' }, -- or "reformat-gherkin"
         go = { 'goimports', 'gci', 'gofumpt', 'golines' },
         gitcommit = function()
           return {}
@@ -256,6 +257,9 @@ return {
         },
         sqlfluff = {
           args = { 'format', '--dialect=ansi', '-' },
+        },
+        ['reformat-gherkin'] = {
+          args = { 'format', '--stdin', '--stdin-filename', '$FILENAME' },
         },
         goimports = {
           args = { '-srcdir', '$FILENAME' },
