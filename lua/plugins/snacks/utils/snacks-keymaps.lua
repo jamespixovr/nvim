@@ -38,27 +38,14 @@ local function find_recent_files()
 end
 return function()
   return {
-    -- { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer', },
     {
-      '<leader>.',
+      '<leader>sp',
       function()
-        vim.ui.input({
-          prompt = 'Enter filetype for the scratch buffer: ',
-          default = 'markdown',
-          completion = 'filetype',
-        }, function(ft)
-          require('snacks').scratch.open({
-            ft = ft,
-            win = {
-              width = 200,
-              height = 100,
-              title = 'Scratch Buffer',
-            },
-          })
-        end)
+        Snacks.picker({ layout = { preset = 'vscode' } })
       end,
-      { desc = 'Toggle Scratch Buffer' },
+      desc = 'Pickers',
     },
+
     {
       '<leader>lt',
       function()
@@ -109,13 +96,6 @@ return function()
       end,
       desc = 'Delete all buffer except current one without quitting window',
       mode = { 'n' },
-    },
-    {
-      '<leader>gB',
-      function()
-        Snacks.gitbrowse()
-      end,
-      desc = 'Git Browse',
     },
     {
       '<leader>gb',
@@ -203,20 +183,48 @@ return function()
       desc = 'Visual selection or word',
       mode = { 'n', 'x' },
     },
-    {
-      '<leader>iv',
-      function()
-        require('snacks').picker.help()
-      end,
-      desc = '󰋖 Vim help',
-    },
-    {
-      '<leader>ik',
-      function()
-        require('snacks').picker.keymaps()
-      end,
-      desc = '󰌌 Keymaps (global)',
-    },
+    -- { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer', },
+    -- {
+    --   '<leader>.',
+    --   function()
+    --     vim.ui.input({
+    --       prompt = 'Enter filetype for the scratch buffer: ',
+    --       default = 'markdown',
+    --       completion = 'filetype',
+    --     }, function(ft)
+    --       require('snacks').scratch.open({
+    --         ft = ft,
+    --         win = {
+    --           width = 200,
+    --           height = 100,
+    --           title = 'Scratch Buffer',
+    --         },
+    --       })
+    --     end)
+    --   end,
+    --   { desc = 'Toggle Scratch Buffer' },
+    -- },
+    -- {
+    --   '<leader>gB',
+    --   function()
+    --     Snacks.gitbrowse()
+    --   end,
+    --   desc = 'Git Browse',
+    -- },
+    -- {
+    --   '<leader>iv',
+    --   function()
+    --     require('snacks').picker.help()
+    --   end,
+    --   desc = '󰋖 Vim help',
+    -- },
+    -- {
+    --   '<leader>ik',
+    --   function()
+    --     require('snacks').picker.keymaps()
+    --   end,
+    --   desc = '󰌌 Keymaps (global)',
+    -- },
     {
       '<leader>iK',
       function()
@@ -231,13 +239,13 @@ return function()
       end,
       desc = 'Resume',
     },
-    {
-      '<leader>je',
-      function()
-        Snacks.picker.explorer()
-      end,
-      desc = 'Explorer',
-    },
+    -- {
+    --   '<leader>je',
+    --   function()
+    --     Snacks.picker.explorer()
+    --   end,
+    --   desc = 'Explorer',
+    -- },
     {
       '<leader>ff',
       function()
@@ -280,7 +288,7 @@ return function()
     },
 
     {
-      '<leader>fG',
+      '<leader>sg',
       function()
         Snacks.picker.grep({
           regex = false,
@@ -322,41 +330,34 @@ return function()
       end,
       desc = 'Buffers',
     },
-    {
-      '<leader>sp',
-      function()
-        Snacks.picker({ layout = { preset = 'vscode' } })
-      end,
-      desc = 'Pickers',
-    },
-    {
-      '<leader>:',
-      function()
-        Snacks.picker.command_history()
-      end,
-      desc = 'Command History',
-    },
-    {
-      '<leader>sb',
-      function()
-        Snacks.picker.lines()
-      end,
-      desc = 'Buffer Lines',
-    },
-    {
-      '<leader>s/',
-      function()
-        Snacks.picker.search_history()
-      end,
-      desc = 'Search History',
-    },
-    {
-      '<leader>sm',
-      function()
-        Snacks.picker.marks()
-      end,
-      desc = 'Marks',
-    },
+    -- {
+    --   '<leader>:',
+    --   function()
+    --     Snacks.picker.command_history()
+    --   end,
+    --   desc = 'Command History',
+    -- },
+    -- {
+    --   '<leader>sb',
+    --   function()
+    --     Snacks.picker.lines()
+    --   end,
+    --   desc = 'Buffer Lines',
+    -- },
+    -- {
+    --   '<leader>s/',
+    --   function()
+    --     Snacks.picker.search_history()
+    --   end,
+    --   desc = 'Search History',
+    -- },
+    -- {
+    --   '<leader>sm',
+    --   function()
+    --     Snacks.picker.marks()
+    --   end,
+    --   desc = 'Marks',
+    -- },
     {
       '<leader>sl',
       function()
@@ -365,76 +366,76 @@ return function()
       desc = '[s]earch [l]ogs',
     },
     -- git
-    {
-      '<leader>gdp',
-      function()
-        Snacks.picker.git_diff()
-      end,
-      desc = 'Git Diff (hunks)',
-    },
-    {
-      '<leader>gdo',
-      function()
-        Snacks.picker.git_diff({ base = 'origin', group = true })
-      end,
-      desc = 'Git Diff (origin)',
-    },
-    {
-      '<leader>gds',
-      function()
-        Snacks.picker.git_status()
-      end,
-      desc = 'Git Status',
-    },
-    {
-      '<leader>gdi',
-      function()
-        Snacks.picker.gh_issue()
-      end,
-      desc = 'GitHub Issues (open)',
-    },
-    {
-      '<leader>gdI',
-      function()
-        Snacks.picker.gh_issue({ state = 'all' })
-      end,
-      desc = 'GitHub Issues (all)',
-    },
-    {
-      '<leader>gdr',
-      function()
-        Snacks.picker.gh_pr()
-      end,
-      desc = 'GitHub Pull Requests (open)',
-    },
-    {
-      '<leader>gdP',
-      function()
-        Snacks.picker.gh_pr({ state = 'all' })
-      end,
-      desc = 'GitHub Pull Requests (all)',
-    },
-    {
-      '<leader>uP',
-      function()
-        Snacks.terminal.toggle(nil, { win = { position = 'bottom' } })
-      end,
-      desc = 'Toggle Terminal',
-    },
-    {
-      '<leader>up',
-      function()
-        Snacks.terminal.toggle(nil, { win = { position = 'bottom' } })
-      end,
-      desc = 'Toggle Terminal',
-    },
-    {
-      '<leader>sgh',
-      function()
-        require('plugins.snacks.utils.picker-git').git_history()
-      end,
-      desc = 'Search Git History',
-    },
+    -- {
+    --   '<leader>gdp',
+    --   function()
+    --     Snacks.picker.git_diff()
+    --   end,
+    --   desc = 'Git Diff (hunks)',
+    -- },
+    -- {
+    --   '<leader>gdo',
+    --   function()
+    --     Snacks.picker.git_diff({ base = 'origin', group = true })
+    --   end,
+    --   desc = 'Git Diff (origin)',
+    -- },
+    -- {
+    --   '<leader>gds',
+    --   function()
+    --     Snacks.picker.git_status()
+    --   end,
+    --   desc = 'Git Status',
+    -- },
+    -- {
+    --   '<leader>gdi',
+    --   function()
+    --     Snacks.picker.gh_issue()
+    --   end,
+    --   desc = 'GitHub Issues (open)',
+    -- },
+    -- {
+    --   '<leader>gdI',
+    --   function()
+    --     Snacks.picker.gh_issue({ state = 'all' })
+    --   end,
+    --   desc = 'GitHub Issues (all)',
+    -- },
+    -- {
+    --   '<leader>gdr',
+    --   function()
+    --     Snacks.picker.gh_pr()
+    --   end,
+    --   desc = 'GitHub Pull Requests (open)',
+    -- },
+    -- {
+    --   '<leader>gdP',
+    --   function()
+    --     Snacks.picker.gh_pr({ state = 'all' })
+    --   end,
+    --   desc = 'GitHub Pull Requests (all)',
+    -- },
+    -- {
+    --   '<leader>uP',
+    --   function()
+    --     Snacks.terminal.toggle(nil, { win = { position = 'bottom' } })
+    --   end,
+    --   desc = 'Toggle Terminal',
+    -- },
+    -- {
+    --   '<leader>up',
+    --   function()
+    --     Snacks.terminal.toggle(nil, { win = { position = 'bottom' } })
+    --   end,
+    --   desc = 'Toggle Terminal',
+    -- },
+    -- {
+    --   '<leader>sgh',
+    --   function()
+    --     require('plugins.snacks.utils.picker-git').git_history()
+    --   end,
+    --   desc = 'Search Git History',
+    -- },
     {
       '<leader>fw',
       function()
@@ -445,24 +446,24 @@ return function()
       end,
       desc = 'Picker: Grep',
     },
-    {
-      '<leader>fs',
-      function()
-        if not vim.g.roslyn_nvim_selected_solution then
-          return vim.notify('No solution file found')
-        end
-
-        local projects = require('roslyn.sln.api').projects(vim.g.roslyn_nvim_selected_solution)
-        local files = vim
-          .iter(projects)
-          :map(function(it)
-            return vim.fs.dirname(it)
-          end)
-          :totable()
-
-        Snacks.picker.files({ dirs = files })
-      end,
-      desc = 'Search files in solution',
-    },
+    -- {
+    --   '<leader>fs',
+    --   function()
+    --     if not vim.g.roslyn_nvim_selected_solution then
+    --       return vim.notify('No solution file found')
+    --     end
+    --
+    --     local projects = require('roslyn.sln.api').projects(vim.g.roslyn_nvim_selected_solution)
+    --     local files = vim
+    --       .iter(projects)
+    --       :map(function(it)
+    --         return vim.fs.dirname(it)
+    --       end)
+    --       :totable()
+    --
+    --     Snacks.picker.files({ dirs = files })
+    --   end,
+    --   desc = 'Search files in solution',
+    -- },
   }
 end

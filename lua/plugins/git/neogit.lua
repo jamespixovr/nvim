@@ -13,8 +13,8 @@ return {
       kind = 'floating',
       floating = {
         relative = 'editor',
-        width = 0.85,
-        height = 0.8,
+        width = 0.90,
+        height = 0.9,
         style = 'minimal',
         border = 'rounded',
       },

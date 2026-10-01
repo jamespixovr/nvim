@@ -118,6 +118,7 @@ local config = {
       -- https://github.com/golang/tools/blob/master/gopls/internal/settings/settings.go
       staticcheck = true,
       vulncheck = 'imports',
+      templateExtensions = { 'templ', 'gotmpl', 'gohtml', 'tmpl' },
       analysisProgressReporting = true,
       -- go-impl.nvim uses workspace/symbol to populate its interface picker.
       -- "workspace" (default) excludes stdlib/deps, so e.g. typing "reader"

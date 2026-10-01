@@ -3,7 +3,7 @@ return {
     'FabijanZulj/blame.nvim',
     cmd = 'BlameToggle',
     keys = {
-      { '<leader>hm', '<Cmd>BlameToggle window<CR>', desc = 'Git Blame' },
+      { '<leader>gm', '<Cmd>BlameToggle window<CR>', desc = 'Git Blame' },
     },
     config = function()
       require('blame').setup({

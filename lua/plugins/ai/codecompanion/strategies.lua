@@ -77,7 +77,7 @@ M.skills = {
 --------------
 
 M.inline = {
-  adapter = { name = 'openai', model = 'gpt-5.6-luna' },
+  adapter = { name = 'openrouter' },
   opts = {
     diff_timeout = 300,
   },
@@ -106,7 +106,7 @@ M.inline = {
 -- ]]
 
 M.chat = {
-  adapter = 'codex',
+  adapter = 'deepseek',
   -- adapter = 'claude_code',
   -- adapter = {
   --   -- name = DEFAULT_ADAPTER,

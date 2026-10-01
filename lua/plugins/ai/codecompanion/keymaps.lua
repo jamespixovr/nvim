@@ -140,11 +140,11 @@ return {
   { '<leader>ac', ':CodeCompanionChat adapter=copilot<CR>', desc = 'Chat with Copilot', silent = true },
   { '<leader>au', ':CodeCompanionChat adapter=openrouter<CR>', desc = 'Codecompanion OpenRouter', silent = true },
   { '<leader>aq', ':CodeCompanionChat adapter=qwen<CR>', desc = 'Codecompanion Qwen', silent = true },
-  { '<Leader>ah', '<Cmd>CodeCompanionHistory<CR>', desc = 'AI: Show chat history', silent = true },
-  { '<leader>rc', '<cmd>CodeCompanionCodeReview Comment<cr>', mode = { 'n', 'v' }, desc = 'Comment on lines' },
-  { '<leader>rs', '<cmd>CodeCompanionCodeReview Start<cr>', mode = 'n', desc = 'Start code review' },
+  -- { '<Leader>ah', '<Cmd>CodeCompanionHistory<CR>', desc = 'AI: Show chat history', silent = true },
+  { '<leader>arc', '<cmd>CodeCompanionCodeReview Comment<cr>', mode = { 'n', 'v' }, desc = 'Comment on lines' },
+  { '<leader>ars', '<cmd>CodeCompanionCodeReview Start<cr>', mode = 'n', desc = 'Start code review' },
   {
-    '<leader>rl',
+    '<leader>arl',
     '<cmd>CodeCompanionCodeReview Comments<cr>',
     mode = 'n',
     desc = 'Edit review comments file',
@@ -163,7 +163,7 @@ return {
   { '<leader>al', ':CodeCompanionCLI<CR>', desc = 'Open Claude Code', silent = true },
   { '<leader>aC', ':CodeCompanionCLI agent=codex<CR>', desc = 'Open Codex', silent = true },
   {
-    '<leader>ws',
+    '<leader>aw',
     '<cmd>CodeCompanionChat /write-tests<CR>',
     mode = 'v',
     desc = 'Generate Tests (CodeCompanion)',
@@ -222,7 +222,7 @@ return {
     desc = 'Add review comments to chat (edit before sending)',
   },
   {
-    '<leader>rq',
+    '<leader>arq',
     function()
       if vim.fn.getqflist({ winid = 0 }).winid ~= 0 then
         return vim.cmd('cclose')
