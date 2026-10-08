@@ -18,6 +18,36 @@ local function ListActiveLinters()
   end
 end
 
+--- Resolve a config file in the global `.linter_configs/` directory, creating it
+--- from `default_content` when it is missing and content was supplied.
+--- @param filename string Name of the file inside `.linter_configs/`
+--- @param default_content string|nil Written when the file does not exist yet
+--- @return string|nil path Readable config path, or nil when there is none
+local function ensure_global_config_exists(filename, default_content)
+  local config_dir = vim.fn.stdpath('config') .. '/.linter_configs/'
+  local config_path = vim.fn.expand(config_dir .. filename)
+
+  if vim.fn.filereadable(config_path) == 1 then
+    return config_path
+  end
+
+  -- Nothing on disk and no content to seed it with: let the formatter use its
+  -- own defaults rather than pointing it at a path that does not exist.
+  if default_content == nil then
+    return nil
+  end
+
+  vim.fn.mkdir(config_dir, 'p')
+  local file = io.open(config_path, 'w')
+  if not file then
+    vim.notify('Failed to create global config: ' .. config_path, vim.log.levels.ERROR)
+    return nil
+  end
+  file:write(default_content)
+  file:close()
+  return config_path
+end
+
 return {
   {
     'mfussenegger/nvim-lint',
@@ -44,8 +74,8 @@ return {
         htmldjango = { 'djlint' },
         lua = { 'selene' },
         sh = { 'shellcheck' },
-        -- markdown = { 'markdownlint' },
-        markdown = { 'markdownlint-cli2' },
+        markdown = { 'markdownlint' },
+        -- markdown = { 'markdownlint-cli2' },
         css = { 'stylelint' },
         scss = { 'stylelint' },
         less = { 'stylelint' },
@@ -57,8 +87,7 @@ return {
     config = function(_, opts)
       -- == config markdownlint ==
       -- WARN: change to the path to markdownlint config file
-      local markdownlintrc = vim.fn.expand(vim.fn.stdpath('config') .. '/.linter_configs/markdownlint.jsonc')
-      -- local markdownlintrc = vim.fn.expand('~') .. '/.markdownlint.jsonc'
+      local markdownlintrc = ensure_global_config_exists('markdownlint.jsonc')
       local markdownlint = require('lint').linters['markdownlint-cli2']
       markdownlint.args = {
         '--config',

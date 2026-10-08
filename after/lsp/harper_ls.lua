@@ -6,9 +6,10 @@ local config = {
       codeActions = {
         forceStable = true,
       },
-      -- userDictPath = "",
-      -- workspaceDictPath = "",
-      -- fileDictPath = "",
+      diagnosticSeverity = 'hint',
+      userDictPath = vim.o.spellfile, -- share it with vim's spellcheck
+      markdown = { IgnoreLinkTitle = true },
+      dialect = 'American',
       linters = {
         SpellCheck = true,
         SpelledNumbers = true,
@@ -24,6 +25,34 @@ local config = {
       -- isolateEnglish = false,
     },
   },
+  on_attach = function(_client, bufnr)
+    local function addToDict(which)
+      vim.lsp.buf.code_action({
+        filter = function(a)
+          return a.command == ('HarperAddTo%sDict'):format(which)
+        end,
+        apply = true,
+      })
+      vim.notify(('Added to %s dict.'):format(which))
+    end
+
+    Keymap({
+      'zg',
+      function()
+        addToDict('WS')
+      end,
+      desc = '󰓆 Workspace dict',
+      buf = bufnr,
+    })
+    Keymap({
+      'zG',
+      function()
+        addToDict('User')
+      end,
+      desc = '󰓆 User dict',
+      buf = bufnr,
+    })
+  end,
 }
 
 return config

@@ -7,6 +7,10 @@ vim.loader.enable()
 --   },
 -- })
 
+require('helpers.global')
+
+require('helpers.filetypes')
+
 vim.g.borderStyle = 'rounded' ---@type "single"|"double"|"rounded"|"solid"
 
 vim.g.cmploader = 'blink.cmp' -- blink.cmp, nvim-cmp
@@ -24,7 +28,5 @@ vim.g.border = {
 -- builtin plugins
 vim.cmd('packadd nvim.undotree')
 vim.cmd('packadd nvim.difftool')
-
-require('helpers.global')
 
 require('config')
