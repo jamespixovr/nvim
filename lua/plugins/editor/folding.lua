@@ -53,10 +53,10 @@ return {
   {
     'chrisgrieser/nvim-origami',
     event = 'VeryLazy',
-    init = function()
-      vim.opt.foldlevel = 99 -- disable vim's auto-fold
-      vim.opt.foldlevelstart = 99
-    end,
+    -- init = function()
+    --   vim.opt.foldlevel = 99 -- disable vim's auto-fold
+    --   vim.opt.foldlevelstart = 99
+    -- end,
     ---@module "origami"
     ---@type Origami.config
     opts = {

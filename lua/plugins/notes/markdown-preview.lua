@@ -10,4 +10,55 @@ return {
   --     vim.g.mkdp_filetypes = { 'markdown' }
   --   end,
   -- },
+  -- lua/plugins/kitehost.lua
+  -- {
+  --   'selimacerbas/kitehost.nvim',
+  --   dependencies = {
+  --     'folke/which-key.nvim',
+  --     -- 'nvim-telescope/telescope.nvim', -- recommended for path picker
+  --   },
+  --   -- init = function()
+  --   --   -- which-key group label only (best practice)
+  --   --   local ok, wk = pcall(require, 'which-key')
+  --   --   if ok then
+  --   --     wk.add({ { '<leader>l', group = 'KiteHost' } })
+  --   --   end
+  --   -- end,
+  --   opts = {
+  --     default_port = 8000,
+  --     live_reload = { enabled = true, inject_script = true, debounce = 120, css_inject = true },
+  --     directory_listing = { enabled = true, show_hidden = false },
+  --   },
+  --   -- map to user commands (robust lazy-loading)
+  --   -- keys = {
+  --   --   { '<leader>ls', '<cmd>KiteHost start<cr>', desc = 'Start (pick path & port)' },
+  --   --   { '<leader>lo', '<cmd>KiteHost open<cr>', desc = 'Open existing port in browser' },
+  --   --   { '<leader>lr', '<cmd>KiteHost reload<cr>', desc = 'Force reload (pick port)' },
+  --   --   { '<leader>lt', '<cmd>KiteHost toggle-live<cr>', desc = 'Toggle live-reload (pick port)' },
+  --   --   { '<leader>li', '<cmd>KiteHost status<cr>', desc = 'Show server status' },
+  --   --   { '<leader>lS', '<cmd>KiteHost stop<cr>', desc = 'Stop one (pick port)' },
+  --   --   { '<leader>lA', '<cmd>KiteHost stop-all<cr>', desc = 'Stop all' },
+  --   -- },
+  --   config = function(_, opts)
+  --     require('kitehost').setup(opts)
+  --   end,
+  -- },
+  -- {
+  --   'selimacerbas/mdkite.nvim',
+  --   dependencies = { 'selimacerbas/kitehost.nvim' },
+  --   config = function()
+  --     require('mdkite').setup({
+  --       -- all optional; sane defaults shown
+  --       host = '0.0.0.0',
+  --       port = 8421,
+  --       open_browser = false,
+  --       debounce_ms = 300,
+  --       hooks = {
+  --         on_start = function(url)
+  --           vim.notify('Markdown Preview: ' .. url, vim.log.levels.INFO)
+  --         end,
+  --       },
+  --     })
+  --   end,
+  -- },
 }

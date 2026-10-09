@@ -74,7 +74,7 @@ local small_no_preview = {
     border = 'none',
     {
       box = 'vertical',
-      border = vim.o.winborder --[[@as "rounded"|"single"|"double"|"solid"]],
+      border = vim.g.border.style,
       title = '{title} {live} {flags}',
       { win = 'input', height = 1, border = 'bottom' },
       { win = 'list', border = 'none' },
@@ -343,7 +343,7 @@ return {
             [2] = { -- as second column
               win = 'preview',
               title = '{preview}',
-              border = vim.o.winborder --[[@as "rounded"|"single"|"double"|"solid"]],
+              border = vim.g.border.style,
               width = 0.5,
               wo = { number = false, statuscolumn = ' ', signcolumn = 'no' },
             },

@@ -14,6 +14,7 @@ local default_options = {
   foldexpr = '', -- set to "nvim_treesitter#foldexpr()" for treesitter based folding
   foldcolumn = '1',
   foldlevel = 99,
+  foldlevelstart = 99,
   hidden = true, -- required to keep multiple buffers and open multiple buffers
   hlsearch = true, -- highlight all matches on previous search pattern
   ignorecase = true, -- ignore case in search patterns
@@ -32,19 +33,15 @@ local default_options = {
   ttimeoutlen = 10, -- Time in milliseconds to wait for a key code sequence to complete
   updatetime = 280, -- If in this milliseconds nothing is typed, the swap file will be written to disk.
   writebackup = false, -- if a file is being edited by another program (or was written to file while editing with another program), it is not allowed to be edited
-  cursorline = true, -- highlight the current line
   ruler = false, -- Disable the default ruler
   laststatus = 3,
   number = true, -- set numbered lines
   relativenumber = true, -- set relative numbered lines
   numberwidth = 2, -- set number column width to 2 {default 4}
-  signcolumn = 'yes', -- always show the sign column, otherwise it would shift the text each time
   wrap = false, -- display lines as one long line
   linebreak = true,
   spell = false,
   confirm = true, -- Confirm to save changes before exiting modified buffer
-  scrolloff = 4,
-  sidescrolloff = 8,
   encoding = 'UTF-8', -- Set the encoding type
   incsearch = true, -- Shows the match while typing
   inccommand = 'split', -- information about all identifiers to be renamed
@@ -86,13 +83,29 @@ local default_options = {
   spellsuggest = 'best,20', -- Limits to 20 suggestions
   splitkeep = 'screen',
   jumpoptions = 'view',
-  -- winborder = 'rounded', -- rounded corners on floating windows
   autoread = true, -- reload files when changed outside of vim
 }
 
 for k, v in pairs(default_options) do
   vim.opt[k] = v
 end
+
+---APPEARANCE-------------------------------------------------------------------
+vim.opt.cursorline = true -- highlight the current line
+vim.opt.signcolumn = 'yes:1'
+vim.opt.colorcolumn = '+1' -- = one more than textwidth
+
+vim.opt.sidescrolloff = 8
+vim.opt.scrolloff = 5
+
+vim.opt.winborder = vim.g.border.style
+
+vim.opt.pumheight = 12 -- max height of native completion menu
+----------------
+
+vim.opt.jumpoptions:append('stack') -- https://www.reddit.com/r/neovim/comments/16nead7/comment/k1e1nj5/?context=3
+vim.opt.startofline = true -- motions like "G" also move to the first char
+vim.opt.mousescroll = 'ver:1,hor:3' -- more fine-grained scrolling with mouse
 
 vim.opt.wildignore:append({
   '*.DS_Store',

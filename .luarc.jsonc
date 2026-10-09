@@ -1,0 +1,33 @@
+// DOCS https://luals.github.io/wiki/settings/
+{
+  "runtime.version": "LuaJIT",
+  // "diagnostics.globals": ["vim"],
+  // "diagnostics.disable": [
+  //   "no-unknown",
+  //   "undefined-doc-name",
+  //   "missing-fields",
+  //   "incomplete-signature-doc"
+  // ],
+
+  "workspace": {
+    "library": [
+      "$VIMRUNTIME/lua", // nvim-lua runtime
+      "$HOME/.local/share/nvim/site/pack/core/opt/snacks.nvim/lua/", // snacks.nvim
+
+      // lsp settings types https://github.com/neovim/nvim-lspconfig#lsp-settings-type-annotations
+      "$HOME/.local/share/nvim/site/pack/core/opt/nvim-lspconfig/lua/lspconfig/types/lsp"
+    ],
+    "ignoreDir": ["templates"]
+  },
+
+  "diagnostics": {
+    "unusedLocalExclude": ["_*"], // allow `_varname` for unused variables
+    "groupFileStatus": {
+      "luadoc": "Any", // require stricter annotations
+      "conventions": "Any" // disallow global variables
+    },
+    "ignoredFiles": "Disable" // `workspace.ignoreDir` not diagnosed even if open
+  },
+
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json"
+}

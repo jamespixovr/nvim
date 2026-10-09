@@ -14,7 +14,6 @@ local config = {
         importStatement = 'warning',
         propertyIgnoredDueToDisplay = 'warning',
         unknownAtRules = 'ignore',
-        unknownAtRules = 'warning',
         vendorPrefix = 'ignore', -- needed for scrollbars
         zeroUnits = 'warning',
       },

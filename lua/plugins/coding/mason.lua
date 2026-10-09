@@ -18,7 +18,7 @@ local ensureInstalled = {
     'jdtls',
     'json-lsp',
     'just-lsp',
-    'lua-language-server',
+    -- 'lua-language-server',
     -- 'marksman', -- Markdown lsp
     -- 'omnisharp',
     -- 'pyright',

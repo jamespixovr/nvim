@@ -1,5 +1,6 @@
 ---@type vim.lsp.Config
 return {
+  -- Disable formatting in favor of biome
   init_options = {
     provideFormatter = false,
     documentRangeFormattingProvider = false,

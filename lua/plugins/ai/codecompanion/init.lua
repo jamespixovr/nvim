@@ -1,7 +1,8 @@
 return {
   {
     'olimorris/codecompanion.nvim',
-    version = false,
+    -- version = false,
+    branch = 'version-20',
     dependencies = {
       'hakonharnes/img-clip.nvim',
       'jarmex/codecompanion-gitcommit.nvim',
@@ -23,12 +24,12 @@ return {
       return {
         adapters = adapters,
         interactions = {
-          inline = strategies.inline,
-          cmd = strategies.cmd,
-          chat = strategies.chat,
           background = strategies.background,
+          chat = strategies.chat,
           cli = strategies.cli,
+          cmd = strategies.cmd,
           code_review = strategies.code_review,
+          inline = strategies.inline,
         },
         display = {
           diff = display.diff,
@@ -84,27 +85,27 @@ return {
     config = function(_, opts)
       require('codecompanion').setup(opts)
       -- Expand `cc` into CodeCompanion in the command line
-      vim.cmd([[cab cc CodeCompanion]])
+      -- vim.cmd([[cab cc CodeCompanion]])
 
       -- require('plugins.ai.codecompanion.spinner'):init()
       -- Ensure buffer is treated as markdown by treesitter despite being codecompanion filetype
       vim.treesitter.language.register('markdown', 'codecompanion')
 
       -- Emit CodeCompanion title to CodeCompanionHistory
-      vim.api.nvim_create_autocmd('User', {
-        pattern = 'CodeCompanionChatSubmitted',
-        callback = function(ev)
-          local ok, chat_mod = pcall(require, 'codecompanion.interactions.chat')
-          if not ok then
-            return
-          end
-
-          local chat = chat_mod.buf_get_chat(ev.data.bufnr)
-          if chat and chat.title and chat.title ~= '' then
-            chat.opts.title = chat.title
-          end
-        end,
-      })
+      -- vim.api.nvim_create_autocmd('User', {
+      --   pattern = 'CodeCompanionChatSubmitted',
+      --   callback = function(ev)
+      --     local ok, chat_mod = pcall(require, 'codecompanion.interactions.chat')
+      --     if not ok then
+      --       return
+      --     end
+      --
+      --     local chat = chat_mod.buf_get_chat(ev.data.bufnr)
+      --     if chat and chat.title and chat.title ~= '' then
+      --       chat.opts.title = chat.title
+      --     end
+      --   end,
+      -- })
 
       require('plugins.ai.codecompanion.spinner').codecompanion_snacks()
     end,

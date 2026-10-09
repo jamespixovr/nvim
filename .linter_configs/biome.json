@@ -50,10 +50,5 @@
     "lineWidth": 120,
     "indentStyle": "space",
     "formatWithErrors": true
-  },
-  "vcs": {
-    "clientKind": "git",
-    "enabled": true,
-    "useIgnoreFile": true
   }
 }

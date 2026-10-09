@@ -1,8 +1,9 @@
 ---@type vim.lsp.Config
 local config = {
   filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.github' },
+  ---@type lspconfig.settings.yamlls
   settings = {
-    redhat = { telemetry = { enabled = false } },
+    -- redhat = { telemetry = { enabled = false } },
     yaml = {
       schemaStore = {
         -- Must disable built-in schemaStore support to use
@@ -13,6 +14,10 @@ local config = {
       },
       schemas = require('schemastore').yaml.schemas(),
       filetype_exclude = { 'helm' },
+      format = {
+        printWidth = 100,
+        proseWrap = 'always',
+      },
     },
   },
 }

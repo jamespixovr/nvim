@@ -1,6 +1,5 @@
-return
 ---@type vim.lsp.Config
-{
+return {
   root_markers = {
     'pyproject.toml',
     'ruff.toml',
@@ -36,6 +35,8 @@ return
       -- https://docs.astral.sh/ruff/editors/settings/
       configurationPreference = 'filesystemFirst',
       lineLength = 88,
+      organizeImports = false, -- if "I" ruleset is added, already included in "fixAll"
+      codeAction = { disableRuleComment = { enable = false } }, -- using nvim-rulebook instead
     },
   },
   settings = {
