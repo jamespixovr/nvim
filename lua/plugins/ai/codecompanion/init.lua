@@ -12,7 +12,6 @@ return {
       'CodeCompanion',
       'CodeCompanionCmd',
       'CodeCompanionActions',
-      'CodeCompanionHistory',
     },
     event = 'VeryLazy',
     keys = require('plugins.ai.codecompanion.keymaps'),

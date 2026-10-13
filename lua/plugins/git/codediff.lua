@@ -11,6 +11,13 @@ return {
         char_insert = nil,
         char_delete = nil,
       },
+      gutter_signs = {
+        insert_text = '＋',
+        delete_text = '－',
+        highlight_numbers = true,
+        changed_priority = 100,
+        unchanged_priority = nil,
+      },
       -- Diff view behavior
       diff = {
         disable_inlay_hints = true,
@@ -43,6 +50,7 @@ return {
       { '<leader>gd', '<cmd>CodeDiff<cr>', desc = 'Diff file explorer' },
       { '<leader>ge', '<cmd>CodeDiff file HEAD~1<cr>', desc = 'Diff with HEAD' },
       { '<leader>gi', ':CodeDiff history HEAD~20 %<cr>', desc = 'Git File History', silent = false },
+      { '<leader>gv', ':CodeDiff history origin/dev..HEAD<cr>', desc = 'Git File History', silent = false },
       { '<leader>gh', ':CodeDiff history<cr>', desc = 'Git History', silent = false },
     },
   },

@@ -96,7 +96,6 @@ return {
         'next_edit_suggestion',
         'read_file',
         'run_command',
-        'web_search',
       },
       opts = {
         collapse_tools = true,

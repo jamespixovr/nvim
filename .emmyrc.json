@@ -1,17 +1,20 @@
 {
+  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json",
+  "completion": {
+    "autoRequire": true,
+    "callSnippet": true,
+    "postfix": "@"
+  },
   "runtime": {
     "version": "LuaJIT",
     "INFO": "`?/lua/` is needed to pick up nvim plugins that are not in `./lua` relative to this emmyrc.json",
     "requirePattern": ["lua/?.lua", "lua/?/init.lua", "?/lua/?.lua", "?/lua/?/init.lua"]
   },
   "diagnostics": {
-    "globals": ["vim"]
+    "globals": ["vim"],
+    "disable": ["unnecessary-if"]
   },
   "workspace": {
-    "INFO": "https://www.reddit.com/r/neovim/comments/1mdtr4g/emmylua_ls_is_supersnappy/",
-    "library": ["$VIMRUNTIME", "${3rd}/luv/library", "$HOME/.local/share/nvim/lazy"],
-    "ignoreGlobs": ["**/*_spec.lua"],
-    "ignoreDir": ["debug", "templates"]
-  },
-  "$schema": "https://raw.githubusercontent.com/EmmyLuaLs/emmylua-analyzer-rust/refs/heads/main/crates/emmylua_code_analysis/resources/schema.json"
+    "library": ["$VIMRUNTIME", "${3rd}/luv/library", "$HOME/.local/share/nvim/lazy"]
+  }
 }
