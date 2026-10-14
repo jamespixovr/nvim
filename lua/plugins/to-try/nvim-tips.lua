@@ -1,8 +1,9 @@
 return {
   {
     'saxon1964/neovim-tips',
-    enabled = false,
+    enabled = true,
     version = '*', -- Only update on tagged releases
+    cmd = { 'NeovimTips', 'NeovimTipsEdit', 'NeovimTipsAdd', 'NeovimTipsRandom' },
     dependencies = {
       'MunifTanjim/nui.nvim',
       -- 'MeanderingProgrammer/render-markdown.nvim',
@@ -16,17 +17,8 @@ return {
       warn_on_conflicts = true,
       -- OPTIONAL: Daily tip mode (default: 1)
       -- 0 = off, 1 = once per day, 2 = every startup
-      daily_tip = 1,
+      daily_tip = 0,
     },
-    init = function()
-      -- OPTIONAL: Change to your liking or drop completely
-      -- The plugin does not provide default key mappings, only commands
-      local map = vim.keymap.set
-      map('n', '<leader>nto', ':NeovimTips<CR>', { desc = 'Neovim tips', noremap = true, silent = true })
-      map('n', '<leader>nte', ':NeovimTipsEdit<CR>', { desc = 'Edit your Neovim tips', noremap = true, silent = true })
-      map('n', '<leader>nta', ':NeovimTipsAdd<CR>', { desc = 'Add your Neovim tip', noremap = true, silent = true })
-      map('n', '<leader>ntr', ':NeovimTipsRandom<CR>', { desc = 'Show random tip', noremap = true, silent = true })
-    end,
   },
   -- {
   --   'alex-popov-tech/store.nvim',

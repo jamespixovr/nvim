@@ -1,12 +1,11 @@
----@module "codecompanion"
----@type CodeCompanion.Config
+local adapters = require('codecompanion.adapters.acp')
+
 return {
   http = {
     opts = {
       show_presets = true,
     },
     extend = {
-      anthropic = { env = {} },
       deepseek = {
         env = { api_key = os.getenv('DEEPSEEK_API_KEY') },
         schema = {
@@ -15,9 +14,6 @@ return {
           },
         },
       },
-      gemini = {},
-      openai = {},
-      openai_responses = {},
       openrouter = {
         env = { api_key = os.getenv('OPENROUTER_API_KEY') },
         schema = {
@@ -57,5 +53,72 @@ return {
       })
     end,
   },
-  acp = require('plugins.ai.codecompanion.adapters.acp'),
+  acp = {
+    opts = {
+      show_presets = false, -- only show user-defined adapters
+      show_model_choices = true, -- show model choices
+    },
+    claude_code = function()
+      return adapters.extend('claude_code', {
+        defaults = {
+          mcpServers = 'inherit_from_config',
+          mode = 'plan',
+          timeout = 20000, -- codecompanion's own timeout is 20 seconds for connection init
+        },
+        env = {
+          -- CLAUDE_CODE_OAUTH_TOKEN = token,
+          CLAUDE_CODE_OAUTH_TOKEN = 'cmd:cat ~/.claude_code_apitoken',
+        },
+      })
+    end,
+    gemini_cli = function()
+      return adapters.extend('gemini_cli', {
+        defaults = {
+          timeout = 20000, -- 20 seconds
+        },
+      })
+    end,
+    codex = function()
+      return adapters.extend('codex', {
+        formatted_name = '\u{E4C6}  Codex',
+        defaults = {
+          timeout = 20000, -- codecompanion's own timeout is 20 seconds for connection init
+          auth_method = 'chat-gpt', -- 'api-key'|'chat-gpt'
+          mcpServers = 'inherit_from_config',
+        },
+      })
+    end,
+    copilot_acp = function()
+      return adapters.extend('copilot_acp', {
+        defaults = {
+          timeout = 20000,
+          session_config_options = {
+            model = 'claude-opus-4-6',
+          },
+          mcpServers = 'inherit_from_config',
+        },
+      })
+    end,
+    opencode = function()
+      return adapters.extend('opencode', {
+        env = {
+          PATH = vim.env['PATH'],
+          HOME = vim.env['HOME'],
+          USER = vim.env['USER'],
+          OPENCODE_CONFIG = vim.fn.expand('~/.config/nvim/utils/agents/opencode/zen.json'),
+          OPENCODE_API_KEY = vim.env['NVIM_OPENCODE_ACP_WORK'],
+        },
+        opts = {
+          verbose_output = true,
+        },
+        defaults = {
+          mcpServers = 'inherit_from_config',
+          mode = 'plan',
+        },
+        commands = {
+          default = { 'opencode', 'acp' },
+        },
+      })
+    end,
+  },
 }

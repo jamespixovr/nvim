@@ -117,6 +117,10 @@ return {
       appearance = { use_nvim_cmp_as_default = true, nerd_font_variant = 'normal', kind_icons = icons.kind },
       signature = { window = { border = vim.g.borderStyle } },
       enabled = function()
+        if vim.bo.filetype == 'neovim-tips-search' then
+          return false
+        end
+
         local recording_macro = vim.fn.reg_recording() ~= '' or vim.fn.reg_executing() ~= ''
         return not vim.tbl_contains({}, vim.bo.filetype)
           and vim.bo.buftype ~= 'prompt'

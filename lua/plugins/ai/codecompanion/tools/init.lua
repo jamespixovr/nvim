@@ -1,18 +1,16 @@
 return {
   ['insert_edit_into_file'] = {
     opts = {
-      requires_approval_before = {
+      require_approval_before = {
         buffer = false,
         file = false,
       },
-      requires_approval_after = true,
     },
   },
   ['run_command'] = {
     opts = {
       judge = true,
       require_approval_before = false,
-      requires_approval_after = false,
     },
   },
   ['fetch_webpage'] = {
@@ -28,7 +26,7 @@ return {
   },
   ['delete_file'] = {
     opts = {
-      requires_approval_before = true,
+      require_approval_before = true,
     },
   },
   ['read_file'] = {
@@ -52,10 +50,6 @@ return {
     },
   },
   ['grep_search'] = {
-    -- CodeCompanion copies a tool's whole config onto its chat context item, and
-    -- the sessions serializer (vim.json.encode) cannot encode function values.
-    -- The default `enabled` is a function (rg presence check); a boolean keeps
-    -- sessions saveable while the upstream leak is fixed.
     enabled = true,
     opts = {
       require_approval_before = false,
@@ -71,31 +65,15 @@ return {
     },
   },
   groups = {
-    ['mymemory'] = {
-      description = 'agent memory access',
+    ['inspect'] = {
+      description = 'Inspect your own memory and past interactions (read-only)',
       prompt = 'You have access to your ${tools} which contain information about you, your preferences, and your past interactions. Use this information to inform your decisions and actions.',
       tools = {
         'memory',
-      },
-      opts = {
-        collapse_tools = true,
-      },
-    },
-    ['myagent'] = {
-      description = 'agent mode with mcp support, automatically run tools',
-      -- prompt = "I'm giving you access to the ${tools} to help you perform coding tasks",
-      tools = {
         'ask_questions',
-        'create_file',
         'file_search',
-        'files',
-        'get_changed_files',
         'grep_search',
-        'insert_edit_into_file',
-        'memory',
-        'next_edit_suggestion',
         'read_file',
-        'run_command',
       },
       opts = {
         collapse_tools = true,
@@ -191,7 +169,7 @@ return {
     require_approval_before = false,
     require_cmd_approval = false,
     default_tools = {
-      'myagent',
+      'mydefaulttools',
     },
   },
 }
