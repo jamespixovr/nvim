@@ -16,7 +16,7 @@ return {
         role = 'user',
         content = [[
 #{buffer}
-@{insert_edit_into_file}
+@{edit_file}
 
 Add documentation to the selected code or function.
 Include argument and return types (but omit types for typescript).
@@ -39,8 +39,8 @@ the buffer, edit it with your suggestions using your editor tool unless the user
       },
       {
         role = 'user',
-        -- content = '@{insert_edit_into_file} @{cmd_runner} #{buffer} \n\n'
-        content = 'Here is the current buffer: #{buffer}\n\nUsing your @{insert_edit_into_file} and @{run_command} tool, make the following change(s):\n\n',
+        -- content = '@{edit_file} @{cmd_runner} #{buffer} \n\n'
+        content = 'Here is the current buffer: #{buffer}\n\nUsing your @{edit_file} and @{run_command} tool, make the following change(s):\n\n',
       },
     },
     opts = {

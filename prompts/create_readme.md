@@ -62,7 +62,7 @@ You can use the following tools to assist you:
 - @{file_search}: Search for files in the current working directory
 - @{read_file}: Read the contents of a file
 - @{create_file}: Create a new file with specified content
-- @{insert_edit_into_file}: Insert or edit content in an existing file
+- @{edit_file}: Insert or edit content in an existing file
 - @{neovim__read_multiple_files}: Read multiple files in one go if needed
 
 Note: prioritize reading files using @{neovim__read_multiple_files} if there are many files to review.

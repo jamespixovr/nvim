@@ -1,5 +1,5 @@
 return {
-  ['insert_edit_into_file'] = {
+  ['edit_file'] = {
     opts = {
       require_approval_before = {
         buffer = false,
@@ -151,25 +151,9 @@ return {
   },
 
   opts = {
-    auto_submit_success = true, -- Send any successful output to the LLM automatically
-    -- wait_timeout = 300000,
-    -- default_tools = { 'run_command' },
-    --- This is needed when using CodeCompanion's internal tools
-    --- (e.g., when @{run_command} runs tests and they fail),
-    --- but with external tools (e.g., @mcp) this might cause issues
-    --- because external tools do not return errors in such cases
-    --- but may return errors in case of real internal errors
-    --- that should be handled by a human, not an LLM.
-    auto_submit_errors = true, -- Send any errors to the LLM automatically
-    -- system_prompt = {
-    -- enabled = true, -- Enable the tools system prompt?
-    -- replace_main_system_prompt = false, -- Replace the main system prompt with the tools system prompt?
-    -- },
     allowed_in_yolo_mode = true,
     require_approval_before = false,
     require_cmd_approval = false,
-    default_tools = {
-      'mydefaulttools',
-    },
+    default_tools = { 'mydefaulttools' },
   },
 }

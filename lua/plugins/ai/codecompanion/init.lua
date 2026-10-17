@@ -1,8 +1,7 @@
 return {
   {
     'olimorris/codecompanion.nvim',
-    -- version = false,
-    branch = 'version-20',
+    version = false,
     dependencies = {
       'hakonharnes/img-clip.nvim',
       'jarmex/codecompanion-gitcommit.nvim',

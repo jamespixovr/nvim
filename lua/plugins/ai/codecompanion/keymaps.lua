@@ -74,7 +74,7 @@ local function ask_selection()
       text = '```' .. filetype .. '\n' .. table.concat(lines, '\n') .. '\n```'
     end
 
-    local content = '@{insert_edit_into_file}\n'
+    local content = '@{edit_file}\n'
       .. buffer_reference
       .. '\n'
       .. text
