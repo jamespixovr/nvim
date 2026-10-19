@@ -1,3 +1,5 @@
+_G.Helpers = require('helpers')
+
 vim.loader.enable()
 
 -- require('vim._extui').enable({

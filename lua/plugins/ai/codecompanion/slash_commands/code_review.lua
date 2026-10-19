@@ -8,6 +8,7 @@ local ft_prompt_map = {
   sql = 'Sql_role',
   tex = 'latex_role',
 }
+local utils = require('plugins.ai.codecompanion.utils')
 
 local quickfix = [[
 You are an expert coder and helpful assistant who can help debug code diagnostics, such as warning and error messages.
@@ -157,15 +158,6 @@ local function get_or_create_chat()
     chat = codecompanion.chat()
   end
   return chat
-end
-
-local function get_git_root()
-  local result = vim.system({ 'git', 'rev-parse', '--show-toplevel' }, { text = true }):wait()
-  local output = vim.split(vim.trim(result.stdout or ''), '\n', { plain = true })
-  if result.code ~= 0 or not output[1] or output[1] == '' then
-    return nil, 'Not inside a Git repository. Could not determine the project root.'
-  end
-  return output[1]
 end
 
 local function to_absolute_paths(files, root)
@@ -333,7 +325,7 @@ local M = {
   ['git_files'] = {
     description = 'Insert all files in git repo',
     callback = function(chat)
-      local git_root, err = get_git_root()
+      local git_root, err = utils.get_git_root()
       if not git_root then
         vim.notify(err or 'No git repo found', vim.log.levels.ERROR)
         return
@@ -362,7 +354,7 @@ local M = {
   ['conventional_commit'] = {
     description = 'Generate a conventional git commit message',
     callback = function(chat)
-      local git_root, err = get_git_root()
+      local git_root, err = utils.get_git_root()
       if not git_root then
         vim.notify(err or 'No git repo found', vim.log.levels.ERROR)
         return
@@ -394,7 +386,7 @@ local M = {
   ['code_review'] = {
     description = 'Perform a code review',
     callback = function(_, opts)
-      local git_root, err = get_git_root()
+      local git_root, err = utils.get_git_root()
       if not git_root then
         vim.notify(err or 'No git repo found', vim.log.levels.ERROR)
         return

@@ -1,9 +1,17 @@
 local color = require('helpers.colors')
 local colors = require('catppuccin.palettes').get_palette('mocha')
 local companion_lualine = require('plugins.ui.lualine.helper')
-local helper = require('helper')
 local icons = require('helpers.icons')
 local lazy_status = require('lazy.status')
+
+--- Merge extended options with a default table of options
+---@param default? table The default table that you want to merge into
+---@param opts? table The new options that should be merged with the default table
+---@return table # The merged table
+local function extend_tbl(default, opts)
+  opts = opts or {}
+  return default and vim.tbl_deep_extend('force', default, opts) or opts
+end
 
 local M = {}
 
@@ -166,7 +174,7 @@ local function getLspName()
 end
 
 function M.LazyUpdates(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     lazy_status.updates,
     padding = { left = 1, right = 1 },
     cond = lazy_status.has_updates,
@@ -176,7 +184,7 @@ function M.LazyUpdates(opts)
 end
 
 function M.LspStatus(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'lsp_status',
     padding = { left = 1, right = 1 },
     cond = function()
@@ -188,7 +196,7 @@ function M.LspStatus(opts)
 end
 
 function M.mode(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'mode',
     fmt = function(s)
       return mode_map[s] or s
@@ -207,7 +215,7 @@ function M.mode(opts)
 end
 
 function M.workingDirectory(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       local cwd = vim.fn.getcwd()
       return '󰉋 ' .. vim.fn.fnamemodify(cwd, ':t')
@@ -217,7 +225,7 @@ function M.workingDirectory(opts)
   }, opts)
 end
 function M.showMacroRecording(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return '雷Recording…'
     end,
@@ -230,7 +238,7 @@ function M.showMacroRecording(opts)
 end
 
 function M.branch(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'b:gitsigns_head',
     icon = '',
     cond = function()
@@ -243,7 +251,7 @@ function M.branch(opts)
 end
 
 function M.progress(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'progress',
     -- separator = { left = '', right = '' },
     separator = { left = '' },
@@ -252,7 +260,7 @@ function M.progress(opts)
 end
 
 function M.datetime(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return ' ' .. os.date('%R')
     end,
@@ -262,7 +270,7 @@ function M.datetime(opts)
 end
 
 function M.spell_status(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       local spell_lang = ''
       if vim.opt.spell:get() then
@@ -277,14 +285,14 @@ function M.spell_status(opts)
 end
 
 function M.searchCount(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'searchcount',
     color = { bg = '#282c34', fg = '#ff9e64', gui = 'bold' },
   }, opts)
 end
 
 function M.codeium(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return vim.fn['codeium#GetStatusString']()
     end,
@@ -292,7 +300,7 @@ function M.codeium(opts)
 end
 
 function M.diagnostics(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'diagnostics',
     always_visible = true,
     update_in_insert = true,
@@ -319,7 +327,7 @@ function M.diagnostics(opts)
 end
 
 function M.filetype(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'filetype',
     icon_only = true,
     cond = function()
@@ -332,7 +340,7 @@ function M.filetype(opts)
 end
 
 function M.filename(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     filenameAndIcon,
     cond = function()
       return not is_special_filetype()
@@ -348,7 +356,7 @@ function M.filename(opts)
 end
 
 function M.treesitter(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return icons.ui.Tree
     end,
@@ -361,7 +369,7 @@ function M.treesitter(opts)
 end
 
 function M.git_diff(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'diff',
     colored = true,
     cond = function()
@@ -397,7 +405,7 @@ function M.git_diff(opts)
 end
 
 function M.codecompanion(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     companion_lualine,
     separator = { left = '', right = '' },
     color = { bg = colors.red, fg = color.bg_dark, gui = 'italic,bold' },
@@ -405,7 +413,7 @@ function M.codecompanion(opts)
 end
 
 function M.lsp(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return getLspName()
     end,
@@ -426,7 +434,7 @@ function M.lsp(opts)
 end
 
 function M.scrollbar(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       local current_line = vim.fn.line('.')
       local total_lines = vim.fn.line('$')
@@ -442,7 +450,7 @@ function M.scrollbar(opts)
 end
 
 function M.Overseer(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     'overseer',
     -- color = { bg = "#282c34", fg = "#bbc2cf", gui = "bold" },
     label = '', -- Prefix for task counts
@@ -462,7 +470,7 @@ function M.Overseer(opts)
 end
 
 function M.DapStatus(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       local dapStatus = require('dap').status()
       if dapStatus == '' then
@@ -478,7 +486,7 @@ function M.DapStatus(opts)
 end
 
 function M.LintStatus(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       local linters = require('lint').get_running()
       if #linters == 0 then
@@ -491,7 +499,7 @@ function M.LintStatus(opts)
 end
 
 function M.quickfixCounter(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     quickfixCounter,
     separator = { left = '', right = '' },
     color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
@@ -499,7 +507,7 @@ function M.quickfixCounter(opts)
 end
 
 function M.pythonEnv(opts)
-  return helper.extend_tbl({
+  return extend_tbl({
     function()
       return '󱥒'
     end,

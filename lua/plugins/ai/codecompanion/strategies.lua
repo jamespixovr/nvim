@@ -81,7 +81,6 @@ M.inline = {
   opts = {
     diff_timeout = 300,
   },
-  variables = require('plugins.ai.codecompanion.variables'),
 }
 
 ------------
@@ -147,7 +146,6 @@ M.chat = {
   },
   tools = require('plugins.ai.codecompanion.tools'),
   slash_commands = require('plugins.ai.codecompanion.slash_commands'),
-  editor_context = require('plugins.ai.codecompanion.variables'),
   keymaps = {
     send = { modes = { i = { '<C-CR>', '<C-s>' } } },
     close = { modes = { n = 'q', i = '<C-c>' } },

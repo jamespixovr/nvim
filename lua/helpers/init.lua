@@ -173,4 +173,8 @@ function M.executable(cmd, warn)
   return false
 end
 
+M.str_isempty = function(s)
+  return s == nil or s == ''
+end
+
 return M

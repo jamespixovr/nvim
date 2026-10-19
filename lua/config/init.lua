@@ -1,5 +1,3 @@
-_G.Helpers = require('helpers')
-
 Helpers.safeRequire('config.options') -- early, so available for plugins configs
 
 local disable_providers = function()
