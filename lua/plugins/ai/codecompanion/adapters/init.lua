@@ -10,7 +10,7 @@ return {
         env = { api_key = os.getenv('DEEPSEEK_API_KEY') },
         schema = {
           max_tokens = {
-            default = 16384,
+            default = 32768,
           },
         },
       },
@@ -62,7 +62,7 @@ return {
       return adapters.extend('claude_code', {
         defaults = {
           mcpServers = 'inherit_from_config',
-          mode = 'plan',
+          mode = 'Auto',
           timeout = 20000, -- codecompanion's own timeout is 20 seconds for connection init
         },
         env = {

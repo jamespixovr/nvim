@@ -1,4 +1,12 @@
 return {
+  ['git_commit'] = {
+    description = 'Commit staged changes with a given message',
+    path = 'plugins.ai.codecompanion.tools.git_commit',
+    opts = {
+      require_approval_before = true,
+      protect = true,
+    },
+  },
   ['edit_file'] = {
     opts = {
       require_approval_before = {
@@ -151,9 +159,10 @@ return {
   },
 
   opts = {
+    approval_mode = 'auto',
     allowed_in_yolo_mode = true,
     require_approval_before = false,
     require_cmd_approval = false,
-    default_tools = { 'mydefaulttools' },
+    default_tools = { 'inspect' },
   },
 }
