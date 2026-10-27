@@ -183,48 +183,6 @@ return function()
       desc = 'Visual selection or word',
       mode = { 'n', 'x' },
     },
-    -- { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer', },
-    -- {
-    --   '<leader>.',
-    --   function()
-    --     vim.ui.input({
-    --       prompt = 'Enter filetype for the scratch buffer: ',
-    --       default = 'markdown',
-    --       completion = 'filetype',
-    --     }, function(ft)
-    --       require('snacks').scratch.open({
-    --         ft = ft,
-    --         win = {
-    --           width = 200,
-    --           height = 100,
-    --           title = 'Scratch Buffer',
-    --         },
-    --       })
-    --     end)
-    --   end,
-    --   { desc = 'Toggle Scratch Buffer' },
-    -- },
-    -- {
-    --   '<leader>gB',
-    --   function()
-    --     Snacks.gitbrowse()
-    --   end,
-    --   desc = 'Git Browse',
-    -- },
-    -- {
-    --   '<leader>iv',
-    --   function()
-    --     require('snacks').picker.help()
-    --   end,
-    --   desc = '󰋖 Vim help',
-    -- },
-    -- {
-    --   '<leader>ik',
-    --   function()
-    --     require('snacks').picker.keymaps()
-    --   end,
-    --   desc = '󰌌 Keymaps (global)',
-    -- },
     {
       '<leader>iK',
       function()
@@ -239,13 +197,6 @@ return function()
       end,
       desc = 'Resume',
     },
-    -- {
-    --   '<leader>je',
-    --   function()
-    --     Snacks.picker.explorer()
-    --   end,
-    --   desc = 'Explorer',
-    -- },
     {
       '<leader>ff',
       function()
@@ -330,6 +281,30 @@ return function()
       end,
       desc = 'Buffers',
     },
+    {
+      '<leader>sl',
+      function()
+        require('plugins.snacks.utils.picker-helper').neovim_logs()
+      end,
+      desc = '[s]earch [l]ogs',
+    },
+    {
+      '<leader>fw',
+      function()
+        Snacks.picker.grep({
+          title = vim.fs.basename(vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()),
+          cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd(),
+        })
+      end,
+      desc = 'Picker: Grep',
+    },
+    -- {
+    --   '<leader>je',
+    --   function()
+    --     Snacks.picker.explorer()
+    --   end,
+    --   desc = 'Explorer',
+    -- },
     -- {
     --   '<leader>:',
     --   function()
@@ -358,13 +333,6 @@ return function()
     --   end,
     --   desc = 'Marks',
     -- },
-    {
-      '<leader>sl',
-      function()
-        require('plugins.snacks.utils.picker-helper').neovim_logs()
-      end,
-      desc = '[s]earch [l]ogs',
-    },
     -- git
     -- {
     --   '<leader>gdp',
@@ -436,16 +404,6 @@ return function()
     --   end,
     --   desc = 'Search Git History',
     -- },
-    {
-      '<leader>fw',
-      function()
-        Snacks.picker.grep({
-          title = vim.fs.basename(vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd()),
-          cwd = vim.g.use_git_root and vim.fs.root(0, '.git') or vim.uv.cwd(),
-        })
-      end,
-      desc = 'Picker: Grep',
-    },
     -- {
     --   '<leader>fs',
     --   function()
@@ -464,6 +422,49 @@ return function()
     --     Snacks.picker.files({ dirs = files })
     --   end,
     --   desc = 'Search files in solution',
+    -- },
+    --
+    -- { '<leader>.', function() Snacks.scratch() end, desc = 'Toggle Scratch Buffer', },
+    -- {
+    --   '<leader>.',
+    --   function()
+    --     vim.ui.input({
+    --       prompt = 'Enter filetype for the scratch buffer: ',
+    --       default = 'markdown',
+    --       completion = 'filetype',
+    --     }, function(ft)
+    --       require('snacks').scratch.open({
+    --         ft = ft,
+    --         win = {
+    --           width = 200,
+    --           height = 100,
+    --           title = 'Scratch Buffer',
+    --         },
+    --       })
+    --     end)
+    --   end,
+    --   { desc = 'Toggle Scratch Buffer' },
+    -- },
+    -- {
+    --   '<leader>gB',
+    --   function()
+    --     Snacks.gitbrowse()
+    --   end,
+    --   desc = 'Git Browse',
+    -- },
+    -- {
+    --   '<leader>iv',
+    --   function()
+    --     require('snacks').picker.help()
+    --   end,
+    --   desc = '󰋖 Vim help',
+    -- },
+    -- {
+    --   '<leader>ik',
+    --   function()
+    --     require('snacks').picker.keymaps()
+    --   end,
+    --   desc = '󰌌 Keymaps (global)',
     -- },
   }
 end

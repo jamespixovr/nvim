@@ -29,5 +29,8 @@
     "ignoredFiles": "Disable" // `workspace.ignoreDir` not diagnosed even if open
   },
 
-  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json"
+  "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "diagnostics.globals": [
+        "Snacks"
+    ]
 }
