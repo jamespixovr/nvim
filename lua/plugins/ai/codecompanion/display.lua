@@ -68,6 +68,10 @@ M.chat = {
     tool_failure = '  ',
     tool_success = '  ',
   },
+  input = {
+    layout = 'split', -- Can be "buffer" or "split"
+    height = 8, -- lines
+  },
   window = {
     width = 0.60,
     layout = vim.o.columns >= 120 and 'vertical' or 'horizontal',

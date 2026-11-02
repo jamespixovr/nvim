@@ -4,7 +4,7 @@ return {
   {
     'MeanderingProgrammer/render-markdown.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    ft = { 'markdown', 'codecompanion', 'obsidian', 'copilot-chat', 'opencode_output' },
+    ft = { 'markdown', 'codecompanion', 'obsidian', 'copilot-chat', 'codecompanion_chat_input' },
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
