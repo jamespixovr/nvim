@@ -1,45 +1,4 @@
---- Resolve a config file in the global `.linter_configs/` directory, creating it
---- from `default_content` when it is missing and content was supplied.
---- @param filename string Name of the file inside `.linter_configs/`
---- @param default_content string|nil Written when the file does not exist yet
---- @return string|nil path Readable config path, or nil when there is none
-local function ensure_global_config_exists(filename, default_content)
-  local config_dir = vim.fn.stdpath('config') .. '/.linter_configs/'
-  local config_path = vim.fn.expand(config_dir .. filename)
-
-  if vim.fn.filereadable(config_path) == 1 then
-    return config_path
-  end
-
-  -- Nothing on disk and no content to seed it with: let the formatter use its
-  -- own defaults rather than pointing it at a path that does not exist.
-  if default_content == nil then
-    return nil
-  end
-
-  vim.fn.mkdir(config_dir, 'p')
-  local file = io.open(config_path, 'w')
-  if not file then
-    vim.notify('Failed to create global config: ' .. config_path, vim.log.levels.ERROR)
-    return nil
-  end
-  file:write(default_content)
-  file:close()
-  return config_path
-end
-
--- Fallback function to find local markdownlint configuration files
-local function get_markdownlint_config(ctx)
-  local local_config = vim.fs.find({
-    '.markdownlint.json',
-    '.markdownlint.jsonc',
-    '.markdownlint.yaml',
-    '.markdownlint.yml',
-  }, { upward = true, path = ctx.dirname })[1]
-
-  -- Fallback to the global config directory path, or nil if it is absent too
-  return local_config or ensure_global_config_exists('markdownlint.jsonc')
-end
+local configs = require('helpers.configs')
 
 return {
   'stevearc/conform.nvim',
@@ -206,7 +165,7 @@ return {
 
             local args = { 'format', '--stdin-file-path', '$FILENAME' }
 
-            local global_config_path = not local_config and ensure_global_config_exists('biome.json')
+            local global_config_path = not local_config and configs.ensure_global_config_exists('biome.json')
             if global_config_path then
               table.insert(args, '--config-path=' .. global_config_path)
             end
@@ -224,7 +183,7 @@ return {
 
             local args = { '-in' }
 
-            local global_config = not local_config and ensure_global_config_exists('yamlfmt.yaml')
+            local global_config = not local_config and configs.ensure_global_config_exists('yamlfmt.yaml')
             if global_config then
               vim.list_extend(args, { '-conf', global_config })
             end
@@ -237,7 +196,7 @@ return {
           stdin = false,
           args = function(self, ctx)
             -- Evaluates dynamically to use the project local configuration or global backup
-            local config_path = get_markdownlint_config(ctx)
+            local config_path = configs.markdownlint_config(ctx.dirname)
             if not config_path then
               return { '--fix', '$FILENAME' }
             end

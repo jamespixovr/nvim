@@ -70,7 +70,9 @@ M.chat = {
   },
   input = {
     layout = 'split', -- Can be "buffer" or "split"
-    height = 8, -- lines
+    height = 10, -- lines
+    title = 'CodeCompanion.nvim', -- shown in the winbar until the chat has a title
+    winbar = true, -- set to false if a plugin manages your winbar
   },
   window = {
     width = 0.60,
