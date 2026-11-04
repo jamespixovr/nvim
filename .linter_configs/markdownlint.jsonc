@@ -116,7 +116,7 @@
     "list_items": false
   },
   // MD032/blanks-around-lists : Lists should be surrounded by blank lines : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md032.md
-  "MD032": true,
+  "MD032": false,
   // MD033/no-inline-html : Inline HTML : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md033.md
   "MD033": false,
   // MD034/no-bare-urls : Bare URL used : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md034.md
@@ -198,9 +198,7 @@
   // MD053/link-image-reference-definitions : Link and image reference definitions should be needed : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md053.md
   "MD053": {
     // Ignored definitions
-    "ignored_definitions": [
-      "//"
-    ]
+    "ignored_definitions": ["//"]
   },
   // MD054/link-image-style : Link and image style : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md054.md
   "MD054": {
@@ -223,5 +221,6 @@
     "style": "consistent"
   },
   // MD056/table-column-count : Table column count : https://github.com/DavidAnson/markdownlint/blob/v0.34.0/doc/md056.md
-  "MD056": true
+  "MD056": true,
+  "MD060": false
 }

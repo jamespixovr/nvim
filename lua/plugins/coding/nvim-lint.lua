@@ -1,4 +1,6 @@
 ---@diagnostic disable: need-check-nil
+local configs = require('helpers.configs')
+
 -- List active linters for the current filetype
 local function ListActiveLinters()
   local ok, lint = pcall(require, 'lint')
@@ -18,34 +20,50 @@ local function ListActiveLinters()
   end
 end
 
---- Resolve a config file in the global `.linter_configs/` directory, creating it
---- from `default_content` when it is missing and content was supplied.
---- @param filename string Name of the file inside `.linter_configs/`
---- @param default_content string|nil Written when the file does not exist yet
---- @return string|nil path Readable config path, or nil when there is none
-local function ensure_global_config_exists(filename, default_content)
-  local config_dir = vim.fn.stdpath('config') .. '/.linter_configs/'
-  local config_path = vim.fn.expand(config_dir .. filename)
+local function lint_buffer()
+  local lint = require('lint')
 
-  if vim.fn.filereadable(config_path) == 1 then
-    return config_path
+  -- Use nvim-lint's logic first:
+  -- * checks if linters exist for the full filetype first
+  -- * otherwise will split filetype by "." and add all those linters
+  -- * this differs from conform.nvim which only uses the first filetype that has a formatter
+  local names = lint._resolve_linter_by_ft(vim.bo.filetype)
+
+  -- Add fallback linters.
+  if #names == 0 then
+    vim.list_extend(names, lint.linters_by_ft['_'] or {})
   end
 
-  -- Nothing on disk and no content to seed it with: let the formatter use its
-  -- own defaults rather than pointing it at a path that does not exist.
-  if default_content == nil then
-    return nil
-  end
+  -- Add global linters.
+  vim.list_extend(names, lint.linters_by_ft['*'] or {})
 
-  vim.fn.mkdir(config_dir, 'p')
-  local file = io.open(config_path, 'w')
-  if not file then
-    vim.notify('Failed to create global config: ' .. config_path, vim.log.levels.ERROR)
-    return nil
+  -- Filter out linters that don't exist or don't match the condition.
+  local ctx = { filename = vim.api.nvim_buf_get_name(0) }
+  ctx.dirname = vim.fn.fnamemodify(ctx.filename, ':h')
+  names = vim.tbl_filter(function(name)
+    local linter = lint.linters[name]
+    if not linter then
+      print('Linter not found: ' .. name, vim.log.levels.WARN)
+    end
+    return linter and not (type(linter) == 'table' and linter.condition and not linter.condition(ctx))
+  end, names)
+
+  -- Run linters.
+  if #names > 0 then
+    lint.try_lint(names, {
+      -- config path varies per buffer and args only takes per-element functions
+      wrap_linter = function(linter)
+        if linter.name ~= 'markdownlint' then
+          return linter
+        end
+        local config_path = configs.markdownlint_config(ctx.dirname)
+        if config_path then
+          linter.args = vim.list_extend(linter.args or {}, { '--config', config_path })
+        end
+        return linter
+      end,
+    })
   end
-  file:write(default_content)
-  file:close()
-  return config_path
 end
 
 return {
@@ -56,9 +74,7 @@ return {
     keys = {
       {
         '<leader>bl',
-        function()
-          require('lint').try_lint()
-        end,
+        lint_buffer,
         desc = '[L]int buffer',
       },
       { '<leader>ct', ListActiveLinters, desc = 'Linters' },
@@ -85,15 +101,6 @@ return {
       },
     },
     config = function(_, opts)
-      -- == config markdownlint ==
-      -- WARN: change to the path to markdownlint config file
-      local markdownlintrc = ensure_global_config_exists('markdownlint.jsonc')
-      local markdownlint = require('lint').linters['markdownlint-cli2']
-      markdownlint.args = {
-        '--config',
-        markdownlintrc,
-      }
-
       local M = {}
       local lint = require('lint')
       for name, linter in pairs(opts.linters) do
@@ -163,44 +170,12 @@ return {
         end,
       }
 
-      function M.lint()
-        -- Use nvim-lint's logic first:
-        -- * checks if linters exist for the full filetype first
-        -- * otherwise will split filetype by "." and add all those linters
-        -- * this differs from conform.nvim which only uses the first filetype that has a formatter
-        local names = lint._resolve_linter_by_ft(vim.bo.filetype)
-
-        -- Add fallback linters.
-        if #names == 0 then
-          vim.list_extend(names, lint.linters_by_ft['_'] or {})
-        end
-
-        -- Add global linters.
-        vim.list_extend(names, lint.linters_by_ft['*'] or {})
-
-        -- Filter out linters that don't exist or don't match the condition.
-        local ctx = { filename = vim.api.nvim_buf_get_name(0) }
-        ctx.dirname = vim.fn.fnamemodify(ctx.filename, ':h')
-        names = vim.tbl_filter(function(name)
-          local linter = lint.linters[name]
-          if not linter then
-            print('Linter not found: ' .. name, vim.log.levels.WARN)
-          end
-          return linter and not (type(linter) == 'table' and linter.condition and not linter.condition(ctx))
-        end, names)
-
-        -- Run linters.
-        if #names > 0 then
-          lint.try_lint(names)
-        end
-      end
-
       -- Create autocommand which carries out the actual linting
       -- on the specified events.
       local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
       vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
         group = lint_augroup,
-        callback = M.debounce(100, M.lint),
+        callback = M.debounce(100, lint_buffer),
         -- callback = function()
         --   if vim.opt_local.modifiable:get() then
         --     lint.try_lint()

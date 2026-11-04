@@ -5,6 +5,8 @@ local config = {
     ['harper-ls'] = {
       codeActions = {
         forceStable = true,
+        forceLower = true,
+        addWords = true,
       },
       diagnosticSeverity = 'hint',
       userDictPath = vim.o.spellfile, -- share it with vim's spellcheck
@@ -12,7 +14,7 @@ local config = {
       dialect = 'American',
       linters = {
         SpellCheck = true,
-        SpelledNumbers = true,
+        SpelledNumbers = false,
         AnA = true,
         SentenceCapitalization = false,
         UnclosedQuotes = true,
@@ -21,6 +23,9 @@ local config = {
         RepeatedWords = true,
         Spaces = false,
         CorrectNumberSuffix = false,
+        UseTitleCase = false,
+        ExpandMinimum = false,
+        ExpandMemoryShorthands = false,
       },
       -- isolateEnglish = false,
     },

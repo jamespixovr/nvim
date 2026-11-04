@@ -79,6 +79,7 @@ vim.opt.fillchars = {
 }
 -- winminwidth = 5, -- Minimum window width
 vim.opt.spelllang = 'en_us'
+vim.opt.spellfile = vim.fs.joinpath(vim.fn.stdpath('config'), 'spell', 'en.utf-8.add')
 vim.opt.spellsuggest = 'best,20' -- Limits to 20 suggestions
 vim.opt.splitkeep = 'screen'
 vim.opt.jumpoptions = 'view'
