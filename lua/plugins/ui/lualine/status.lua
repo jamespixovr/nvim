@@ -506,6 +506,15 @@ function M.quickfixCounter(opts)
   }, opts)
 end
 
+function M.ObsidianStatus(opts)
+  return extend_tbl({
+    'b:obsidian_status',
+    icon = '',
+    separator = { left = '', right = '' },
+    color = { bg = color.purple, fg = color.bg, gui = 'italic,bold' },
+  }, opts)
+end
+
 function M.pythonEnv(opts)
   return extend_tbl({
     function()

@@ -66,6 +66,7 @@ return {
           },
           lualine_x = {
             -- 'cc_model',
+            status.ObsidianStatus(),
             status.DapStatus(),
             status.showMacroRecording(),
             status.filetype(),

@@ -1,3 +1,6 @@
+vim.wo.foldmethod = 'expr'
+vim.wo.foldexpr = 'v:lua.vim.lsp.foldexpr()'
+
 -- vim.opt_local.conceallevel = 2
 
 -- local optl = vim.opt_local

@@ -24,16 +24,18 @@ return {
   } or nil,
   dependencies = { 'nvim-treesitter/nvim-treesitter' },
   cmd = 'Obsidian',
-  ---@type obsidian.config.ClientOpts|{}
   opts = {
     legacy_commands = false,
+    cache = {
+      enabled = true,
+    },
     checkbox = {
-      order = { 'x', ' ' },
-      create_new = false,
+      enabled = true,
+      create_new = true,
+      order = { ' ', '~', '!', '>', 'x' },
     },
     workspaces = { vault },
     -- optional, set preferred picker
-    ---@type obsidian.config.PickerOpts|{}
     picker = {
       -- Set your preferred picker. Can be one of 'telescope.nvim', 'fzf-lua', 'mini.pick' or 'snacks.picker'.
       name = 'snacks.picker',
@@ -64,18 +66,19 @@ return {
       format = 'words: {{words}}  ch: {{chars}}  props: {{properties}}  backlinks: {{backlinks}}',
     },
 
-    ---@type obsidian.config.DailyNotesOpts|{}
     daily_notes = {
+      enabled = true,
       folder = 'Periodic/Days',
-      date_format = '%Y/%Y-%m/%Y-%m-%d',
+      date_format = 'YYYY-MM-DD',
+      -- date_format = '%Y/%Y-%m/%Y-%m-%d',
       -- Optional, if you want to change the date format for the ID of daily notes.
       -- date_format = "%Y-%m-%d",
       -- Optional, if you want to change the date format of the default alias of daily notes.
       -- alias_format = "%B %-d, %Y",
       template = 'note.md',
-      default_tags = { 'daily-notes' },
+      default_tags = { 'journal', 'daily' },
       -- Optional, if you want `Obsidian yesterday` to return the last work day or `Obsidian tomorrow` to return the next work day.
-      workdays_only = false,
+      workdays_only = true,
     },
 
     notes_subdir = 'inbox',

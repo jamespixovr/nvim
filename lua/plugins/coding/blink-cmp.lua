@@ -61,6 +61,11 @@ return {
           -- sql = { 'dadbod' },
           -- optionally inherit from the `default` sources
           lua = { inherit_defaults = true, 'lazydev' },
+          markdown = {
+            'lsp', -- NOTE: explicitly enable lsp
+            -- inherit_defaults = true, -- NOTE: if your defaults include lsp
+            'dictionary',
+          },
         },
         providers = {
           -- lsp = {
